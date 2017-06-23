@@ -34,7 +34,7 @@ namespace Handiness.Metadata
         /// <summary>
         /// 获取所连接的数据库的指定表的所有列信息
         /// </summary>
-        /// <param name="tableName"></param>
+        /// <param name="tableName">指定的表名</param>
         /// <returns></returns>
         IList<ColumnSchema> GetColumnSchemas(String tableName);
 
