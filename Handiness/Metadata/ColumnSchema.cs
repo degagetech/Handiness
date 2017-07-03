@@ -31,6 +31,10 @@ namespace Handiness.Metadata
         /// </summary>
         public String TableName { get; }
         /// <summary>
+        /// 表示列是否可以为空
+        /// </summary>
+        public Boolean IsNullable { get; }
+        /// <summary>
         /// 列的注释信息
         /// </summary>
         public String Explain { get; }
@@ -38,6 +42,7 @@ namespace Handiness.Metadata
             String name,
             Boolean isPrimekey,
             Int32 length,
+            Boolean isNullable,
             String type,
             String tableName,
             String explain
@@ -45,6 +50,7 @@ namespace Handiness.Metadata
         {
             this.Name = name;
             this.IsPrimeKey = isPrimekey;
+            this.IsNullable = isNullable;
             this.Length = length;
             this.Type = type;
             this.TableName = tableName;

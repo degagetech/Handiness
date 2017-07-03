@@ -6,6 +6,7 @@ using System.Text;
 using Handiness.Properties;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.Data;
 
 namespace Handiness.Metadata
 {
@@ -50,7 +51,18 @@ namespace Handiness.Metadata
         /********************/
         public abstract IList<ColumnSchema> GetColumnSchemas(String tableName);
         public abstract IList<TableSchema> GetTableSchemas();
-
+        /// <summary>
+        /// 根据列的元数据信息判断此列是否为主键
+        /// </summary>
+        protected abstract Boolean IsPrimaryKey(DataRow row);
+        /// <summary>
+        /// 根据列的元数据信息获取此列的长度
+        /// </summary>
+        protected abstract Int32 GetLength(DataRow row);
+        /// <summary>
+        ///  根据列的元数据信息判断此列是否可为空
+        /// </summary>
+        protected abstract Boolean IsNullable(DataRow row);
         /// <summary>
         /// 用以获取指定guid数据库适配层<see cref="IMetadataProvider"/>接口的实现对象
         /// </summary>
