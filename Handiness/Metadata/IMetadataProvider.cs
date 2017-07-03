@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Handiness.Metadata
 {
+    /// <summary>
+    /// 原始元数据提供者接口
+    /// </summary>
     public interface IMetadataProvider : IDisposable
     {
         /// <summary>
@@ -17,12 +20,12 @@ namespace Handiness.Metadata
         String Explain { get; }
 
         /// <summary>
-        /// 打开数据库连接
+        /// 关闭之前的连接若有，并打开新的数据库连接
         /// </summary>
         /// <param name="connectionString">数据库连接字符串</param>
         void Open(String connectionString);
         /// <summary>
-        /// 关闭连接，并释放资源
+        /// 关闭连接
         /// </summary>
         void Close();
 

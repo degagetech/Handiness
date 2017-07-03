@@ -30,13 +30,17 @@ namespace Handiness.Metadata
         /// 所属表的名称
         /// </summary>
         public String TableName { get; }
-
+        /// <summary>
+        /// 列的注释信息
+        /// </summary>
+        public String Explain { get; }
         public ColumnSchema(
             String name,
             Boolean isPrimekey,
             Int32 length,
             String type,
-            String tableName
+            String tableName,
+            String explain
             )
         {
             this.Name = name;
@@ -44,6 +48,7 @@ namespace Handiness.Metadata
             this.Length = length;
             this.Type = type;
             this.TableName = tableName;
+            this.Explain = explain;
         }
     }
 }
