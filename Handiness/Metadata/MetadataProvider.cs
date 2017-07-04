@@ -51,6 +51,8 @@ namespace Handiness.Metadata
         /********************/
         public abstract IList<ColumnSchema> GetColumnSchemas(String tableName);
         public abstract IList<TableSchema> GetTableSchemas();
+
+        #region 列操作
         /// <summary>
         /// 根据列的元数据信息判断此列是否为主键
         /// </summary>
@@ -63,6 +65,19 @@ namespace Handiness.Metadata
         ///  根据列的元数据信息判断此列是否可为空
         /// </summary>
         protected abstract Boolean IsNullable(DataRow row);
+        /// <summary>
+        /// 将原始的元数据信息转换成<see cref="ColumnSchema"/> 实例
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        protected abstract ColumnSchema MetadataToColumnSechma(DataRow row);
+        /// <summary>
+        /// 根据列的元数据信息获取此列的注释
+        /// </summary>
+        protected abstract String GetExplain(DataRow row);
+        #endregion
+
+
         /// <summary>
         /// 用以获取指定guid数据库适配层<see cref="IMetadataProvider"/>接口的实现对象
         /// </summary>

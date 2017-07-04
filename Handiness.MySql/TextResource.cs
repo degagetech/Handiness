@@ -18,5 +18,16 @@ namespace Handiness.MySql
         /// 列架构名称
         /// </summary>
         public const String CollectionNameForColumn = "Columns";
+        public const String KeyTypeForPrimary = "PRI";
+        public const String NullableForYes = "YES";
+        #region  列元数据信息字段名称
+        public const String ColumnInfoForName = "COLUMN_NAME";
+        public const String ColumnInfoForTableName = "TABLE_NAME";
+        public const String ColumnInfoForDbType = "DATA_TYPE";
+        public const String ColumnInfoForKey = "COLUMN_KEY";
+        public const String ColumnInfoForColType = "COLUMN_TYPE";
+        public const String ColumnInfoForNullable = "IS_NULLABLE";
+        public const String ColumnInfoForCommit = "COLUMN_COMMENT";
+        #endregion
     }
 }

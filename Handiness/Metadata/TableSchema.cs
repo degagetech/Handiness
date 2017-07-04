@@ -19,19 +19,18 @@ namespace Handiness.Metadata
         /// </summary>
         public Int32 Count { get; }
         /// <summary>
-        /// 主键名称的枚举集合
+        /// 主键名称的集合
         /// </summary>
-        public IEnumerable<String> PrimekeyNames { get; }
+        public IList<String> PrimekeyNames { get; }
         /// <summary>
-        /// 列名称的枚举集合
+        /// 列名称的集合
         /// </summary>
-        public IEnumerable<String> ColumnNames { get; }
-
+        public IList<String> ColumnNames { get; }
         public TableSchema(
             String name,
             Int32 count,
-            IEnumerable<String> primekeyNames,
-            IEnumerable<String> columnNames
+            IList<String> primekeyNames,
+            IList<String> columnNames
             )
         {
             this.Name = name;
