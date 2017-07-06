@@ -52,7 +52,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RowBase.cs" />
     <Compile Include="TableAttribute.cs" />
+    <Compile Include="TableBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
