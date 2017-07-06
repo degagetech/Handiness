@@ -79,11 +79,29 @@ namespace Handiness.Properties {
         }
         
         /// <summary>
+        ///   查找类似 空的列名 的本地化字符串。
+        /// </summary>
+        internal static string EmptyColumnName {
+            get {
+                return ResourceManager.GetString("EmptyColumnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 空的连接字符串 的本地化字符串。
         /// </summary>
         internal static string EmptyConnectionString {
             get {
                 return ResourceManager.GetString("EmptyConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 空的表名 的本地化字符串。
+        /// </summary>
+        internal static string EmptyTableName {
+            get {
+                return ResourceManager.GetString("EmptyTableName", resourceCulture);
             }
         }
     }

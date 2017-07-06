@@ -31,6 +31,7 @@ namespace Handiness.MySql
         /********************/
         public override IList<ColumnSchema> GetColumnSchemas(String tableName)
         {
+  
             IList<ColumnSchema> columnSchemas = new List<ColumnSchema>();
             //元数据查询条件限制的集合
             String[] restrictions = new String[] { null, null, null, null };

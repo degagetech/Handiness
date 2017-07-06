@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColumnAttribute.cs" />
     <Compile Include="IDbObjectCreationService.cs" />
     <Compile Include="Metadata\MetadataProvider.cs" />
     <Compile Include="Metadata\ColumnSchema.cs" />
@@ -51,6 +52,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TableAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

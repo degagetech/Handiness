@@ -124,7 +124,13 @@
   <data name="EmptyALNameGuid" xml:space="preserve">
     <value>数据库适配层guid为空</value>
   </data>
+  <data name="EmptyColumnName" xml:space="preserve">
+    <value>空的列名</value>
+  </data>
   <data name="EmptyConnectionString" xml:space="preserve">
     <value>空的连接字符串</value>
+  </data>
+  <data name="EmptyTableName" xml:space="preserve">
+    <value>空的表名</value>
   </data>
 </root>

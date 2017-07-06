@@ -7,7 +7,7 @@ using System.Text;
 namespace Handiness
 {
     /// <summary>
-    /// 用于创建一系列数据源操作辅助对象的服务
+    /// 用于创建一系列数据源操作对象的服务
     /// </summary>
     public interface IDbObjectCreationService
     {

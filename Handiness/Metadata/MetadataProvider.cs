@@ -52,7 +52,7 @@ namespace Handiness.Metadata
         public abstract IList<ColumnSchema> GetColumnSchemas(String tableName);
         public abstract IList<TableSchema> GetTableSchemas();
 
-        #region 列操作
+        #region 列信息获取操作
         /// <summary>
         /// 根据列的元数据信息判断此列是否为主键
         /// </summary>
@@ -103,10 +103,8 @@ namespace Handiness.Metadata
         /// 用以获取指定目录下所有<see cref="IMetadataProvider"/>接口的实现对象
         /// </summary>
         /// <param name="directory">指定的目录，默认为本程序集所在目录</param>
-        /// <returns>若不存在此类接口的实现类，则返回一个元素个数为0的<see cref="IList"/>实例对象</returns>
-        public static IList<IMetadataProvider> GetMetadataProviders(String directory = null)
+        public static IEnumerable<IMetadataProvider> GetMetadataProviders(String directory = null)
         {
-            List<IMetadataProvider> instanceSet = new List<IMetadataProvider>();
             directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
             DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, Resources.ALNamePattern);
             using (CompositionContainer compositionContainer = new CompositionContainer(searchCatalog))
@@ -114,10 +112,9 @@ namespace Handiness.Metadata
                 var lazyInstances = compositionContainer.GetExports<IMetadataProvider>();
                 foreach (var lazyInstance in lazyInstances)
                 {
-                    instanceSet.Add(lazyInstance.Value);
+                    yield return lazyInstance.Value;
                 }
             }
-            return instanceSet;
         }
     }
 }

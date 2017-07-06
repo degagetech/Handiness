@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Handiness.Metadata
 {
     /// <summary>
-    /// 列结构
+    /// 用于存储列结构信息
     /// </summary>
     public class ColumnSchema
     {

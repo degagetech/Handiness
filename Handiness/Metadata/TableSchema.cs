@@ -6,7 +6,7 @@ using System.Text;
 namespace Handiness.Metadata
 {
     /// <summary>
-    /// 表结构
+    /// 用于存储表结构信息
     /// </summary>
     public class TableSchema
     {
