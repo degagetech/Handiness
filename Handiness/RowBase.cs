@@ -50,6 +50,7 @@ namespace Handiness
         {
             this.WriteNotifLog(proteryName, newValue);
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(proteryName));
+            
         }
         protected void WriteNotifLog(String proteryName, Object newValue)
         {

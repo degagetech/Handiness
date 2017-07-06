@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="ColumnAttribute.cs" />
     <Compile Include="IDbObjectCreationService.cs" />
+    <Compile Include="ISQLChain.cs" />
+    <Compile Include="ISQLNode.cs" />
     <Compile Include="Metadata\MetadataProvider.cs" />
     <Compile Include="Metadata\ColumnSchema.cs" />
     <Compile Include="Metadata\IMetadataProvider.cs" />
@@ -54,7 +56,7 @@
     </Compile>
     <Compile Include="RowBase.cs" />
     <Compile Include="TableAttribute.cs" />
-    <Compile Include="TableBase.cs" />
+    <Compile Include="Table.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

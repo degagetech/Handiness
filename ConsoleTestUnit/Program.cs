@@ -9,35 +9,48 @@ using Handiness.Metadata;
 namespace ConsoleTestUnit
 {
 
-    public class Student : RowBase
+    //public class Student : RowBase
+    //{
+    //    public String Name
+    //    {
+    //        get => this._name;
+    //        set
+    //        {
+    //            if (this._name != value)
+    //            {
+    //                this._name = value;
+    //                this.OnNotifyPropertyChanged(nameof(this.Name), value);
+    //            }
+    //        }
+    //    }
+    //    private String _name;
+    //}
+    public class EventSrouce
     {
-        public String Name
+        public event EventHandler Event;
+        public void OnEvent(EventArgs e )
         {
-            get => this._name;
-            set
-            {
-                if (this._name != value)
-                {
-                    this._name = value;
-                    this.OnNotifyPropertyChanged(nameof(this.Name), value);
-                }
-            }
+            this.Event(this,e);
         }
-        private String _name;
     }
     class Program
     {
         static void Main(string[] args)
         {
-            List<Student> query = new List<Student>();
-            Student student = new Student();
-            student.PropertyChanged += (s, p) =>
+            EventSrouce srouce = new EventSrouce();
+            srouce.Event += (s, e) =>
               {
-                  Console.WriteLine(p.PropertyName + "Changed");
+                  Console.WriteLine(s.ToString());
               };
-            student.Name = "老师";
-            student.NotifyPropertyValue("Name", "学生");
-           Console.WriteLine(student.Name);
+            //List<Student> query = new List<Student>();
+            //Student student = new Student();
+            //student.PropertyChanged += (s, p) =>
+            //  {
+            //      Console.WriteLine(p.PropertyName + "Changed");
+            //  };
+            // student.Name = "老师";
+            // student.NotifyPropertyValue("Name", "学生");
+            //Console.WriteLine(student.Name);
             //using (IMetadataProvider provider = MetadataProvider.GetMetadataProvider("#M1"))
             //{
             //    var temp =MetadataProvider.GetMetadataProviders();
