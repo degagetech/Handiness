@@ -32,7 +32,7 @@ namespace Handiness
         public void NotifyPropertyValue(String propertyName, Object newValue)
         {
             Type type = this.GetType();
-            PropertyInfo propertyInfo = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance|BindingFlags.SetProperty);
+            PropertyInfo propertyInfo = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
             if (propertyInfo != null)
             {
                 propertyInfo.SetValue(this, newValue, null);
@@ -50,7 +50,7 @@ namespace Handiness
         {
             this.WriteNotifLog(proteryName, newValue);
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(proteryName));
-            
+
         }
         protected void WriteNotifLog(String proteryName, Object newValue)
         {

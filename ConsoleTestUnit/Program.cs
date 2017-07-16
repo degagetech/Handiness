@@ -9,39 +9,76 @@ using Handiness.Metadata;
 namespace ConsoleTestUnit
 {
 
-    //public class Student : RowBase
-    //{
-    //    public String Name
-    //    {
-    //        get => this._name;
-    //        set
-    //        {
-    //            if (this._name != value)
-    //            {
-    //                this._name = value;
-    //                this.OnNotifyPropertyChanged(nameof(this.Name), value);
-    //            }
-    //        }
-    //    }
-    //    private String _name;
-    //}
-    public class EventSrouce
+    public class Student : RowBase
     {
-        public event EventHandler Event;
-        public void OnEvent(EventArgs e )
+        public String Name
         {
-            this.Event(this,e);
+            get => this._name;
+            set
+            {
+                if (this._name != value)
+                {
+                    this._name = value;
+                    this.OnNotifyPropertyChanged(nameof(this.Name), value);
+                }
+            }
+        }
+        private String _name = String.Empty;
+        public static Boolean operator true(Student student)
+        {
+            return student.Name != String.Empty;
+        }
+        public static Boolean operator false(Student student)
+        {
+            return student.Name == String.Empty;
         }
     }
+
     class Program
     {
         static void Main(string[] args)
         {
-            EventSrouce srouce = new EventSrouce();
-            srouce.Event += (s, e) =>
-              {
-                  Console.WriteLine(s.ToString());
-              };
+            String path = "d:\\";
+            SchemaBuffer.Save(path,
+                new SchemaXml
+                {
+                    Name = "schema",
+                    Tables = new TableSchemaXml[]
+                    {
+                                new  TableSchemaXml
+                                {
+                                     Key="Test",
+                                      Schema=new TableSchema
+                                      (
+                                           "test",
+                                           2,new String[]{ "name"},new String[]{ "name","age"},"测试表"
+                                      ),
+                                      Columns=new ColumnSchemaXml[]
+                                      {
+                                         new   ColumnSchemaXml
+                                         {
+                                              Key="Name",
+                                              Schema=new ColumnSchema
+                                              (
+                                                   "Name",true,"varchar",10,false,"test","name"
+                                                  )
+                                         },
+                                             new   ColumnSchemaXml
+                                         {
+                                              Key="Age",
+                                              Schema=new ColumnSchema
+                                              (
+                                                   "Age",true,"int",4,false,"test","age"
+                                                  )
+                                         }
+                                      }
+                                  }
+                       }
+
+                });
+            path = "d:\\schema.xml";
+            var deSer = SchemaBuffer.Load(path);
+            Console.WriteLine(deSer.Count());
             //List<Student> query = new List<Student>();
             //Student student = new Student();
             //student.PropertyChanged += (s, p) =>
@@ -69,5 +106,7 @@ namespace ConsoleTestUnit
             //}
 
         }
+
+
     }
 }

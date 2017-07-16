@@ -40,13 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColumnAttribute.cs" />
+    <Compile Include="DbContext.cs" />
     <Compile Include="IDbObjectCreationService.cs" />
     <Compile Include="ISQLChain.cs" />
     <Compile Include="ISQLNode.cs" />
     <Compile Include="Metadata\MetadataProvider.cs" />
     <Compile Include="Metadata\ColumnSchema.cs" />
     <Compile Include="Metadata\IMetadataProvider.cs" />
+    <Compile Include="Metadata\SchemaBuffer.cs" />
+    <Compile Include="Metadata\SchemaXml.cs" />
     <Compile Include="Metadata\TableSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -55,7 +57,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RowBase.cs" />
-    <Compile Include="TableAttribute.cs" />
     <Compile Include="Table.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +64,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Adaptive\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

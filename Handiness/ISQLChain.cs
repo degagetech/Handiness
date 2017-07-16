@@ -17,7 +17,13 @@ namespace Handiness
     /// <summary>
     /// 表示一系列<see cref="ISQLNode"/> 节点的有序集合
     /// </summary>
-    public interface ISQLChain
+    public interface ISQLChain<T> where T : RowBase
     {
+        /// <summary>
+        /// 向Chain中添加节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="index">默认-1，-1 添加至尾部，0 添加至头部</param>
+        void Add(ISQLNode<T> node, Int32 index = -1);
     }
 }

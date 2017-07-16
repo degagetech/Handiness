@@ -2,41 +2,60 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Handiness.Metadata
 {
     /// <summary>
     /// 用于存储表结构信息
     /// </summary>
+    [XmlType(TypeName = nameof(TableSchema))]
     public class TableSchema
     {
         /// <summary>
         /// 表名称
         /// </summary>
-        public String Name { get; }
+        [XmlAttribute]
+        public String Name { get; set; }
         /// <summary>
         ///列的计数
         /// </summary>
-        public Int32 Count { get; }
+        [XmlAttribute]
+        public Int32 Count { get; set; }
         /// <summary>
         /// 主键名称的集合
         /// </summary>
-        public IList<String> PrimekeyNames { get; }
+        [XmlArray]
+        [XmlArrayItem(typeof(String),
+        ElementName = "Name")]
+        public String[] PrimekeyNames { get; set; }
         /// <summary>
         /// 列名称的集合
         /// </summary>
-        public IList<String> ColumnNames { get; }
+        [XmlArray]
+        [XmlArrayItem(typeof(String),
+        ElementName = "Name")]
+        public String[] ColumnNames { get; set; }
+        /// <summary>
+        /// 表的注释信息
+        /// </summary>
+        [XmlAttribute]
+        public String Explain { get; set; }
+        public TableSchema() { }
         public TableSchema(
             String name,
             Int32 count,
-            IList<String> primekeyNames,
-            IList<String> columnNames
+            String[] primekeyNames,
+            String[] columnNames,
+            String explain
             )
         {
             this.Name = name;
             this.Count = count;
             this.PrimekeyNames = primekeyNames;
             this.ColumnNames = columnNames;
+            this.Explain = explain;
         }
     }
 }
