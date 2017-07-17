@@ -17,9 +17,20 @@ namespace Handiness
     public class DbContext
     {
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="adaptiveId">适配层id</param>
+        /// <param name="buffer">结构信息缓存器</param>
+        public DbContext(String connectionString, String adaptiveId, SchemaBuffer buffer)
+        {
+
+        }
+        /// <summary>
         /// 数据库的连接字符串
         /// </summary>
         public String ConnectionString { get; private set; }
         public SchemaBuffer SchemaBuffer { get; private set; }
+        public String AdaptiveId { get; private set; }
     }
 }

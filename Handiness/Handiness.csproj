@@ -40,8 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adaptive\IAdaptiveExplain.cs" />
     <Compile Include="DbContext.cs" />
-    <Compile Include="IDbObjectCreationService.cs" />
+    <Compile Include="Services\IDbObjectCreationService.cs" />
     <Compile Include="ISQLChain.cs" />
     <Compile Include="ISQLNode.cs" />
     <Compile Include="Metadata\MetadataProvider.cs" />
@@ -51,23 +52,11 @@
     <Compile Include="Metadata\SchemaXml.cs" />
     <Compile Include="Metadata\TableSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="RowBase.cs" />
     <Compile Include="Table.cs" />
+    <Compile Include="TextResources.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Adaptive\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

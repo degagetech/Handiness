@@ -6,12 +6,16 @@ using System.Text;
 namespace Handiness.Metadata
 {
     /// <summary>
-    /// 原始元数据提供者接口
+    /// 元数据提供者接口
     /// </summary>
     public interface IMetadataProvider : IDisposable
     {
         /// <summary>
-        /// 元数据提供者的版本信息，适配的数据库名称与数字的组合，例如 MariaDB1.0
+        /// 获取当前连接的数据库的名称，若无返回 null
+        /// </summary>
+        String DatabaseName { get; }
+        /// <summary>
+        /// 元数据提供者的版本信息
         /// </summary>
         String Version { get; }
         /// <summary>

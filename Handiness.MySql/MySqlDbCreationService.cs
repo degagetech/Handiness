@@ -6,9 +6,10 @@ using System.ComponentModel.Composition;
 using Handiness;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
+using Handiness.Services;
 namespace Handiness.MySql
 {
-    [Export(TextResource.Guid, typeof(IDbObjectCreationService))]
+    [Export(TextResources.Guid, typeof(IDbObjectCreationService))]
     public class MySqlDbCreationService : IDbObjectCreationService
     {
         public DbCommand GetDbCommand() => new MySqlCommand();

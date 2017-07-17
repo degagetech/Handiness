@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
+using Handiness;
 namespace Handiness.Metadata
 {
     /*-------------------------------------------------------------------------
@@ -22,7 +23,8 @@ namespace Handiness.Metadata
     public class SchemaBuffer
     {
 
-
+        private IDictionary<String, TableSchema> _tableSchemaDic = new Dictionary<String, TableSchema>();
+        private IDictionary<String, IList<ColumnSchema>> _columnSchemaDic = new Dictionary<String, IList<ColumnSchema>>();
         /*********************************/
         public SchemaBuffer(params String[] files)
         {
@@ -39,11 +41,11 @@ namespace Handiness.Metadata
         /// <summary>
         /// 从已有的Schema信息中返回一个满足条件的<see cref="ColumnSchema"/>信息，当条件不全时，返回遇到的第一个满足条件值
         /// </summary>
-        /// <param name="columnKey">必须的</param>
-        /// <param name="tableKey"></param>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public ColumnSchema GetColumnSchema(String columnKey, String tableKey = null, String fileName = null)
+        /// <param name="columnKey">必须的,实体类的属性名称</param>
+        /// <param name="tableKey">可选的，实体类的名称</param>
+        /// <param name="schemaName">可选的，Schema文件的Name属性，一般为所连接数据库的名称</param>
+        /// <returns>含有结构信息<see cref="ColumnSchema"/>实例</returns>
+        public ColumnSchema GetColumnSchema(String columnKey, String tableKey = null, String schemaName = null)
         {
             return null;
         }
@@ -55,7 +57,15 @@ namespace Handiness.Metadata
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(SchemaXml));
                 using (FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read))
                 {
-                    SchemaXml schema = xmlSerializer.Deserialize(stream) as SchemaXml;
+                    SchemaXml schema = null;
+                    try
+                    {
+                        schema = xmlSerializer.Deserialize(stream) as SchemaXml;
+                    }
+                    catch
+                    {
+                        throw new Exception(String.Format(TextResources.DeserializationSchemaFailedPattern, file));
+                    }
                     if (schema != null) yield return schema;
                 }
             }
@@ -71,10 +81,11 @@ namespace Handiness.Metadata
             path = path.EndsWith("\\") ? path : path + "\\";
             foreach (var schema in schemas)
             {
-                String fileName = $"{schema.Name}.xml";
+                String fileName = String.Format(TextResources.SchemaFileNamePattern, schema.Name);
                 String filePath = path + fileName;
                 File.Delete(filePath);
-                using (FileStream stream = new FileStream(filePath,
+                using (FileStream stream = new FileStream(
+                    filePath,
                     FileMode.Create, FileAccess.Write, FileShare.Read,
                     8096,
                     FileOptions.WriteThrough))
@@ -83,6 +94,7 @@ namespace Handiness.Metadata
                     xmlSerializer.Serialize(writer, schema);
                 }
             }
+
         }
     }
 }

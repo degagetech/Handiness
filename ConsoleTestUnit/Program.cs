@@ -90,7 +90,8 @@ namespace ConsoleTestUnit
             //Console.WriteLine(student.Name);
             //using (IMetadataProvider provider = MetadataProvider.GetMetadataProvider("#M1"))
             //{
-            //    var temp =MetadataProvider.GetMetadataProviders();
+      
+            //    var temp = MetadataProvider.GetMetadataProviders();
             //    Console.WriteLine(temp.GetType().Namespace);
             //    provider.Open("server=192.168.0.108;Port=3306;Uid=root;Pwd=123456;DataBase=handinessOrm;Pooling=true;charset=utf8;");
             //    Stopwatch watch = new Stopwatch();

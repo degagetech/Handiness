@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
-using Handiness.Properties;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Data;
@@ -14,11 +13,12 @@ namespace Handiness.Metadata
     {
         public abstract String Version { get; }
         public abstract String Explain { get; }
-
+        public String DatabaseName => this.GetDatabaseName();
         /********************/
 
         private DbConnection _connection = null;
         protected DbConnection Connection { get => this._connection; set => this._connection = value; }
+        protected abstract String GetDatabaseName();
 
         /********************/
 
@@ -41,7 +41,7 @@ namespace Handiness.Metadata
         {
             if (String.IsNullOrWhiteSpace(connectionString))
             {
-                throw new ArgumentException(Resources.EmptyConnectionString);
+                throw new ArgumentException(TextResources.ConnectionStringWithEmpty);
             }
             this.Close();
             this._connection.ConnectionString = connectionString;
@@ -68,8 +68,6 @@ namespace Handiness.Metadata
         /// <summary>
         /// 将原始的元数据信息转换成<see cref="ColumnSchema"/> 实例
         /// </summary>
-        /// <param name="row"></param>
-        /// <returns></returns>
         protected abstract ColumnSchema MetadataToColumnSechma(DataRow row);
         /// <summary>
         /// 根据列的元数据信息获取此列的注释
@@ -89,10 +87,10 @@ namespace Handiness.Metadata
             IMetadataProvider instance = null;
             if (String.IsNullOrWhiteSpace(guid))
             {
-                throw new ArgumentException(Resources.EmptyALNameGuid);
+                throw new ArgumentException(TextResources.ALNameGuidWithEmpty);
             }
             directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
-            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, Resources.ALNamePattern);
+            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
             using (CompositionContainer compositionContainer = new CompositionContainer(searchCatalog))
             {
                 instance = compositionContainer.GetExport<IMetadataProvider>(guid)?.Value;
@@ -106,7 +104,7 @@ namespace Handiness.Metadata
         public static IEnumerable<IMetadataProvider> GetMetadataProviders(String directory = null)
         {
             directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
-            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, Resources.ALNamePattern);
+            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
             using (CompositionContainer compositionContainer = new CompositionContainer(searchCatalog))
             {
                 var lazyInstances = compositionContainer.GetExports<IMetadataProvider>();

@@ -11,16 +11,19 @@ using System.Text.RegularExpressions;
 
 namespace Handiness.MySql
 {
-    [Export(TextResource.Guid, typeof(IMetadataProvider))]
+    [Export(TextResources.Guid, typeof(IMetadataProvider))]
     public class MySqlMetadataProvider : MetadataProvider
     {
-        public override String Version => "MySql1.0";
-        public override String Explain => "用于获取MySql或者其分支数据库的元数据信息提供类";
+        public override String Version => TextResources.Version;
+        public override String Explain => TextResources.MetadataProviderExplain;
+
+
+        private String _databaseName = String.Empty;
         /********************/
         /// <summary>
         /// 用于提取列长度信息字符串的正则表达式
         /// </summary>
-        private Regex _regexExtractLength= new Regex(@"(?<=\()\d+(?<!\))");
+        private Regex _regexExtractLength = new Regex(@"(?<=\()\d+(?<!\))");
 
         /********************/
         public MySqlMetadataProvider() : base()
@@ -31,13 +34,13 @@ namespace Handiness.MySql
         /********************/
         public override IList<ColumnSchema> GetColumnSchemas(String tableName)
         {
-  
+
             IList<ColumnSchema> columnSchemas = new List<ColumnSchema>();
             //元数据查询条件限制的集合
             String[] restrictions = new String[] { null, null, null, null };
 
             if (!String.IsNullOrWhiteSpace(tableName)) restrictions[2] = tableName;
-            DataTable originalMetadata = this.Connection.GetSchema(TextResource.CollectionNameForColumn, restrictions);
+            DataTable originalMetadata = this.Connection.GetSchema(TextResources.CollectionNameForColumn, restrictions);
             foreach (DataRow row in originalMetadata.Rows)
             {
                 ColumnSchema schema = this.MetadataToColumnSechma(row);
@@ -52,9 +55,9 @@ namespace Handiness.MySql
         {
             ColumnSchema schema = new ColumnSchema
             (
-                 name: row[TextResource.ColumnInfoForName] as String,
-                 tableName: row[TextResource.ColumnInfoForTableName] as String,
-                 type: row[TextResource.ColumnInfoForDbType] as String,
+                 name: row[TextResources.ColumnInfoForName] as String,
+                 tableName: row[TextResources.ColumnInfoForTableName] as String,
+                 type: row[TextResources.ColumnInfoForDbType] as String,
                  isPrimekey: this.IsPrimaryKey(row),
                  isNullable: this.IsNullable(row),
                  explain: this.GetExplain(row),
@@ -73,9 +76,9 @@ namespace Handiness.MySql
         protected override Boolean IsPrimaryKey(DataRow row)
         {
             Boolean isPrimaryKey = false;
-            String primaryKeyInfo = row[TextResource.ColumnInfoForKey] as String;
+            String primaryKeyInfo = row[TextResources.ColumnInfoForKey] as String;
             if (!String.IsNullOrWhiteSpace(primaryKeyInfo) &&
-                TextResource.KeyTypeForPrimary==primaryKeyInfo)
+                TextResources.KeyTypeForPrimary == primaryKeyInfo)
             {
                 isPrimaryKey = true;
             }
@@ -85,7 +88,7 @@ namespace Handiness.MySql
         protected override Int32 GetLength(DataRow row)
         {
             Int32 length = 0;
-            String columnType = row[TextResource.ColumnInfoForColType] as String;
+            String columnType = row[TextResources.ColumnInfoForColType] as String;
             if (!String.IsNullOrWhiteSpace(columnType))
             {
                 Match macth = this._regexExtractLength.Match(columnType);
@@ -101,18 +104,29 @@ namespace Handiness.MySql
         protected override Boolean IsNullable(DataRow row)
         {
             Boolean isNullable = false;
-            String nullableStr = row[TextResource.ColumnInfoForNullable] as String;
-            if (!String.IsNullOrWhiteSpace(nullableStr) && nullableStr == TextResource.NullableForYes)
+            String nullableStr = row[TextResources.ColumnInfoForNullable] as String;
+            if (!String.IsNullOrWhiteSpace(nullableStr) && nullableStr == TextResources.NullableForYes)
             {
-                isNullable=true;
+                isNullable = true;
             }
             return isNullable;
         }
 
         protected override String GetExplain(DataRow row)
         {
-            String explain = row[TextResource.ColumnInfoForCommit] as String;
+            String explain = row[TextResources.ColumnInfoForCommit] as String;
             return explain;
+        }
+
+        protected override String GetDatabaseName()
+        {
+            String datebaseName = null;
+            if (this.Connection.ConnectionString != null)
+            {
+                MySqlConnectionStringBuilder stringBuilder = new MySqlConnectionStringBuilder(this.Connection.ConnectionString);
+                datebaseName = stringBuilder.Database;
+            }
+            return datebaseName;
         }
 
 
