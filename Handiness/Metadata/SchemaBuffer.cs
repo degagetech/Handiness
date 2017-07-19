@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using Handiness;
+using System.Data;
 namespace Handiness.Metadata
 {
     /*-------------------------------------------------------------------------
@@ -28,7 +29,7 @@ namespace Handiness.Metadata
         /*********************************/
         public SchemaBuffer(params String[] files)
         {
-            IEnumerable<SchemaXml> schemaXmls = Load(files);
+            IEnumerable<SchemaXml> schemaXmls = SchemaBuffer.Load(files);
 
         }
         public ColumnSchema this[String columnKey, String tableKey = null, String fileName = null]
@@ -81,7 +82,7 @@ namespace Handiness.Metadata
             path = path.EndsWith("\\") ? path : path + "\\";
             foreach (var schema in schemas)
             {
-                String fileName = String.Format(TextResources.SchemaFileNamePattern, schema.Name);
+                String fileName = String.Format(TextResources.SchemaFileNamePattern, schema.DbName);
                 String filePath = path + fileName;
                 File.Delete(filePath);
                 using (FileStream stream = new FileStream(

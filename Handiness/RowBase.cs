@@ -28,7 +28,7 @@ namespace Handiness
         /// 提供一个直接修改实例属性值的方法，此方法存在较大的性能损耗
         /// </summary>
         /// <param name="propertyName">属性名称</param>
-        /// <param name="newValue">新的值</param>
+        /// <param name="newValue">新的属性值</param>
         public void NotifyPropertyValue(String propertyName, Object newValue)
         {
             Type type = this.GetType();

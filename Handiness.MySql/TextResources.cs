@@ -26,17 +26,28 @@ namespace Handiness.MySql
         /// <summary>
         /// 列架构名称
         /// </summary>
-        public const String CollectionNameForColumn = "Columns";
-        public const String KeyTypeForPrimary = "PRI";
-        public const String NullableForYes = "YES";
+        public const String CollectionNameOfColumn = "Columns";
+        /// <summary>
+        /// 表架构名称
+        /// </summary>
+        public const String CollectionNameOfTable = "Tables";
+
+        public const String KeyTypeOfPrimary = "PRI";
+        public const String NullableOfYes = "YES";
         #region  列元数据信息字段名称
-        public const String ColumnInfoForName = "COLUMN_NAME";
-        public const String ColumnInfoForTableName = "TABLE_NAME";
-        public const String ColumnInfoForDbType = "DATA_TYPE";
-        public const String ColumnInfoForKey = "COLUMN_KEY";
-        public const String ColumnInfoForColType = "COLUMN_TYPE";
-        public const String ColumnInfoForNullable = "IS_NULLABLE";
-        public const String ColumnInfoForCommit = "COLUMN_COMMENT";
+        public const String ColumnOfName = "COLUMN_NAME";
+        public const String ColumnOfTableName = "TABLE_NAME";
+        public const String ColumnOfDbType = "DATA_TYPE";
+        public const String ColumnOfKey = "COLUMN_KEY";
+        public const String ColumnOfColType = "COLUMN_TYPE";
+        public const String ColumnOfNullable = "IS_NULLABLE";
+        public const String ColumnOfComment = "COLUMN_COMMENT";
+        #endregion
+
+        #region  表元数据信息字段名称
+        public const String TableOfName = "Table_NAME";
+        public const String TableOfDbName = "TABLE_SCHEMA";
+        public const String TableOfComment = "TABLE_COMMENT";
         #endregion
     }
 }

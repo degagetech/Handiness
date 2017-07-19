@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adaptive\AdaptiveSeacher.cs" />
     <Compile Include="Adaptive\IAdaptiveExplain.cs" />
     <Compile Include="DbContext.cs" />
+    <Compile Include="Metadata\MetadataContainer.cs" />
     <Compile Include="Services\IDbObjectCreationService.cs" />
     <Compile Include="ISQLChain.cs" />
     <Compile Include="ISQLNode.cs" />
@@ -53,6 +55,9 @@
     <Compile Include="Metadata\TableSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RowBase.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\ObjectExportService.cs" />
+    <Compile Include="Services\ServicesFactory.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TextResources.cs" />
   </ItemGroup>

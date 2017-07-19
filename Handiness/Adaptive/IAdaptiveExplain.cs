@@ -14,6 +14,9 @@ namespace Handiness.Adaptive
     * .NET 版本：4.0
     * 本接口规范描述：适配层描述接口，此接口要求所有Handines的适配层的开发者提供实现
     *  -------------------------------------------------------------------------*/
+    /// <summary>
+    /// 适配层信息描述接口
+    /// </summary>
     public interface IAdaptiveExplain
     {
         /// <summary>

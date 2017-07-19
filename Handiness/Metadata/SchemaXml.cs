@@ -7,7 +7,7 @@ namespace Handiness.Metadata
 {
     public class SchemaXml
     {
-        public String Name { get; set; }
+        public String DbName { get; set; }
         public TableSchemaXml[] Tables { get; set; }
     }
     [XmlType(TypeName = "Table")]

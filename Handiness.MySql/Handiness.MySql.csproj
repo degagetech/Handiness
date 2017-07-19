@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MysqlAdaptiveExplain.cs" />
     <Compile Include="MySqlDbCreationService.cs" />
     <Compile Include="MySqlMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

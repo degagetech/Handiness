@@ -40,10 +40,10 @@ namespace Handiness.MySql
             String[] restrictions = new String[] { null, null, null, null };
 
             if (!String.IsNullOrWhiteSpace(tableName)) restrictions[2] = tableName;
-            DataTable originalMetadata = this.Connection.GetSchema(TextResources.CollectionNameForColumn, restrictions);
+            DataTable originalMetadata = this.Connection.GetSchema(TextResources.CollectionNameOfColumn, restrictions);
             foreach (DataRow row in originalMetadata.Rows)
             {
-                ColumnSchema schema = this.MetadataToColumnSechma(row);
+                ColumnSchema schema = this.ColumnMetadataToSechma(row);
                 if (schema != null) columnSchemas.Add(schema);
             }
             return columnSchemas;
@@ -51,13 +51,13 @@ namespace Handiness.MySql
 
         /********************/
 
-        protected override ColumnSchema MetadataToColumnSechma(DataRow row)
+        protected override ColumnSchema ColumnMetadataToSechma(DataRow row)
         {
             ColumnSchema schema = new ColumnSchema
             (
-                 name: row[TextResources.ColumnInfoForName] as String,
-                 tableName: row[TextResources.ColumnInfoForTableName] as String,
-                 type: row[TextResources.ColumnInfoForDbType] as String,
+                 name: row[TextResources.ColumnOfName] as String,
+                 tableName: row[TextResources.ColumnOfTableName] as String,
+                 type: row[TextResources.ColumnOfDbType] as String,
                  isPrimekey: this.IsPrimaryKey(row),
                  isNullable: this.IsNullable(row),
                  explain: this.GetExplain(row),
@@ -68,7 +68,18 @@ namespace Handiness.MySql
 
         public override IList<TableSchema> GetTableSchemas()
         {
-            throw new NotImplementedException();
+            List<TableSchema> schemaList = new List<TableSchema>();
+            DataTable dt = this.Connection.GetSchema(TextResources.CollectionNameOfTable, null);
+            foreach (DataRow row in dt.Rows)
+            {
+                TableSchema schema = this.TableMetadataToSechma(row);
+                if (schema != null)
+                {
+                    schemaList.Add(schema);
+                }
+            }
+            return schemaList;
+
         }
 
 
@@ -76,9 +87,9 @@ namespace Handiness.MySql
         protected override Boolean IsPrimaryKey(DataRow row)
         {
             Boolean isPrimaryKey = false;
-            String primaryKeyInfo = row[TextResources.ColumnInfoForKey] as String;
+            String primaryKeyInfo = row[TextResources.ColumnOfKey] as String;
             if (!String.IsNullOrWhiteSpace(primaryKeyInfo) &&
-                TextResources.KeyTypeForPrimary == primaryKeyInfo)
+                TextResources.KeyTypeOfPrimary == primaryKeyInfo)
             {
                 isPrimaryKey = true;
             }
@@ -88,7 +99,7 @@ namespace Handiness.MySql
         protected override Int32 GetLength(DataRow row)
         {
             Int32 length = 0;
-            String columnType = row[TextResources.ColumnInfoForColType] as String;
+            String columnType = row[TextResources.ColumnOfColType] as String;
             if (!String.IsNullOrWhiteSpace(columnType))
             {
                 Match macth = this._regexExtractLength.Match(columnType);
@@ -104,8 +115,8 @@ namespace Handiness.MySql
         protected override Boolean IsNullable(DataRow row)
         {
             Boolean isNullable = false;
-            String nullableStr = row[TextResources.ColumnInfoForNullable] as String;
-            if (!String.IsNullOrWhiteSpace(nullableStr) && nullableStr == TextResources.NullableForYes)
+            String nullableStr = row[TextResources.ColumnOfNullable] as String;
+            if (!String.IsNullOrWhiteSpace(nullableStr) && nullableStr == TextResources.NullableOfYes)
             {
                 isNullable = true;
             }
@@ -114,7 +125,7 @@ namespace Handiness.MySql
 
         protected override String GetExplain(DataRow row)
         {
-            String explain = row[TextResources.ColumnInfoForCommit] as String;
+            String explain = row[TextResources.ColumnOfComment] as String;
             return explain;
         }
 
@@ -127,6 +138,21 @@ namespace Handiness.MySql
                 datebaseName = stringBuilder.Database;
             }
             return datebaseName;
+        }
+
+        protected override TableSchema TableMetadataToSechma(DataRow row)
+        {
+            TableSchema schema = new TableSchema(
+                row[TextResources.TableOfName] as String,
+                row[TextResources.TableOfDbName] as String,
+                this.GetTableExplain(row)
+                );
+            return schema;
+        }
+
+        protected override string GetTableExplain(DataRow row)
+        {
+            return row[TextResources.TableOfComment] as String;
         }
 
 

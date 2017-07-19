@@ -9,7 +9,7 @@ namespace Handiness.Services
     /// <summary>
     /// 用于创建一系列数据源操作对象的服务
     /// </summary>
-    public interface IDbObjectCreationService
+    public interface IDbObjectCreationService : IService
     {
         DbConnection GetDbConnection();
         DbCommand GetDbCommand();
