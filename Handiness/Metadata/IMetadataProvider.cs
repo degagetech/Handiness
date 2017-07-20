@@ -37,13 +37,13 @@ namespace Handiness.Metadata
         /// 获取所连接的数据库的所有表结构信息
         /// </summary>
         /// <returns></returns>
-        IList<TableSchema> GetTableSchemas();
+        IEnumerable<TableSchema> GetTableSchemas();
         /// <summary>
         /// 获取所连接的数据库的指定表的所有列信息
         /// </summary>
         /// <param name="tableName">指定的表名</param>
         /// <returns></returns>
-        IList<ColumnSchema> GetColumnSchemas(String tableName);
+        IEnumerable<ColumnSchema> GetColumnSchemas(String tableName);
 
     }
 }

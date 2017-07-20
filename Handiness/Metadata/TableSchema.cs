@@ -21,7 +21,7 @@ namespace Handiness.Metadata
         /// <summary>
         /// 所属数据库的名称
         /// </summary>
-        [XmlAnyAttribute]
+        [XmlAttribute]
         public String DbName { get; set; }
         ///// <summary>
         /////列的计数

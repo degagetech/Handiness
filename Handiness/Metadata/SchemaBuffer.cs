@@ -6,6 +6,8 @@ using System.Xml.Serialization;
 using System.IO;
 using Handiness;
 using System.Data;
+using System.Diagnostics;
+
 namespace Handiness.Metadata
 {
     /*-------------------------------------------------------------------------
@@ -24,13 +26,30 @@ namespace Handiness.Metadata
     public class SchemaBuffer
     {
 
-        private IDictionary<String, TableSchema> _tableSchemaDic = new Dictionary<String, TableSchema>();
-        private IDictionary<String, IList<ColumnSchema>> _columnSchemaDic = new Dictionary<String, IList<ColumnSchema>>();
+        private MetadataContainer _metadataContainer = new MetadataContainer();
         /*********************************/
         public SchemaBuffer(params String[] files)
         {
             IEnumerable<SchemaXml> schemaXmls = SchemaBuffer.Load(files);
-
+            //Stopwatch watch = new Stopwatch();
+            //watch.Restart();
+            foreach (SchemaXml schemaXml in schemaXmls)
+            {
+                foreach (TableSchemaXml tabSchema in schemaXml.Tables)
+                {
+                    if (this._metadataContainer.AddTableSchema(schemaXml.DbName, tabSchema.Key, tabSchema.Schema))
+                    {
+                        foreach (ColumnSchemaXml colSchema in tabSchema.Columns)
+                        {
+                            this._metadataContainer.AddColumnSchema(schemaXml.DbName,
+                                tabSchema.Key, colSchema.Key,
+                               colSchema.Schema);
+                        }
+                    }
+                }
+            }
+            //watch.Stop();
+            //Debug.WriteLine("Timer:"+watch.ElapsedMilliseconds);
         }
         public ColumnSchema this[String columnKey, String tableKey = null, String fileName = null]
         {
@@ -39,16 +58,20 @@ namespace Handiness.Metadata
                 return this.GetColumnSchema(columnKey, tableKey, fileName);
             }
         }
+        public TableSchema GetTableSchema(String tableKey,String dbName=null)
+        {
+            return this._metadataContainer.GetTableSchema(tableKey,dbName);
+        }
         /// <summary>
         /// 从已有的Schema信息中返回一个满足条件的<see cref="ColumnSchema"/>信息，当条件不全时，返回遇到的第一个满足条件值
         /// </summary>
         /// <param name="columnKey">必须的,实体类的属性名称</param>
         /// <param name="tableKey">可选的，实体类的名称</param>
-        /// <param name="schemaName">可选的，Schema文件的Name属性，一般为所连接数据库的名称</param>
+        /// <param name="dbName">可选的，Schema文件的Name属性，一般为所连接数据库的名称</param>
         /// <returns>含有结构信息<see cref="ColumnSchema"/>实例</returns>
-        public ColumnSchema GetColumnSchema(String columnKey, String tableKey = null, String schemaName = null)
+        public ColumnSchema GetColumnSchema(String columnKey, String tableKey = null, String dbName = null)
         {
-            return null;
+            return this._metadataContainer.GetColumnSchema(columnKey,tableKey,dbName);
         }
         public static IEnumerable<SchemaXml> Load(params String[] files)
         {

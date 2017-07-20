@@ -49,8 +49,8 @@ namespace Handiness.Metadata
         }
 
         /********************/
-        public abstract IList<ColumnSchema> GetColumnSchemas(String tableName);
-        public abstract IList<TableSchema> GetTableSchemas();
+        public abstract IEnumerable<ColumnSchema> GetColumnSchemas(String tableName);
+        public abstract IEnumerable<TableSchema> GetTableSchemas();
 
         #region 列信息获取操作
         /// <summary>

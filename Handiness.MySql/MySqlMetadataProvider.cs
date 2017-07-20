@@ -32,10 +32,8 @@ namespace Handiness.MySql
         }
 
         /********************/
-        public override IList<ColumnSchema> GetColumnSchemas(String tableName)
+        public override IEnumerable<ColumnSchema> GetColumnSchemas(String tableName)
         {
-
-            IList<ColumnSchema> columnSchemas = new List<ColumnSchema>();
             //元数据查询条件限制的集合
             String[] restrictions = new String[] { null, null, null, null };
 
@@ -44,9 +42,8 @@ namespace Handiness.MySql
             foreach (DataRow row in originalMetadata.Rows)
             {
                 ColumnSchema schema = this.ColumnMetadataToSechma(row);
-                if (schema != null) columnSchemas.Add(schema);
+                if (schema != null) yield return schema;
             }
-            return columnSchemas;
         }
 
         /********************/
@@ -66,20 +63,17 @@ namespace Handiness.MySql
             return schema;
         }
 
-        public override IList<TableSchema> GetTableSchemas()
+        public override IEnumerable<TableSchema> GetTableSchemas()
         {
-            List<TableSchema> schemaList = new List<TableSchema>();
             DataTable dt = this.Connection.GetSchema(TextResources.CollectionNameOfTable, null);
             foreach (DataRow row in dt.Rows)
             {
                 TableSchema schema = this.TableMetadataToSechma(row);
                 if (schema != null)
                 {
-                    schemaList.Add(schema);
+                    yield return schema;
                 }
             }
-            return schemaList;
-
         }
 
 
