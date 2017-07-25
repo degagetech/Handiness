@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SchemaXml xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DbName>schema</DbName>
+  <Tables>
+    <Table Key="Test">
+      <Schema Name="test"  Explain="测试表" DbName="schema" />      
+      
+      <Columns>
+        <Column Key="Name">
+          <Schema Name="Name" IsPrimeKey="true" Length="10" Type="varchar" TableName="test" IsNullable="false" Explain="name" />
+        </Column>
+        <Column Key="Age">
+          <Schema Name="Age" IsPrimeKey="true" Length="4" Type="int" TableName="test" IsNullable="false" Explain="age" />
+        </Column>
+      </Columns>
+    </Table>
+  </Tables>
+</SchemaXml>

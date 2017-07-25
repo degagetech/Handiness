@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.CompilerServices;
+[assembly:SuppressIldasm]
 
 namespace Handiness
 {
@@ -26,10 +28,10 @@ namespace Handiness
         public const String ConnectionStringWithEmpty = "空的连接字符串";
         public const String TableNameWithEmpty = "空的表名";
 
-        public const String DeserializationSchemaFailedPattern = "在反序列化 {0}中的Schema信息时失败";
+        public const String DeserializationSchemaFailedPattern = "在反序列化 {0} 中的Schema信息时失败";
         /// <summary>
         /// Schema信息文件的名称格式
         /// </summary>
-        public const String SchemaFileNamePattern = "{0}.xml";
+        public const String SchemaFileNamePattern = "{0}.schema";
     }
 }

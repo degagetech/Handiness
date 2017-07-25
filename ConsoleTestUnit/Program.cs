@@ -6,35 +6,74 @@ using System.Threading;
 using Handiness;
 using System.Diagnostics;
 using Handiness.Metadata;
+using Handiness.CodeBuild;
+using Handiness.Services;
+using System.Runtime.CompilerServices;
 namespace ConsoleTestUnit
 {
 
-    //public class Student : RowBase
-    //{
+    public class Student : RowBase
+    {
+        private String _name;
+        private Int32 _age;
 
-    //    public String Name
-    //    {
-    //        get => this._name;
-    //        set
-    //        {
-    //            if (this._name != value)
-    //            {
-    //                this._name = value;
-    //                this.OnNotifyPropertyChanged(nameof(this.Name), value);
-    //            }
-    //        }
-    //    }
-    //    private String _name = String.Empty;
-    //    public static Boolean operator true(Student student)
-    //    {
-    //        return student.Name != String.Empty;
-    //    }
-    //    public static Boolean operator false(Student student)
-    //    {
-    //        return student.Name == String.Empty;
-    //    }
-    //}
-
+        public String Name
+        {
+            get => this._name;
+            set
+            {
+                if (this._name.Equals(value))
+                {
+                    this._name = value;
+                    this.OnNotifyPropertyChanged(nameof(this.Name), value);
+                }
+            }
+        }
+        public Int32 Age
+        {
+            get => this._age;
+            set
+            {
+                if (this._age.Equals(value))
+                {
+                    this._age = value;
+                    this.OnNotifyPropertyChanged(nameof(this.Age), value);
+                }
+            }
+        }
+        protected override void SetPropertyValue(String propertyName, Object newValue)
+        {
+            switch (propertyName)
+            {
+                case nameof(this.Name):
+                    {
+                        this.Name = (String)newValue;
+                    }
+                    return;
+                case nameof(this.Age):
+                    {
+                        this.Age = (Int32)newValue;
+                    }
+                    return;
+                default: break;
+            }
+        }
+    }
+    public class A
+    {
+        [MethodImpl]
+        public virtual void Testc()
+        {
+            Console.WriteLine("A");
+        }
+    }
+    public class B : A
+    {
+        public override void Testc()
+        {
+            Console.WriteLine("B");
+        }
+    }
     class Program
     {
         static void TimerCallBack(Object state)
@@ -42,25 +81,31 @@ namespace ConsoleTestUnit
             Console.WriteLine("GC");
             GC.Collect();
         }
+        #region
+        [MTAThread]
         static void Main(string[] args)
         {
             //Timer t = new Timer(TimerCallBack,null,0,2000);
             //Console.ReadLine();
-            String path = "schema.xml";
-        
-            int a = 0;
-            Stopwatch watch = new Stopwatch();
-            SchemaBuffer buffer = new SchemaBuffer(path);
-            watch.Start();
-            for (int i = 0;
-            i <10000;++i)
-            {
-                ColumnSchema schema = buffer.GetColumnSchema("Age");
-            }
-    
-         //   buffer.GetColumnSchema("Age");
-            watch.Stop();
-            Console.WriteLine(watch.ElapsedMilliseconds);
+          //  String path = "TypeMapperExample.mapcode";
+          //  TypeMapper mapper = new TypeMapper(path);
+          //Console.WriteLine(mapper.Mapping("int",4));
+            //int a = 0;
+            //Stopwatch watch = new Stopwatch();
+            //SchemaManager buffer = new SchemaManager(null, path);
+            //ColumnSchema schema = buffer.GetColumnSchema("Age");
+            //watch.Start();
+            //String name = null;
+            //for (int i = 0;
+            //i < 10000; ++i)
+            //{
+            //    name = nameof(SchemaManager.Load);
+
+            //}
+            //Console.WriteLine(name);
+            ////   buffer.GetColumnSchema("Age");
+            //watch.Stop();
+            //Console.WriteLine(watch.ElapsedMilliseconds);
             //SchemaBuffer.Save(path,
             //    new SchemaXml
             //    {
@@ -138,5 +183,6 @@ namespace ConsoleTestUnit
             //    Int32 i = 0;
             //}
         }
+        #endregion
     }
 }

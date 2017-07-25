@@ -12,9 +12,9 @@ namespace Handiness.Metadata
  * 创建时间： 2017/7/19 15:33:32
  * 版本号：v1.0
  * .NET 版本：4.0
- * 本类主要用途描述：
+ * 本类主要用途描述：用于存取Schema信息
  *  -------------------------------------------------------------------------*/
-    internal class MetadataContainer
+    internal class MetadataContainer : IMetadataContainer
     {
         private const String ColumnOfDbName = "DbName";
         private const String ColumnOfTableKey = "TableKey";
@@ -46,7 +46,7 @@ namespace Handiness.Metadata
 
 
             DataTable columnSchemaTable = new DataTable(MetadataContainer.TableNameOfCol);
-      
+
             columnSchemaTable.Columns.Add(dbNameCol);
             columnSchemaTable.Columns.Add(tableKeyCol);
             columnSchemaTable.Columns.Add(columnKeyCol);
@@ -55,7 +55,7 @@ namespace Handiness.Metadata
             this._dataSet.Tables.Add(columnSchemaTable);
 
             DataTable tableSchemaTable = new DataTable(MetadataContainer.TableNameOfTab);
-        
+
             tableSchemaTable.Columns.Add(dbNameCol2);
             tableSchemaTable.Columns.Add(tableKeyCol2);
             tableSchemaTable.Columns.Add(tableSchemaCol);
@@ -78,6 +78,7 @@ namespace Handiness.Metadata
             }
             catch
             {
+                //当主键重复时
                 return false;
             }
         }
@@ -95,6 +96,7 @@ namespace Handiness.Metadata
             }
             catch
             {
+                //当主键重复时
                 return false;
             }
         }
@@ -105,8 +107,8 @@ namespace Handiness.Metadata
             {
                 DataTable table = this._dataSet.Tables[MetadataContainer.TableNameOfCol];
                 String where = $"{ColumnOfColumnKey}='{columnKey}'";
-                if (tableKey != null) where += $" And {ColumnOfTableKey}='{tableKey}";
-                if (dbName != null) where += $" And {ColumnOfDbName}='{dbName}'";
+                if (tableKey != null) where += $" and {ColumnOfTableKey}='{tableKey}'";
+                if (dbName != null) where += $" and {ColumnOfDbName}='{dbName}'";
                 DataRow[] rows = table.Select(where);
                 if (rows.Length > 0) schema = rows[0][ColumnOfColSchema] as ColumnSchema;
             }

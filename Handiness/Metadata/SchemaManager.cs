@@ -17,22 +17,28 @@ namespace Handiness.Metadata
  * 创建时间： 2017/7/14 20:51:00
  * 版本号：v1.0
  * .NET 版本：4.0
- * 本类主要用途描述：用于将本地文件中的Schema信息读取到内存中，或者将内存中的Schema信息
+ * 本类主要用途描述：负责管理Schema信息存取以及从本地磁盘文件上的加载与存储
  * 保存到本地文件中
  *  -------------------------------------------------------------------------*/
     /// <summary>
-    /// 管理Schema信息
+    /// Schema信息管理者
     /// </summary>
-    public class SchemaBuffer
+    public class SchemaManager
     {
-
-        private MetadataContainer _metadataContainer = new MetadataContainer();
+        private MetadataContainer _metadataContainer = null;
         /*********************************/
-        public SchemaBuffer(params String[] files)
+        /// <summary>
+        /// 构造一个SchemaBuffer实例
+        /// </summary>
+        /// <param name="container"><see cref="IMetadataContainer"/>的实例，可以传入null以使用默认实例</param>
+        /// <param name="files">含有schema信息的文件列表</param>
+        public SchemaManager(IMetadataContainer container, params String[] files)
         {
-            IEnumerable<SchemaXml> schemaXmls = SchemaBuffer.Load(files);
-            //Stopwatch watch = new Stopwatch();
-            //watch.Restart();
+            if (container == null)
+            {
+                this._metadataContainer = new MetadataContainer();
+            }
+            IEnumerable<SchemaXml> schemaXmls = SchemaManager.Load(files);
             foreach (SchemaXml schemaXml in schemaXmls)
             {
                 foreach (TableSchemaXml tabSchema in schemaXml.Tables)
@@ -48,50 +54,48 @@ namespace Handiness.Metadata
                     }
                 }
             }
-            //watch.Stop();
-            //Debug.WriteLine("Timer:"+watch.ElapsedMilliseconds);
         }
-        public ColumnSchema this[String columnKey, String tableKey = null, String fileName = null]
+        public virtual ColumnSchema this[String columnKey, String tableKey = null, String fileName = null]
         {
             get
             {
                 return this.GetColumnSchema(columnKey, tableKey, fileName);
             }
         }
-        public TableSchema GetTableSchema(String tableKey,String dbName=null)
+        public TableSchema GetTableSchema(String tableKey, String dbName = null)
         {
-            return this._metadataContainer.GetTableSchema(tableKey,dbName);
+            return this._metadataContainer.GetTableSchema(tableKey, dbName);
         }
         /// <summary>
         /// 从已有的Schema信息中返回一个满足条件的<see cref="ColumnSchema"/>信息，当条件不全时，返回遇到的第一个满足条件值
         /// </summary>
-        /// <param name="columnKey">必须的,实体类的属性名称</param>
-        /// <param name="tableKey">可选的，实体类的名称</param>
-        /// <param name="dbName">可选的，Schema文件的Name属性，一般为所连接数据库的名称</param>
+        /// <param name="columnKey">必须的,通常使用实体类的属性名称</param>
+        /// <param name="tableKey">可选的，通常使用实体类的名称</param>
+        /// <param name="dbName">可选的，通常使用数据库名称</param>
         /// <returns>含有结构信息<see cref="ColumnSchema"/>实例</returns>
         public ColumnSchema GetColumnSchema(String columnKey, String tableKey = null, String dbName = null)
         {
-            return this._metadataContainer.GetColumnSchema(columnKey,tableKey,dbName);
+            return this._metadataContainer.GetColumnSchema(columnKey, tableKey, dbName);
         }
+        /// <summary>
+        /// 从本地磁盘文件中加载Schema信息
+        /// </summary>
+        /// <param name="files">文件列表</param>
         public static IEnumerable<SchemaXml> Load(params String[] files)
         {
             foreach (String file in files)
             {
                 if (!File.Exists(file)) break;
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(SchemaXml));
-                using (FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read))
+                SchemaXml schema = null;
+                try
                 {
-                    SchemaXml schema = null;
-                    try
-                    {
-                        schema = xmlSerializer.Deserialize(stream) as SchemaXml;
-                    }
-                    catch
-                    {
-                        throw new Exception(String.Format(TextResources.DeserializationSchemaFailedPattern, file));
-                    }
-                    if (schema != null) yield return schema;
+                    schema = TKXmlSerializer.DeSerialize<SchemaXml>(file);
                 }
+                catch
+                {
+                    throw new Exception(String.Format(TextResources.DeserializationSchemaFailedPattern, file));
+                }
+                if (schema != null) yield return schema;
             }
         }
         /// <summary>
@@ -101,24 +105,14 @@ namespace Handiness.Metadata
         /// <param name="schemas">schema信息</param>
         public static void Save(String path, params SchemaXml[] schemas)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SchemaXml));
             path = path.EndsWith("\\") ? path : path + "\\";
             foreach (var schema in schemas)
             {
                 String fileName = String.Format(TextResources.SchemaFileNamePattern, schema.DbName);
                 String filePath = path + fileName;
                 File.Delete(filePath);
-                using (FileStream stream = new FileStream(
-                    filePath,
-                    FileMode.Create, FileAccess.Write, FileShare.Read,
-                    8096,
-                    FileOptions.WriteThrough))
-                {
-                    TextWriter writer = new StreamWriter(stream);
-                    xmlSerializer.Serialize(writer, schema);
-                }
+                TKXmlSerializer.Serialize<SchemaXml>(schema, filePath);
             }
-
         }
     }
 }

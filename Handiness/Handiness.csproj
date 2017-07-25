@@ -43,6 +43,7 @@
     <Compile Include="Adaptive\AdaptiveSeacher.cs" />
     <Compile Include="Adaptive\IAdaptiveExplain.cs" />
     <Compile Include="DbContext.cs" />
+    <Compile Include="Metadata\IMetadataContainer.cs" />
     <Compile Include="Metadata\MetadataContainer.cs" />
     <Compile Include="Services\IDbObjectCreationService.cs" />
     <Compile Include="ISQLChain.cs" />
@@ -50,7 +51,7 @@
     <Compile Include="Metadata\MetadataProvider.cs" />
     <Compile Include="Metadata\ColumnSchema.cs" />
     <Compile Include="Metadata\IMetadataProvider.cs" />
-    <Compile Include="Metadata\SchemaBuffer.cs" />
+    <Compile Include="Metadata\SchemaManager.cs" />
     <Compile Include="Metadata\SchemaXml.cs" />
     <Compile Include="Metadata\TableSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,8 +61,11 @@
     <Compile Include="Services\ServicesFactory.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TextResources.cs" />
+    <Compile Include="ToolKit.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="连接字符串格式.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

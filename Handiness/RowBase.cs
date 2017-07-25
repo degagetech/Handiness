@@ -7,6 +7,9 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Reflection;
+using System.Threading;
+using System.Runtime.CompilerServices;
+
 namespace Handiness
 {
     /*-------------------------------------------------------------------------
@@ -25,11 +28,22 @@ namespace Handiness
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// 提供一个直接修改实例属性值的方法，此方法存在较大的性能损耗
+        /// 提供一个直接修改实例属性值的方法，默认使用反射
+        /// 可以重载<see cref="SetPropertyValue(string, object)"/>方法，以修改设置的方法
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="newValue"></param>
+        public void NotifyPropertyValue(String propertyName, Object newValue)
+        {
+            this.SetPropertyValue(propertyName, newValue);
+            this.OnNotifyPropertyChanged(propertyName, newValue);
+        }
+        /// <summary>
+        /// 提供一个直接修改实例属性值的方法（使用反射），使用此方法修改的属性值，并不会写入变更记录中
         /// </summary>
         /// <param name="propertyName">属性名称</param>
         /// <param name="newValue">新的属性值</param>
-        public void NotifyPropertyValue(String propertyName, Object newValue)
+        protected void NotifyPropertyValueOfReflection(String propertyName, Object newValue)
         {
             Type type = this.GetType();
             PropertyInfo propertyInfo = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
@@ -41,8 +55,12 @@ namespace Handiness
         /// <summary>
         /// 当前实例的属性值变跟记录
         /// </summary>
-        protected Dictionary<String, Object> _notifyLog = new Dictionary<String, Object>();
+        protected Dictionary<String, Object> _notifyLog = null;
         protected RowStateType State { get; set; } = RowStateType.Normal;
+        protected virtual void SetPropertyValue(String propertyName, Object newValue)
+        {
+            this.NotifyPropertyValueOfReflection(propertyName, newValue);
+        }
         /**************/
         protected void OnNotifyPropertyChanged(
             String proteryName,
@@ -52,8 +70,13 @@ namespace Handiness
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(proteryName));
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         protected void WriteNotifLog(String proteryName, Object newValue)
         {
+            if (this._notifyLog == null)
+            {
+                this._notifyLog = new Dictionary<String, Object>();
+            }
             if (!this._notifyLog.ContainsKey(proteryName))
             {
                 this._notifyLog.Add(proteryName, newValue);

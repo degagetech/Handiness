@@ -22,7 +22,7 @@ namespace Handiness
         /// <param name="connectionString">连接字符串</param>
         /// <param name="adaptiveGuid">适配层guid</param>
         /// <param name="buffer">结构信息缓存器</param>
-        public DbContext(String connectionString, String adaptiveGuid, SchemaBuffer buffer)
+        public DbContext(String connectionString, String adaptiveGuid, SchemaManager buffer)
         {
 
         }
@@ -30,7 +30,7 @@ namespace Handiness
         /// 数据库的连接字符串
         /// </summary>
         public String ConnectionString { get; private set; }
-        public SchemaBuffer SchemaBuffer { get; private set; }
+        public SchemaManager SchemaBuffer { get; private set; }
         public String AdaptiveGuid { get; private set; }
     }
 }
