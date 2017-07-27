@@ -15,7 +15,7 @@ namespace Handiness.CodeBuild
  * 本类主要用途描述：在将数据库原有名称修改为更符合编程规范的名称
  *  -------------------------------------------------------------------------*/
     /// <summary>
-    /// 名称修改器
+    /// 默认名称修改器
     /// </summary>
     public class NameModifier : INameModifier
     {

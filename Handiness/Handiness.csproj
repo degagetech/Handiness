@@ -45,9 +45,10 @@
     <Compile Include="DbContext.cs" />
     <Compile Include="Metadata\IMetadataContainer.cs" />
     <Compile Include="Metadata\MetadataContainer.cs" />
+    <Compile Include="SchemaCourier.cs" />
     <Compile Include="Services\IDbObjectCreationService.cs" />
-    <Compile Include="ISQLChain.cs" />
-    <Compile Include="ISQLNode.cs" />
+    <Compile Include="SQLCourier.cs" />
+    <Compile Include="SQLNode.cs" />
     <Compile Include="Metadata\MetadataProvider.cs" />
     <Compile Include="Metadata\ColumnSchema.cs" />
     <Compile Include="Metadata\IMetadataProvider.cs" />

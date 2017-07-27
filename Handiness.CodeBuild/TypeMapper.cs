@@ -22,7 +22,7 @@ namespace Handiness.CodeBuild
         /// <summary>
         /// 当数据库类型长度为此值时，<see cref="TypeMapper"/>忽略长度匹配条件
         /// </summary>
-        internal const Int32 IgnoreTypeLength = -1;
+        internal const Int32 IgnorableTypeLength = -1;
 
         protected Dictionary<String, String> _typeMappingDic = new Dictionary<String, String>();
 
@@ -55,7 +55,7 @@ namespace Handiness.CodeBuild
         protected String GenerateKey(String dbType, Int32 length = -1)
         {
             String key = dbType;
-            if (length > TypeMapper.IgnoreTypeLength)
+            if (length > TypeMapper.IgnorableTypeLength)
             {
                 key += length;
             }

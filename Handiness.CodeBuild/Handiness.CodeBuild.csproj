@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeBuilder.cs" />
+    <Compile Include="CodeTemplateXml.cs" />
     <Compile Include="INameModifier.cs" />
     <Compile Include="NameModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -38,6 +38,6 @@ namespace Handiness.CodeBuild
         public String MappingType { get; set; }
 
         [XmlAttribute]
-        public Int32 Length { get; set; } = TypeMapper.IgnoreTypeLength;
+        public Int32 Length { get; set; } = TypeMapper.IgnorableTypeLength;
     }
 }
