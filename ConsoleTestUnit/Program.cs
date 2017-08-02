@@ -9,6 +9,8 @@ using Handiness.Metadata;
 using Handiness.CodeBuild;
 using Handiness.Services;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+
 namespace ConsoleTestUnit
 {
 
@@ -85,11 +87,20 @@ namespace ConsoleTestUnit
         [MTAThread]
         static void Main(string[] args)
         {
+
+            String test = "$classname$,$classnamet$";
+            Regex extract = new Regex(@"(?<=\$)\w+(?=\$)");
+           // var temp = extract.Matches(test);
+           //Console.WriteLine();
+            foreach (Match match in extract.Matches(test))
+            {
+                Console.WriteLine(match.Value.ToLower());
+            }
             //Timer t = new Timer(TimerCallBack,null,0,2000);
             //Console.ReadLine();
-          //  String path = "TypeMapperExample.mapcode";
-          //  TypeMapper mapper = new TypeMapper(path);
-          //Console.WriteLine(mapper.Mapping("int",4));
+            //  String path = "TypeMapperExample.mapcode";
+            //  TypeMapper mapper = new TypeMapper(path);
+            //Console.WriteLine(mapper.Mapping("int",4));
             //int a = 0;
             //Stopwatch watch = new Stopwatch();
             //SchemaManager buffer = new SchemaManager(null, path);

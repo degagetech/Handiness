@@ -90,7 +90,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="HandinessOrmOuputTemplate.codetmplt" />
+    <None Include="CodeTemplate.codetmplt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

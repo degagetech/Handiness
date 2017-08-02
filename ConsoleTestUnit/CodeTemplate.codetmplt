@@ -7,9 +7,9 @@
     using Handiness;
   </Header>
   <Body>
-    namespace $NameSpace$
+    namespace $namespace$
     {
-          public class $ClassName$:RowBase
+          public class $classname$:RowBase
           {
                [Properties]
                protected override void SetPropertyValue(String propertyName, Object newValue)
@@ -26,16 +26,16 @@
   <LoopGroups>
         <LoopGroup Key="Properties">
               <Format>
-            public  $MappingType$ $FieldName$;
-            public  $MappingType$ $PropertyName$
+            public  $mappingtype$ $fieldname$;
+            public  $mappingtype$ $propertyname$
             {
-                  get=>this.$FieldName$;
+                  get=>this.$fieldname$;
                   set
                   {
-                      if (this.$FieldName$.Equals(value))
+                      if (this.$fieldname$.Equals(value))
                       {
-                          this.$FieldName$ = value;
-                          this.OnNotifyPropertyChanged(nameof(this.$PropertyName$), value);
+                          this.$fieldname$ = value;
+                          this.OnNotifyPropertyChanged(nameof(this.$propertyname$), value);
                       }
                   }
             }
@@ -43,9 +43,9 @@
           </LoopGroup>
           <LoopGroup Key="Switch">
             <Format>
-                case nameof(this.$PropertyName$):
+                case nameof(this.$propertyname$):
                           {
-                              this.$PropertyName$ = (String)newValue;
+                              this.$propertyname$ = (String)newValue;
                           }
                           return;
               </Format>
