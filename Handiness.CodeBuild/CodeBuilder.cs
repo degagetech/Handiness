@@ -91,6 +91,7 @@ namespace Handiness.CodeBuild
                 yield return match.Value.Trim().ToLower();
             }
         }
+  
         /// <summary>
         /// 拼接代码字符串
         /// </summary>
