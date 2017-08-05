@@ -26,6 +26,19 @@ namespace Handiness.CodeBuild
         /// <summary>
         /// 类型映射信息文件的名称格式
         /// </summary>
-        public const String TypeMappingFileNamePattern = "{0}.mapcode";
+        public const String TypeMappingFileNamePattern = "{0}.mc";
+        /// <summary>
+        /// 目前在代码模板中识别并可替换的占位符名称集合
+        /// </summary>
+        public static HashSet<String> ValidPlaceholderName { get; } = new HashSet<String>
+        {
+            "classname",//类名
+            "namespace",//命名空间
+            "fieldname",//字段名
+            "propertyname",//属性名
+             "columnexplain",//列描述
+             "mappingtype"//列类型映射
+        };
+
     }
 }

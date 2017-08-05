@@ -35,7 +35,7 @@ namespace Handiness.CodeBuild
         public LoopGroupXml[] LoopGroups { get; set; }
     }
     /// <summary>
-    /// 循环组中的格式会应用到不同列信息上，这些被填充的格式信息会被拼接起来，并填充到对应的占位符中 [Key]
+    /// 循环组中的格式会应用到所有列信息上
     /// </summary>
     [XmlType(TypeName = "LoopGroup")]
     public class LoopGroupXml

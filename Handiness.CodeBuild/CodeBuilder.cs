@@ -13,24 +13,31 @@ namespace Handiness.CodeBuild
  * 创建时间： 2017/7/25 20:38:13
  * 版本号：v1.0
  * .NET 版本：4.0
- * 本类主要用途描述：根据元数据生成对应的代码
+ * 本类主要用途描述：根据元数据和代码模板生成对应的代码字符串
  *  -------------------------------------------------------------------------*/
     public class CodeBuilder
     {
+        protected static String PlaceholderSymbol = "$";
+        protected static String LoopGroupPlaceholderSymbol = "#";
 
-
-        protected Regex PlaceholderNameRegex = new Regex(@"(?<=\$)\w+(?=\$)");
         /// <summary>
-        /// 当前在代码模板中识别并可替换的占位符名称集合
+        /// 普通占位符提取正则  例如 从 $name$  中提取 name
         /// </summary>
-        protected virtual HashSet<String> ValidPlaceholderName { get; } = new HashSet<String>
-        {
-            "classname",//类名
-            "namespace",//命名空间
-            "fieldname",//字段名
-            "propertyname",//属性名
-             "columnexplain",//列描述
-        };
+        protected Regex PlaceholderExtractRegex = new Regex($"(?<=\\{PlaceholderSymbol})\\w+(?=\\{PlaceholderSymbol})");
+        /// <summary>
+        /// 循环组占位符提取正则
+        /// </summary>
+        protected Regex LoopGroupPlaceholderExtractRegex = new Regex($"(?<=\\{LoopGroupPlaceholderSymbol})\\w+(?=\\{LoopGroupPlaceholderSymbol})");
+        /// <summary>
+        /// 普通占位符匹配正则  例如 匹配 $name$ 
+        /// </summary>
+        protected Regex PlaceholderMatchRegex = new Regex($"(\\{PlaceholderSymbol}\\w+\\{PlaceholderSymbol}");
+        /// <summary>
+        /// 循环组占位符匹配正则
+        /// </summary>
+        protected Regex LoopGroupPlaceholderMatchRegex = new Regex($"\\{LoopGroupPlaceholderSymbol}\\w+\\{LoopGroupPlaceholderSymbol}");
+
+
         public IEnumerable<Tuple<TableSchema, IEnumerable<ColumnSchema>>> Schemas { get; set; }
         public INameModifier NameModifier { get; set; }
         public TypeMapper TypeMapper { get; set; }
@@ -48,7 +55,7 @@ namespace Handiness.CodeBuild
             this.CodeTemplate = codeTemplate;
         }
         /// <summary>
-        ///开始组建代码
+        ///组建代码
         /// </summary>
         /// <returns>组建后的代码</returns>
         public IEnumerable<String> Building(String nameSpace = TextResources.DefaultNameSpace)
@@ -56,14 +63,6 @@ namespace Handiness.CodeBuild
             foreach (var schema in this.Schemas)
             {
                 String code = this.CodeTemplate.Header;
-                TableSchema tabSchema = schema.Item1;
-                var tablePacketContainer = this.CreatePacketContainer(Tuple.Create("namespace", nameSpace));
-                var placeholderNames = this.GetPlaceholderNames(code);
-
-
-                this.PacketDataAdd(
-                    tablePacketContainer,
-                    Tuple.Create("classname", this.NameModifier.ModifyTableName(tabSchema.Name)));
                 IEnumerable<ColumnSchema> colSchema = schema.Item2;
                 yield return code;
             }
@@ -79,6 +78,7 @@ namespace Handiness.CodeBuild
         /// <returns></returns>
         private String LoopGroupCode(LoopGroupXml loopGroup, IEnumerable<ColumnSchema> columnSchemas)
         {
+            //TODO:循环组代码生成 待完成
             throw new NotImplementedException();
         }
         /// <summary>
@@ -86,12 +86,12 @@ namespace Handiness.CodeBuild
         /// </summary>
         protected IEnumerable<String> GetPlaceholderNames(String code)
         {
-            foreach (Match match in this.PlaceholderNameRegex.Matches(code))
+            foreach (Match match in this.PlaceholderMatchRegex.Matches(code))
             {
                 yield return match.Value.Trim().ToLower();
             }
         }
-  
+
         /// <summary>
         /// 拼接代码字符串
         /// </summary>
@@ -100,47 +100,6 @@ namespace Handiness.CodeBuild
         {
             return str1 + Environment.NewLine + str1;
         }
-        #region Pakcet
-        /// <summary>
-        /// 生成用于存放替换占位符的数据包
-        /// </summary>
-        /// <returns></returns>
-        protected IDictionary<String, String> CreatePacketContainer(params Tuple<String, String>[] packets)
-        {
-            IDictionary<String, String> container = new Dictionary<String, String>();
-            this.PacketDataAdd(container, packets);
-            return container;
-        }
-        /// <summary>
-        /// 向指定数据包容器中添加数据包
-        /// </summary>
-        /// <param name="container">容器</param>
-        /// <param name="packets">数据包</param>
-        protected void PacketDataAdd(IDictionary<String, String> container, params Tuple<String, String>[] packets)
-        {
-            foreach (var packet in packets)
-            {
-                if (container.ContainsKey(packet.Item1))
-                {
-                    container[packet.Item1] = packet.Item2;
-                    break;
-                }
-                container.Add(packet.Item1, packet.Item2);
-            }
-        }
-        /// <summary>
-        /// 获取指定名称数据包的数据
-        /// </summary>
-        /// <param name="name">名称</param>
-        protected String PacketGet(IDictionary<String, String> container, String name)
-        {
-            String data = null;
-            if (name != null && container.ContainsKey(name))
-            {
-                data = container[name];
-            }
-            return data;
-        }
-        #endregion
+   
     }
 }

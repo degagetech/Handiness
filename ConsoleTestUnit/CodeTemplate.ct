@@ -11,12 +11,12 @@
     {
           public class $classname$:RowBase
           {
-               [Properties]
+               #Properties#
                protected override void SetPropertyValue(String propertyName, Object newValue)
                {
                       switch (propertyName)
                       {
-                         [Switch]
+                          #Switch#
                           default: break;
                       }
                 }

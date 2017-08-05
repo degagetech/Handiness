@@ -85,12 +85,12 @@
     <None Include="SchemaExample.schema">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="TypeMapperExample.mapcode">
+    <None Include="TypeMapperExample.mc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CodeTemplate.codetmplt" />
+    <None Include="CodeTemplate.ct" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
