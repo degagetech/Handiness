@@ -26,8 +26,11 @@ namespace Handiness.CodeBuild
         /// <summary>
         /// 类型映射信息文件的名称格式
         /// </summary>
-        public const String TypeMappingFileNamePattern = "{0}.mc";
-      
+        public const String TypeMappingFileNamePattern = "*.mc";
+        /// <summary>
+        /// 模板文件的名称格式
+        /// </summary>
+        public const String CodeTemplateFileNamePattern = "*.ct";
 
 
       

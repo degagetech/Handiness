@@ -87,7 +87,7 @@ namespace ConsoleTestUnit
         [MTAThread]
         static void Main(string[] args)
         {
-            var schemas = SchemaManager.Load("SchemaExample.schema");
+            var schemas = SchemaManager.Load("SchemaExample.sa");
             TableSchemaXml schemaXml = schemas.First().Tables.First();
             List<ColumnSchema> colSchemas = new List<ColumnSchema>();
             foreach (var colXml in schemaXml.Columns)
@@ -106,7 +106,8 @@ namespace ConsoleTestUnit
                 new TypeMapper("TypeMapperExample.mc"), null, "Test"
                 );
             var codeTuples = codeBuilder.Building();
-            if(Directory.Exists(savePath)) Directory.Delete(savePath, true);
+            if(Directory.Exists(savePath))
+                 Directory.Delete(savePath, true);
             Directory.CreateDirectory(savePath);
 
             foreach (var codeTuple in codeTuples)

@@ -24,29 +24,29 @@
   <LoopGroups>
         <LoopGroup Key="Properties">
               <Format>
-            public  $mappingtype$ $fieldname$;
-            //$columnexplain$
-           public  $mappingtype$ $propertyname$
-            {
-                  get=>this.$fieldname$;
-                  set
-                  {
-                      if (this.$fieldname$.Equals(value))
+                //$columnexplain$
+               public  $mappingtype$ $propertyname$
+                {
+                      get=>this.$fieldname$;
+                      set
                       {
-                          this.$fieldname$ = value;
-                          this.OnNotifyPropertyChanged(nameof(this.$propertyname$), value);
+                          if (this.$fieldname$.Equals(value))
+                          {
+                              this.$fieldname$ = value;
+                              this.OnNotifyPropertyChanged(nameof(this.$propertyname$), value);
+                          }
                       }
-                  }
-            }
+                }
+                private  $mappingtype$ $fieldname$;
             </Format>
           </LoopGroup>
           <LoopGroup Key="Switch">
             <Format>
-                case nameof(this.$propertyname$):
-                          {
-                              this.$propertyname$ = ($mappingtype$)newValue;
-                          }
-                          return;
+                    case nameof(this.$propertyname$):
+                              {
+                                  this.$propertyname$ = ($mappingtype$)newValue;
+                              }
+                              return;
               </Format>
             </LoopGroup>
   </LoopGroups>

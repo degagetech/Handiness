@@ -18,7 +18,7 @@ namespace Handiness.MySql
         /// <summary>
         /// 此适配层中元数据提供者的描述信息
         /// </summary>
-        public const String MetadataProviderExplain = "用于Mysql，Mariadb等数据库的元数据获取";
+        public const String MetadataProviderExplain = "用于Mysql,Mariadb等数据库的元数据获取";
         /// <summary>
         /// 此适配层名称
         /// </summary>
@@ -33,7 +33,9 @@ namespace Handiness.MySql
         public const String CollectionNameOfTable = "Tables";
 
         public const String KeyTypeOfPrimary = "PRI";
+
         public const String NullableOfYes = "YES";
+
         #region  列元数据信息字段名称
         public const String ColumnOfName = "COLUMN_NAME";
         public const String ColumnOfTableName = "TABLE_NAME";

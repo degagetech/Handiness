@@ -32,6 +32,6 @@ namespace Handiness
         /// <summary>
         /// Schema信息文件的名称格式
         /// </summary>
-        public const String SchemaFileNamePattern = "{0}.schema";
+        public const String SchemaFileNamePattern = "*.sa";
     }
 }
