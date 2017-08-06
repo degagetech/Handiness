@@ -30,10 +30,6 @@ namespace Handiness.CodeBuild
         /// 根据模板生成的文件的后缀名
         /// </summary>
         public String Postfix { get; set; }
-        /// <summary>
-        /// 头部信息，例如程序集的引用 
-        /// </summary>
-        public String Header { get; set; }
         public String Body { get; set; }
         public LoopGroupXml[] LoopGroups { get; set; }
     }

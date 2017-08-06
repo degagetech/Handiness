@@ -76,7 +76,6 @@ namespace Handiness.CodeBuild
         /// </summary>
         /// <param name="dbType">数据库类型</param>
         /// <param name="length">数据库类型长度</param>
-        /// <returns></returns>
         public String Mapping(String dbType, Int32 length = -1)
         {
             String mappingType = String.Empty;

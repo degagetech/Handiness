@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CodeTemplate  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Explain>.net 默认模板</Explain>
-  <Postfix> .cs</Postfix>
-  <Header>
+  <Postfix>cs</Postfix>
+  <Body>
     using System;
     using Handiness;
-  </Header>
-  <Body>
     namespace $namespace$
     {
           public class $classname$:RowBase
@@ -27,7 +25,8 @@
         <LoopGroup Key="Properties">
               <Format>
             public  $mappingtype$ $fieldname$;
-            public  $mappingtype$ $propertyname$
+            //$columnexplain$
+           public  $mappingtype$ $propertyname$
             {
                   get=>this.$fieldname$;
                   set
@@ -45,7 +44,7 @@
             <Format>
                 case nameof(this.$propertyname$):
                           {
-                              this.$propertyname$ = (String)newValue;
+                              this.$propertyname$ = ($mappingtype$)newValue;
                           }
                           return;
               </Format>

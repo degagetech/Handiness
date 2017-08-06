@@ -17,30 +17,15 @@ namespace Handiness.CodeBuild
  *  -------------------------------------------------------------------------*/
     public class CodeBuilder
     {
-        protected static String PlaceholderSymbol = "$";
-        protected static String LoopGroupPlaceholderSymbol = "#";
+        protected const String PlaceholderSymbol = "$";
+        protected const String LoopGroupPlaceholderSymbol = "#";
 
-        /// <summary>
-        /// 普通占位符提取正则  例如 从 $name$  中提取 name
-        /// </summary>
-        protected static Regex PlaceholderExtractRegex { get; private set; } = new Regex($"(?<=\\{PlaceholderSymbol})\\w+(?=\\{PlaceholderSymbol})");
-        /// <summary>
-        /// 循环组占位符提取正则
-        /// </summary>
-        protected static Regex LoopGroupPlaceholderExtractRegex { get; private set; } = new Regex($"(?<=\\{LoopGroupPlaceholderSymbol})\\w+(?=\\{LoopGroupPlaceholderSymbol})");
-        /// <summary>
-        /// 普通占位符匹配正则  例如 匹配 $name$ 
-        /// </summary>
-        protected static Regex PlaceholderMatchRegex { get; private set; } = new Regex($"(\\{PlaceholderSymbol}\\w+\\{PlaceholderSymbol}");
-        /// <summary>
-        /// 循环组占位符匹配正则
-        /// </summary>
-        protected static Regex LoopGroupPlaceholderMatchRegex { get; private set; } = new Regex($"\\{LoopGroupPlaceholderSymbol}\\w+\\{LoopGroupPlaceholderSymbol}");
+
 
         /// <summary>
         /// 代码生成所需的元数据信息
         /// </summary>
-        public IEnumerable<Tuple<TableSchema, IEnumerable<ColumnSchema>>> Schemas { get; private set; }
+        public IEnumerable<(TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas)> Schemas { get; private set; }
         /// <summary>
         /// 名称修改器
         /// </summary>
@@ -58,7 +43,8 @@ namespace Handiness.CodeBuild
         /// </summary>
         public String NameSpace { get; private set; }
 
-        public CodeBuilder(IEnumerable<Tuple<TableSchema, IEnumerable<ColumnSchema>>> schemas,
+        protected TFDGenerator TFDGenerator { get; private set; }
+        public CodeBuilder(IEnumerable<(TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas)> schemas,
              CodeTemplateXml codeTemplate,
              TypeMapper typeMapper,
              INameModifier nameModifier,
@@ -71,43 +57,89 @@ namespace Handiness.CodeBuild
             this.TypeMapper = typeMapper;
             this.CodeTemplate = codeTemplate;
             this.NameSpace = String.IsNullOrWhiteSpace(namesapce) ? TextResources.DefaultNameSpace : namesapce;
+            this.TFDGenerator = new TFDGenerator(this.Schemas, this.NameSpace, this.NameModifier, this.TypeMapper);
+
         }
         /// <summary>
         ///组建代码
         /// </summary>
-        /// <returns>组建后的代码</returns>
-        public IEnumerable<String> Building(String nameSpace = TextResources.DefaultNameSpace)
+        /// <returns>返回元组（名称，代码）集合</returns>
+        public IEnumerable<(String Name, String Code)> Building()
         {
             foreach (var schema in this.Schemas)
             {
-                String code = this.CodeTemplate.Header;
-                IEnumerable<ColumnSchema> colSchema = schema.Item2;
-                yield return code;
+                String code = String.Empty;
+                code = this.BuildingTableCode(this.CodeTemplate, schema);
+                yield return (
+                    $"{this.NameModifier.ModifyTableName(schema.TableSchema.Name)}.{this.CodeTemplate.Postfix.Trim()}",
+                   this.EmbellishCode(code));
             }
         }
-        private String BuildingTableCode(String nameSpace,
-            Tuple<TableSchema, IEnumerable<ColumnSchema>> schema)
-        {
-            return null;
-        }
         /// <summary>
-        /// 生成循环组的代码///
+        /// 修饰代码，例如去除一些空行
         /// </summary>
-        /// <returns></returns>
-        private String LoopGroupCode(LoopGroupXml loopGroup, IEnumerable<ColumnSchema> columnSchemas)
+        public String EmbellishCode(String code)
         {
-            //TODO:循环组代码生成 待完成
-            throw new NotImplementedException();
+            String modifiedCode = code;
+            //TODO:去除代码中的空白行
+            //Regex spaceLineRegex = new Regex(@"^\s*$");
+            //modifiedCode=spaceLineRegex.Replace(code,String.Empty);
+            return modifiedCode;
         }
-        /// <summary>
-        /// 获取代码中的占位符名称，并小写处理
-        /// </summary>
-        protected IEnumerable<String> GetPlaceholderNames(String code)
+        private String BuildingTableCode(CodeTemplateXml codeTemplate,
+            (TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas) schema)
         {
-            foreach (Match match in CodeBuilder.PlaceholderMatchRegex.Matches(code))
+            String tableCode = codeTemplate.Body;
+            HashSet<String> placeHolders = this.GetPlaceholderNames(codeTemplate.Body, PlaceholderSymbol);
+            foreach (String placeHolder in placeHolders)
             {
-                yield return match.Value.Trim().ToLower();
+                String fillData = this.TFDGenerator.GetFillData(placeHolder.Trim().ToLower());
+                tableCode = tableCode.Replace($"{PlaceholderSymbol}{placeHolder}{PlaceholderSymbol}", fillData);
             }
+            foreach (var loopGroup in codeTemplate.LoopGroups)
+            {
+                var loopGroupCodeTuple = this.BuildingLoopGroupCode(loopGroup, schema);
+                tableCode = tableCode.
+                    Replace($"{LoopGroupPlaceholderSymbol}{loopGroupCodeTuple.Key}{LoopGroupPlaceholderSymbol}",
+                    loopGroupCodeTuple.Code);
+            }
+            return tableCode;
+        }
+        /// <summary>
+        /// 生成循环组的代码，返回一个元组（Key，Code）
+        /// </summary>
+        private (String Key, String Code) BuildingLoopGroupCode(LoopGroupXml loopGroup, (TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas) schema)
+        {
+            String loopGroupCode = String.Empty;
+            HashSet<String> placeHolderNames = this.GetPlaceholderNames(loopGroup.Format, CodeBuilder.PlaceholderSymbol);
+
+            foreach (var colSchema in schema.ColumnSchemas)
+            {
+                String code = loopGroup.Format;
+                foreach (String placeHolder in placeHolderNames)
+                {
+                    String fillData = this.TFDGenerator.GetFillData(placeHolder.Trim().ToLower(), colSchema.Name, schema.TableSchema.Name);
+                    code = code.Replace($"{PlaceholderSymbol}{placeHolder}{PlaceholderSymbol}", fillData);
+                }
+                loopGroupCode += code;
+            }
+            return (loopGroup.Key, loopGroupCode);
+        }
+        /// <summary>
+        /// 获取代码中的占位符名称集合
+        /// </summary>
+        protected HashSet<String> GetPlaceholderNames(String code, String symbol)
+        {
+            //占位符名称提取正则  例如 从 $name$  中提取 name
+            Regex placeholderExtractRegex = new Regex($"(?<=\\{symbol})\\w+(?=\\{symbol})");
+            HashSet<String> hashset = new HashSet<String>();
+            foreach (Match match in placeholderExtractRegex.Matches(code))
+            {
+                String placeHolderName = null;
+                placeHolderName = match.Value;
+                if (!hashset.Contains(placeHolderName)) hashset.Add(placeHolderName);
+            }
+            return hashset;
         }
 
         /// <summary>

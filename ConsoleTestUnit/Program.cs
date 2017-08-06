@@ -10,72 +10,72 @@ using Handiness.CodeBuild;
 using Handiness.Services;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-
+using System.IO;
 namespace ConsoleTestUnit
 {
-
-    public class Student : RowBase
-    {
-        private String _name;
-        private Int32 _age;
-
-        public String Name
-        {
-            get => this._name;
-            set
-            {
-                if (this._name.Equals(value))
-                {
-                    this._name = value;
-                    this.OnNotifyPropertyChanged(nameof(this.Name), value);
-                }
-            }
-        }
-        public Int32 Age
-        {
-            get => this._age;
-            set
-            {
-                if (this._age.Equals(value))
-                {
-                    this._age = value;
-                    this.OnNotifyPropertyChanged(nameof(this.Age), value);
-                }
-            }
-        }
-        protected override void SetPropertyValue(String propertyName, Object newValue)
-        {
-            switch (propertyName)
-            {
-                case nameof(this.Name):
-                    {
-                        this.Name = (String)newValue;
-                    }
-                    return;
-                case nameof(this.Age):
-                    {
-                        this.Age = (Int32)newValue;
-                    }
-                    return;
-                default: break;
-            }
-        }
-    }
-    public class A
-    {
-        [MethodImpl]
-        public virtual void Testc()
-        {
-            Console.WriteLine("A");
-        }
-    }
-    public class B : A
-    {
-        public override void Testc()
-        {
-            Console.WriteLine("B");
-        }
-    }
+    #region 实体类样例
+    //public class Student : RowBase
+    //{
+    //    private String _name;
+    //    private Int32 _age;
+    //    public String Name
+    //    {
+    //        get => this._name;
+    //        set
+    //        {
+    //            if (this._name.Equals(value))
+    //            {
+    //                this._name = value;
+    //                this.OnNotifyPropertyChanged(nameof(this.Name), value);
+    //            }
+    //        }
+    //    }
+    //    public Int32 Age
+    //    {
+    //        get => this._age;
+    //        set
+    //        {
+    //            if (this._age.Equals(value))
+    //            {
+    //                this._age = value;
+    //                this.OnNotifyPropertyChanged(nameof(this.Age), value);
+    //            }
+    //        }
+    //    }
+    //    protected override void SetPropertyValue(String propertyName, Object newValue)
+    //    {
+    //        switch (propertyName)
+    //        {
+    //            case nameof(this.Name):
+    //                {
+    //                    this.Name = (String)newValue;
+    //                }
+    //                return;
+    //            case nameof(this.Age):
+    //                {
+    //                    this.Age = (Int32)newValue;
+    //                }
+    //                return;
+    //            default: break;
+    //        }
+    //    }
+    //}
+    //public class A
+    //{
+    //    [MethodImpl]
+    //    public virtual void Testc()
+    //    {
+    //        Console.WriteLine("A");
+    //    }
+    //}
+    //public class B : A
+    //{
+    //    public override void Testc()
+    //    {
+    //        Console.WriteLine("B");
+    //    }
+    //}
+    #endregion
     class Program
     {
         static void TimerCallBack(Object state)
@@ -87,15 +87,47 @@ namespace ConsoleTestUnit
         [MTAThread]
         static void Main(string[] args)
         {
-
-            String test = "$classname$,$classnamet$";
-            Regex extract = new Regex(@"(?<=\$)\w+(?=\$)");
-           // var temp = extract.Matches(test);
-           //Console.WriteLine();
-            foreach (Match match in extract.Matches(test))
+            var schemas = SchemaManager.Load("SchemaExample.schema");
+            TableSchemaXml schemaXml = schemas.First().Tables.First();
+            List<ColumnSchema> colSchemas = new List<ColumnSchema>();
+            foreach (var colXml in schemaXml.Columns)
             {
-                Console.WriteLine(match.Value.ToLower());
+                colSchemas.Add(colXml.Schema);
             }
+            IEnumerable<ColumnSchema> temp = colSchemas as IEnumerable<ColumnSchema>;
+            CodeTemplateXml codeTemplateXml = TKXmlSerializer.DeSerialize<CodeTemplateXml>("CodeTemplate.ct");
+            IEnumerable<(TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas)> schemaList = new List<(TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas)>
+            {
+                (schemaXml.Schema, temp)
+            };
+
+            String savePath = @"D:\CodeGenerateTest\";
+            CodeBuilder codeBuilder = new CodeBuilder(schemaList, codeTemplateXml,
+                new TypeMapper("TypeMapperExample.mc"), null, "Test"
+                );
+            var codeTuples = codeBuilder.Building();
+            if(Directory.Exists(savePath)) Directory.Delete(savePath, true);
+            Directory.CreateDirectory(savePath);
+
+            foreach (var codeTuple in codeTuples)
+            {
+                String filePath = savePath + codeTuple.Name;
+                using (Stream stream = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write))
+                {
+                    StreamWriter writer = new StreamWriter(stream);
+                    writer.Write(codeTuple.Code);
+                    writer.Flush();
+                }
+            }
+
+            //String test = "$classname$,$classnamet$";
+            //Regex extract = new Regex(@"(?<=\$)\w+(?=\$)");
+            // var temp = extract.Matches(test);
+            //Console.WriteLine();
+            //foreach (Match match in extract.Matches(test))
+            //{
+            //    Console.WriteLine(match.Value.ToLower());
+            //}
             //Timer t = new Timer(TimerCallBack,null,0,2000);
             //Console.ReadLine();
             //  String path = "TypeMapperExample.mapcode";
