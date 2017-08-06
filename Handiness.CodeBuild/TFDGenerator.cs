@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Handiness.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Data;
 namespace Handiness.CodeBuild
 {
     /*-------------------------------------------------------------------------
@@ -19,6 +20,63 @@ namespace Handiness.CodeBuild
     /// </summary>
     public class TFDGenerator
     {
-        public 
+        #region DataColumnName
+        /// <summary>
+        /// 模板填充数据列-占位符名称
+        /// </summary>
+        private const String TFDColumnWithPlaceholderName = "PlaceholderName";
+        /// <summary>
+        ///  模板填充数据列-表名称
+        /// </summary>
+        private const String TFDColumnWithTableName = "TableName";
+        /// <summary>
+        /// 模板填充数据列-列名称
+        /// </summary>
+        private const String TFDColumnWithColumnName = "ColumnName";
+        /// <summary>
+        /// 模板填充数据列-数据
+        /// </summary>
+        private const String TFDColumnWithData = "FillData";
+        #endregion
+
+        protected DataTable _dataTable;
+        public TFDGenerator(IEnumerable<Tuple<TableSchema, IEnumerable<ColumnSchema>>> schemas, String namesapce)
+        {
+            this._dataTable = new DataTable();
+
+            DataColumn placeholderNameCol = new DataColumn(TFDGenerator.TFDColumnWithPlaceholderName, typeof(String));
+            DataColumn tableNameCol = new DataColumn(TFDGenerator.TFDColumnWithTableName, typeof(String));
+            DataColumn colNameCol = new DataColumn(TFDGenerator.TFDColumnWithColumnName, typeof(String));
+            DataColumn fillDataCol = new DataColumn(TFDGenerator.TFDColumnWithData, typeof(String));
+
+            this._dataTable.Columns.AddRange(
+                        new DataColumn[]
+                        {
+                            placeholderNameCol,
+                            tableNameCol,
+                            colNameCol,
+                            fillDataCol
+                        }
+                );
+
+
+        }
+        public void Initialize(IEnumerable<Tuple<TableSchema, IEnumerable<ColumnSchema>>> schemas, String namesapce)
+        {
+            this._dataTable.Rows.Clear();
+        }
+
+        /// <summary>
+        /// 获取指定占位符名称对应的填充数据，若无返回 null，若含有多条则只返回第一条（完整设置限制后只会对应一条）
+        /// </summary>
+        /// <param name="placeholderName">占位符名称</param>
+        /// <param name="restrictionsOfTab">指定表限制</param>
+        /// <param name="restrictionsOfCol">指定列限制</param>
+        /// <returns></returns>
+        public String GetFillData(String placeholderName, String restrictionsOfCol = null, String restrictionsOfTab = null)
+        {
+            String fillData = null;
+            return fillData;
+        }
     }
 }

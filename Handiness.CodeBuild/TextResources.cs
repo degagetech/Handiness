@@ -40,5 +40,7 @@ namespace Handiness.CodeBuild
              "mappingtype"//列类型映射
         };
 
+
+      
     }
 }

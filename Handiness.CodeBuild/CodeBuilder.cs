@@ -23,36 +23,54 @@ namespace Handiness.CodeBuild
         /// <summary>
         /// 普通占位符提取正则  例如 从 $name$  中提取 name
         /// </summary>
-        protected Regex PlaceholderExtractRegex = new Regex($"(?<=\\{PlaceholderSymbol})\\w+(?=\\{PlaceholderSymbol})");
+        protected static Regex PlaceholderExtractRegex { get; private set; } = new Regex($"(?<=\\{PlaceholderSymbol})\\w+(?=\\{PlaceholderSymbol})");
         /// <summary>
         /// 循环组占位符提取正则
         /// </summary>
-        protected Regex LoopGroupPlaceholderExtractRegex = new Regex($"(?<=\\{LoopGroupPlaceholderSymbol})\\w+(?=\\{LoopGroupPlaceholderSymbol})");
+        protected static Regex LoopGroupPlaceholderExtractRegex { get; private set; } = new Regex($"(?<=\\{LoopGroupPlaceholderSymbol})\\w+(?=\\{LoopGroupPlaceholderSymbol})");
         /// <summary>
         /// 普通占位符匹配正则  例如 匹配 $name$ 
         /// </summary>
-        protected Regex PlaceholderMatchRegex = new Regex($"(\\{PlaceholderSymbol}\\w+\\{PlaceholderSymbol}");
+        protected static Regex PlaceholderMatchRegex { get; private set; } = new Regex($"(\\{PlaceholderSymbol}\\w+\\{PlaceholderSymbol}");
         /// <summary>
         /// 循环组占位符匹配正则
         /// </summary>
-        protected Regex LoopGroupPlaceholderMatchRegex = new Regex($"\\{LoopGroupPlaceholderSymbol}\\w+\\{LoopGroupPlaceholderSymbol}");
+        protected static Regex LoopGroupPlaceholderMatchRegex { get; private set; } = new Regex($"\\{LoopGroupPlaceholderSymbol}\\w+\\{LoopGroupPlaceholderSymbol}");
 
-
-        public IEnumerable<Tuple<TableSchema, IEnumerable<ColumnSchema>>> Schemas { get; set; }
-        public INameModifier NameModifier { get; set; }
-        public TypeMapper TypeMapper { get; set; }
-        public CodeTemplateXml CodeTemplate { get; set; }
+        /// <summary>
+        /// 代码生成所需的元数据信息
+        /// </summary>
+        public IEnumerable<Tuple<TableSchema, IEnumerable<ColumnSchema>>> Schemas { get; private set; }
+        /// <summary>
+        /// 名称修改器
+        /// </summary>
+        public INameModifier NameModifier { get; private set; }
+        /// <summary>
+        /// 类型映射信息
+        /// </summary>
+        public TypeMapper TypeMapper { get; private set; }
+        /// <summary>
+        /// 模板信息
+        /// </summary>
+        public CodeTemplateXml CodeTemplate { get; private set; }
+        /// <summary>
+        /// 实体类所属的命名空间
+        /// </summary>
+        public String NameSpace { get; private set; }
 
         public CodeBuilder(IEnumerable<Tuple<TableSchema, IEnumerable<ColumnSchema>>> schemas,
-            INameModifier nameModifier,
-            TypeMapper typeMapper,
-            CodeTemplateXml codeTemplate
+             CodeTemplateXml codeTemplate,
+             TypeMapper typeMapper,
+             INameModifier nameModifier,
+             String namesapce
             )
         {
             this.Schemas = schemas;
-            this.NameModifier = nameModifier ?? new NameModifier();
+            //若无使用默认帕斯卡名称修改器
+            this.NameModifier = nameModifier ?? new PascalNameModifier();
             this.TypeMapper = typeMapper;
             this.CodeTemplate = codeTemplate;
+            this.NameSpace = String.IsNullOrWhiteSpace(namesapce) ? TextResources.DefaultNameSpace : namesapce;
         }
         /// <summary>
         ///组建代码
@@ -73,7 +91,7 @@ namespace Handiness.CodeBuild
             return null;
         }
         /// <summary>
-        /// 生成循环组的代码
+        /// 生成循环组的代码///
         /// </summary>
         /// <returns></returns>
         private String LoopGroupCode(LoopGroupXml loopGroup, IEnumerable<ColumnSchema> columnSchemas)
@@ -82,11 +100,11 @@ namespace Handiness.CodeBuild
             throw new NotImplementedException();
         }
         /// <summary>
-        /// 获取代码中的占位符名称，小写处理
+        /// 获取代码中的占位符名称，并小写处理
         /// </summary>
         protected IEnumerable<String> GetPlaceholderNames(String code)
         {
-            foreach (Match match in this.PlaceholderMatchRegex.Matches(code))
+            foreach (Match match in CodeBuilder.PlaceholderMatchRegex.Matches(code))
             {
                 yield return match.Value.Trim().ToLower();
             }
@@ -100,6 +118,6 @@ namespace Handiness.CodeBuild
         {
             return str1 + Environment.NewLine + str1;
         }
-   
+
     }
 }

@@ -16,6 +16,9 @@ namespace Handiness.CodeBuild
  * .NET 版本：4.0
  * 本类主要用途描述：
  *  -------------------------------------------------------------------------*/
+    /// <summary>
+    /// 模板文件的映射实体
+    /// </summary>
     [XmlRoot("CodeTemplate")]
     public class CodeTemplateXml
     {
@@ -35,7 +38,7 @@ namespace Handiness.CodeBuild
         public LoopGroupXml[] LoopGroups { get; set; }
     }
     /// <summary>
-    /// 循环组中的格式会应用到所有列信息上
+    ///循环组格式的映射实体（循环组中的格式会应用到所有列上）
     /// </summary>
     [XmlType(TypeName = "LoopGroup")]
     public class LoopGroupXml

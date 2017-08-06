@@ -49,7 +49,7 @@
     <Compile Include="CodeBuilder.cs" />
     <Compile Include="CodeTemplateXml.cs" />
     <Compile Include="INameModifier.cs" />
-    <Compile Include="NameModifier.cs" />
+    <Compile Include="PascalNameModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextResources.cs" />
     <Compile Include="TFDGenerator.cs" />

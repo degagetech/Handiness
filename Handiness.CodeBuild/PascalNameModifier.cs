@@ -12,12 +12,12 @@ namespace Handiness.CodeBuild
  * 创建时间： 2017/7/21 15:30:13
  * 版本号：v1.0
  * .NET 版本：4.0
- * 本类主要用途描述：将原始Schema名称修改为更符合编程规范的名称
+ * 本类主要用途描述：将原始Schema数据的名称修改为符合Pascal命名规范的名称
  *  -------------------------------------------------------------------------*/
     /// <summary>
-    /// 默认名称修改器
+    /// 将原始Schema数据的名称修改为符合Pascal命名规范的名称
     /// </summary>
-    public class NameModifier : INameModifier
+    public class PascalNameModifier : INameModifier
     {
         private const String NameModifierExplain = "Pascal";
         public String Explain { get => NameModifierExplain; }
