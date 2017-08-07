@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handiness.Oracle", "Handine
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handiness.Redis", "Handiness.Redis\Handiness.Redis.csproj", "{12B0F06F-7024-423B-8142-C336A7DB5AA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handiness.VSIX", "Handiness.VSIX\Handiness.VSIX.csproj", "{8A13944B-43EF-4B98-A6F9-FAEA77F9393B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{12B0F06F-7024-423B-8142-C336A7DB5AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12B0F06F-7024-423B-8142-C336A7DB5AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12B0F06F-7024-423B-8142-C336A7DB5AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A13944B-43EF-4B98-A6F9-FAEA77F9393B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A13944B-43EF-4B98-A6F9-FAEA77F9393B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A13944B-43EF-4B98-A6F9-FAEA77F9393B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A13944B-43EF-4B98-A6F9-FAEA77F9393B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
