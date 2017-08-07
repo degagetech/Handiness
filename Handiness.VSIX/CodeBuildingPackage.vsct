@@ -54,9 +54,9 @@
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidCodeBuildingPackageCmdSet" id="CodeBuildingId" priority="0x0100" type="Button">
         <Parent guid="guidCodeBuildingPackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
+        <Icon guid="cmdIcon" id="cmdIcon1" />
         <Strings>
-          <ButtonText>实体类创建</ButtonText>
+          <ButtonText>实体类创建（Handiness）</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -69,12 +69,13 @@
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\CodeBuilding.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
-     
+      <Bitmap guid="cmdIcon" href="Resources\Logo.ico" usedList="cmdIcon1"/>
     
     </Bitmaps>
   </Commands>
 
   <Symbols>
+  
     <!-- This is the package guid. -->
     <GuidSymbol name="guidCodeBuildingPackage" value="{e03d6e18-cdea-4d17-be97-c528f40425db}" />
 
@@ -83,6 +84,10 @@
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="CodeBuildingId" value="0x0100" />
     </GuidSymbol>
+    <GuidSymbol name="cmdIcon" value="{510853a6-957e-4709-a77c-9fcd9475e0ce}">
+      <IDSymbol name="cmdIcon1" value="1" />
+    </GuidSymbol>
+
 
     <GuidSymbol name="guidImages" value="{50e360c0-fae8-4807-9376-9c9f39c68fe9}" >
       <IDSymbol name="bmpPic1" value="1" />

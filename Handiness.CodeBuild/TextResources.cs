@@ -23,14 +23,7 @@ namespace Handiness.CodeBuild
         /// </summary>
         public const String DefaultNameSpace = "Handiness";
         public const String DeserializationTypeMappingFailedPattern = "在反序列化 {0} 中的类型映射信息时失败";
-        /// <summary>
-        /// 类型映射信息文件的名称格式
-        /// </summary>
-        public const String TypeMappingFileNamePattern = "*.mc";
-        /// <summary>
-        /// 模板文件的名称格式
-        /// </summary>
-        public const String CodeTemplateFileNamePattern = "*.ct";
+      
 
 
       

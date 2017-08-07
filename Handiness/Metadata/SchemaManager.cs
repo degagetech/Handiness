@@ -25,6 +25,11 @@ namespace Handiness.Metadata
     /// </summary>
     public class SchemaManager
     {
+        /// <summary>
+        /// Schema信息文件的名称格式
+        /// </summary>
+        public const String SchemaFileNamePattern = "*.sa";
+
         private MetadataContainer _metadataContainer = null;
         /*********************************/
         /// <summary>
@@ -108,7 +113,7 @@ namespace Handiness.Metadata
             path = path.EndsWith("\\") ? path : path + "\\";
             foreach (var schema in schemas)
             {
-                String fileName = String.Format(TextResources.SchemaFileNamePattern, schema.DbName);
+                String fileName = String.Format(SchemaManager.SchemaFileNamePattern, schema.DbName);
                 String filePath = path + fileName;
                 File.Delete(filePath);
                 TKXmlSerializer.Serialize<SchemaXml>(schema, filePath);

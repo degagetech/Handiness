@@ -52,7 +52,7 @@ namespace Handiness.VSIX
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
                 var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
-     
+
                 commandService.AddCommand(menuItem);
             }
         }
@@ -83,7 +83,7 @@ namespace Handiness.VSIX
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(Package package)
         {
-       
+
             Instance = new CodeBuilding(package);
         }
 
@@ -96,17 +96,8 @@ namespace Handiness.VSIX
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            //string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = TextResource.CommandTitle;
-            MessageBox.Show("Heelo");
-            // Show a message box to prove we were here
-            //VsShellUtilities.ShowMessageBox(
-            //    this.ServiceProvider,
-            //    message,
-            //    title,
-            //    OLEMSGICON.OLEMSGICON_INFO,
-            //    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-            //    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            MainForm form = new MainForm();
+            form.ShowDialog();
         }
     }
 }
