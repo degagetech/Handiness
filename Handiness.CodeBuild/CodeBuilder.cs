@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Handiness.Metadata;
 using System.Text.RegularExpressions;
+
 namespace Handiness.CodeBuild
 {
     /*-------------------------------------------------------------------------
@@ -76,6 +77,7 @@ namespace Handiness.CodeBuild
         /// <returns>返回元组（名称，代码）集合</returns>
         public IEnumerable<(String Name, String Code)> Building()
         {
+           
             foreach (var schema in this.Schemas)
             {
                 String code = String.Empty;

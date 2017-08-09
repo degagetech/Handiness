@@ -21,5 +21,6 @@ namespace Handiness.VSIX
         /// 命令标题
         /// </summary>
         public const String CommandTitle = "实体类生成";
+        public const String BuildAssistPacketWithEmpty = "数据异常";
     }
 }

@@ -17,7 +17,7 @@ namespace Handiness.Services
     /// <summary>
     /// 用于从指定搜索目录中导出类型匹配的类的实例
     /// </summary>
-    public  class ObjectExportService : IService
+    public class ObjectExportService : IService
     {
         /// <summary>
         /// 从指定搜索目录中导出匹配类型的单一实例
@@ -27,8 +27,8 @@ namespace Handiness.Services
             using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
             {
                 exportProvider.SourceProvider = exportProvider;
-                Lazy<T> lazyInstance = exportProvider.GetExport<T>(name);
-                return lazyInstance.Value;
+                return exportProvider.GetExportedValue<T>(name);
+
             }
         }
         /// <summary>
@@ -39,11 +39,18 @@ namespace Handiness.Services
             using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
             {
                 exportProvider.SourceProvider = exportProvider;
-                IEnumerable<Lazy<T>> lazyInstances = exportProvider.GetExports<T>();
-                foreach (var lazyInstance in lazyInstances)
-                {
-                    yield return lazyInstance.Value;
-                }
+                return exportProvider.GetExportedValues<T>();
+            }
+        }
+        /// <summary>
+        /// 从指定程序集目录中导出匹配类型的实例集合
+        /// </summary>
+        public static IEnumerable<T> GetExports<T>(AssemblyCatalog catalog)
+        {
+            using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
+            {
+                exportProvider.SourceProvider = exportProvider;
+                 return exportProvider.GetExportedValues<T>();
             }
         }
     }
