@@ -28,16 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.windowsButton1 = new Concision.Control.WindowsButton();
-            this.button2 = new Concision.Control.Button();
-            this.button1 = new Concision.Control.Button();
+            this._btnCannel = new Concision.Control.Button();
+            this._btnOk = new Concision.Control.Button();
             this.line1 = new Concision.Control.Line();
             this.symbol1 = new Concision.Control.Symbol();
             this.scutcheon1 = new Concision.Control.Scutcheon();
             this.scutcheon2 = new Concision.Control.Scutcheon();
             this.scutcheon3 = new Concision.Control.Scutcheon();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this._txtNameSpace = new System.Windows.Forms.TextBox();
+            this._txtConnectionString = new System.Windows.Forms.TextBox();
+            this._eprNamesapce = new System.Windows.Forms.ErrorProvider(this.components);
+            this._eprConnectionString = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this._eprNamesapce)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._eprConnectionString)).BeginInit();
             this.SuspendLayout();
             // 
             // windowsButton1
@@ -51,7 +56,7 @@
             this.windowsButton1.ForeColor = System.Drawing.Color.White;
             this.windowsButton1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
             this.windowsButton1.IconSize = 10F;
-            this.windowsButton1.Location = new System.Drawing.Point(551, 12);
+            this.windowsButton1.Location = new System.Drawing.Point(551, 16);
             this.windowsButton1.Margin = new System.Windows.Forms.Padding(0);
             this.windowsButton1.Name = "windowsButton1";
             this.windowsButton1.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
@@ -61,43 +66,45 @@
             this.windowsButton1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.windowsButton1.WindowsButtonType = Concision.Control.WindowsButtonType.Close;
             // 
-            // button2
+            // _btnCannel
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.button2.EnabledMousePierce = false;
-            this.button2.EnabledWaitingClick = false;
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            this.button2.IsWaiting = false;
-            this.button2.Location = new System.Drawing.Point(508, 180);
-            this.button2.Margin = new System.Windows.Forms.Padding(0);
-            this.button2.Name = "button2";
-            this.button2.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this.button2.Size = new System.Drawing.Size(68, 30);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "取 消";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._btnCannel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnCannel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._btnCannel.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._btnCannel.EnabledMousePierce = false;
+            this._btnCannel.EnabledWaitingClick = false;
+            this._btnCannel.ForeColor = System.Drawing.Color.White;
+            this._btnCannel.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this._btnCannel.IsWaiting = false;
+            this._btnCannel.Location = new System.Drawing.Point(508, 180);
+            this._btnCannel.Margin = new System.Windows.Forms.Padding(0);
+            this._btnCannel.Name = "_btnCannel";
+            this._btnCannel.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            this._btnCannel.Size = new System.Drawing.Size(68, 30);
+            this._btnCannel.TabIndex = 8;
+            this._btnCannel.Text = "取 消";
+            this._btnCannel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._btnCannel.Click += new System.EventHandler(this._btnCannel_Click);
             // 
-            // button1
+            // _btnOk
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.button1.EnabledMousePierce = false;
-            this.button1.EnabledWaitingClick = false;
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            this.button1.IsWaiting = false;
-            this.button1.Location = new System.Drawing.Point(407, 180);
-            this.button1.Margin = new System.Windows.Forms.Padding(0);
-            this.button1.Name = "button1";
-            this.button1.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this.button1.Size = new System.Drawing.Size(68, 30);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "确 定";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnOk.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._btnOk.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._btnOk.EnabledMousePierce = false;
+            this._btnOk.EnabledWaitingClick = false;
+            this._btnOk.ForeColor = System.Drawing.Color.White;
+            this._btnOk.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this._btnOk.IsWaiting = false;
+            this._btnOk.Location = new System.Drawing.Point(402, 180);
+            this._btnOk.Margin = new System.Windows.Forms.Padding(0);
+            this._btnOk.Name = "_btnOk";
+            this._btnOk.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            this._btnOk.Size = new System.Drawing.Size(68, 30);
+            this._btnOk.TabIndex = 7;
+            this._btnOk.Text = "确 定";
+            this._btnOk.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
             // 
             // line1
             // 
@@ -181,45 +188,53 @@
             this.scutcheon3.Text = "连接字符串：";
             this.scutcheon3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox1
+            // _txtNameSpace
             // 
-            this.textBox1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBox1.Location = new System.Drawing.Point(140, 79);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(436, 26);
-            this.textBox1.TabIndex = 14;
-            this.textBox1.Text = "dsadsad";
+            this._txtNameSpace.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._txtNameSpace.Location = new System.Drawing.Point(140, 79);
+            this._txtNameSpace.Name = "_txtNameSpace";
+            this._txtNameSpace.Size = new System.Drawing.Size(436, 26);
+            this._txtNameSpace.TabIndex = 14;
+            this._txtNameSpace.Validating += new System.ComponentModel.CancelEventHandler(this._txtNameSpace_Validating);
             // 
-            // textBox2
+            // _txtConnectionString
             // 
-            this.textBox2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBox2.Location = new System.Drawing.Point(140, 130);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(436, 26);
-            this.textBox2.TabIndex = 15;
-            this.textBox2.Text = "dsadsad";
+            this._txtConnectionString.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._txtConnectionString.Location = new System.Drawing.Point(140, 130);
+            this._txtConnectionString.Name = "_txtConnectionString";
+            this._txtConnectionString.Size = new System.Drawing.Size(436, 26);
+            this._txtConnectionString.TabIndex = 15;
+            this._txtConnectionString.Validating += new System.ComponentModel.CancelEventHandler(this._txtConnectionString_Validating);
+            // 
+            // _eprNamesapce
+            // 
+            this._eprNamesapce.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.AlwaysBlink;
+            this._eprNamesapce.ContainerControl = this;
+            // 
+            // _eprConnectionString
+            // 
+            this._eprConnectionString.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.AlwaysBlink;
+            this._eprConnectionString.ContainerControl = this;
             // 
             // SettingForm
             // 
-            this.Animation.AnimationTime = 200;
-            this.Animation.Enabled = true;
-            this.Animation.HideEffect = Concision.WindowAnimationStyle.Fade;
-            this.Animation.ShowEffect = Concision.WindowAnimationStyle.Center;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(590, 235);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.ClientSize = new System.Drawing.Size(596, 235);
+            this.Controls.Add(this._txtConnectionString);
+            this.Controls.Add(this._txtNameSpace);
             this.Controls.Add(this.scutcheon3);
             this.Controls.Add(this.scutcheon2);
             this.Controls.Add(this.scutcheon1);
             this.Controls.Add(this.symbol1);
             this.Controls.Add(this.line1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this._btnCannel);
+            this.Controls.Add(this._btnOk);
             this.Controls.Add(this.windowsButton1);
             this.Name = "SettingForm";
             this.Text = "SettingForm";
+            ((System.ComponentModel.ISupportInitialize)(this._eprNamesapce)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._eprConnectionString)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,14 +243,16 @@
         #endregion
 
         private Concision.Control.WindowsButton windowsButton1;
-        private Concision.Control.Button button2;
-        private Concision.Control.Button button1;
+        private Concision.Control.Button _btnCannel;
+        private Concision.Control.Button _btnOk;
         private Concision.Control.Line line1;
         private Concision.Control.Symbol symbol1;
         private Concision.Control.Scutcheon scutcheon1;
         private Concision.Control.Scutcheon scutcheon2;
         private Concision.Control.Scutcheon scutcheon3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox _txtNameSpace;
+        private System.Windows.Forms.TextBox _txtConnectionString;
+        private System.Windows.Forms.ErrorProvider _eprNamesapce;
+        private System.Windows.Forms.ErrorProvider _eprConnectionString;
     }
 }
