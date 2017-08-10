@@ -24,7 +24,7 @@ namespace Handiness.Adaptive
         /// </summary>
         String Name { get; }
         /// <summary>
-        /// 适配层的名称
+        /// 适配层的标识符
         /// </summary>
         String Guid { get; }
         /// <summary>

@@ -14,6 +14,29 @@ namespace Handiness
     /// </summary>
     public class TKXmlSerializer
     {
+        public static IEnumerable<T> Load<T>(params String[] files) where T:class
+        {
+            foreach (String file in files)
+            {
+                if (!File.Exists(file)) break;
+                T schema = null;
+                try
+                {
+                    schema = TKXmlSerializer.DeSerialize<T>(file);
+                }
+                catch
+                {
+                    throw new Exception(file);
+                }
+                if (schema != null) yield return schema;
+            }
+        }
+        public static IEnumerable<T> Search<T>(String pattern,String directory = null) where T:class
+        {
+            directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
+            var files = Directory.GetFiles(directory, pattern);
+            return Load<T>(files);
+        }
         /// <summary>
         /// 将对象序列化到文件中，此函数始终会创建一个新的文件，而不是打开现有文件
         /// </summary>

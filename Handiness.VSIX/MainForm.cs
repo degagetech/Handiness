@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using Concision;
 using System.Reflection;
 using System.Collections;
+using Handiness.Services;
+using Handiness.Metadata;
 namespace Handiness.VSIX
 {
     public partial class MainForm : BaseForm
@@ -54,6 +56,38 @@ namespace Handiness.VSIX
 
         }
 
+        /// <summary>
+        /// 扫描可用设置
+        /// </summary>
+        public async void ScanUseableSetting()
+        {
+            String scanTip = "扫描中...";
+            String scanError = "无可用扫描结果";
+            Action<Concision.Control.Combobox, String> selectSetter = (c, s) =>
+               {
+                   c.Text = s;
+               };
+            //扫描元数据提供者
+            this._cbxMetadataProvider.Text = scanTip;
+            this._cbxMetadataProvider.IsWaiting = true;
+            IEnumerable<IMetadataProvider> providers = MetadataProvider.ExportMetadataProviders();
+            this._cbxMetadataProvider.Items.Clear();
+            foreach (var provider in providers)
+            {
+                this._cbxMetadataProvider.Add(provider.Explain, provider);
+            }
+            if (providers.Count() > 0)
+            {
+                this._cbxMetadataProvider.SelectedText = providers.First().Explain;
+            }
+            else
+            {
+                this._cbxMetadataProvider.Text = scanError;
+            }
+            this._cbxMetadataProvider.IsWaiting = false;
+
+
+        }
 
         private void MainForm_BuildStateChanged(BuildStateType oldState, BuildStateType newState)
         {
@@ -87,7 +121,7 @@ namespace Handiness.VSIX
         }
         protected override void OnShown(EventArgs e)
         {
-
+            this.ScanUseableSetting();
             base.OnShown(e);
         }
 
@@ -114,5 +148,9 @@ namespace Handiness.VSIX
             form.ShowDialog();
         }
 
+        private void _sylRefresh_Click(object sender, EventArgs e)
+        {
+            this.ScanUseableSetting();
+        }
     }
 }

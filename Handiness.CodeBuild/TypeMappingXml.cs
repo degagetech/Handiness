@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -28,6 +29,17 @@ namespace Handiness.CodeBuild
         public String Explain { get; set; }
         [XmlArray]
         public TypeMappingNodeXml[] MappingNodes { get; set; }
+
+        /********************/
+        internal const String TypeMappingXmlFilePattern = "*.tm";
+        public static IEnumerable<TypeMappingXml> Search(String directory = null)
+        {
+            return TKXmlSerializer.Search<TypeMappingXml>(TypeMappingXmlFilePattern, directory);
+        }
+        public static IEnumerable<TypeMappingXml> Load(params String[] files)
+        {
+            return TKXmlSerializer.Load<TypeMappingXml>(files);
+        }
     }
     [XmlType(TypeName = "MappingNode")]
     public class TypeMappingNodeXml

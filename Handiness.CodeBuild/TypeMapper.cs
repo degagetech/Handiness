@@ -19,6 +19,7 @@ namespace Handiness.CodeBuild
     /// </summary>
     public class TypeMapper
     {
+      
         /// <summary>
         /// 当数据库类型长度为此值时，<see cref="TypeMapper"/>忽略长度匹配条件
         /// </summary>
@@ -33,7 +34,7 @@ namespace Handiness.CodeBuild
                 this.Add(node);
             }
         }
-        public TypeMapper(String fileNames) : this(TypeMapper.Load(fileNames).First())
+        public TypeMapper(String fileNames) : this(TypeMappingXml.Load(fileNames).First())
         {
         }
         /************************************/
@@ -84,22 +85,6 @@ namespace Handiness.CodeBuild
             return mappingType;
         }
         /************************************/
-        public static IEnumerable<TypeMappingXml> Load(params String[] files)
-        {
-            foreach (String file in files)
-            {
-                if (!File.Exists(file)) break;
-                TypeMappingXml typeMapping = null;
-                try
-                {
-                    typeMapping = TKXmlSerializer.DeSerialize<TypeMappingXml>(file);
-                }
-                catch
-                {
-                    throw new Exception(String.Format(TextResources.DeserializationTypeMappingFailedPattern, file));
-                }
-                if (typeMapping != null) yield return typeMapping;
-            }
-        }
+     
     }
 }

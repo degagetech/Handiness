@@ -10,9 +10,31 @@ using Handiness.CodeBuild;
 using Handiness.Services;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Handiness.Services;
+using Handiness.Metadata;
 using System.IO;
+using System.Reflection;
+using Handiness.Adaptive;
 namespace ConsoleTestUnit
 {
+    [AttributeUsage(AttributeTargets.Class)]
+    public class StudentAttribute : System.Attribute
+    {
+        public StudentAttribute(Type type)
+        {
+            Int32 a = 0;
+        }
+
+    }
+    [Student(typeof(Student))]
+    public class Student
+    {
+        public Student()
+        {
+            Int32 b = 0;
+        }
+        public Int32 Age { get; set; }
+    }
     #region 实体类样例
     //public class Student : RowBase
     //{
@@ -87,39 +109,51 @@ namespace ConsoleTestUnit
         [MTAThread]
         static void Main(string[] args)
         {
-            var schemas = SchemaManager.Load("SchemaExample.sa");
-            TableSchemaXml schemaXml = schemas.First().Tables.First();
-            List<ColumnSchema> colSchemas = new List<ColumnSchema>();
-            foreach (var colXml in schemaXml.Columns)
-            {
-                colSchemas.Add(colXml.Schema);
-            }
-            IEnumerable<ColumnSchema> temp = colSchemas as IEnumerable<ColumnSchema>;
-            CodeTemplateXml codeTemplateXml = TKXmlSerializer.DeSerialize<CodeTemplateXml>("CodeTemplate.ct");
-            IEnumerable<(TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas)> schemaList = new List<(TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas)>
-            {
-                (schemaXml.Schema, temp)
-            };
+            //   
+            //  attr
+            var aa = AdaptiveSeacher.ExportAdaptiveExplain();
 
-            String savePath = @"D:\CodeGenerateTest\";
-            CodeBuilder codeBuilder = new CodeBuilder(schemaList, codeTemplateXml,
-                new TypeMapper("TypeMapperExample.mc"), null, "Test"
-                );
-            var codeTuples = codeBuilder.Building();
-            if(Directory.Exists(savePath))
-                 Directory.Delete(savePath, true);
-            Directory.CreateDirectory(savePath);
-
-            foreach (var codeTuple in codeTuples)
+            var providers = MetadataProvider.ExportMetadataProviders();
+            foreach (var a in providers)
             {
-                String filePath = savePath + codeTuple.Name;
-                using (Stream stream = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write))
-                {
-                    StreamWriter writer = new StreamWriter(stream);
-                    writer.Write(codeTuple.Code);
-                    writer.Flush();
-                }
+                Console.WriteLine(a.Explain);
             }
+            Student student = new Student();
+            //IMetadataProvider provider = MetadataProvider.ExportMetadataProvider("41668F3A-DE95-4E1D-8213-0BCAAAA912C6");
+            //IEnumerable<IMetadataProvider> providers = MetadataProvider.ExportMetadataProviders();
+            //var schemas = SchemaManager.Load("SchemaExample.sa");
+            //TableSchemaXml schemaXml = schemas.First().Tables.First();
+            //List<ColumnSchema> colSchemas = new List<ColumnSchema>();
+            //foreach (var colXml in schemaXml.Columns)
+            //{
+            //    colSchemas.Add(colXml.Schema);
+            //}
+            //IEnumerable<ColumnSchema> temp = colSchemas as IEnumerable<ColumnSchema>;
+            //CodeTemplateXml codeTemplateXml = TKXmlSerializer.DeSerialize<CodeTemplateXml>("CodeTemplate.ct");
+            //IEnumerable<(TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas)> schemaList = new List<(TableSchema TableSchema, IEnumerable<ColumnSchema> ColumnSchemas)>
+            //{
+            //    (schemaXml.Schema, temp)
+            //};
+
+            //String savePath = @"D:\CodeGenerateTest\";
+            //CodeBuilder codeBuilder = new CodeBuilder(schemaList, codeTemplateXml,
+            //    new TypeMapper("TypeMapperExample.mc"), null, "Test"
+            //    );
+            //var codeTuples = codeBuilder.Building();
+            //if (Directory.Exists(savePath))
+            //    Directory.Delete(savePath, true);
+            //Directory.CreateDirectory(savePath);
+
+            //foreach (var codeTuple in codeTuples)
+            //{
+            //    String filePath = savePath + codeTuple.Name;
+            //    using (Stream stream = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write))
+            //    {
+            //        StreamWriter writer = new StreamWriter(stream);
+            //        writer.Write(codeTuple.Code);
+            //        writer.Flush();
+            //    }
+            //}
 
             //String test = "$classname$,$classnamet$";
             //Regex extract = new Regex(@"(?<=\$)\w+(?=\$)");

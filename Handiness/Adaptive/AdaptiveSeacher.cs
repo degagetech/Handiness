@@ -5,6 +5,8 @@ using System.Text;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using Handiness.Services;
+using System.ComponentModel.Composition.Primitives;
+
 namespace Handiness.Adaptive
 {
     /*-------------------------------------------------------------------------
@@ -25,11 +27,20 @@ namespace Handiness.Adaptive
         /// 用以导出指定目录下所有的适配层描述对象
         /// </summary>
         /// <param name="directory">指定目录</param>
-        public IEnumerable<IAdaptiveExplain> ExportAdaptiveExplain(String directory = null)
+        public static IEnumerable<IAdaptiveExplain> ExportAdaptiveExplain(String directory = null)
         {
             directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
             DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
-            return ObjectExportService.GetExports<IAdaptiveExplain>(searchCatalog);
+            return ExportAdaptiveExplain(searchCatalog);
         }
+        /// <summary>
+        /// 用以导出指定目录下所有的适配层描述对象
+        /// </summary>
+        /// <param name="directory">指定目录</param>
+        public static IEnumerable<IAdaptiveExplain> ExportAdaptiveExplain(ComposablePartCatalog catalog)
+        {
+            return ObjectExportService.GetExports<IAdaptiveExplain>(catalog);
+        }
+
     }
 }

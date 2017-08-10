@@ -7,6 +7,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Data;
 using Handiness.Services;
+using Handiness.Adaptive;
 namespace Handiness.Metadata
 {
     public abstract class MetadataProvider : IMetadataProvider
@@ -110,7 +111,11 @@ namespace Handiness.Metadata
         {
             directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
             DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
-            return ObjectExportService.GetExports<IMetadataProvider>(searchCatalog);
+            var adaptives=AdaptiveSeacher.ExportAdaptiveExplain(searchCatalog);
+            foreach (var adaptive in adaptives)
+            {
+                yield return ObjectExportService.GetExport<IMetadataProvider>(searchCatalog, adaptive.Guid);
+            }
         }
     }
 }

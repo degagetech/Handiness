@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Composition.Primitives;
+
 namespace Handiness.Services
 {
     /*-------------------------------------------------------------------------
@@ -22,35 +24,33 @@ namespace Handiness.Services
         /// <summary>
         /// 从指定搜索目录中导出匹配类型的单一实例
         /// </summary>
+        /// <param name="name">契约名称</param>
         public static T GetExport<T>(DirectoryCatalog catalog, String name = null)
         {
             using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
             {
                 exportProvider.SourceProvider = exportProvider;
                 return exportProvider.GetExportedValue<T>(name);
-
             }
         }
+
         /// <summary>
         /// 从指定搜索目录中导出匹配类型的实例集合
         /// </summary>
-        public static IEnumerable<T> GetExports<T>(DirectoryCatalog catalog)
+        public static IEnumerable<T> GetExports<T>(String directory)
+        {
+            DirectoryCatalog catalog = new DirectoryCatalog(directory);
+            return GetExports<T>(catalog);
+        }
+        /// <summary>
+        /// 从指定程序集目录中导出匹配类型的实例集合
+        /// </summary>
+        public static IEnumerable<T> GetExports<T>(ComposablePartCatalog catalog)
         {
             using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
             {
                 exportProvider.SourceProvider = exportProvider;
                 return exportProvider.GetExportedValues<T>();
-            }
-        }
-        /// <summary>
-        /// 从指定程序集目录中导出匹配类型的实例集合
-        /// </summary>
-        public static IEnumerable<T> GetExports<T>(AssemblyCatalog catalog)
-        {
-            using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
-            {
-                exportProvider.SourceProvider = exportProvider;
-                 return exportProvider.GetExportedValues<T>();
             }
         }
     }

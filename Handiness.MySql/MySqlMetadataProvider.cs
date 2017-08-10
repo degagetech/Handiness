@@ -11,7 +11,8 @@ using System.Text.RegularExpressions;
 
 namespace Handiness.MySql
 {
-    [Export(TextResources.Guid, typeof(IMetadataProvider))]
+
+    [Export(TextResources.Guid,typeof(IMetadataProvider))]
     public class MySqlMetadataProvider : MetadataProvider
     {
         public override String Version => TextResources.Version;

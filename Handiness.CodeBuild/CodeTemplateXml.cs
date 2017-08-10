@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -32,6 +33,19 @@ namespace Handiness.CodeBuild
         public String Postfix { get; set; }
         public String Body { get; set; }
         public LoopGroupXml[] LoopGroups { get; set; }
+
+
+
+        /************************/
+        internal const String CodeTemplateFilePattern = "*.ct";
+        public static IEnumerable<CodeTemplateXml> Search(String directory = null)
+        {
+            return TKXmlSerializer.Search<CodeTemplateXml>(CodeTemplateFilePattern, directory);
+        }
+        public static IEnumerable<CodeTemplateXml> Load(params String[] files)
+        {
+            return TKXmlSerializer.Load<CodeTemplateXml>(files);
+        }
     }
     /// <summary>
     ///循环组格式的映射实体（循环组中的格式会应用到所有列上）

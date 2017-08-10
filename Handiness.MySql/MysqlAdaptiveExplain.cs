@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using Handiness.Adaptive;
 using System.Reflection;
+using System.ComponentModel.Composition;
+
 namespace Handiness.MySql
 {
- 
+
     /*-------------------------------------------------------------------------
  * 版权所有：王浪静
  * 作者：王浪静
@@ -19,6 +21,7 @@ namespace Handiness.MySql
     /// <summary>
     /// Mysql适配层描述接口
     /// </summary>
+    [Export(typeof(IAdaptiveExplain))]
     public class MysqlAdaptiveExplain : IAdaptiveExplain
     {
         public String Name => TextResources.AdaptiveName;

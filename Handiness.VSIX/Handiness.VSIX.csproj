@@ -78,7 +78,7 @@
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="TypeMapping\.NET-MySQL.mc">
+    <None Include="TypeMapping\.NET-MySQL.tm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

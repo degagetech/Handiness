@@ -18,7 +18,7 @@ namespace Handiness.MySql
         /// <summary>
         /// 此适配层中元数据提供者的描述信息
         /// </summary>
-        public const String MetadataProviderExplain = "用于Mysql,Mariadb等数据库的元数据获取";
+        public const String MetadataProviderExplain = "Mysql,MariaDb";
         /// <summary>
         /// 此适配层名称
         /// </summary>

@@ -37,12 +37,12 @@
             this._lblTipInfo = new Concision.Control.Scutcheon();
             this.windowsButton1 = new Concision.Control.WindowsButton();
             this.windowsButton2 = new Concision.Control.WindowsButton();
-            this.combobox1 = new Concision.Control.Combobox();
+            this._cbxMetadataProvider = new Concision.Control.Combobox();
             this.line1 = new Concision.Control.Line();
-            this.combobox2 = new Concision.Control.Combobox();
-            this.combobox3 = new Concision.Control.Combobox();
-            this.combobox4 = new Concision.Control.Combobox();
-            this.combobox5 = new Concision.Control.Combobox();
+            this._cbxCodeTemplate = new Concision.Control.Combobox();
+            this._cbxMapType = new Concision.Control.Combobox();
+            this._cbxNameFormat = new Concision.Control.Combobox();
+            this._cbxActiveProject = new Concision.Control.Combobox();
             this._pnlMetadataContainer = new Concision.Control.Panel();
             this._dgvTableSchema = new System.Windows.Forms.DataGridView();
             this._trvTable = new System.Windows.Forms.TreeView();
@@ -96,7 +96,7 @@
             // _sylStepStatus
             // 
             this._sylStepStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this._sylStepStatus.EnabledMousePierce = false;
+            this._sylStepStatus.EnabledMousePierce = true;
             this._sylStepStatus.Font = new System.Drawing.Font("FontAwesome", 15F);
             this._sylStepStatus.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this._sylStepStatus.Location = new System.Drawing.Point(9, 17);
@@ -169,7 +169,7 @@
             // _lblTipInfo
             // 
             this._lblTipInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this._lblTipInfo.EnabledMousePierce = false;
+            this._lblTipInfo.EnabledMousePierce = true;
             this._lblTipInfo.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this._lblTipInfo.ForeColor = System.Drawing.Color.White;
             this._lblTipInfo.Location = new System.Drawing.Point(54, 13);
@@ -226,33 +226,33 @@
             this.windowsButton2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.windowsButton2.WindowsButtonType = Concision.Control.WindowsButtonType.Minimize;
             // 
-            // combobox1
+            // _cbxMetadataProvider
             // 
-            this.combobox1.AutoDropDownHeight = true;
-            this.combobox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.combobox1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox1.DropDownHeight = 0;
-            this.combobox1.DropDownWidth = 250;
-            this.combobox1.EnabledMousePierce = false;
-            this.combobox1.EnabledWaitingClick = false;
-            this.combobox1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.combobox1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.combobox1.IsWaiting = false;
-            this.combobox1.ItemFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox1.ItemHeight = 20;
-            this.combobox1.Location = new System.Drawing.Point(17, 72);
-            this.combobox1.Margin = new System.Windows.Forms.Padding(0);
-            this.combobox1.Name = "combobox1";
-            this.combobox1.NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.combobox1.SelectedIndex = -1;
-            this.combobox1.SelectedText = null;
-            this.combobox1.Size = new System.Drawing.Size(250, 35);
-            this.combobox1.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox1.SymbolSize = 10F;
-            this.combobox1.TabIndex = 9;
-            this.combobox1.Text = "选择元数据提供者";
-            this.combobox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxMetadataProvider.AutoDropDownHeight = true;
+            this._cbxMetadataProvider.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxMetadataProvider.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxMetadataProvider.DropDownHeight = 0;
+            this._cbxMetadataProvider.DropDownWidth = 250;
+            this._cbxMetadataProvider.EnabledMousePierce = false;
+            this._cbxMetadataProvider.EnabledWaitingClick = false;
+            this._cbxMetadataProvider.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxMetadataProvider.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this._cbxMetadataProvider.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this._cbxMetadataProvider.IsWaiting = false;
+            this._cbxMetadataProvider.ItemFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxMetadataProvider.ItemHeight = 20;
+            this._cbxMetadataProvider.Location = new System.Drawing.Point(17, 72);
+            this._cbxMetadataProvider.Margin = new System.Windows.Forms.Padding(0);
+            this._cbxMetadataProvider.Name = "_cbxMetadataProvider";
+            this._cbxMetadataProvider.NormalColor = System.Drawing.Color.WhiteSmoke;
+            this._cbxMetadataProvider.SelectedIndex = -1;
+            this._cbxMetadataProvider.SelectedText = null;
+            this._cbxMetadataProvider.Size = new System.Drawing.Size(250, 35);
+            this._cbxMetadataProvider.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxMetadataProvider.SymbolSize = 10F;
+            this._cbxMetadataProvider.TabIndex = 9;
+            this._cbxMetadataProvider.Text = "选择元数据提供者";
+            this._cbxMetadataProvider.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // line1
             // 
@@ -272,117 +272,117 @@
             this.line1.Text = "line1";
             this.line1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // combobox2
+            // _cbxCodeTemplate
             // 
-            this.combobox2.AutoDropDownHeight = true;
-            this.combobox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.combobox2.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox2.DropDownHeight = 0;
-            this.combobox2.DropDownWidth = 250;
-            this.combobox2.EnabledMousePierce = false;
-            this.combobox2.EnabledWaitingClick = false;
-            this.combobox2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.combobox2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.combobox2.IsWaiting = false;
-            this.combobox2.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox2.ItemHeight = 20;
-            this.combobox2.Location = new System.Drawing.Point(17, 124);
-            this.combobox2.Margin = new System.Windows.Forms.Padding(0);
-            this.combobox2.Name = "combobox2";
-            this.combobox2.NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.combobox2.SelectedIndex = -1;
-            this.combobox2.SelectedText = null;
-            this.combobox2.Size = new System.Drawing.Size(250, 35);
-            this.combobox2.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox2.SymbolSize = 10F;
-            this.combobox2.TabIndex = 11;
-            this.combobox2.Text = "选择代码模板";
-            this.combobox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxCodeTemplate.AutoDropDownHeight = true;
+            this._cbxCodeTemplate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxCodeTemplate.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxCodeTemplate.DropDownHeight = 0;
+            this._cbxCodeTemplate.DropDownWidth = 250;
+            this._cbxCodeTemplate.EnabledMousePierce = false;
+            this._cbxCodeTemplate.EnabledWaitingClick = false;
+            this._cbxCodeTemplate.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxCodeTemplate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this._cbxCodeTemplate.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this._cbxCodeTemplate.IsWaiting = false;
+            this._cbxCodeTemplate.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxCodeTemplate.ItemHeight = 20;
+            this._cbxCodeTemplate.Location = new System.Drawing.Point(17, 124);
+            this._cbxCodeTemplate.Margin = new System.Windows.Forms.Padding(0);
+            this._cbxCodeTemplate.Name = "_cbxCodeTemplate";
+            this._cbxCodeTemplate.NormalColor = System.Drawing.Color.WhiteSmoke;
+            this._cbxCodeTemplate.SelectedIndex = -1;
+            this._cbxCodeTemplate.SelectedText = null;
+            this._cbxCodeTemplate.Size = new System.Drawing.Size(250, 35);
+            this._cbxCodeTemplate.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxCodeTemplate.SymbolSize = 10F;
+            this._cbxCodeTemplate.TabIndex = 11;
+            this._cbxCodeTemplate.Text = "选择代码模板";
+            this._cbxCodeTemplate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // combobox3
+            // _cbxMapType
             // 
-            this.combobox3.AutoDropDownHeight = true;
-            this.combobox3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.combobox3.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox3.DropDownHeight = 0;
-            this.combobox3.DropDownWidth = 250;
-            this.combobox3.EnabledMousePierce = false;
-            this.combobox3.EnabledWaitingClick = false;
-            this.combobox3.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.combobox3.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.combobox3.IsWaiting = false;
-            this.combobox3.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox3.ItemHeight = 20;
-            this.combobox3.Location = new System.Drawing.Point(17, 233);
-            this.combobox3.Margin = new System.Windows.Forms.Padding(0);
-            this.combobox3.Name = "combobox3";
-            this.combobox3.NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.combobox3.SelectedIndex = -1;
-            this.combobox3.SelectedText = null;
-            this.combobox3.Size = new System.Drawing.Size(250, 35);
-            this.combobox3.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox3.SymbolSize = 10F;
-            this.combobox3.TabIndex = 13;
-            this.combobox3.Text = "选择类型映射";
-            this.combobox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxMapType.AutoDropDownHeight = true;
+            this._cbxMapType.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxMapType.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxMapType.DropDownHeight = 0;
+            this._cbxMapType.DropDownWidth = 250;
+            this._cbxMapType.EnabledMousePierce = false;
+            this._cbxMapType.EnabledWaitingClick = false;
+            this._cbxMapType.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxMapType.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this._cbxMapType.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this._cbxMapType.IsWaiting = false;
+            this._cbxMapType.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxMapType.ItemHeight = 20;
+            this._cbxMapType.Location = new System.Drawing.Point(17, 233);
+            this._cbxMapType.Margin = new System.Windows.Forms.Padding(0);
+            this._cbxMapType.Name = "_cbxMapType";
+            this._cbxMapType.NormalColor = System.Drawing.Color.WhiteSmoke;
+            this._cbxMapType.SelectedIndex = -1;
+            this._cbxMapType.SelectedText = null;
+            this._cbxMapType.Size = new System.Drawing.Size(250, 35);
+            this._cbxMapType.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxMapType.SymbolSize = 10F;
+            this._cbxMapType.TabIndex = 13;
+            this._cbxMapType.Text = "选择类型映射";
+            this._cbxMapType.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // combobox4
+            // _cbxNameFormat
             // 
-            this.combobox4.AutoDropDownHeight = true;
-            this.combobox4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.combobox4.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox4.DropDownHeight = 0;
-            this.combobox4.DropDownWidth = 250;
-            this.combobox4.EnabledMousePierce = false;
-            this.combobox4.EnabledWaitingClick = false;
-            this.combobox4.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.combobox4.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.combobox4.IsWaiting = false;
-            this.combobox4.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox4.ItemHeight = 20;
-            this.combobox4.Location = new System.Drawing.Point(14, 178);
-            this.combobox4.Margin = new System.Windows.Forms.Padding(0);
-            this.combobox4.Name = "combobox4";
-            this.combobox4.NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.combobox4.SelectedIndex = -1;
-            this.combobox4.SelectedText = null;
-            this.combobox4.Size = new System.Drawing.Size(250, 35);
-            this.combobox4.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox4.SymbolSize = 10F;
-            this.combobox4.TabIndex = 14;
-            this.combobox4.Text = "选择命名格式";
-            this.combobox4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxNameFormat.AutoDropDownHeight = true;
+            this._cbxNameFormat.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxNameFormat.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxNameFormat.DropDownHeight = 0;
+            this._cbxNameFormat.DropDownWidth = 250;
+            this._cbxNameFormat.EnabledMousePierce = false;
+            this._cbxNameFormat.EnabledWaitingClick = false;
+            this._cbxNameFormat.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxNameFormat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this._cbxNameFormat.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this._cbxNameFormat.IsWaiting = false;
+            this._cbxNameFormat.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxNameFormat.ItemHeight = 20;
+            this._cbxNameFormat.Location = new System.Drawing.Point(14, 178);
+            this._cbxNameFormat.Margin = new System.Windows.Forms.Padding(0);
+            this._cbxNameFormat.Name = "_cbxNameFormat";
+            this._cbxNameFormat.NormalColor = System.Drawing.Color.WhiteSmoke;
+            this._cbxNameFormat.SelectedIndex = -1;
+            this._cbxNameFormat.SelectedText = null;
+            this._cbxNameFormat.Size = new System.Drawing.Size(250, 35);
+            this._cbxNameFormat.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxNameFormat.SymbolSize = 10F;
+            this._cbxNameFormat.TabIndex = 14;
+            this._cbxNameFormat.Text = "选择命名格式";
+            this._cbxNameFormat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // combobox5
+            // _cbxActiveProject
             // 
-            this.combobox5.AutoDropDownHeight = true;
-            this.combobox5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.combobox5.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox5.DropDownHeight = 0;
-            this.combobox5.DropDownWidth = 250;
-            this.combobox5.EnabledMousePierce = false;
-            this.combobox5.EnabledWaitingClick = false;
-            this.combobox5.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.combobox5.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.combobox5.IsWaiting = false;
-            this.combobox5.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.combobox5.ItemHeight = 20;
-            this.combobox5.Location = new System.Drawing.Point(17, 286);
-            this.combobox5.Margin = new System.Windows.Forms.Padding(0);
-            this.combobox5.Name = "combobox5";
-            this.combobox5.NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.combobox5.SelectedIndex = -1;
-            this.combobox5.SelectedText = null;
-            this.combobox5.Size = new System.Drawing.Size(250, 35);
-            this.combobox5.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.combobox5.SymbolSize = 10F;
-            this.combobox5.TabIndex = 15;
-            this.combobox5.Text = "选择附加的项目";
-            this.combobox5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxActiveProject.AutoDropDownHeight = true;
+            this._cbxActiveProject.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxActiveProject.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxActiveProject.DropDownHeight = 0;
+            this._cbxActiveProject.DropDownWidth = 250;
+            this._cbxActiveProject.EnabledMousePierce = false;
+            this._cbxActiveProject.EnabledWaitingClick = false;
+            this._cbxActiveProject.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxActiveProject.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this._cbxActiveProject.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this._cbxActiveProject.IsWaiting = false;
+            this._cbxActiveProject.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxActiveProject.ItemHeight = 20;
+            this._cbxActiveProject.Location = new System.Drawing.Point(17, 286);
+            this._cbxActiveProject.Margin = new System.Windows.Forms.Padding(0);
+            this._cbxActiveProject.Name = "_cbxActiveProject";
+            this._cbxActiveProject.NormalColor = System.Drawing.Color.WhiteSmoke;
+            this._cbxActiveProject.SelectedIndex = -1;
+            this._cbxActiveProject.SelectedText = null;
+            this._cbxActiveProject.Size = new System.Drawing.Size(250, 35);
+            this._cbxActiveProject.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._cbxActiveProject.SymbolSize = 10F;
+            this._cbxActiveProject.TabIndex = 15;
+            this._cbxActiveProject.Text = "选择附加的项目";
+            this._cbxActiveProject.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // _pnlMetadataContainer
             // 
@@ -458,6 +458,7 @@
             this._sylRefresh.SymbolSize = 15F;
             this._sylRefresh.TabIndex = 18;
             this._sylRefresh.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._sylRefresh.Click += new System.EventHandler(this._sylRefresh_Click);
             // 
             // button1
             // 
@@ -501,10 +502,6 @@
             // 
             // MainForm
             // 
-            this.Animation.AnimationTime = 200;
-            this.Animation.Enabled = true;
-            this.Animation.HideEffect = Concision.WindowAnimationStyle.RightToLeft;
-            this.Animation.ShowEffect = Concision.WindowAnimationStyle.LeftToRight;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
@@ -512,12 +509,12 @@
             this.Controls.Add(this._sylRefresh);
             this.Controls.Add(this._sylSetting);
             this.Controls.Add(this._pnlMetadataContainer);
-            this.Controls.Add(this.combobox5);
-            this.Controls.Add(this.combobox4);
-            this.Controls.Add(this.combobox3);
-            this.Controls.Add(this.combobox2);
+            this.Controls.Add(this._cbxActiveProject);
+            this.Controls.Add(this._cbxNameFormat);
+            this.Controls.Add(this._cbxMapType);
+            this.Controls.Add(this._cbxCodeTemplate);
             this.Controls.Add(this.line1);
-            this.Controls.Add(this.combobox1);
+            this.Controls.Add(this._cbxMetadataProvider);
             this.Controls.Add(this.windowsButton2);
             this.Controls.Add(this.windowsButton1);
             this.Controls.Add(this.button2);
@@ -549,12 +546,12 @@
         private Concision.Control.Scutcheon _lblTipInfo;
         private Concision.Control.WindowsButton windowsButton1;
         private Concision.Control.WindowsButton windowsButton2;
-        private Concision.Control.Combobox combobox1;
+        private Concision.Control.Combobox _cbxMetadataProvider;
         private Concision.Control.Line line1;
-        private Concision.Control.Combobox combobox2;
-        private Concision.Control.Combobox combobox3;
-        private Concision.Control.Combobox combobox4;
-        private Concision.Control.Combobox combobox5;
+        private Concision.Control.Combobox _cbxCodeTemplate;
+        private Concision.Control.Combobox _cbxMapType;
+        private Concision.Control.Combobox _cbxNameFormat;
+        private Concision.Control.Combobox _cbxActiveProject;
         private Concision.Control.Panel _pnlMetadataContainer;
         private Concision.Control.Symbol _sylSetting;
         private Concision.Control.Symbol _sylRefresh;
