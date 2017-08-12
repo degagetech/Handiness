@@ -101,12 +101,14 @@ namespace Handiness.VSIX
           
 
             MainForm form = new MainForm();
+            form.ServiceProvider = this.ServiceProvider;
             form.ShowDialog();
-            //Visual Studio 自动化对象模型中的顶级对象 获取
+           // Visual Studio 自动化对象模型中的顶级对象 获取
             //var dteObject = this.ServiceProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
             //var project = this.GetStartupBuildProject(dteObject);
             //project.ProjectItems.AddFromDirectory(@"D:\Test");
         }
+   
         /// <summary>
         /// 获取当前活动的项目
         /// </summary>

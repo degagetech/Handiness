@@ -14,7 +14,10 @@ namespace Handiness
     /// </summary>
     public class TKXmlSerializer
     {
-        public static IEnumerable<T> Load<T>(params String[] files) where T:class
+        /// <summary>
+        /// 将文件列表反序列化成对象集合
+        /// </summary>
+        public static IEnumerable<T> Load<T>(params String[] files) where T : class
         {
             foreach (String file in files)
             {
@@ -31,7 +34,12 @@ namespace Handiness
                 if (schema != null) yield return schema;
             }
         }
-        public static IEnumerable<T> Search<T>(String pattern,String directory = null) where T:class
+        /// <summary>
+        /// 搜索指定目录下符合指定格式的文件，并反序列化
+        /// </summary>
+        /// <param name="pattern">文件名称格式，例如 *.txt</param>
+        /// <param name="directory">指定的目录</param>
+        public static IEnumerable<T> Search<T>(String pattern, String directory = null) where T : class
         {
             directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
             var files = Directory.GetFiles(directory, pattern);

@@ -24,9 +24,17 @@ namespace Handiness.VSIX
             this._txtConnectionString.Focus();
             
         }
-        public SettingForm(BuildAssistPacket assistPacket) : base()
+        public SettingForm(BuildAssistPacket assistPacket) : this()
         {
             this.BuildAssistPacket = assistPacket;
+            if (!String.IsNullOrEmpty(assistPacket.NameSpace))
+            {
+                this._txtNameSpace.Text = assistPacket.NameSpace;
+            }
+            if (!String.IsNullOrEmpty(assistPacket.ConnectionString))
+            {
+                this._txtConnectionString.Text = assistPacket.ConnectionString;
+            }
         }
 
         private void _btnCannel_Click(object sender, EventArgs e)
@@ -72,6 +80,7 @@ namespace Handiness.VSIX
             Boolean isPassed = this.ValidateChildren();
             if (isPassed)
             {
+                this.DialogResult = DialogResult.OK;
                 this.BuildAssistPacket.ConnectionString = this._txtConnectionString.Text.Trim();
                 this.BuildAssistPacket.NameSpace = this._txtNameSpace.Text.Trim();
                 this.Close();

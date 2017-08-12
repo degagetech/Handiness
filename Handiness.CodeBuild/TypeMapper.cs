@@ -55,7 +55,7 @@ namespace Handiness.CodeBuild
         }
         protected String GenerateKey(String dbType, Int32 length = -1)
         {
-            String key = dbType;
+            String key = dbType.Trim().ToLower();
             if (length > TypeMapper.IgnorableTypeLength)
             {
                 key += length;
@@ -82,6 +82,7 @@ namespace Handiness.CodeBuild
             String mappingType = String.Empty;
             String key = this.GenerateKey(dbType, length);
             mappingType = this.GetMappingType(key);
+            if (mappingType == null) mappingType = this.GetMappingType(dbType.Trim().ToLower());
             return mappingType;
         }
         /************************************/

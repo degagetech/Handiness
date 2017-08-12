@@ -29,5 +29,7 @@ namespace Handiness.VSIX
         public INameModifier NameModifier { get; set; }
         public String NameSpace { get; set; }
         public String ConnectionString { get; set; }
+        public EnvDTE.Project Project { get; set; }
+
     }
 }

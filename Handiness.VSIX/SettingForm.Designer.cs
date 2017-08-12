@@ -204,6 +204,8 @@
             this._txtConnectionString.Name = "_txtConnectionString";
             this._txtConnectionString.Size = new System.Drawing.Size(436, 26);
             this._txtConnectionString.TabIndex = 15;
+            this._txtConnectionString.Text = "server=192.168.182.103;Port=3306;Uid=root;Pwd=123456;DataBase=handinessOrm;Poolin" +
+    "g=true;charset=utf8;";
             this._txtConnectionString.Validating += new System.ComponentModel.CancelEventHandler(this._txtConnectionString_Validating);
             // 
             // _eprNamesapce

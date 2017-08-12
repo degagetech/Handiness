@@ -8,6 +8,8 @@ using System.ComponentModel.Composition.Hosting;
 using System.Data;
 using Handiness.Services;
 using Handiness.Adaptive;
+using System.Reflection;
+using System.IO;
 namespace Handiness.Metadata
 {
     public abstract class MetadataProvider : IMetadataProvider
@@ -98,7 +100,7 @@ namespace Handiness.Metadata
             {
                 throw new ArgumentException(TextResources.ALNameGuidWithEmpty);
             }
-            directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
+            directory = directory ?? Path.GetDirectoryName(directory ?? Assembly.GetExecutingAssembly().Location);
             DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
             instance=ObjectExportService.GetExport<IMetadataProvider>(searchCatalog, adaptiveGuid);
             return instance;
@@ -109,7 +111,7 @@ namespace Handiness.Metadata
         /// <param name="directory">指定的目录，默认为本程序集所在目录</param>
         public static IEnumerable<IMetadataProvider> ExportMetadataProviders(String directory = null)
         {
-            directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
+            directory =Path.GetDirectoryName(directory ?? Assembly.GetExecutingAssembly().Location);
             DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
             var adaptives=AdaptiveSeacher.ExportAdaptiveExplain(searchCatalog);
             foreach (var adaptive in adaptives)

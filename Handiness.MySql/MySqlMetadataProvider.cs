@@ -37,14 +37,15 @@ namespace Handiness.MySql
         {
             //元数据查询条件限制的集合
             String[] restrictions = new String[] { null, null, null, null };
-
+            List<ColumnSchema> result = new List<ColumnSchema>();
             if (!String.IsNullOrWhiteSpace(tableName)) restrictions[2] = tableName;
             DataTable originalMetadata = this.Connection.GetSchema(TextResources.CollectionNameOfColumn, restrictions);
             foreach (DataRow row in originalMetadata.Rows)
             {
                 ColumnSchema schema = this.ColumnMetadataToSechma(row);
-                if (schema != null) yield return schema;
+                if (schema != null) result.Add(schema);
             }
+            return result;
         }
 
         /********************/

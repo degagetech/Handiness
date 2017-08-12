@@ -25,10 +25,7 @@ namespace Handiness.Metadata
     /// </summary>
     public class SchemaManager
     {
-        /// <summary>
-        /// Schema信息文件的名称格式
-        /// </summary>
-        public const String SchemaFileNamePattern = "*.sa";
+    
 
         private MetadataContainer _metadataContainer = null;
         /*********************************/
@@ -88,20 +85,7 @@ namespace Handiness.Metadata
         /// <param name="files">文件列表</param>
         public static IEnumerable<SchemaXml> Load(params String[] files)
         {
-            foreach (String file in files)
-            {
-                if (!File.Exists(file)) break;
-                SchemaXml schema = null;
-                try
-                {
-                    schema = TKXmlSerializer.DeSerialize<SchemaXml>(file);
-                }
-                catch
-                {
-                    throw new Exception(String.Format(TextResources.DeserializationSchemaFailedPattern, file));
-                }
-                if (schema != null) yield return schema;
-            }
+            return TKXmlSerializer.Load<SchemaXml>(files);
         }
         /// <summary>
         /// 将内存中的Schema信息保存到本地磁盘上
@@ -113,7 +97,7 @@ namespace Handiness.Metadata
             path = path.EndsWith("\\") ? path : path + "\\";
             foreach (var schema in schemas)
             {
-                String fileName = String.Format(SchemaManager.SchemaFileNamePattern, schema.DbName);
+                String fileName = String.Format(SchemaXml.SchemaFileNamePattern, schema.DbName);
                 String filePath = path + fileName;
                 File.Delete(filePath);
                 TKXmlSerializer.Serialize<SchemaXml>(schema, filePath);

@@ -9,6 +9,19 @@ namespace Handiness.Metadata
     {
         public String DbName { get; set; }
         public TableSchemaXml[] Tables { get; set; }
+
+        /// <summary>
+        /// Schema信息文件的名称格式
+        /// </summary>
+        public const String SchemaFileNamePattern = "*.sa";
+        public static IEnumerable<SchemaXml> Search(String directory = null)
+        {
+            return TKXmlSerializer.Search<SchemaXml>(SchemaFileNamePattern, directory);
+        }
+        public static IEnumerable<SchemaXml> Load(params String[] files)
+        {
+            return TKXmlSerializer.Load<SchemaXml>(files);
+        }
     }
     [XmlType(TypeName = "Table")]
     public class TableSchemaXml

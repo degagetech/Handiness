@@ -92,11 +92,11 @@ namespace Handiness.CodeBuild
             foreach (var schema in schemas)
             {
                 this.CreateFillDataRow(
-                    PlaceHolderSpecification.TableName, 
-                    schema.TableSchema.Name, 
+                    PlaceHolderSpecification.TableName,
+                    schema.TableSchema.Name,
                     schema.TableSchema.Name, null, true);
-                this.CreateFillDataRow(PlaceHolderSpecification.ClassName, 
-                    this.NameModifier.ModifyTableName(schema.TableSchema.Name), 
+                this.CreateFillDataRow(PlaceHolderSpecification.ClassName,
+                    this.NameModifier.ModifyTableName(schema.TableSchema.Name),
                     schema.TableSchema.Name, null, true);
                 this.CreateFillDataRow(PlaceHolderSpecification.TableExplain, schema.TableSchema.Explain, schema.TableSchema.Name, null, true);
                 foreach (var colSchema in schema.ColumnSchemas)
@@ -125,20 +125,16 @@ namespace Handiness.CodeBuild
         public DataRow CreateFillDataRow(String placeHolderName, String fillData, String table, String col, Boolean add = false)
         {
             DataRow row = null;
-            if (!String.IsNullOrEmpty(fillData))
-            {
-                row = this._dataTable.NewRow();
-                row[TFDColumnWithPlaceholderName] = placeHolderName;
-                row[TFDColumnWithData] = fillData;
-                if (table != null) row[TFDColumnWithTableName] = table;
-                if (col != null) row[TFDColumnWithColumnName] = col;
-                if (add) this._dataTable.Rows.Add(row);
-            }
-            else
-            {
-                //测试
-                throw new Exception("填充信息异常");
-            }
+
+            fillData = fillData ?? placeHolderName;
+
+            row = this._dataTable.NewRow();
+            row[TFDColumnWithPlaceholderName] = placeHolderName;
+            row[TFDColumnWithData] = fillData;
+            if (table != null) row[TFDColumnWithTableName] = table;
+            if (col != null) row[TFDColumnWithColumnName] = col;
+            if (add) this._dataTable.Rows.Add(row);
+
             return row;
         }
         /// <summary>

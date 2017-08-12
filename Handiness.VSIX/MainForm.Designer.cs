@@ -28,6 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this._btnCloseWindows = new Concision.Control.WindowsButton();
             this._lineTop = new Concision.Control.Line();
             this._sylStepStatus = new Concision.Control.Symbol();
@@ -45,11 +50,13 @@
             this._cbxActiveProject = new Concision.Control.Combobox();
             this._pnlMetadataContainer = new Concision.Control.Panel();
             this._dgvTableSchema = new System.Windows.Forms.DataGridView();
-            this._trvTable = new System.Windows.Forms.TreeView();
+            this._trvSchema = new System.Windows.Forms.TreeView();
             this._sylSetting = new Concision.Control.Symbol();
             this._sylRefresh = new Concision.Control.Symbol();
             this.button1 = new Concision.Control.Button();
             this.button2 = new Concision.Control.Button();
+            this._lblTip = new System.Windows.Forms.Label();
+            this._tipTable = new System.Windows.Forms.ToolTip(this.components);
             this._pnlMetadataContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvTableSchema)).BeginInit();
             this.SuspendLayout();
@@ -240,7 +247,7 @@
             this._cbxMetadataProvider.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxMetadataProvider.IsWaiting = false;
             this._cbxMetadataProvider.ItemFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxMetadataProvider.ItemHeight = 20;
+            this._cbxMetadataProvider.ItemHeight = 25;
             this._cbxMetadataProvider.Location = new System.Drawing.Point(17, 72);
             this._cbxMetadataProvider.Margin = new System.Windows.Forms.Padding(0);
             this._cbxMetadataProvider.Name = "_cbxMetadataProvider";
@@ -286,7 +293,7 @@
             this._cbxCodeTemplate.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxCodeTemplate.IsWaiting = false;
             this._cbxCodeTemplate.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxCodeTemplate.ItemHeight = 20;
+            this._cbxCodeTemplate.ItemHeight = 25;
             this._cbxCodeTemplate.Location = new System.Drawing.Point(17, 124);
             this._cbxCodeTemplate.Margin = new System.Windows.Forms.Padding(0);
             this._cbxCodeTemplate.Name = "_cbxCodeTemplate";
@@ -314,7 +321,7 @@
             this._cbxMapType.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxMapType.IsWaiting = false;
             this._cbxMapType.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxMapType.ItemHeight = 20;
+            this._cbxMapType.ItemHeight = 25;
             this._cbxMapType.Location = new System.Drawing.Point(17, 233);
             this._cbxMapType.Margin = new System.Windows.Forms.Padding(0);
             this._cbxMapType.Name = "_cbxMapType";
@@ -342,7 +349,7 @@
             this._cbxNameFormat.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxNameFormat.IsWaiting = false;
             this._cbxNameFormat.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxNameFormat.ItemHeight = 20;
+            this._cbxNameFormat.ItemHeight = 25;
             this._cbxNameFormat.Location = new System.Drawing.Point(14, 178);
             this._cbxNameFormat.Margin = new System.Windows.Forms.Padding(0);
             this._cbxNameFormat.Name = "_cbxNameFormat";
@@ -370,7 +377,7 @@
             this._cbxActiveProject.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxActiveProject.IsWaiting = false;
             this._cbxActiveProject.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxActiveProject.ItemHeight = 20;
+            this._cbxActiveProject.ItemHeight = 25;
             this._cbxActiveProject.Location = new System.Drawing.Point(17, 286);
             this._cbxActiveProject.Margin = new System.Windows.Forms.Padding(0);
             this._cbxActiveProject.Name = "_cbxActiveProject";
@@ -394,7 +401,7 @@
             this._pnlMetadataContainer.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
             this._pnlMetadataContainer.BorderWith = 1;
             this._pnlMetadataContainer.Controls.Add(this._dgvTableSchema);
-            this._pnlMetadataContainer.Controls.Add(this._trvTable);
+            this._pnlMetadataContainer.Controls.Add(this._trvSchema);
             this._pnlMetadataContainer.EnabledMousePierce = false;
             this._pnlMetadataContainer.IsDrawBorder = false;
             this._pnlMetadataContainer.Location = new System.Drawing.Point(306, 61);
@@ -404,27 +411,62 @@
             // 
             // _dgvTableSchema
             // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvTableSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this._dgvTableSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvTableSchema.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this._dgvTableSchema.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._dgvTableSchema.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._dgvTableSchema.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this._dgvTableSchema.ColumnHeadersHeight = 30;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvTableSchema.DefaultCellStyle = dataGridViewCellStyle3;
+            this._dgvTableSchema.GridColor = System.Drawing.SystemColors.ControlLight;
             this._dgvTableSchema.Location = new System.Drawing.Point(180, 3);
             this._dgvTableSchema.Name = "_dgvTableSchema";
-            this._dgvTableSchema.RowTemplate.Height = 23;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._dgvTableSchema.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this._dgvTableSchema.RowHeadersVisible = false;
+            this._dgvTableSchema.RowTemplate.Height = 30;
             this._dgvTableSchema.Size = new System.Drawing.Size(403, 459);
             this._dgvTableSchema.TabIndex = 1;
             // 
-            // _trvTable
+            // _trvSchema
             // 
-            this._trvTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this._trvTable.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this._trvTable.Dock = System.Windows.Forms.DockStyle.Left;
-            this._trvTable.Location = new System.Drawing.Point(0, 0);
-            this._trvTable.Name = "_trvTable";
-            this._trvTable.Size = new System.Drawing.Size(174, 465);
-            this._trvTable.TabIndex = 0;
+            this._trvSchema.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._trvSchema.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._trvSchema.CheckBoxes = true;
+            this._trvSchema.Dock = System.Windows.Forms.DockStyle.Left;
+            this._trvSchema.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._trvSchema.HotTracking = true;
+            this._trvSchema.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._trvSchema.Location = new System.Drawing.Point(0, 0);
+            this._trvSchema.Name = "_trvSchema";
+            this._trvSchema.ShowLines = false;
+            this._trvSchema.ShowNodeToolTips = true;
+            this._trvSchema.Size = new System.Drawing.Size(174, 465);
+            this._trvSchema.TabIndex = 0;
+            this._trvSchema.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this._trvSchema_NodeMouseClick);
             // 
             // _sylSetting
             // 
@@ -500,12 +542,22 @@
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.button2.Click += new System.EventHandler(this._btnCannel_Click);
             // 
+            // _lblTip
+            // 
+            this._lblTip.AutoEllipsis = true;
+            this._lblTip.Location = new System.Drawing.Point(14, 565);
+            this._lblTip.Name = "_lblTip";
+            this._lblTip.Size = new System.Drawing.Size(500, 17);
+            this._lblTip.TabIndex = 19;
+            this._lblTip.Text = "##";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(900, 600);
+            this.Controls.Add(this._lblTip);
             this.Controls.Add(this._sylRefresh);
             this.Controls.Add(this._sylSetting);
             this.Controls.Add(this._pnlMetadataContainer);
@@ -555,9 +607,11 @@
         private Concision.Control.Panel _pnlMetadataContainer;
         private Concision.Control.Symbol _sylSetting;
         private Concision.Control.Symbol _sylRefresh;
-        private System.Windows.Forms.TreeView _trvTable;
+        private System.Windows.Forms.TreeView _trvSchema;
         private System.Windows.Forms.DataGridView _dgvTableSchema;
         private Concision.Control.Button button1;
         private Concision.Control.Button button2;
+        private System.Windows.Forms.Label _lblTip;
+        private System.Windows.Forms.ToolTip _tipTable;
     }
 }
