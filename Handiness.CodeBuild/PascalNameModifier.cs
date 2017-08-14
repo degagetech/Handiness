@@ -88,6 +88,7 @@ namespace Handiness.CodeBuild
         protected String[] Participle(String str, Char symbol = '_')
         {
             String[] result = null;
+            str = str.ToLower();
             str = str.Replace(" ", "");
             result = str.Split(symbol);
             return result;

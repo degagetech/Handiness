@@ -26,35 +26,11 @@ namespace Handiness.VSIX
 {
     public partial class MainForm : BaseForm
     {
-        public enum BuildStateType
-        {
-            StepUnfinished = 0,
-            StepFinished,
-            Building,
-            BuildCompleted
-        }
+
         public IServiceProvider ServiceProvider { get; set; }
-        public event Action<BuildStateType, BuildStateType> BuildStateChanged;
-        /// <summary>
-        /// 代码组建的结果
-        /// </summary>
-        public IEnumerable<(String Name, String Code)> BuildResult { get; private set; }
-        /// <summary>
-        /// 当前代码组建的状态 0步骤未完成  1步骤完成  2组建中  3组建完成
-        /// </summary>
-        public BuildStateType CurrentBuildState
-        {
-            get => this._currentBuildState;
-            private set
-            {
-                BuildStateType oldState = this._currentBuildState;
-                this._currentBuildState = value;
-                this.BuildStateChanged?.Invoke(oldState, this._currentBuildState);
-            }
-        }
         public BuildAssistPacket BuildAssistPacket { get; set; } = new BuildAssistPacket();
 
-        private BuildStateType _currentBuildState = 0;
+
 
         public MainForm()
         {
@@ -174,11 +150,6 @@ namespace Handiness.VSIX
         }
         #endregion
 
-        private void MainForm_BuildStateChanged(BuildStateType oldState, BuildStateType newState)
-        {
-
-        }
-
         protected override void OnShown(EventArgs e)
         {
             this.ScanUseableSetting();
@@ -230,6 +201,7 @@ namespace Handiness.VSIX
             if (File.Exists(name))
                 File.Delete(name);
             FileInfo fileInfo = null;
+            //生成临时代码文件
             using (Stream stream = new FileStream(name, FileMode.CreateNew, FileAccess.Write, FileShare.None,
                 8096, FileOptions.WriteThrough))
             {
@@ -238,15 +210,19 @@ namespace Handiness.VSIX
                 writer.Write(code);
                 writer.Flush();
             }
-            // this.BuildAssistPacket.Project.ProjectItems.
-            
+
+
             var projectItem = this.QueryProjectItem(this.BuildAssistPacket.Project, name);
             if (projectItem != null) projectItem.Delete();
+            //往指定项目添加代码文件
             this.BuildAssistPacket.Project.ProjectItems.AddFromFileCopy(fileInfo.FullName);
         }
+        /// <summary>
+        /// 获取指定名称的项目文件对象
+        /// </summary>
         private ProjectItem QueryProjectItem(EnvDTE.Project project, String name)
         {
-            
+
             foreach (ProjectItem item in project.ProjectItems)
             {
                 String fileName = item.Name;

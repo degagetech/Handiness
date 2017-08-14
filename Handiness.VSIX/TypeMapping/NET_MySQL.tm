@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TypeMapping xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Explain>MYSQL-.NET 类型映射</Explain>
+  <Explain>.NET-MySQL类型映射</Explain>
   <MappingNodes>
-    <MappingNode DbType="int"  Length="-1" MappingType="Int32" />
-    <MappingNode DbType="varchar" Length="-1"  MappingType="String" />
-
     <MappingNode DbType="blob" MappingType="Byte[]"  Length="-1"/>
     <MappingNode DbType="varchar" MappingType="String" />
     <MappingNode DbType="int" MappingType="Int32" />
