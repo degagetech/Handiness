@@ -33,17 +33,15 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            this._btnCloseWindows = new Concision.Control.WindowsButton();
+            this._wbtnClose = new Concision.Control.WindowsButton();
             this._lineTop = new Concision.Control.Line();
             this._sylStepStatus = new Concision.Control.Symbol();
             this._lineBottom = new Concision.Control.Line();
-            this._btnCannel = new Concision.Control.Button();
-            this._btnBuild = new Concision.Control.Button();
             this._lblTipInfo = new Concision.Control.Scutcheon();
-            this.windowsButton1 = new Concision.Control.WindowsButton();
-            this.windowsButton2 = new Concision.Control.WindowsButton();
+            this._wbtnMax = new Concision.Control.WindowsButton();
+            this._wbtnMin = new Concision.Control.WindowsButton();
             this._cbxMetadataProvider = new Concision.Control.Combobox();
-            this.line1 = new Concision.Control.Line();
+            this._lineLeftRight = new Concision.Control.Line();
             this._cbxCodeTemplate = new Concision.Control.Combobox();
             this._cbxMapType = new Concision.Control.Combobox();
             this._cbxNameFormat = new Concision.Control.Combobox();
@@ -53,34 +51,35 @@
             this._trvSchema = new System.Windows.Forms.TreeView();
             this._sylSetting = new Concision.Control.Symbol();
             this._sylRefresh = new Concision.Control.Symbol();
-            this.button1 = new Concision.Control.Button();
-            this.button2 = new Concision.Control.Button();
+            this._btnCodeBuild = new Concision.Control.Button();
+            this._btnCannel = new Concision.Control.Button();
             this._lblTip = new System.Windows.Forms.Label();
             this._tipTable = new System.Windows.Forms.ToolTip(this.components);
             this._pnlMetadataContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvTableSchema)).BeginInit();
             this.SuspendLayout();
             // 
-            // _btnCloseWindows
+            // _wbtnClose
             // 
-            this._btnCloseWindows.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnCloseWindows.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._btnCloseWindows.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._btnCloseWindows.EnabledAdsorb = true;
-            this._btnCloseWindows.EnabledMousePierce = false;
-            this._btnCloseWindows.Font = new System.Drawing.Font("FontAwesome", 12F);
-            this._btnCloseWindows.ForeColor = System.Drawing.Color.White;
-            this._btnCloseWindows.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            this._btnCloseWindows.IconSize = 12F;
-            this._btnCloseWindows.Location = new System.Drawing.Point(859, 13);
-            this._btnCloseWindows.Margin = new System.Windows.Forms.Padding(0);
-            this._btnCloseWindows.Name = "_btnCloseWindows";
-            this._btnCloseWindows.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this._btnCloseWindows.Size = new System.Drawing.Size(30, 30);
-            this._btnCloseWindows.TabIndex = 0;
-            this._btnCloseWindows.Text = "";
-            this._btnCloseWindows.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnCloseWindows.WindowsButtonType = Concision.Control.WindowsButtonType.Close;
+            this._wbtnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._wbtnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._wbtnClose.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._wbtnClose.EnabledMousePierce = false;
+            this._wbtnClose.Font = new System.Drawing.Font("FontAwesome", 14F);
+            this._wbtnClose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this._wbtnClose.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this._wbtnClose.IconSize = 14F;
+            this._wbtnClose.Location = new System.Drawing.Point(850, 13);
+            this._wbtnClose.Margin = new System.Windows.Forms.Padding(0);
+            this._wbtnClose.Name = "_wbtnClose";
+            this._wbtnClose.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._wbtnClose.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._wbtnClose.ShadowWidth = 1F;
+            this._wbtnClose.Size = new System.Drawing.Size(35, 35);
+            this._wbtnClose.TabIndex = 0;
+            this._wbtnClose.Text = "";
+            this._wbtnClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._wbtnClose.WindowsButtonType = Concision.Control.WindowsButtonType.Close;
             // 
             // _lineTop
             // 
@@ -133,46 +132,6 @@
             this._lineBottom.TabIndex = 4;
             this._lineBottom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // _btnCannel
-            // 
-            this._btnCannel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnCannel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._btnCannel.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._btnCannel.EnabledMousePierce = false;
-            this._btnCannel.EnabledWaitingClick = false;
-            this._btnCannel.ForeColor = System.Drawing.Color.White;
-            this._btnCannel.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            this._btnCannel.IsWaiting = false;
-            this._btnCannel.Location = new System.Drawing.Point(788, 552);
-            this._btnCannel.Margin = new System.Windows.Forms.Padding(0);
-            this._btnCannel.Name = "_btnCannel";
-            this._btnCannel.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this._btnCannel.Size = new System.Drawing.Size(101, 30);
-            this._btnCannel.TabIndex = 6;
-            this._btnCannel.Text = "取消";
-            this._btnCannel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnCannel.Click += new System.EventHandler(this._btnCannel_Click);
-            // 
-            // _btnBuild
-            // 
-            this._btnBuild.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnBuild.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._btnBuild.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._btnBuild.EnabledMousePierce = false;
-            this._btnBuild.EnabledWaitingClick = false;
-            this._btnBuild.ForeColor = System.Drawing.Color.White;
-            this._btnBuild.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            this._btnBuild.IsWaiting = false;
-            this._btnBuild.Location = new System.Drawing.Point(658, 552);
-            this._btnBuild.Margin = new System.Windows.Forms.Padding(0);
-            this._btnBuild.Name = "_btnBuild";
-            this._btnBuild.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this._btnBuild.Size = new System.Drawing.Size(101, 30);
-            this._btnBuild.TabIndex = 5;
-            this._btnBuild.Text = "组建";
-            this._btnBuild.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._btnBuild.Click += new System.EventHandler(this._btnBuildControl_Click);
-            // 
             // _lblTipInfo
             // 
             this._lblTipInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
@@ -191,47 +150,49 @@
             this._lblTipInfo.Text = "帮助您构建实体类代码";
             this._lblTipInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // windowsButton1
+            // _wbtnMax
             // 
-            this.windowsButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.windowsButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.windowsButton1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.windowsButton1.EnabledAdsorb = true;
-            this.windowsButton1.EnabledMousePierce = false;
-            this.windowsButton1.Font = new System.Drawing.Font("FontAwesome", 10F);
-            this.windowsButton1.ForeColor = System.Drawing.Color.White;
-            this.windowsButton1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            this.windowsButton1.IconSize = 10F;
-            this.windowsButton1.Location = new System.Drawing.Point(820, 13);
-            this.windowsButton1.Margin = new System.Windows.Forms.Padding(0);
-            this.windowsButton1.Name = "windowsButton1";
-            this.windowsButton1.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this.windowsButton1.Size = new System.Drawing.Size(30, 30);
-            this.windowsButton1.TabIndex = 7;
-            this.windowsButton1.Text = "";
-            this.windowsButton1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.windowsButton1.WindowsButtonType = Concision.Control.WindowsButtonType.Maximize;
+            this._wbtnMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._wbtnMax.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._wbtnMax.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._wbtnMax.EnabledMousePierce = false;
+            this._wbtnMax.Font = new System.Drawing.Font("FontAwesome", 11F);
+            this._wbtnMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this._wbtnMax.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this._wbtnMax.IconSize = 11F;
+            this._wbtnMax.Location = new System.Drawing.Point(815, 13);
+            this._wbtnMax.Margin = new System.Windows.Forms.Padding(0);
+            this._wbtnMax.Name = "_wbtnMax";
+            this._wbtnMax.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._wbtnMax.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._wbtnMax.ShadowWidth = 1F;
+            this._wbtnMax.Size = new System.Drawing.Size(35, 35);
+            this._wbtnMax.TabIndex = 7;
+            this._wbtnMax.Text = "";
+            this._wbtnMax.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._wbtnMax.WindowsButtonType = Concision.Control.WindowsButtonType.Maximize;
             // 
-            // windowsButton2
+            // _wbtnMin
             // 
-            this.windowsButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.windowsButton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.windowsButton2.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.windowsButton2.EnabledAdsorb = true;
-            this.windowsButton2.EnabledMousePierce = false;
-            this.windowsButton2.Font = new System.Drawing.Font("FontAwesome", 8F);
-            this.windowsButton2.ForeColor = System.Drawing.Color.White;
-            this.windowsButton2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            this.windowsButton2.IconSize = 8F;
-            this.windowsButton2.Location = new System.Drawing.Point(780, 13);
-            this.windowsButton2.Margin = new System.Windows.Forms.Padding(0);
-            this.windowsButton2.Name = "windowsButton2";
-            this.windowsButton2.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this.windowsButton2.Size = new System.Drawing.Size(30, 30);
-            this.windowsButton2.TabIndex = 8;
-            this.windowsButton2.Text = "";
-            this.windowsButton2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.windowsButton2.WindowsButtonType = Concision.Control.WindowsButtonType.Minimize;
+            this._wbtnMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._wbtnMin.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._wbtnMin.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._wbtnMin.EnabledMousePierce = false;
+            this._wbtnMin.Font = new System.Drawing.Font("FontAwesome", 10F);
+            this._wbtnMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this._wbtnMin.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this._wbtnMin.IconSize = 10F;
+            this._wbtnMin.Location = new System.Drawing.Point(780, 13);
+            this._wbtnMin.Margin = new System.Windows.Forms.Padding(0);
+            this._wbtnMin.Name = "_wbtnMin";
+            this._wbtnMin.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._wbtnMin.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._wbtnMin.ShadowWidth = 1F;
+            this._wbtnMin.Size = new System.Drawing.Size(35, 35);
+            this._wbtnMin.TabIndex = 8;
+            this._wbtnMin.Text = "";
+            this._wbtnMin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._wbtnMin.WindowsButtonType = Concision.Control.WindowsButtonType.Minimize;
             // 
             // _cbxMetadataProvider
             // 
@@ -261,23 +222,23 @@
             this._cbxMetadataProvider.Text = "选择元数据提供者";
             this._cbxMetadataProvider.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // line1
+            // _lineLeftRight
             // 
-            this.line1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this._lineLeftRight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.line1.CustomBursh = null;
-            this.line1.EnabledMousePierce = false;
-            this.line1.IsVertical = true;
-            this.line1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.line1.LineLength = 400;
-            this.line1.LineWidth = 1;
-            this.line1.Location = new System.Drawing.Point(285, 92);
-            this.line1.Margin = new System.Windows.Forms.Padding(0);
-            this.line1.Name = "line1";
-            this.line1.Size = new System.Drawing.Size(1, 400);
-            this.line1.TabIndex = 10;
-            this.line1.Text = "line1";
-            this.line1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._lineLeftRight.CustomBursh = null;
+            this._lineLeftRight.EnabledMousePierce = false;
+            this._lineLeftRight.IsVertical = true;
+            this._lineLeftRight.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._lineLeftRight.LineLength = 400;
+            this._lineLeftRight.LineWidth = 1;
+            this._lineLeftRight.Location = new System.Drawing.Point(285, 92);
+            this._lineLeftRight.Margin = new System.Windows.Forms.Padding(0);
+            this._lineLeftRight.Name = "_lineLeftRight";
+            this._lineLeftRight.Size = new System.Drawing.Size(1, 400);
+            this._lineLeftRight.TabIndex = 10;
+            this._lineLeftRight.Text = "line1";
+            this._lineLeftRight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // _cbxCodeTemplate
             // 
@@ -420,7 +381,7 @@
             this._dgvTableSchema.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -429,7 +390,7 @@
             this._dgvTableSchema.ColumnHeadersHeight = 30;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -440,7 +401,7 @@
             this._dgvTableSchema.Name = "_dgvTableSchema";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -502,48 +463,49 @@
             this._sylRefresh.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._sylRefresh.Click += new System.EventHandler(this._sylRefresh_Click);
             // 
-            // button1
+            // _btnCodeBuild
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.button1.EnabledMousePierce = false;
-            this.button1.EnabledWaitingClick = false;
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            this.button1.IsWaiting = false;
-            this.button1.Location = new System.Drawing.Point(658, 552);
-            this.button1.Margin = new System.Windows.Forms.Padding(0);
-            this.button1.Name = "button1";
-            this.button1.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this.button1.Size = new System.Drawing.Size(101, 30);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "组建";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.button1.Click += new System.EventHandler(this._btnBuildControl_Click);
+            this._btnCodeBuild.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnCodeBuild.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._btnCodeBuild.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._btnCodeBuild.EnabledMousePierce = false;
+            this._btnCodeBuild.EnabledWaitingClick = false;
+            this._btnCodeBuild.ForeColor = System.Drawing.Color.White;
+            this._btnCodeBuild.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this._btnCodeBuild.IsWaiting = false;
+            this._btnCodeBuild.Location = new System.Drawing.Point(660, 552);
+            this._btnCodeBuild.Margin = new System.Windows.Forms.Padding(0);
+            this._btnCodeBuild.Name = "_btnCodeBuild";
+            this._btnCodeBuild.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            this._btnCodeBuild.Size = new System.Drawing.Size(101, 30);
+            this._btnCodeBuild.TabIndex = 5;
+            this._btnCodeBuild.Text = "组建";
+            this._btnCodeBuild.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._btnCodeBuild.Click += new System.EventHandler(this._btnCodeBuildControl_Click);
             // 
-            // button2
+            // _btnCannel
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.button2.EnabledMousePierce = false;
-            this.button2.EnabledWaitingClick = false;
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
-            this.button2.IsWaiting = false;
-            this.button2.Location = new System.Drawing.Point(788, 552);
-            this.button2.Margin = new System.Windows.Forms.Padding(0);
-            this.button2.Name = "button2";
-            this.button2.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this.button2.Size = new System.Drawing.Size(101, 30);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "取消";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.button2.Click += new System.EventHandler(this._btnCannel_Click);
+            this._btnCannel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnCannel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._btnCannel.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._btnCannel.EnabledMousePierce = false;
+            this._btnCannel.EnabledWaitingClick = false;
+            this._btnCannel.ForeColor = System.Drawing.Color.White;
+            this._btnCannel.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
+            this._btnCannel.IsWaiting = false;
+            this._btnCannel.Location = new System.Drawing.Point(788, 552);
+            this._btnCannel.Margin = new System.Windows.Forms.Padding(0);
+            this._btnCannel.Name = "_btnCannel";
+            this._btnCannel.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            this._btnCannel.Size = new System.Drawing.Size(101, 30);
+            this._btnCannel.TabIndex = 6;
+            this._btnCannel.Text = "取消";
+            this._btnCannel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._btnCannel.Click += new System.EventHandler(this._btnCannel_Click);
             // 
             // _lblTip
             // 
+            this._lblTip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._lblTip.AutoEllipsis = true;
             this._lblTip.Location = new System.Drawing.Point(14, 565);
             this._lblTip.Name = "_lblTip";
@@ -553,6 +515,10 @@
             // 
             // MainForm
             // 
+            this.Animation.AnimationTime = 200;
+            this.Animation.Enabled = true;
+            this.Animation.HideEffect = Concision.WindowAnimationStyle.Fade;
+            this.Animation.ShowEffect = Concision.WindowAnimationStyle.Center;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
@@ -565,22 +531,19 @@
             this.Controls.Add(this._cbxNameFormat);
             this.Controls.Add(this._cbxMapType);
             this.Controls.Add(this._cbxCodeTemplate);
-            this.Controls.Add(this.line1);
+            this.Controls.Add(this._lineLeftRight);
             this.Controls.Add(this._cbxMetadataProvider);
-            this.Controls.Add(this.windowsButton2);
-            this.Controls.Add(this.windowsButton1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this._wbtnMin);
+            this.Controls.Add(this._wbtnMax);
             this.Controls.Add(this._btnCannel);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this._btnBuild);
+            this.Controls.Add(this._btnCodeBuild);
             this.Controls.Add(this._lineBottom);
             this.Controls.Add(this._lblTipInfo);
             this.Controls.Add(this._sylStepStatus);
             this.Controls.Add(this._lineTop);
-            this.Controls.Add(this._btnCloseWindows);
+            this.Controls.Add(this._wbtnClose);
             this.Name = "MainForm";
             this.Text = "MainForm";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this._pnlMetadataContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvTableSchema)).EndInit();
             this.ResumeLayout(false);
@@ -589,17 +552,15 @@
 
         #endregion
 
-        private Concision.Control.WindowsButton _btnCloseWindows;
+        private Concision.Control.WindowsButton _wbtnClose;
         private Concision.Control.Line _lineTop;
         private Concision.Control.Symbol _sylStepStatus;
         private Concision.Control.Line _lineBottom;
-        private Concision.Control.Button _btnCannel;
-        private Concision.Control.Button _btnBuild;
         private Concision.Control.Scutcheon _lblTipInfo;
-        private Concision.Control.WindowsButton windowsButton1;
-        private Concision.Control.WindowsButton windowsButton2;
+        private Concision.Control.WindowsButton _wbtnMax;
+        private Concision.Control.WindowsButton _wbtnMin;
         private Concision.Control.Combobox _cbxMetadataProvider;
-        private Concision.Control.Line line1;
+        private Concision.Control.Line _lineLeftRight;
         private Concision.Control.Combobox _cbxCodeTemplate;
         private Concision.Control.Combobox _cbxMapType;
         private Concision.Control.Combobox _cbxNameFormat;
@@ -609,8 +570,8 @@
         private Concision.Control.Symbol _sylRefresh;
         private System.Windows.Forms.TreeView _trvSchema;
         private System.Windows.Forms.DataGridView _dgvTableSchema;
-        private Concision.Control.Button button1;
-        private Concision.Control.Button button2;
+        private Concision.Control.Button _btnCodeBuild;
+        private Concision.Control.Button _btnCannel;
         private System.Windows.Forms.Label _lblTip;
         private System.Windows.Forms.ToolTip _tipTable;
     }

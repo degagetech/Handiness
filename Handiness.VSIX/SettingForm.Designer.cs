@@ -50,7 +50,6 @@
             this.windowsButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.windowsButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.windowsButton1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.windowsButton1.EnabledAdsorb = true;
             this.windowsButton1.EnabledMousePierce = false;
             this.windowsButton1.Font = new System.Drawing.Font("FontAwesome", 10F);
             this.windowsButton1.ForeColor = System.Drawing.Color.White;
@@ -60,6 +59,8 @@
             this.windowsButton1.Margin = new System.Windows.Forms.Padding(0);
             this.windowsButton1.Name = "windowsButton1";
             this.windowsButton1.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            this.windowsButton1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this.windowsButton1.ShadowWidth = 1F;
             this.windowsButton1.Size = new System.Drawing.Size(25, 25);
             this.windowsButton1.TabIndex = 0;
             this.windowsButton1.Text = "";
@@ -204,8 +205,8 @@
             this._txtConnectionString.Name = "_txtConnectionString";
             this._txtConnectionString.Size = new System.Drawing.Size(436, 26);
             this._txtConnectionString.TabIndex = 15;
-            this._txtConnectionString.Text = "server=192.168.182.103;Port=3306;Uid=root;Pwd=123456;DataBase=handinessOrm;Poolin" +
-    "g=true;charset=utf8;";
+            this._txtConnectionString.Text = "server=192.168.182.103;Port=3306;Uid=root;Pwd=123456;DataBase=forum;Pooling=true;" +
+    "charset=utf8;";
             this._txtConnectionString.Validating += new System.ComponentModel.CancelEventHandler(this._txtConnectionString_Validating);
             // 
             // _eprNamesapce
@@ -220,6 +221,10 @@
             // 
             // SettingForm
             // 
+            this.Animation.AnimationTime = 200;
+            this.Animation.Enabled = true;
+            this.Animation.HideEffect = Concision.WindowAnimationStyle.Fade;
+            this.Animation.ShowEffect = Concision.WindowAnimationStyle.Center;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(596, 235);

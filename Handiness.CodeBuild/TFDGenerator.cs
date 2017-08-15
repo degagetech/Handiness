@@ -87,29 +87,29 @@ namespace Handiness.CodeBuild
             this._dataTable.Rows.Clear();
 
             //添加名称空间列
-            this.CreateFillDataRow(PlaceHolderSpecification.NameSpace, nameSpace, null, null, true);
+            this.CreateFillDataRow(PlaceHolderRecognizableCollection.NameSpace, nameSpace, null, null, true);
 
             foreach (var schema in schemas)
             {
                 this.CreateFillDataRow(
-                    PlaceHolderSpecification.TableName,
+                    PlaceHolderRecognizableCollection.TableName,
                     schema.TableSchema.Name,
                     schema.TableSchema.Name, null, true);
-                this.CreateFillDataRow(PlaceHolderSpecification.ClassName,
+                this.CreateFillDataRow(PlaceHolderRecognizableCollection.ClassName,
                     this.NameModifier.ModifyTableName(schema.TableSchema.Name),
                     schema.TableSchema.Name, null, true);
-                this.CreateFillDataRow(PlaceHolderSpecification.TableExplain, schema.TableSchema.Explain, schema.TableSchema.Name, null, true);
+                this.CreateFillDataRow(PlaceHolderRecognizableCollection.TableExplain, schema.TableSchema.Explain, schema.TableSchema.Name, null, true);
                 foreach (var colSchema in schema.ColumnSchemas)
                 {
-                    this.CreateFillDataRow(PlaceHolderSpecification.ColumnName, colSchema.Name, schema.TableSchema.Name, colSchema.Name, true);
-                    this.CreateFillDataRow(PlaceHolderSpecification.ColumnExplain, colSchema.Explain, schema.TableSchema.Name, colSchema.Name, true);
-                    this.CreateFillDataRow(PlaceHolderSpecification.ColumnLength, colSchema.Length.ToString(), schema.TableSchema.Name, colSchema.Name, true);
-                    this.CreateFillDataRow(PlaceHolderSpecification.ColumnType, colSchema.Type, schema.TableSchema.Name, colSchema.Name, true);
+                    this.CreateFillDataRow(PlaceHolderRecognizableCollection.ColumnName, colSchema.Name, schema.TableSchema.Name, colSchema.Name, true);
+                    this.CreateFillDataRow(PlaceHolderRecognizableCollection.ColumnExplain, colSchema.Explain, schema.TableSchema.Name, colSchema.Name, true);
+                    this.CreateFillDataRow(PlaceHolderRecognizableCollection.ColumnLength, colSchema.Length.ToString(), schema.TableSchema.Name, colSchema.Name, true);
+                    this.CreateFillDataRow(PlaceHolderRecognizableCollection.ColumnType, colSchema.Type, schema.TableSchema.Name, colSchema.Name, true);
 
-                    this.CreateFillDataRow(PlaceHolderSpecification.FieldName, this.NameModifier.ModifyColumnNameOfField(colSchema.Name), schema.TableSchema.Name, colSchema.Name, true);
-                    this.CreateFillDataRow(PlaceHolderSpecification.PropertyName, this.NameModifier.ModifyColumnNameOfProperty(colSchema.Name), schema.TableSchema.Name, colSchema.Name, true);
+                    this.CreateFillDataRow(PlaceHolderRecognizableCollection.FieldName, this.NameModifier.ModifyColumnNameOfField(colSchema.Name), schema.TableSchema.Name, colSchema.Name, true);
+                    this.CreateFillDataRow(PlaceHolderRecognizableCollection.PropertyName, this.NameModifier.ModifyColumnNameOfProperty(colSchema.Name), schema.TableSchema.Name, colSchema.Name, true);
 
-                    this.CreateFillDataRow(PlaceHolderSpecification.MappingType, this.TypeMapper.Mapping(colSchema.Type, colSchema.Length), schema.TableSchema.Name, colSchema.Name, true);
+                    this.CreateFillDataRow(PlaceHolderRecognizableCollection.MappingType, this.TypeMapper.Mapping(colSchema.Type, colSchema.Length), schema.TableSchema.Name, colSchema.Name, true);
                 }
             }
 
