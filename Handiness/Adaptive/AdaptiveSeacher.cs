@@ -30,7 +30,7 @@ namespace Handiness.Adaptive
         public static IEnumerable<IAdaptiveExplain> ExportAdaptiveExplain(String directory = null)
         {
             directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
-            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
+            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.PatternOfALDllName);
             return ExportAdaptiveExplain(searchCatalog);
         }
         /// <summary>
@@ -39,7 +39,7 @@ namespace Handiness.Adaptive
         /// <param name="directory">指定目录</param>
         public static IEnumerable<IAdaptiveExplain> ExportAdaptiveExplain(ComposablePartCatalog catalog)
         {
-            return ObjectExportService.GetExports<IAdaptiveExplain>(catalog);
+            return InstanceExportService.GetExports<IAdaptiveExplain>(catalog);
         }
 
     }

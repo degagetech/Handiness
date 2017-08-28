@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CodeTemplate  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <!--代码模板构建说明
+      ~目前可在代码模板中识别并替换以下字符串，请使用“$”对以包裹占位符名称，而循环组请使用 “#”对
+      ~关于循环组格式的编辑说明：循环组中的格式会被应用到所有列上，之后框架将所有套用格式的列信息拼接起来，并填充到
+      Body中与循环组Key相关的循环组占位符中，例如 #Test#
+     
+     namespace  ##命名空间  例如 ：$namespace$ 在代码生成后会被替换为 Handiness
+      tablename   ##表的名称
+      tableexplain ##表的注释信息
+      classname    ##表的注释信息
+      columnname ##列的名称
+      propertyname ##属性名称（由列名转换而来）
+      fieldname ##字段名称（由属性名转换而来）
+      columnexplain ##列名称（由属性名转换而来） 
+      columntype  ##列类型 例如：varchar
+      mappingtype ##列映射后的类型，例如Mysql中的varchar一般在.NET中会被映射到String上
+      columnlength ##列的长度  例如：12
+      -->
+
+
+    <CodeTemplate  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Explain>.Net 默认模板</Explain>
   <Postfix>cs</Postfix>
   <Body>

@@ -6,7 +6,7 @@ using Handiness.Adaptive;
 using System.Reflection;
 using System.ComponentModel.Composition;
 
-namespace Handiness.MySql
+namespace Handiness.Oracle
 {
 
     /*-------------------------------------------------------------------------
@@ -22,12 +22,25 @@ namespace Handiness.MySql
     /// Mysql适配层描述接口
     /// </summary>
     [Export(typeof(IAdaptiveExplain))]
-    public class MysqlAdaptiveExplain : IAdaptiveExplain
-    {
-        public String Name => TextResources.AdaptiveName;
+    public class OracleAdaptiveExplain : IAdaptiveExplain
+    {      /// <summary>
+           /// 此适配层标识符
+           /// </summary>
+        internal const String ALGuid = "442157DA-5F41-40F9-9979-F75648B65024";
+        /// <summary>
+        /// 此适配层名称
+        /// </summary>
+        internal const String ALName = "Oracle";
+        /// <summary>
+        /// 此适配层版本
+        /// </summary>
+        internal const String ALVersion = "1.0.0.0";
 
-        public String Guid => TextResources.Guid;
+        /*************************************************/
+        public String Name => ALName;
 
-        public String Version => TextResources.Version;
+        public String Guid => ALGuid;
+
+        public String Version => ALVersion;
     }
 }

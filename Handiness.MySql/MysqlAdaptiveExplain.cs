@@ -19,15 +19,29 @@ namespace Handiness.MySql
  * 本类主要用途描述：Mysql适配层描述接口实现
  *  -------------------------------------------------------------------------*/
     /// <summary>
-    /// Mysql适配层描述接口
+    /// Mysql适配层描述器
     /// </summary>
     [Export(typeof(IAdaptiveExplain))]
     public class MysqlAdaptiveExplain : IAdaptiveExplain
     {
-        public String Name => TextResources.AdaptiveName;
+        /// <summary>
+        /// 此适配层标识符
+        /// </summary>
+        internal const String ALGuid = "41668F3A-DE95-4E1D-8213-0BCAAAA912C6";
+        /// <summary>
+        /// 此适配层名称
+        /// </summary>
+        internal const String ALName = "Mysql";
+        /// <summary>
+        /// 此适配层版本
+        /// </summary>
+        internal const String ALVersion = "1.0.0.0";
 
-        public String Guid => TextResources.Guid;
+        /*************************************************/
+        public String Name => ALName;
 
-        public String Version => TextResources.Version;
+        public String Guid => ALGuid;
+
+        public String Version => ALVersion;
     }
 }

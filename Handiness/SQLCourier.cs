@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,25 +15,27 @@ namespace Handiness
  * .NET 版本：4.0
  * 本类主要用途描述：用以在SQLNode之间传递已有的SQL与SQL参数
  *  -------------------------------------------------------------------------*/
-    public class SQLCourier
+    public class SQLCourier:IEnumerable
     {
-        public String SQL { get; private set; }
+        public String SQL { get { return this._sqlStringBuilder.ToString(); } }
+        private StringBuilder _sqlStringBuilder = null;
+
         public IDictionary<String, Object> SQLParameters { get; private set; }
 
         public SQLCourier(String sql, IDictionary<String, Object> parameters)
         {
-            this.SQL = sql;
+            this._sqlStringBuilder = new StringBuilder(sql);
             this.SQLParameters = parameters;
         }
 
         /// <summary>
-        /// 向参数字典中添加新的参数，如果存在则会更新原有值
+        /// 向参数字典中添加新的参数对，如果存在则会更新原有值
         /// </summary>
         /// <param name="name">参数名称</param>
         /// <param name="value">参数值</param>
         public void Add(String name, Object value)
         {
-            if (String.IsNullOrEmpty(name))
+            if (String.IsNullOrWhiteSpace(name))
             {
                 return;
             }
@@ -58,12 +61,17 @@ namespace Handiness
             }
             if (-1 == index)
             {
-                this.SQL = this.SQL + sql;
+                this._sqlStringBuilder.Append(sql);
             }
             else
             {
-                this.SQL = this.SQL.Insert(index, sql);
+                this._sqlStringBuilder.Insert(index, sql);
             }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return this.SQLParameters.GetEnumerator();
         }
     }
 }

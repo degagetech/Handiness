@@ -205,8 +205,8 @@
             this._txtConnectionString.Name = "_txtConnectionString";
             this._txtConnectionString.Size = new System.Drawing.Size(436, 26);
             this._txtConnectionString.TabIndex = 15;
-            this._txtConnectionString.Text = "server=192.168.182.103;Port=3306;Uid=root;Pwd=123456;DataBase=forum;Pooling=true;" +
-    "charset=utf8;";
+            this._txtConnectionString.Text = "server=192.168.182.103;Port=3306;Uid=root;Pwd=123456;DataBase=handinessOrm;Poolin" +
+    "g=true;charset=utf8;";
             this._txtConnectionString.Validating += new System.ComponentModel.CancelEventHandler(this._txtConnectionString_Validating);
             // 
             // _eprNamesapce
@@ -221,10 +221,6 @@
             // 
             // SettingForm
             // 
-            this.Animation.AnimationTime = 200;
-            this.Animation.Enabled = true;
-            this.Animation.HideEffect = Concision.WindowAnimationStyle.Fade;
-            this.Animation.ShowEffect = Concision.WindowAnimationStyle.Center;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(596, 235);

@@ -20,7 +20,7 @@ namespace Handiness.Metadata
         /********************/
 
         private DbConnection _connection = null;
-        protected DbConnection Connection { get => this._connection; set => this._connection = value; }
+        protected virtual DbConnection Connection { get => this._connection; set => this._connection = value; }
         protected abstract String GetDatabaseName();
 
         /********************/
@@ -28,27 +28,42 @@ namespace Handiness.Metadata
         protected MetadataProvider() { }
 
         /********************/
-        public void Close()
+        public virtual void Close()
         {
             if (this._connection.State == System.Data.ConnectionState.Open)
             {
                 this._connection.Close();
             }
         }
-        public void Dispose()
+        public virtual void Dispose()
         {
             this.Close();
             this._connection.Dispose();
         }
-        public void Open(String connectionString)
+        public virtual void Open(String connectionString)
         {
-            if (String.IsNullOrWhiteSpace(connectionString))
+             if (String.IsNullOrWhiteSpace(connectionString))
             {
-                throw new ArgumentException(TextResources.ConnectionStringWithEmpty);
+                throw new ArgumentException(TextResources.ErrorOfConnectionStringWithEmpty);
             }
-            this.Close();
-            this._connection.ConnectionString = connectionString;
-            this._connection.Open();
+            switch (this.Connection.State)
+            {
+                case ConnectionState.Open:
+                    {
+                        if (this.Connection.ConnectionString.Trim().ToLower() != connectionString.Trim().ToLower())
+                        {
+                            this.Connection.Close();
+                            this.Connection.ConnectionString = connectionString;
+                            this.Connection.Open();
+                        }
+                    }break;
+                default:
+                    {
+                        this._connection.ConnectionString = connectionString;
+                        this._connection.Open();
+                    }
+                    break;
+            }
         }
 
         /********************/
@@ -98,11 +113,11 @@ namespace Handiness.Metadata
             IMetadataProvider instance = null;
             if (String.IsNullOrWhiteSpace(adaptiveGuid))
             {
-                throw new ArgumentException(TextResources.ALNameGuidWithEmpty);
+                throw new ArgumentException(TextResources.ErrorOfALNameGuidWithEmpty);
             }
             directory = directory ?? Path.GetDirectoryName(directory ?? Assembly.GetExecutingAssembly().Location);
-            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
-            instance=ObjectExportService.GetExport<IMetadataProvider>(searchCatalog, adaptiveGuid);
+            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.PatternOfALDllName);
+            instance=InstanceExportService.GetExport<IMetadataProvider>(searchCatalog, adaptiveGuid);
             return instance;
         }
         /// <summary>
@@ -111,13 +126,19 @@ namespace Handiness.Metadata
         /// <param name="directory">指定的目录，默认为本程序集所在目录</param>
         public static IEnumerable<IMetadataProvider> ExportMetadataProviders(String directory = null)
         {
+            List<IMetadataProvider> providerList = new List<IMetadataProvider>();
             directory =Path.GetDirectoryName(directory ?? Assembly.GetExecutingAssembly().Location);
-            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
+            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.PatternOfALDllName);
             var adaptives=AdaptiveSeacher.ExportAdaptiveExplain(searchCatalog);
             foreach (var adaptive in adaptives)
             {
-                yield return ObjectExportService.GetExport<IMetadataProvider>(searchCatalog, adaptive.Guid);
+              var provider=InstanceExportService.GetExport<IMetadataProvider>(searchCatalog, adaptive.Guid);
+                if (provider != null)
+                {
+                    providerList.Add(provider);
+                }
             }
+            return providerList;
         }
     }
 }

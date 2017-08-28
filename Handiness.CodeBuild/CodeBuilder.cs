@@ -77,7 +77,6 @@ namespace Handiness.CodeBuild
         /// <returns>返回元组（名称，代码）集合</returns>
         public IEnumerable<(String Name, String Code)> Building()
         {
-           
             foreach (var schema in this.Schemas)
             {
                 String code = String.Empty;
@@ -86,6 +85,46 @@ namespace Handiness.CodeBuild
                     $"{this.NameModifier.ModifyTableName(schema.TableSchema.Name)}.{this.CodeTemplate.Postfix.Trim()}",
                    this.EmbellishCode(code));
             }
+        }
+        /// <summary>
+        /// 使用当前的 Schema 信息及其他组件，组建 Schema 文件，并将文件存放至指定路径
+        /// </summary>
+        public Boolean BuildingSchemaFile(String savePath)
+        {
+            Boolean isCompleted = false;
+            if (this.Schemas != null && this.Schemas.Count() > 0)
+            {
+                Int32 tableCount = this.Schemas.Count();
+                SchemaXml schemaXml = new SchemaXml();
+                schemaXml.DbName = this.Schemas.First().TableSchema.DbName;
+                schemaXml.Tables = new TableSchemaXml[tableCount];
+
+                for (Int32 i = 0; i < tableCount; ++i)
+                {
+                    var node = this.Schemas.ElementAt(i);
+                    TableSchema tableSchema = node.TableSchema;
+                    IEnumerable<ColumnSchema> columnSchemas = node.ColumnSchemas;
+                    Int32 columnCount = columnSchemas.Count();
+
+                    TableSchemaXml tabSchemaXml = new TableSchemaXml();
+                    tabSchemaXml.Key = this.NameModifier.ModifyTableName(tableSchema.Name);
+                    tabSchemaXml.Schema = tableSchema;
+                    tabSchemaXml.Columns = new ColumnSchemaXml[columnCount];
+
+                    for (Int32 j = 0; j < columnCount; ++j)
+                    {
+                        ColumnSchema colSchema = columnSchemas.ElementAt(j);
+                        ColumnSchemaXml colSchemaXml = new ColumnSchemaXml();
+                        colSchemaXml.Key = this.NameModifier.ModifyColumnNameOfProperty(colSchema.Name);
+                        colSchemaXml.Schema = colSchema;
+                        tabSchemaXml.Columns[j] = colSchemaXml;
+                    }
+                    schemaXml.Tables[i] = tabSchemaXml;
+                    SchemaManager.SaveSchemaXml(savePath,schemaXml);
+                    isCompleted = true;
+                }
+            }
+            return isCompleted;
         }
         /// <summary>
         /// 修饰代码，例如去除一些空行

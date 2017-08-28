@@ -10,7 +10,7 @@ namespace Handiness
 
 
     /// <summary>
-    ///工具类：对象的xml序列化与反序列化
+    ///工具类：对象的XML序列化与反序列化
     /// </summary>
     public class TKXmlSerializer
     {

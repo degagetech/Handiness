@@ -208,7 +208,7 @@
             this._cbxMetadataProvider.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxMetadataProvider.IsWaiting = false;
             this._cbxMetadataProvider.ItemFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxMetadataProvider.ItemHeight = 25;
+            this._cbxMetadataProvider.ItemHeight = 30;
             this._cbxMetadataProvider.Location = new System.Drawing.Point(17, 72);
             this._cbxMetadataProvider.Margin = new System.Windows.Forms.Padding(0);
             this._cbxMetadataProvider.Name = "_cbxMetadataProvider";
@@ -253,8 +253,8 @@
             this._cbxCodeTemplate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this._cbxCodeTemplate.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxCodeTemplate.IsWaiting = false;
-            this._cbxCodeTemplate.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxCodeTemplate.ItemHeight = 25;
+            this._cbxCodeTemplate.ItemFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxCodeTemplate.ItemHeight = 30;
             this._cbxCodeTemplate.Location = new System.Drawing.Point(17, 124);
             this._cbxCodeTemplate.Margin = new System.Windows.Forms.Padding(0);
             this._cbxCodeTemplate.Name = "_cbxCodeTemplate";
@@ -281,8 +281,8 @@
             this._cbxMapType.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this._cbxMapType.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxMapType.IsWaiting = false;
-            this._cbxMapType.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxMapType.ItemHeight = 25;
+            this._cbxMapType.ItemFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxMapType.ItemHeight = 30;
             this._cbxMapType.Location = new System.Drawing.Point(17, 233);
             this._cbxMapType.Margin = new System.Windows.Forms.Padding(0);
             this._cbxMapType.Name = "_cbxMapType";
@@ -309,8 +309,8 @@
             this._cbxNameFormat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this._cbxNameFormat.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxNameFormat.IsWaiting = false;
-            this._cbxNameFormat.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxNameFormat.ItemHeight = 25;
+            this._cbxNameFormat.ItemFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxNameFormat.ItemHeight = 30;
             this._cbxNameFormat.Location = new System.Drawing.Point(14, 178);
             this._cbxNameFormat.Margin = new System.Windows.Forms.Padding(0);
             this._cbxNameFormat.Name = "_cbxNameFormat";
@@ -337,8 +337,8 @@
             this._cbxActiveProject.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this._cbxActiveProject.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this._cbxActiveProject.IsWaiting = false;
-            this._cbxActiveProject.ItemFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._cbxActiveProject.ItemHeight = 25;
+            this._cbxActiveProject.ItemFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._cbxActiveProject.ItemHeight = 30;
             this._cbxActiveProject.Location = new System.Drawing.Point(17, 286);
             this._cbxActiveProject.Margin = new System.Windows.Forms.Padding(0);
             this._cbxActiveProject.Name = "_cbxActiveProject";
@@ -377,6 +377,7 @@
             this._dgvTableSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this._dgvTableSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this._dgvTableSchema.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this._dgvTableSchema.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -408,6 +409,7 @@
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this._dgvTableSchema.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this._dgvTableSchema.RowHeadersVisible = false;
+            this._dgvTableSchema.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
             this._dgvTableSchema.RowTemplate.Height = 30;
             this._dgvTableSchema.Size = new System.Drawing.Size(403, 459);
             this._dgvTableSchema.TabIndex = 1;
@@ -515,10 +517,6 @@
             // 
             // MainForm
             // 
-            this.Animation.AnimationTime = 200;
-            this.Animation.Enabled = true;
-            this.Animation.HideEffect = Concision.WindowAnimationStyle.Fade;
-            this.Animation.ShowEffect = Concision.WindowAnimationStyle.Center;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
@@ -544,6 +542,7 @@
             this.Controls.Add(this._wbtnClose);
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this._pnlMetadataContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvTableSchema)).EndInit();
             this.ResumeLayout(false);

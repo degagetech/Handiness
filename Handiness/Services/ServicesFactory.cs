@@ -25,12 +25,12 @@ namespace Handiness.Services
         {
             if (String.IsNullOrWhiteSpace(adaptiveGuid))
             {
-                throw new ArgumentException(TextResources.ALNameGuidWithEmpty);
+                throw new ArgumentException(TextResources.ErrorOfALNameGuidWithEmpty);
             }
             T instance = default(T);
             directory = directory ?? AppDomain.CurrentDomain.BaseDirectory;
-            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.ALNamePattern);
-            ObjectExportService.GetExport<T>(searchCatalog, adaptiveGuid);
+            DirectoryCatalog searchCatalog = new DirectoryCatalog(directory, TextResources.PatternOfALDllName);
+            InstanceExportService.GetExport<T>(searchCatalog, adaptiveGuid);
             return instance;
         }
     }

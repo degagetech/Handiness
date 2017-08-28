@@ -87,21 +87,16 @@ namespace Handiness.Metadata
         {
             return TKXmlSerializer.Load<SchemaXml>(files);
         }
+    
         /// <summary>
         /// 将内存中的Schema信息保存到本地磁盘上
         /// </summary>
-        /// <param name="path">路径</param>
-        /// <param name="schemas">schema信息</param>
-        public static void Save(String path, params SchemaXml[] schemas)
+        /// <param name="filePath">路径含文件名称</param>
+        /// <param name="schemaXml">schemaXml信息</param>
+        public static void SaveSchemaXml(String filePath, SchemaXml schemaXml)
         {
-            path = path.EndsWith("\\") ? path : path + "\\";
-            foreach (var schema in schemas)
-            {
-                String fileName = String.Format(SchemaXml.SchemaFileNamePattern, schema.DbName);
-                String filePath = path + fileName;
-                File.Delete(filePath);
-                TKXmlSerializer.Serialize<SchemaXml>(schema, filePath);
-            }
+            File.Delete(filePath);
+            TKXmlSerializer.Serialize<SchemaXml>(schemaXml, filePath);
         }
     }
 }

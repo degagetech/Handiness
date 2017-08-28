@@ -12,15 +12,48 @@ using System.Text.RegularExpressions;
 namespace Handiness.MySql
 {
 
-    [Export(TextResources.Guid,typeof(IMetadataProvider))]
+    [Export(MysqlAdaptiveExplain.ALGuid, typeof(IMetadataProvider))]
     public class MySqlMetadataProvider : MetadataProvider
     {
-        public override String Version => TextResources.Version;
-        public override String Explain => TextResources.MetadataProviderExplain;
+        /// <summary>
+        /// 此<see cref="MetadataProvider"/> 的描述信息
+        /// </summary>
+        internal const String ProviderExplain = "Mysql,MariaDb";
+
+        // 架构名称用于查询指定架构
+        internal const String CollectionNameOfColumn = "Columns";
+        internal const String CollectionNameOfTable = "Tables";
+
+
+        // 辅助字段用于一些条件的判断
+        internal const String KeyTypeOfPrimary = "PRI";
+        internal const String NullableOfYes = "YES";
+
+        //元数据信息-列架构字段名称
+        internal const String ColumnOfName = "COLUMN_NAME";
+        internal const String ColumnOfTableName = "TABLE_NAME";
+        internal const String ColumnOfDbType = "DATA_TYPE";
+        internal const String ColumnOfKey = "COLUMN_KEY";
+        internal const String ColumnOfColType = "COLUMN_TYPE";
+        internal const String ColumnOfNullable = "IS_NULLABLE";
+        internal const String ColumnOfComment = "COLUMN_COMMENT";
+      
+
+       //元数据信息-表架构字段名称
+        internal const String TableOfName = "Table_NAME";
+        internal const String TableOfDbName = "TABLE_SCHEMA";
+        internal const String TableOfComment = "TABLE_COMMENT";
+       
+
+
+        /**************************************************************/
+        public override String Version => MysqlAdaptiveExplain.ALVersion;
+        public override String Explain => ProviderExplain;
 
 
         private String _databaseName = String.Empty;
-        /********************/
+        private MySqlConnectionStringBuilder _stringBuilder = new MySqlConnectionStringBuilder();
+
         /// <summary>
         /// 用于提取列长度信息字符串的正则表达式
         /// </summary>
@@ -39,7 +72,7 @@ namespace Handiness.MySql
             String[] restrictions = new String[] { null, null, null, null };
             List<ColumnSchema> result = new List<ColumnSchema>();
             if (!String.IsNullOrWhiteSpace(tableName)) restrictions[2] = tableName;
-            DataTable originalMetadata = this.Connection.GetSchema(TextResources.CollectionNameOfColumn, restrictions);
+            DataTable originalMetadata = this.Connection.GetSchema(CollectionNameOfColumn, restrictions);
             foreach (DataRow row in originalMetadata.Rows)
             {
                 ColumnSchema schema = this.ColumnMetadataToSechma(row);
@@ -54,9 +87,9 @@ namespace Handiness.MySql
         {
             ColumnSchema schema = new ColumnSchema
             (
-                 name: row[TextResources.ColumnOfName] as String,
-                 tableName: row[TextResources.ColumnOfTableName] as String,
-                 type: row[TextResources.ColumnOfDbType] as String,
+                 name: row[ColumnOfName] as String,
+                 tableName: row[ColumnOfTableName] as String,
+                 type: row[ColumnOfDbType] as String,
                  isPrimekey: this.IsPrimaryKey(row),
                  isNullable: this.IsNullable(row),
                  explain: this.GetExplain(row),
@@ -67,7 +100,7 @@ namespace Handiness.MySql
 
         public override IEnumerable<TableSchema> GetTableSchemas()
         {
-            DataTable dt = this.Connection.GetSchema(TextResources.CollectionNameOfTable, null);
+            DataTable dt = this.Connection.GetSchema(CollectionNameOfTable, null);
             foreach (DataRow row in dt.Rows)
             {
                 TableSchema schema = this.TableMetadataToSechma(row);
@@ -83,9 +116,9 @@ namespace Handiness.MySql
         protected override Boolean IsPrimaryKey(DataRow row)
         {
             Boolean isPrimaryKey = false;
-            String primaryKeyInfo = row[TextResources.ColumnOfKey] as String;
+            String primaryKeyInfo = row[ColumnOfKey] as String;
             if (!String.IsNullOrWhiteSpace(primaryKeyInfo) &&
-                TextResources.KeyTypeOfPrimary == primaryKeyInfo)
+                KeyTypeOfPrimary == primaryKeyInfo)
             {
                 isPrimaryKey = true;
             }
@@ -95,7 +128,7 @@ namespace Handiness.MySql
         protected override Int32 GetLength(DataRow row)
         {
             Int32 length = 0;
-            String columnType = row[TextResources.ColumnOfColType] as String;
+            String columnType = row[ColumnOfColType] as String;
             if (!String.IsNullOrWhiteSpace(columnType))
             {
                 Match macth = this._regexExtractLength.Match(columnType);
@@ -111,8 +144,8 @@ namespace Handiness.MySql
         protected override Boolean IsNullable(DataRow row)
         {
             Boolean isNullable = false;
-            String nullableStr = row[TextResources.ColumnOfNullable] as String;
-            if (!String.IsNullOrWhiteSpace(nullableStr) && nullableStr == TextResources.NullableOfYes)
+            String nullableStr = row[ColumnOfNullable] as String;
+            if (!String.IsNullOrWhiteSpace(nullableStr) && nullableStr == NullableOfYes)
             {
                 isNullable = true;
             }
@@ -121,26 +154,22 @@ namespace Handiness.MySql
 
         protected override String GetExplain(DataRow row)
         {
-            String explain = row[TextResources.ColumnOfComment] as String;
+            String explain = row[ColumnOfComment] as String;
             return explain;
         }
 
         protected override String GetDatabaseName()
         {
             String datebaseName = null;
-            if (this.Connection.ConnectionString != null)
-            {
-                MySqlConnectionStringBuilder stringBuilder = new MySqlConnectionStringBuilder(this.Connection.ConnectionString);
-                datebaseName = stringBuilder.Database;
-            }
+            datebaseName = this.Connection.Database;
             return datebaseName;
         }
 
         protected override TableSchema TableMetadataToSechma(DataRow row)
         {
             TableSchema schema = new TableSchema(
-                row[TextResources.TableOfName] as String,
-                row[TextResources.TableOfDbName] as String,
+                row[TableOfName] as String,
+                row[TableOfDbName] as String,
                 this.GetTableExplain(row)
                 );
             return schema;
@@ -148,7 +177,7 @@ namespace Handiness.MySql
 
         protected override string GetTableExplain(DataRow row)
         {
-            return row[TextResources.TableOfComment] as String;
+            return row[TableOfComment] as String;
         }
 
 

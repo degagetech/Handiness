@@ -1,26 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Concision;
-using System.Reflection;
-using System.Collections;
-using Handiness.Metadata;
-using System.Threading;
-using Handiness.CodeBuild;
+﻿using Concision;
 using EnvDTE;
-
-using System.ComponentModel.Design;
-using System.Globalization;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Task = System.Threading.Tasks.Task;
+using Handiness.CodeBuild;
+using Handiness.Metadata;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
+using Task = System.Threading.Tasks.Task;
 
 namespace Handiness.VSIX
 {
@@ -32,6 +18,7 @@ namespace Handiness.VSIX
         public enum MetadataBuildingStatus
         {
             Error,
+            NotFoundMetadata,
             Building,
             Completed
         }
@@ -51,6 +38,7 @@ namespace Handiness.VSIX
         /// </summary>
         public enum BuildingStatus
         {
+            Error,
             Processing,
             Completed,
             ProjectChanging,
@@ -86,16 +74,25 @@ namespace Handiness.VSIX
             this.BuildingStatusChanged += MainForm_BuildingStatusChanged;
             this.SettingTreeStyle();
         }
-        #region 事件注册
+        #region 文字信息绘制
         private void MainForm_BuildingStatusChanged(BuildingStatus state, Object extra)
         {
             String stateInfo = String.Empty;
             switch (state)
             {
-                case BuildingStatus.Processing: {
+                case BuildingStatus.Error:
+                    {
+                        Exception exc = extra as Exception;
+                        stateInfo = $"发生错误：{exc.Message}";
+                        this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithNormal, false);
+                    }
+                    break;
+                case BuildingStatus.Processing:
+                    {
                         stateInfo = "组建中...";
                         this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithBuilding, true);
-                    } break;
+                    }
+                    break;
                 case BuildingStatus.ProjectChanging: stateInfo = "项目文件添加"; break;
                 case BuildingStatus.ProjectChanged: stateInfo = "项目文件完成"; break;
                 case BuildingStatus.Completed:
@@ -103,7 +100,8 @@ namespace Handiness.VSIX
                     {
                         stateInfo = "组建完成";
                         this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithNormal, false);
-                    } break;
+                    }
+                    break;
             }
             this.DrawTipInfo($"组建状态：{stateInfo}");
         }
@@ -119,9 +117,15 @@ namespace Handiness.VSIX
                         this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithConnection, true);
                     }
                     break;
-                case MetadataBuildingStatus.Error:
+                case MetadataBuildingStatus.NotFoundMetadata:
                     {
                         stateInfo = "错误，无可用元数据提供者！";
+                        this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithNormal, false);
+                    }
+                    break;
+                case MetadataBuildingStatus.Error:
+                    {
+                        stateInfo = $"发生异常-{extra as String}";
                         this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithNormal, false);
                     }
                     break;
@@ -320,7 +324,7 @@ namespace Handiness.VSIX
             this.Building();
         }
 
- 
+
         private async void Building()
         {
             var result = this.SettingParameter(this.BuildAssistPacket);
@@ -330,25 +334,48 @@ namespace Handiness.VSIX
                 return;
             }
             this.OnBuildingStatusChanged(BuildingStatus.Processing);
-          
-            await Task.Run(() =>
-            {
-                CodeBuilder codeBuilder = new CodeBuilder(
-                    this.BuildAssistPacket.Schemas,
-                    this.BuildAssistPacket.CodeTemplate,
-                    this.BuildAssistPacket.TypeMapper,
-                    this.BuildAssistPacket.NameModifier,
-                    this.BuildAssistPacket.NameSpace
-                    );
-                var codes = codeBuilder.Building();
-                foreach (var code in codes)
+
+            Tuple<Boolean, Object> buildingResult = await Task.Run<Tuple<Boolean, Object>>(() =>
                 {
-                    this.AddCodeToProject(code.Name, code.Code);
-                }
-            });
-            this.OnBuildingStatusChanged(BuildingStatus.Completed);
+                    try
+                    {
+                        CodeBuilder codeBuilder = new CodeBuilder(
+                      this.BuildAssistPacket.Schemas,
+                      this.BuildAssistPacket.CodeTemplate,
+                      this.BuildAssistPacket.TypeMapper,
+                      this.BuildAssistPacket.NameModifier,
+                      this.BuildAssistPacket.NameSpace
+                      );
+                        var codes = codeBuilder.Building();
+                        foreach (var code in codes)
+                        {
+                            this.AddCodeToProject(code.Name, code.Code, this.BuildAssistPacket.Project);
+                        }
+                        String schemaFileName = $"{ this.BuildAssistPacket.MetadataProvider.DatabaseName}.{SchemaXml.SchemFileExt}";
+                        String schemaFilePath = @".\" + schemaFileName;
+                        if (codeBuilder.BuildingSchemaFile(schemaFilePath))
+                        {
+                            this.AddFileToProject(schemaFilePath, this.BuildAssistPacket.Project);
+                        }
+                        return Tuple.Create<Boolean, Object>(true, null);
+                    }
+                    catch (Exception exc)
+                    {
+                        this.OnBuildingStatusChanged(BuildingStatus.Error, exc);
+                        return Tuple.Create<Boolean, Object>(false, exc);
+                    }
+                });
+            if (result.Item1)
+            {
+                this.OnBuildingStatusChanged(BuildingStatus.Completed);
+            }
+            else
+            {
+                this.OnBuildingStatusChanged(BuildingStatus.Error, result.Item2);
+            }
         }
-        private void AddCodeToProject(String name, String code)
+
+        private void AddCodeToProject(String name, String code, EnvDTE.Project project)
         {
             FileInfo fileInfo = null;
             //生成临时代码文件
@@ -360,18 +387,34 @@ namespace Handiness.VSIX
                 writer.Write(code);
                 writer.Flush();
             }
-            var projectItem = this.QueryProjectItem(this.BuildAssistPacket.Project, name);
-            if (projectItem != null) projectItem.Delete();
-            //往指定项目添加代码文件
-            this.BuildAssistPacket.Project.ProjectItems.AddFromFileCopy(fileInfo.FullName);
+            this.AddFileToProject(fileInfo.FullName, project);
             fileInfo.Delete();
+        }
+        /// <summary>
+        /// 添加文件至指定项目
+        /// </summary>
+        private void AddFileToProject(String filePath, EnvDTE.Project project)
+        {
+            String fileName = Path.GetFileName(filePath);
+            String projectPath = Path.GetDirectoryName(project.FullName);
+            String oldFileFullName = projectPath + fileName;
+            var projectItem = this.QueryProjectItem(this.BuildAssistPacket.Project, fileName);
+
+            if (projectItem != null) projectItem.Delete();
+            else
+            {
+                if (File.Exists(oldFileFullName))
+                {
+                    File.Delete(oldFileFullName);
+                }
+            }
+            project.ProjectItems.AddFromFileCopy(filePath);
         }
         /// <summary>
         /// 获取指定名称的项目文件对象
         /// </summary>
         private ProjectItem QueryProjectItem(EnvDTE.Project project, String name)
         {
-
             foreach (ProjectItem item in project.ProjectItems)
             {
                 String fileName = item.Name;
@@ -393,8 +436,7 @@ namespace Handiness.VSIX
             IMetadataProvider provider = this._cbxMetadataProvider.SelectedValue as IMetadataProvider;
             if (provider == null)
             {
-                this.OnMetadataBuildingStatusChanged(MetadataBuildingStatus.Error);
-           
+                this.OnMetadataBuildingStatusChanged(MetadataBuildingStatus.NotFoundMetadata);
                 return;
             }
             SettingForm form = new SettingForm(this.BuildAssistPacket);
@@ -416,7 +458,7 @@ namespace Handiness.VSIX
                  String errorInfo = String.Empty;
                  Boolean isCmpld = true;
                  List<Tuple<TableSchema, IEnumerable<ColumnSchema>>>
-                 list = new List<Tuple<TableSchema, IEnumerable<ColumnSchema>>>();
+                 schemaList = new List<Tuple<TableSchema, IEnumerable<ColumnSchema>>>();
                  try
                  {
                      provider.Open(this.BuildAssistPacket.ConnectionString);
@@ -424,7 +466,7 @@ namespace Handiness.VSIX
                      foreach (var tableSchema in tableSchemas)
                      {
                          IEnumerable<ColumnSchema> colSchemas = provider.GetColumnSchemas(tableSchema.Name);
-                         list.Add(Tuple.Create(tableSchema, colSchemas));
+                         schemaList.Add(Tuple.Create(tableSchema, colSchemas));
                      }
                  }
                  catch (Exception exc)
@@ -436,24 +478,23 @@ namespace Handiness.VSIX
                  {
                      provider.Close();
                  }
-                 return (isCmpld, list, errorInfo);
+                 return (isCmpld, schemaList, errorInfo);
              });
             if (result.Item1 && result.Item2.Count > 0)
             {
                 this._trvSchema.Nodes.Clear();
-                this._dgvTableSchema.Rows.Clear();
                 this._dgvTableSchema.DataSource = result.Item2[0].Item2;
                 foreach (var schema in result.Item2)
                 {
                     this.DrawMetadata(schema);
                 }
+                this.OnMetadataBuildingStatusChanged(MetadataBuildingStatus.Completed);
             }
             else
             {
                 info = result.Item3;
+                this.OnMetadataBuildingStatusChanged(MetadataBuildingStatus.Error, info);
             }
-            this.DrawTipInfo(info);
-            this.OnMetadataBuildingStatusChanged(MetadataBuildingStatus.Completed);
         }
         private void DrawMetadata(Tuple<TableSchema, IEnumerable<ColumnSchema>> schema)
         {
@@ -511,6 +552,15 @@ namespace Handiness.VSIX
         {
             Tuple<TableSchema, IEnumerable<ColumnSchema>> schema = (Tuple<TableSchema, IEnumerable<ColumnSchema>>)(e.Node.Tag);
             this._dgvTableSchema.DataSource = schema.Item2;
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.CloseAllConnection();
+        }
+        private void CloseAllConnection()
+        {
+            //foreach(var item in this._cbxMetadataProvider.Items)
         }
     }
 }

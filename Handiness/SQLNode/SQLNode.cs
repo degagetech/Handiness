@@ -15,24 +15,12 @@ namespace Handiness
     * 本接口规范描述：用于SQL生成的功能点
     *  -------------------------------------------------------------------------*/
 
-    public class SQLNode<T> where T : RowBase
+    public abstract class SQLNode<T> where T : RowBase
     {
         public SchemaCourier<T> SchemaCourier { get; set; } = null;
         public SQLCourier SQLCourier { get; set; } = null;
+        public abstract SQLNodeType NodeType { get; protected set; }
+        public abstract Int32 NodeLevel { get; protected set; }
     }
-    public enum SQLNodeType
-    {
-        /// <summary>
-        /// 主节点
-        /// </summary>
-        Primary,
-        /// <summary>
-        /// 条件节点
-        /// </summary>
-        Where,
-        /// <summary>
-        /// 辅节点
-        /// </summary>
-        Assist
-    }
+
 }

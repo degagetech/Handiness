@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.CompilerServices;
-[assembly:SuppressIldasm]
+[assembly: SuppressIldasm]
 
 namespace Handiness
 {
@@ -18,17 +18,17 @@ namespace Handiness
  *  -------------------------------------------------------------------------*/
     internal class TextResources
     {
-        /// <summary>
-        /// 数据库适配层程序集名称样式
-        /// </summary>
-        public const String ALNamePattern = "Handiness.*.dll";
+        //名称格式
+        internal const String PatternOfALDllName = "Handiness.*.dll";
 
-        public const String ALNameGuidWithEmpty = "数据库适配层guid为空";
-        public const String ColumnNameWithEmpty = "空的列名";
-        public const String ConnectionStringWithEmpty = "空的连接字符串";
-        public const String TableNameWithEmpty = "空的表名";
+        //错误信息
+        internal const String ErrorOfALNameGuidWithEmpty = "数据库适配层guid为空";
+        internal const String ErrorOfConnectionStringWithEmpty = "空的连接字符串";
+        internal const String ErrorOfTableNameWithEmpty = "空的表名";
+        internal const String ErrorOfColumnNameWithEmpty = "空的列名";
 
-        public const String DeserializationSchemaFailedPattern = "在反序列化 {0} 中的Schema信息时失败";
-      
+        //错误信息模板
+        internal const String EFTOfDeserialization = "在反序列化 {0} 中的 {1} 信息时失败";
+
     }
 }

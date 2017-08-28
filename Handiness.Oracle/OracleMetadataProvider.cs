@@ -8,42 +8,99 @@ using Oracle.ManagedDataAccess.Client;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
-namespace Handiness.MySql
+namespace Handiness.Oracle
 {
 
-    [Export(TextResources.Guid,typeof(IMetadataProvider))]
-    public class MySqlMetadataProvider : MetadataProvider
+    [Export(OracleAdaptiveExplain.ALGuid, typeof(IMetadataProvider))]
+    public class OracleMetadataProvider : MetadataProvider
     {
-        public override String Version => TextResources.Version;
-        public override String Explain => TextResources.MetadataProviderExplain;
+        /// <summary>
+        /// 此<see cref="MetadataProvider"/> 的描述信息
+        /// </summary>
+        internal const String ProviderExplain = "Oracle";
 
+        // 架构名称用于查询指定架构
+        internal const String CollectionNameOfColumn = "Columns";
+        internal const String CollectionNameOfTable = "Tables";
+        internal const String CollectionNameOfIndexColumn = "IndexColumns";
+
+        // 辅助字段用于一些条件的判断
+        internal const String KeyTypeOfPrimary = "PRI";
+        internal const String NullableOfYes = "Y";
+
+        //元数据信息-列架构字段名称
+        internal const String ColumnOfName = "COLUMN_NAME";
+        internal const String ColumnOfTableName = "TABLE_NAME";
+        internal const String ColumnOfDbType = "DATATYPE";
+        internal const String ColumnOfKey = "COLUMN_KEY";
+        internal const String ColumnOfColType = "COLUMN_TYPE";
+        internal const String ColumnOfNullable = "NULLABLE";
+        internal const String ColumnOfComment = "COLUMN_COMMENT";
+        internal const String ColumnOfLength = "LENGTH";
+
+
+        //元数据信息-表架构字段名称
+        internal const String TableOfName = "TABLE_NAME";
+        internal const String TableOfDbName = "TABLE_SCHEMA";
+        internal const String TableOfComment = "TABLE_COMMENT";
+    
+/************************************************/
+        public override String Version => OracleAdaptiveExplain.ALVersion;
+        public override String Explain => ProviderExplain;
+
+        protected virtual String CurrentUserId
+        {
+            get
+            {
+                return this._connStrBuilder.UserID.ToUpper();
+            }
+        }
+
+        private OracleConnectionStringBuilder _connStrBuilder = new OracleConnectionStringBuilder();
+ 
 
         private String _databaseName = String.Empty;
+      
         /********************/
-        /// <summary>
-        /// 用于提取列长度信息字符串的正则表达式
-        /// </summary>
-        private Regex _regexExtractLength = new Regex(@"(?<=\()\d+(?<!\))");
+        private Dictionary<String, String> _tableExplains = new Dictionary<String, String>();
+        private Dictionary<String, String> _columnExplains = new Dictionary<String, String>();
 
         /********************/
-        public MySqlMetadataProvider() : base()
+        public OracleMetadataProvider() : base()
         {
-            this.Connection = new OracleConnection();
+            var connection = new OracleConnection();
+            this.Connection = connection;
         }
 
         /********************/
+        public override void Open(string connectionString)
+        {
+            base.Open(connectionString);
+            this._connStrBuilder.Clear();
+            this._connStrBuilder.ConnectionString = connectionString;
+            this.LoadColumnExplain();
+            this.LoadTableExplain();
+        }
         public override IEnumerable<ColumnSchema> GetColumnSchemas(String tableName)
         {
             //元数据查询条件限制的集合
-            String[] restrictions = new String[] { null, null, null, null };
-            List<ColumnSchema> result = new List<ColumnSchema>();
-            if (!String.IsNullOrWhiteSpace(tableName)) restrictions[2] = tableName;
-            DataTable originalMetadata = this.Connection.GetSchema(TextResources.CollectionNameOfColumn, restrictions);
-            foreach (DataRow row in originalMetadata.Rows)
+            String[] restrictions = new String[] { null, null, null};
+            List<ColumnSchema> result = null;
+            if (!String.IsNullOrWhiteSpace(tableName))
             {
-                ColumnSchema schema = this.ColumnMetadataToSechma(row);
-                if (schema != null) result.Add(schema);
+                result = new List<ColumnSchema>();
+                restrictions[0] = this.CurrentUserId;
+                restrictions[1] = tableName;
+                DataTable originalMetadata = this.Connection.GetSchema(CollectionNameOfColumn, restrictions);
+                foreach (DataRow row in originalMetadata.Rows)
+                {
+                    ColumnSchema schema = this.ColumnMetadataToSechma(row);
+                    if (schema != null) result.Add(schema);
+                }
             }
             return result;
         }
@@ -54,9 +111,9 @@ namespace Handiness.MySql
         {
             ColumnSchema schema = new ColumnSchema
             (
-                 name: row[TextResources.ColumnOfName] as String,
-                 tableName: row[TextResources.ColumnOfTableName] as String,
-                 type: row[TextResources.ColumnOfDbType] as String,
+                 name: row[ColumnOfName] as String,
+                 tableName: row[ColumnOfTableName] as String,
+                 type: row[ColumnOfDbType] as String,
                  isPrimekey: this.IsPrimaryKey(row),
                  isNullable: this.IsNullable(row),
                  explain: this.GetExplain(row),
@@ -67,7 +124,8 @@ namespace Handiness.MySql
 
         public override IEnumerable<TableSchema> GetTableSchemas()
         {
-            DataTable dt = this.Connection.GetSchema(TextResources.CollectionNameOfTable, null);
+            //TODO: ORACLE DbProvider表架构名称限制
+            DataTable dt = this.Connection.GetSchema(CollectionNameOfTable, new String[] {  this.CurrentUserId, null});
             foreach (DataRow row in dt.Rows)
             {
                 TableSchema schema = this.TableMetadataToSechma(row);
@@ -82,10 +140,12 @@ namespace Handiness.MySql
 
         protected override Boolean IsPrimaryKey(DataRow row)
         {
+            String tableName = row[ColumnOfTableName] as String;
+            String columnName = row[ColumnOfName] as String;
+            String[] restrictions = new String[] {this.CurrentUserId,null,null, tableName, columnName };
             Boolean isPrimaryKey = false;
-            String primaryKeyInfo = row[TextResources.ColumnOfKey] as String;
-            if (!String.IsNullOrWhiteSpace(primaryKeyInfo) &&
-                TextResources.KeyTypeOfPrimary == primaryKeyInfo)
+            DataTable dt = this.Connection.GetSchema(CollectionNameOfIndexColumn, restrictions);
+            if (dt.Rows.Count > 0)
             {
                 isPrimaryKey = true;
             }
@@ -95,7 +155,7 @@ namespace Handiness.MySql
         protected override Int32 GetLength(DataRow row)
         {
             Int32 length = 0;
-            Decimal colLength = (Decimal)row[TextResources.ColumnOfLength];
+            Decimal colLength = (Decimal)row[ColumnOfLength];
             length = (Int32)colLength;
             return length;
         }
@@ -103,8 +163,8 @@ namespace Handiness.MySql
         protected override Boolean IsNullable(DataRow row)
         {
             Boolean isNullable = false;
-            String nullableStr = row[TextResources.ColumnOfNullable] as String;
-            if (!String.IsNullOrWhiteSpace(nullableStr) && nullableStr == TextResources.NullableOfYes)
+            String nullableStr = row[ColumnOfNullable] as String;
+            if (!String.IsNullOrWhiteSpace(nullableStr) && nullableStr == NullableOfYes)
             {
                 isNullable = true;
             }
@@ -113,37 +173,125 @@ namespace Handiness.MySql
 
         protected override String GetExplain(DataRow row)
         {
-            String explain = row[TextResources.ColumnOfComment] as String;
+            String explain = null;
+            String tableName = row[TableOfName] as String;
+            String columnName = row[ColumnOfName] as String;
+            String key = this.GenerationKey(tableName, columnName);
+            if (this._columnExplains.ContainsKey(key))
+            {
+                explain = this._columnExplains[key];
+            }
             return explain;
         }
 
         protected override String GetDatabaseName()
         {
-            String datebaseName = null;
-            if (this.Connection.ConnectionString != null)
-            {
-                OracleConnectionStringBuilder stringBuilder = new OracleConnectionStringBuilder(this.Connection.ConnectionString);
-                datebaseName = stringBuilder.DataSource;
-            }
+            String datebaseName = ((OracleConnection)this.Connection).InstanceName;
             return datebaseName;
         }
 
         protected override TableSchema TableMetadataToSechma(DataRow row)
         {
             TableSchema schema = new TableSchema(
-                row[TextResources.TableOfName] as String,
-                row[TextResources.TableOfDbName] as String,
+                row[TableOfName] as String,
+                this.GetDatabaseName(),
                 this.GetTableExplain(row)
                 );
             return schema;
         }
 
-        protected override string GetTableExplain(DataRow row)
+        protected override String GetTableExplain(DataRow row)
         {
-            return row[TextResources.TableOfComment] as String;
+            String tableName = row[TableOfName] as String;
+            String key = this.GenerationKey(tableName);
+            String explain = null;
+            if (this._tableExplains.ContainsKey(key))
+            {
+                explain = this._tableExplains[key];
+            }
+            return explain;
+        }
+        protected DataTable SQLQuery(String sql)
+        {
+            DataTable table = null;
+            if (!String.IsNullOrWhiteSpace(sql))
+            {
+                OracleCommand command = new OracleCommand();
+                command.Connection = (OracleConnection)this.Connection;
+                command.CommandText = sql;
+                DbDataReader dbReader = command.ExecuteReader(CommandBehavior.Default);
+                table = new DataTable();
+                table.Load(dbReader);
+            }
+            return table;
         }
 
-
+        /// <summary>
+        /// 加载表注释
+        /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        protected void LoadTableExplain()
+        {
+            this._tableExplains.Clear();
+            String sql = @" SELECT * FROM user_tab_comments ";
+            DataTable table = this.SQLQuery(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    String tableName = row[0] as String;
+                    String explain = row[2] as String;
+                    if (explain != null)
+                    {
+                        String key = this.GenerationKey(tableName);
+                        if (key != null && !this._tableExplains.ContainsKey(key))
+                            this._tableExplains.Add(key, explain);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 加载列注释
+        /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        protected void LoadColumnExplain()
+        {
+            this._columnExplains.Clear();
+           String sql = @" SELECT * FROM user_col_comments ";
+            DataTable table = this.SQLQuery(sql);
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    String tableName = row[0] as String;
+                    String columnName = row[1] as String;
+                    String explain = row[2] as String;
+                    if (explain != null)
+                    {
+                        String key = this.GenerationKey(tableName, columnName);
+                        if (key != null && !this._columnExplains.ContainsKey(key))
+                            this._columnExplains.Add(key, explain);
+                    }
+                }
+            }
+        }
+        private String GenerationKey(params String[] strs)
+        {
+            String key = String.Empty;
+            foreach (String str in strs)
+            {
+                if (str != null)
+                {
+                    key += str.Trim().ToLower();
+                }
+                else
+                {
+                    key = null;
+                    break;
+                }
+            }
+            return key;
+        }
 
         /********************/
 

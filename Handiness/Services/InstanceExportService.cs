@@ -19,7 +19,7 @@ namespace Handiness.Services
     /// <summary>
     /// 用于从指定搜索目录中导出类型匹配的类的实例
     /// </summary>
-    public class ObjectExportService : IService
+    public class InstanceExportService : IService
     {
         /// <summary>
         /// 从指定搜索目录中导出匹配类型的单一实例
@@ -27,11 +27,15 @@ namespace Handiness.Services
         /// <param name="name">契约名称</param>
         public static T GetExport<T>(DirectoryCatalog catalog, String name = null)
         {
-            using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
-            {
-                exportProvider.SourceProvider = exportProvider;
-                return exportProvider.GetExportedValue<T>(name);
-            }
+            //using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
+            //{
+            //    exportProvider.SourceProvider = exportProvider;
+            //    return exportProvider.GetExportedValue<T>(name);
+            //}
+            CatalogExportProvider exportProvider = new CatalogExportProvider(catalog);
+            exportProvider.SourceProvider = exportProvider;
+            return exportProvider.GetExportedValue<T>(name);
+
         }
 
         /// <summary>
@@ -47,11 +51,15 @@ namespace Handiness.Services
         /// </summary>
         public static IEnumerable<T> GetExports<T>(ComposablePartCatalog catalog)
         {
-            using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
-            {
-                exportProvider.SourceProvider = exportProvider;
-                return exportProvider.GetExportedValues<T>();
-            }
+            //using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
+            //{
+            //    exportProvider.SourceProvider = exportProvider;
+            //    return exportProvider.GetExportedValues<T>();
+            //}
+            CatalogExportProvider exportProvider = new CatalogExportProvider(catalog);
+            exportProvider.SourceProvider = exportProvider;
+            return exportProvider.GetExportedValues<T>();
+
         }
     }
 }

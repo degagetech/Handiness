@@ -39,6 +39,10 @@ namespace Handiness.CodeBuild
         /// </summary>
         private const String TFDColumnWithData = "FillData";
         #endregion
+
+
+
+
         public INameModifier NameModifier { get; private set; }
         public TypeMapper TypeMapper { get; private set; }
         protected DataTable _dataTable;
@@ -147,7 +151,7 @@ namespace Handiness.CodeBuild
         {
             String fillData = null;
             String where = $"{TFDColumnWithPlaceholderName}='{placeholderName}'";
-            if (restrictionsOfCol != null) where += $" and {TFDColumnWithColumnName}='{restrictionsOfCol}'";
+            if (restrictionsOfCol != null) where +=  $" and {TFDColumnWithColumnName}='{restrictionsOfCol}'";
             if (restrictionsOfTab != null) where += $" and {TFDColumnWithTableName}='{restrictionsOfTab}'";
             DataRow[] rows = this._dataTable.Select(where);
             if (rows.Length > 0)
