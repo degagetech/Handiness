@@ -335,16 +335,16 @@ namespace Handiness.VSIX
             }
             this.OnBuildingStatusChanged(BuildingStatus.Processing);
 
-            Tuple<Boolean, Object> buildingResult = await Task.Run<Tuple<Boolean, Object>>(() =>
+            (Boolean isCompleted, Object extra) buildingResult = await Task.Run(() =>
                 {
                     try
                     {
                         CodeBuilder codeBuilder = new CodeBuilder(
-                      this.BuildAssistPacket.Schemas,
-                      this.BuildAssistPacket.CodeTemplate,
-                      this.BuildAssistPacket.TypeMapper,
-                      this.BuildAssistPacket.NameModifier,
-                      this.BuildAssistPacket.NameSpace
+                              this.BuildAssistPacket.Schemas,
+                              this.BuildAssistPacket.CodeTemplate,
+                              this.BuildAssistPacket.TypeMapper,
+                              this.BuildAssistPacket.NameModifier,
+                              this.BuildAssistPacket.NameSpace
                       );
                         var codes = codeBuilder.Building();
                         foreach (var code in codes)
@@ -357,21 +357,21 @@ namespace Handiness.VSIX
                         {
                             this.AddFileToProject(schemaFilePath, this.BuildAssistPacket.Project);
                         }
-                        return Tuple.Create<Boolean, Object>(true, null);
+                        return (true, null);
                     }
                     catch (Exception exc)
                     {
                         this.OnBuildingStatusChanged(BuildingStatus.Error, exc);
-                        return Tuple.Create<Boolean, Object>(false, exc);
+                        return (false, exc);
                     }
                 });
-            if (result.Item1)
+            if (buildingResult.isCompleted)
             {
                 this.OnBuildingStatusChanged(BuildingStatus.Completed);
             }
             else
             {
-                this.OnBuildingStatusChanged(BuildingStatus.Error, result.Item2);
+                this.OnBuildingStatusChanged(BuildingStatus.Error, buildingResult.extra);
             }
         }
 
