@@ -21,6 +21,14 @@ namespace Handiness
         public SQLCourier SQLCourier { get; set; } = null;
         public abstract SQLNodeType NodeType { get; protected set; }
         public abstract Int32 NodeLevel { get; protected set; }
-    }
 
+        /// <summary>
+        /// 主线节点
+        /// </summary>
+        public SQLNode<T> Left { get; set; }
+        /// <summary>
+        /// 支线节点
+        /// </summary>
+        public SQLNode<T> Right { get; set; }
+    }
 }

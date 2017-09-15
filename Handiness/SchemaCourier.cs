@@ -14,6 +14,9 @@ namespace Handiness
  * .NET 版本：4.0
  * 本类主要用途描述：用以传递特定的Schema信息
  *  -------------------------------------------------------------------------*/
+    /// <summary>
+    /// 用以传递特定的Schema信息
+    /// </summary>
     public class SchemaCourier<T> where T : RowBase
     {
         public TableSchema Table { get; private set; }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿//SELECT_SEARCH 使用Table Select   FIND_SEARCH 使用Table Rows Find
+#define FIND_SEARCH
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +16,9 @@ namespace Handiness.Metadata
  * .NET 版本：4.0
  * 本类主要用途描述：用于存取Schema信息
  *  -------------------------------------------------------------------------*/
+    /// <summary>
+    /// 元数据信息的存放容器
+    /// </summary>
     internal class MetadataContainer : IMetadataContainer
     {
         private const String ColumnOfDbName = "DbName";
@@ -100,17 +105,25 @@ namespace Handiness.Metadata
                 return false;
             }
         }
+
         public ColumnSchema GetColumnSchema(String columnKey, String tableKey = null, String dbName = null)
         {
             ColumnSchema schema = null;
             if (!String.IsNullOrWhiteSpace(columnKey))
             {
                 DataTable table = this._dataSet.Tables[MetadataContainer.TableNameOfCol];
+                DataRow row = null;
+#if SELECT_SEARCH
                 String where = $"{ColumnOfColumnKey}='{columnKey}'";
-                if (tableKey != null) where += $" and {ColumnOfTableKey}='{tableKey}'";
-                if (dbName != null) where += $" and {ColumnOfDbName}='{dbName}'";
+                if (tableKey != null) where += $" AND {ColumnOfTableKey}='{tableKey}'";
+                if (dbName != null) where += $" AND {ColumnOfDbName}='{dbName}'";
                 DataRow[] rows = table.Select(where);
-                if (rows.Length > 0) schema = rows[0][ColumnOfColSchema] as ColumnSchema;
+                if (rows.Length > 0) row = rows[0];
+#elif FIND_SEARCH
+                row = table.Rows.Find(new Object[] { columnKey, tableKey, dbName });
+#endif
+                if (row != null)
+                    schema = row[ColumnOfColSchema] as ColumnSchema;
             }
             return schema;
         }
@@ -120,10 +133,17 @@ namespace Handiness.Metadata
             if (!String.IsNullOrWhiteSpace(tableKey))
             {
                 DataTable table = this._dataSet.Tables[MetadataContainer.TableNameOfTab];
+                DataRow row = null;
+#if SELECT_SEARCH
                 String where = $"{ColumnOfTableKey}='{tableKey}'";
-                if (dbName != null) where += $" And {ColumnOfDbName}='{dbName}'";
+                if (dbName != null) where += $" AND {ColumnOfDbName}='{dbName}'";
                 DataRow[] rows = table.Select(where);
-                if (rows.Length > 0) schema = rows[0][ColumnOfTableSchema] as TableSchema;
+                if (rows.Length > 0) row = rows[0];
+#elif FIND_SEARCH
+                row = table.Rows.Find(new Object[] { tableKey, dbName });
+#endif
+                if (row != null)
+                    schema = row[ColumnOfTableSchema] as TableSchema;
             }
             return schema;
         }

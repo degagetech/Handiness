@@ -26,17 +26,17 @@ namespace Handiness.Metadata
         /// 列的数据长度
         /// </summary>
         [XmlAttribute]
-        public Int32 Length { get;  set; }
+        public Int32 Length { get; set; }
         /// <summary>
         /// 列类型
         /// </summary>
         [XmlAttribute]
-        public String Type { get;  set; }
+        public String Type { get; set; }
         /// <summary>
         /// 所属表的名称
         /// </summary>
         [XmlAttribute]
-        public String TableName { get;  set; }
+        public String TableName { get; set; }
         /// <summary>
         /// 表示列是否可以为空
         /// </summary>
@@ -47,6 +47,7 @@ namespace Handiness.Metadata
         /// </summary>
         [XmlAttribute]
         public String Explain { get; set; }
+
         public ColumnSchema() { }
         public ColumnSchema(
             String name,

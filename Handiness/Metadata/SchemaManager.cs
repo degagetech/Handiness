@@ -25,8 +25,6 @@ namespace Handiness.Metadata
     /// </summary>
     public class SchemaManager
     {
-    
-
         private MetadataContainer _metadataContainer = null;
         /*********************************/
         /// <summary>
@@ -43,17 +41,18 @@ namespace Handiness.Metadata
             IEnumerable<SchemaXml> schemaXmls = SchemaManager.Load(files);
             foreach (SchemaXml schemaXml in schemaXmls)
             {
-                foreach (TableSchemaXml tabSchema in schemaXml.Tables)
+                foreach (TableSchemaXml tabSchemaXml in schemaXml.Tables)
                 {
-                    if (this._metadataContainer.AddTableSchema(schemaXml.DbName, tabSchema.Key, tabSchema.Schema))
+                    if (this._metadataContainer.AddTableSchema(schemaXml.DbName, tabSchemaXml.Key, tabSchemaXml.Schema))
                     {
-                        foreach (ColumnSchemaXml colSchema in tabSchema.Columns)
+                        foreach (ColumnSchemaXml colSchemaXml in tabSchemaXml.Columns)
                         {
                             this._metadataContainer.AddColumnSchema(schemaXml.DbName,
-                                tabSchema.Key, colSchema.Key,
-                               colSchema.Schema);
+                                tabSchemaXml.Key, colSchemaXml.Key,
+                               colSchemaXml.Schema);
                         }
                     }
+                    this._metadataContainer.AddTableSchema(schemaXml.DbName, tabSchemaXml.Key, tabSchemaXml.Schema);
                 }
             }
         }

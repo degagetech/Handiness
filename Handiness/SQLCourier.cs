@@ -15,6 +15,9 @@ namespace Handiness
  * .NET 版本：4.0
  * 本类主要用途描述：用以在SQLNode之间传递已有的SQL与SQL参数
  *  -------------------------------------------------------------------------*/
+    /// <summary>
+    /// 用以在SQLNode之间传递已有的SQL与SQL参数
+    /// </summary>
     public class SQLCourier:IEnumerable
     {
         public String SQL { get { return this._sqlStringBuilder.ToString(); } }
