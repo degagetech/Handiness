@@ -9,14 +9,14 @@ namespace Handiness.Services
     /// <summary>
     /// 用于创建一系列数据源操作辅助对象的服务
     /// </summary>
-    public interface IAuxiliaryObjService : IService
+    public abstract class AuxiliaryObjService : ServiceBase
     {
-        DbConnection GenerateDbConnection();
-        DbCommand GenerateDbCommand();
-        DbParameter GenerateDbParameter();
+        public abstract DbConnection DbConnection();
+        public abstract DbCommand DbCommand();
+        public abstract DbParameter DbParameter();
         /// <summary>
         /// 参数区分符 例如：在SQL Server中参数前导区分符为@，（SELECT * FROM table WHERE col=@colValue）
         /// </summary>
-        String Specificator { get; }
+        public abstract String Specificator { get; }
     }
 }

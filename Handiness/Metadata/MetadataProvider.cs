@@ -42,7 +42,8 @@ namespace Handiness.Metadata
         }
         public virtual void Open(String connectionString)
         {
-             if (String.IsNullOrWhiteSpace(connectionString))
+            connectionString = connectionString.Trim();
+             if (String.IsNullOrEmpty(connectionString))
             {
                 throw new ArgumentException(TextResources.ErrorOfConnectionStringWithEmpty);
             }
@@ -50,7 +51,7 @@ namespace Handiness.Metadata
             {
                 case ConnectionState.Open:
                     {
-                        if (this.Connection.ConnectionString.Trim().ToLower() != connectionString.Trim().ToLower())
+                        if (this.Connection.ConnectionString.ToLower() != connectionString.ToLower())
                         {
                             this.Connection.Close();
                             this.Connection.ConnectionString = connectionString;
@@ -76,9 +77,9 @@ namespace Handiness.Metadata
         /// </summary>
         protected abstract Boolean IsPrimaryKey(DataRow row);
         /// <summary>
-        /// 根据列的元数据信息获取此列的长度
+        /// 根据列的元数据信息获取此列的长度信息
         /// </summary>
-        protected abstract Int32 GetLength(DataRow row);
+        protected abstract String GetLength(DataRow row);
         /// <summary>
         ///  根据列的元数据信息判断此列是否可为空
         /// </summary>

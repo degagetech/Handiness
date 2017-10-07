@@ -19,7 +19,7 @@ namespace Handiness.Services
     /// <summary>
     /// 用于从指定搜索目录中导出类型匹配的类的实例
     /// </summary>
-    public class InstanceExportService : IService
+    public class InstanceExportService : ServiceBase
     {
         /// <summary>
         /// 从指定搜索目录中导出匹配类型的单一实例

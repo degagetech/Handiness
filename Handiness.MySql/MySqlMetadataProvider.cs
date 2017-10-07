@@ -125,17 +125,16 @@ namespace Handiness.MySql
             return isPrimaryKey;
         }
 
-        protected override Int32 GetLength(DataRow row)
+        protected override String GetLength(DataRow row)
         {
-            Int32 length = 0;
+            String length =String.Empty;
             String columnType = row[ColumnOfColType] as String;
             if (!String.IsNullOrWhiteSpace(columnType))
             {
                 Match macth = this._regexExtractLength.Match(columnType);
                 if (macth.Success)
                 {
-                    String lengthStr = macth.Value;
-                    Int32.TryParse(lengthStr, out length);
+                     length = macth.Value;
                 }
             }
             return length;

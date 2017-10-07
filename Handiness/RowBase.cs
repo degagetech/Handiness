@@ -20,7 +20,6 @@ namespace Handiness
  * 版本号：v1.0
  * .NET 版本：4.0
  * 本类主要用途描述：此类是数据库每行记录所映射到类的实例的基类，
- * 提供了一些基本的操作方法例如删除，更新，查询
  *  -------------------------------------------------------------------------*/
 
     public class RowBase : INotifyPropertyChanged
@@ -55,35 +54,38 @@ namespace Handiness
         /// <summary>
         /// 当前实例的属性值变跟记录
         /// </summary>
-        protected Dictionary<String, Object> _notifyLog = null;
+        protected Dictionary<String, Object> _modifyLog = null;
         protected RowStateType State { get; set; } = RowStateType.Normal;
         protected virtual void SetPropertyValue(String propertyName, Object newValue)
         {
             this.NotifyPropertyValueOfReflection(propertyName, newValue);
         }
+        private Object _syncObj = new Object();
         /**************/
         protected void OnNotifyPropertyChanged(
             String proteryName,
             Object newValue)
         {
-            this.WriteNotifLog(proteryName, newValue);
+            this.WriteModifyLog(proteryName, newValue);
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(proteryName));
-
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        protected void WriteNotifLog(String proteryName, Object newValue)
+
+        protected void WriteModifyLog(String proteryName, Object newValue)
         {
-            if (this._notifyLog == null)
+            lock (this._syncObj)
             {
-                this._notifyLog = new Dictionary<String, Object>();
-            }
-            if (!this._notifyLog.ContainsKey(proteryName))
-            {
-                this._notifyLog.Add(proteryName, newValue);
-            }
-            else
-            {
-                this._notifyLog[proteryName] = newValue;
+                if (this._modifyLog == null)
+                {
+                    this._modifyLog = new Dictionary<String, Object>();
+                }
+                if (this._modifyLog.ContainsKey(proteryName))
+                {
+                    this._modifyLog[proteryName] = newValue;
+                }
+                else
+                {
+                    this._modifyLog.Add(proteryName, newValue);
+                }
             }
         }
         /// <summary>

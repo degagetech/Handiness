@@ -13,8 +13,160 @@ using Handiness.Services;
 using System.IO;
 using System.Reflection;
 using Handiness.Adaptive;
+using System.Collections;
+using System.Linq.Expressions;
+
 namespace ConsoleTestUnit
 {
+
+
+    public class Student
+    {
+        public String Name { get; set; }
+        public Int32 Age
+        {
+            get; set;
+        }
+    }
+    public class CustomQuery<T> : IQueryable<T>
+    {
+        public Expression Expression { get;private set; }
+
+        public Type ElementType { get; private set; }
+
+        public IQueryProvider Provider { get; private set; }
+
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class CustomQueryProvider : IQueryProvider
+    {
+        public IQueryable CreateQuery(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Object Execute(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TResult Execute<TResult>(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    #region 自定义链表
+    public class CustomList<T> : IEnumerable<T>, IEnumerator<T>, IQueryable<T>, IQueryProvider
+    {
+        public Int32 Count
+        {
+            get
+            {
+                return this._count;
+            }
+        }
+
+        public T Current => this._current.Data;
+
+        Object IEnumerator.Current => this.Current;
+
+        public Expression Expression => throw new NotImplementedException();
+
+        public Type ElementType => throw new NotImplementedException();
+
+        public IQueryProvider Provider => throw new NotImplementedException();
+
+        private Int32 _count = 0;
+
+        private CustomListNode<T> _head = new CustomListNode<T>();
+        private CustomListNode<T> _current = null;
+        public CustomList()
+        {
+            this.Reset();
+        }
+        public void Add(T obj)
+        {
+            this._current.Next = new CustomListNode<T>();
+            this._current.Next.Data = obj;
+            this._current = this._current.Next;
+        }
+        public IEnumerator<T> GetEnumerator()
+        {
+            this.Reset();
+            return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public void Dispose()
+        {
+            //  this._head.Next = null;
+        }
+
+
+        public Boolean MoveNext()
+        {
+            Boolean had = false;
+            if (this._current.Next != null)
+            {
+                this._current = this._current.Next;
+                had = true;
+            }
+            return had;
+        }
+
+        public void Reset()
+        {
+            this._current = this._head;
+        }
+
+        public IQueryable CreateQuery(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Object Execute(Expression expression)
+        {
+            return Expression.Lambda(expression).Compile().DynamicInvoke();
+        }
+
+        public TResult Execute<TResult>(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        /*******************/
+        class CustomListNode<TNode>
+        {
+            public T Data { get; set; }
+            public CustomListNode<TNode> Next { get; set; }
+        }
+    }
     [AttributeUsage(AttributeTargets.Class)]
     public class StudentAttribute : System.Attribute
     {
@@ -24,15 +176,7 @@ namespace ConsoleTestUnit
         }
 
     }
-    [Student(typeof(Student))]
-    public class Student
-    {
-        public Student()
-        {
-            Int32 b = 0;
-        }
-        public Int32 Age { get; set; }
-    }
+    #endregion
     #region 实体类样例
     //public class Student : RowBase
     //{
@@ -107,16 +251,34 @@ namespace ConsoleTestUnit
         [MTAThread]
         static void Main(string[] args)
         {
+
+            //List<Student> queryList = new List<Student>();
+            //var queryResult = from t in query select t.Name;
+            //var listQueryResult = from t in queryList select t.Name;
+            //  IQueryable<T>
             //   
             //  attr
-            var aa = AdaptiveSeacher.ExportAdaptiveExplain();
-
-            var providers = MetadataProvider.ExportMetadataProviders();
-            foreach (var a in providers)
+            CustomList<String> test = new CustomList<String>();
+            test.Add("WLJ");
+            test.Add("WLJ1");
+            test.Add("WLJ1");
+            foreach (String str in test)
             {
-                Console.WriteLine(a.Explain);
+                Console.WriteLine(str);
             }
-            Student student = new Student();
+            foreach (String str in test)
+            {
+                Console.WriteLine(str);
+            }
+
+            //   var aa = AdaptiveSeacher.ExportAdaptiveExplain();
+
+            //var providers = MetadataProvider.ExportMetadataProviders();
+            //foreach (var a in providers)
+            //{
+            //    Console.WriteLine(a.Explain);
+            //}
+            //Student student = new Student();
             //IMetadataProvider provider = MetadataProvider.ExportMetadataProvider("41668F3A-DE95-4E1D-8213-0BCAAAA912C6");
             //IEnumerable<IMetadataProvider> providers = MetadataProvider.ExportMetadataProviders();
             //var schemas = SchemaManager.Load("SchemaExample.sa");

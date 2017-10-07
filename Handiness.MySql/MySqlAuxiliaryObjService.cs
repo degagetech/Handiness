@@ -9,17 +9,17 @@ using MySql.Data.MySqlClient;
 using Handiness.Services;
 namespace Handiness.MySql
 {
-    [Export(MysqlAdaptiveExplain.ALGuid, typeof(IAuxiliaryObjService))]
-    public class MySqlAuxiliaryObjService : IAuxiliaryObjService
+    [Export(MysqlAdaptiveExplain.ALGuid, typeof(AuxiliaryObjService))]
+    public class MySqlAuxiliaryObjService : AuxiliaryObjService
     {
         /// <summary>
         /// MySql参数前导区分符
         /// </summary>
         internal const String MySqlSpecificator = ":";
-        public String Specificator => MySqlSpecificator;
+        public override String Specificator => MySqlSpecificator;
 
-        public DbCommand GenerateDbCommand() => new MySqlCommand();
-        public DbConnection GenerateDbConnection() => new MySqlConnection();
-        public DbParameter GenerateDbParameter() => new MySqlParameter();
+        public override DbCommand DbCommand() => new MySqlCommand();
+        public override DbConnection DbConnection() => new MySqlConnection();
+        public override DbParameter DbParameter() => new MySqlParameter();
     }
 }

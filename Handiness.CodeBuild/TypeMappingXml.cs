@@ -48,8 +48,9 @@ namespace Handiness.CodeBuild
         public String DbType { get; set; }
         [XmlAttribute]
         public String MappingType { get; set; }
-
         [XmlAttribute]
-        public Int32 Length { get; set; } = TypeMapper.IgnorableTypeLength;
+        public Boolean? IsNullable { get; set; } 
+        [XmlAttribute]
+        public String Length { get; set; } 
     }
 }

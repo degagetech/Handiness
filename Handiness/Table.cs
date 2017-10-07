@@ -14,7 +14,7 @@ namespace Handiness
  * .NET 版本：4.0
  * 本类主要用途描述：提供了一系列对表的操作方法
  *  -------------------------------------------------------------------------*/
-    class Table<T> where T : RowBase
+    public class Table<T> where T : class
     {
     }
 }

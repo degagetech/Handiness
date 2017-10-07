@@ -9,22 +9,22 @@ using Oracle.ManagedDataAccess.Client;
 using Handiness.Services;
 namespace Handiness.Oracle
 {
-    [Export(OracleAdaptiveExplain.ALGuid, typeof(IAuxiliaryObjService))]
-    public class OracleAuxiliaryObjService : IAuxiliaryObjService
+    [Export(OracleAdaptiveExplain.ALGuid, typeof(AuxiliaryObjService))]
+    public class OracleAuxiliaryObjService : AuxiliaryObjService
     {
         /// <summary>
         /// Oracle参数前导区分符
         /// </summary>
         internal const String OracleSpecificator = ":";
-        public String Specificator => OracleSpecificator;
+        public override String Specificator => OracleSpecificator;
 
-        public DbCommand GenerateDbCommand()
+        public override DbCommand DbCommand()
         {
             OracleCommand command = new OracleCommand();
             command.BindByName = true;
             return command;
         }
-        public DbConnection GenerateDbConnection() => new OracleConnection();
-        public DbParameter GenerateDbParameter() => new OracleParameter();
+        public override DbConnection DbConnection() => new OracleConnection();
+        public override DbParameter DbParameter() => new OracleParameter();
     }
 }

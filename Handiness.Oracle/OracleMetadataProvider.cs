@@ -152,12 +152,10 @@ namespace Handiness.Oracle
             return isPrimaryKey;
         }
 
-        protected override Int32 GetLength(DataRow row)
+        protected override String GetLength(DataRow row)
         {
-            Int32 length = 0;
             Decimal colLength = (Decimal)row[ColumnOfLength];
-            length = (Int32)colLength;
-            return length;
+            return colLength.ToString();
         }
 
         protected override Boolean IsNullable(DataRow row)

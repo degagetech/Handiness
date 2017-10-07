@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handiness.Orm", "Handiness.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.0版本", "1.0版本", "{364F44B1-38E9-445A-A8EE-592065C249A9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schema信息", "Schema信息", "{F029F2C5-F861-4D9E-89FF-E72CEC958C8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaViewer", "SchemaViewer\SchemaViewer.csproj", "{FAF616C4-7240-44CB-B3C0-B729ABE3B776}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,12 +69,17 @@ Global
 		{3D23B7E9-6D06-4318-91AA-58C6D100B7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D23B7E9-6D06-4318-91AA-58C6D100B7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D23B7E9-6D06-4318-91AA-58C6D100B7C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAF616C4-7240-44CB-B3C0-B729ABE3B776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAF616C4-7240-44CB-B3C0-B729ABE3B776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAF616C4-7240-44CB-B3C0-B729ABE3B776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAF616C4-7240-44CB-B3C0-B729ABE3B776}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3D23B7E9-6D06-4318-91AA-58C6D100B7C8} = {364F44B1-38E9-445A-A8EE-592065C249A9}
+		{FAF616C4-7240-44CB-B3C0-B729ABE3B776} = {F029F2C5-F861-4D9E-89FF-E72CEC958C8B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AAA4F27C-872C-483E-BE0C-21E78AB150D9}

@@ -19,7 +19,7 @@ namespace Handiness.CodeBuild
     /// </summary>
     public class TypeMapper
     {
-      
+
         /// <summary>
         /// 当数据库类型长度为此值时，<see cref="TypeMapper"/>忽略长度匹配条件
         /// </summary>
@@ -40,27 +40,42 @@ namespace Handiness.CodeBuild
         /************************************/
         protected void Add(String type, String mappingType)
         {
-            if (!String.IsNullOrWhiteSpace(type)
+            if (!String.IsNullOrWhiteSpace(type) &&
+                !String.IsNullOrWhiteSpace(mappingType)
                 && !this._typeMappingDic.ContainsKey(type))
             {
                 this._typeMappingDic.Add(type, mappingType);
             }
         }
-        protected void Add(TypeMappingNodeXml node)
+        public void Add(TypeMappingNodeXml node)
         {
-            String type = this.GenerateKey(node.DbType, node.Length);
-            String mappingType = node.MappingType;
+            String type = this.GenerateKey(node);
+            String mappingType = node.MappingType.Trim();
             this.Add(type, mappingType);
 
         }
-        protected String GenerateKey(String dbType, Int32 length = -1)
+        protected String GenerateKey(TypeMappingNodeXml node)
         {
-            String key = dbType.Trim().ToLower();
-            if (length > TypeMapper.IgnorableTypeLength)
+            //String key = this.ProcessDbTypeString(node.DbType);
+            //if (node.Length != IgnorableTypeLength)
+            //{
+            //    key +="_"+node.Length.ToString();
+            //}
+            //return key;
+            return this.GenerateKey(node.DbType, node.Length);
+        }
+        protected String GenerateKey(String dbType, String length)
+        {
+            String key = this.ProcessDbTypeString(dbType);
+            if (!String.IsNullOrEmpty(length))
             {
                 key += length;
             }
             return key;
+        }
+        protected String ProcessDbTypeString(String dbType)
+        {
+            return dbType.Trim().ToLower();
         }
         protected String GetMappingType(String key)
         {
@@ -76,16 +91,19 @@ namespace Handiness.CodeBuild
         /// 返回此数据库类型映射后的类型,若无返回 null
         /// </summary>
         /// <param name="dbType">数据库类型</param>
-        /// <param name="length">数据库类型长度</param>
-        public String Mapping(String dbType, Int32 length = -1)
+        /// <param name="length">数据库类型的长度信息</param>
+        public String Mapping(String dbType, String length)
         {
             String mappingType = String.Empty;
             String key = this.GenerateKey(dbType, length);
             mappingType = this.GetMappingType(key);
-            if (mappingType == null) mappingType = this.GetMappingType(dbType.Trim().ToLower());
+            if (mappingType == null)
+            {
+                mappingType = this.GetMappingType(this.ProcessDbTypeString(dbType));
+            }
             return mappingType;
         }
         /************************************/
-     
+
     }
 }

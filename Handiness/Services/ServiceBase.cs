@@ -15,9 +15,9 @@ namespace Handiness.Services
     * 本接口规范描述：服务类型基础接口
     *  -------------------------------------------------------------------------*/
     /// <summary>
-    /// 服务类型基础接口
+    /// 服务基元
     /// </summary>
-    public interface IService
+    public class ServiceBase
     {
         //请尽量将服务类设计成无状态的
     }

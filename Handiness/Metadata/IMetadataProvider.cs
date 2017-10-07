@@ -11,7 +11,7 @@ namespace Handiness.Metadata
     public interface IMetadataProvider : IDisposable
     {
         /// <summary>
-        /// 获取当前连接的数据库的名称，若无返回 null
+        /// 获取当前连接的数据库的名称，若无返回 <see cref="null"/>
         /// </summary>
         String DatabaseName { get; }
         /// <summary>

@@ -107,7 +107,7 @@ namespace Handiness.CodeBuild
                 {
                     this.CreateFillDataRow(PlaceHolderRecognizableCollection.ColumnName, colSchema.Name, schema.TableSchema.Name, colSchema.Name, true);
                     this.CreateFillDataRow(PlaceHolderRecognizableCollection.ColumnExplain, colSchema.Explain, schema.TableSchema.Name, colSchema.Name, true);
-                    this.CreateFillDataRow(PlaceHolderRecognizableCollection.ColumnLength, colSchema.Length.ToString(), schema.TableSchema.Name, colSchema.Name, true);
+                    this.CreateFillDataRow(PlaceHolderRecognizableCollection.ColumnLength, colSchema.Length, schema.TableSchema.Name, colSchema.Name, true);
                     this.CreateFillDataRow(PlaceHolderRecognizableCollection.ColumnType, colSchema.Type, schema.TableSchema.Name, colSchema.Name, true);
 
                     this.CreateFillDataRow(PlaceHolderRecognizableCollection.FieldName, this.NameModifier.ModifyColumnNameOfField(colSchema.Name), schema.TableSchema.Name, colSchema.Name, true);

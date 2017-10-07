@@ -8,7 +8,7 @@
 <TypeMapping xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Explain>.NET-MySQL类型映射</Explain>
   <MappingNodes>
-    <MappingNode DbType="blob" MappingType="Byte[]"  Length="-1"/>
+    <MappingNode DbType="blob" MappingType="Byte[]"/>
     <MappingNode DbType="varchar" MappingType="String" />
     <MappingNode DbType="int" MappingType="Int32" />
     <MappingNode DbType="smallint" MappingType="Int16" />

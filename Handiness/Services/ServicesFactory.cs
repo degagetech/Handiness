@@ -19,7 +19,7 @@ namespace Handiness.Services
     /// Service实例获取工厂
     /// </summary>
     /// <typeparam name="T">服务实例的类型</typeparam>
-    public class ServicesFactory<T> where T : IService
+    public class ServicesFactory<T> where T : ServiceBase
     {
         public static T ExportServiceInstance(String adaptiveGuid, String directory = null)
         {

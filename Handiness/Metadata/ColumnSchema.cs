@@ -23,10 +23,10 @@ namespace Handiness.Metadata
         [XmlAttribute]
         public Boolean IsPrimeKey { get; set; }
         /// <summary>
-        /// 列的数据长度
+        /// 列的长度信息
         /// </summary>
         [XmlAttribute]
-        public Int32 Length { get; set; }
+        public String Length { get; set; } 
         /// <summary>
         /// 列类型
         /// </summary>
@@ -41,7 +41,7 @@ namespace Handiness.Metadata
         /// 表示列是否可以为空
         /// </summary>
         [XmlAttribute]
-        public Boolean IsNullable { get; set; }
+        public Boolean IsNullable { get; set; } 
         /// <summary>
         /// 列的注释信息
         /// </summary>
@@ -53,7 +53,7 @@ namespace Handiness.Metadata
             String name,
             Boolean isPrimekey,
             String type,
-            Int32 length,
+            String length,
             Boolean isNullable,
             String tableName,
             String explain
