@@ -38,14 +38,14 @@
             this._cmbDataBaseType = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this._spcRight = new System.Windows.Forms.SplitContainer();
+            this.label5 = new System.Windows.Forms.Label();
+            this._cbNewForm = new System.Windows.Forms.CheckBox();
+            this._cmbCollectionName = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this._btnQuery = new System.Windows.Forms.Button();
             this._txtRestriction = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this._dgvDataShow = new SchemaViewer.DataGridViewEx();
-            this.label6 = new System.Windows.Forms.Label();
-            this._cmbCollectionName = new System.Windows.Forms.ComboBox();
-            this._cbNewForm = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._spcMain)).BeginInit();
             this._spcMain.Panel1.SuspendLayout();
             this._spcMain.Panel2.SuspendLayout();
@@ -109,7 +109,6 @@
             this.textBox2.Location = new System.Drawing.Point(35, 249);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(386, 379);
             this.textBox2.TabIndex = 5;
             this.textBox2.Text = resources.GetString("textBox2.Text");
@@ -135,8 +134,6 @@
             this._txtConnectionString.Name = "_txtConnectionString";
             this._txtConnectionString.Size = new System.Drawing.Size(390, 19);
             this._txtConnectionString.TabIndex = 3;
-            this._txtConnectionString.Text = "server=192.168.1.102;Port=3306;Uid=root;Pwd=932444208;DataBase=school;Pooling=tru" +
-    "e;charset=utf8;";
             // 
             // label2
             // 
@@ -198,6 +195,48 @@
             this._spcRight.SplitterWidth = 1;
             this._spcRight.TabIndex = 0;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.label5.Location = new System.Drawing.Point(6, 105);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(103, 17);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "（请以 ; 号分割）";
+            // 
+            // _cbNewForm
+            // 
+            this._cbNewForm.AutoSize = true;
+            this._cbNewForm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this._cbNewForm.Location = new System.Drawing.Point(516, 23);
+            this._cbNewForm.Name = "_cbNewForm";
+            this._cbNewForm.Size = new System.Drawing.Size(99, 21);
+            this._cbNewForm.TabIndex = 10;
+            this._cbNewForm.Text = "显示到新窗体";
+            this._cbNewForm.UseVisualStyleBackColor = true;
+            // 
+            // _cmbCollectionName
+            // 
+            this._cmbCollectionName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this._cmbCollectionName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._cmbCollectionName.FormattingEnabled = true;
+            this._cmbCollectionName.Location = new System.Drawing.Point(121, 19);
+            this._cmbCollectionName.Name = "_cmbCollectionName";
+            this._cmbCollectionName.Size = new System.Drawing.Size(373, 25);
+            this._cmbCollectionName.TabIndex = 9;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.label6.Location = new System.Drawing.Point(26, 22);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(80, 17);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "查询集合名称";
+            // 
             // _btnQuery
             // 
             this._btnQuery.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -252,47 +291,6 @@
             this._dgvDataShow.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this._dgvDataShow.Size = new System.Drawing.Size(899, 553);
             this._dgvDataShow.TabIndex = 0;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.label6.Location = new System.Drawing.Point(26, 22);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(80, 17);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "查询集合名称";
-            // 
-            // _cmbCollectionName
-            // 
-            this._cmbCollectionName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this._cmbCollectionName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._cmbCollectionName.FormattingEnabled = true;
-            this._cmbCollectionName.Location = new System.Drawing.Point(121, 19);
-            this._cmbCollectionName.Name = "_cmbCollectionName";
-            this._cmbCollectionName.Size = new System.Drawing.Size(373, 25);
-            this._cmbCollectionName.TabIndex = 9;
-            // 
-            // _cbNewForm
-            // 
-            this._cbNewForm.AutoSize = true;
-            this._cbNewForm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this._cbNewForm.Location = new System.Drawing.Point(516, 23);
-            this._cbNewForm.Name = "_cbNewForm";
-            this._cbNewForm.Size = new System.Drawing.Size(99, 21);
-            this._cbNewForm.TabIndex = 10;
-            this._cbNewForm.Text = "显示到新窗体";
-            this._cbNewForm.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.label5.Location = new System.Drawing.Point(757, 84);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 17);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "请以 ; 号分割";
             // 
             // SchemaViewerForm
             // 

@@ -106,7 +106,10 @@ namespace SchemaViewer
                 DbMetaDataCollectionNames.DataTypes,
                 DbMetaDataCollectionNames.MetaDataCollections,
                 DbMetaDataCollectionNames.DataSourceInformation,
-                DbMetaDataCollectionNames.ReservedWords
+                DbMetaDataCollectionNames.ReservedWords,
+                "Columns",
+                "Tables",
+                "Views"
                    }
                 );
             this._cmbCollectionName.SelectedIndex = 0;
@@ -121,9 +124,9 @@ namespace SchemaViewer
                 && !String.IsNullOrEmpty(connectionStr))
             {
                 connection = connectionFactory.Invoke();
-                connection.ConnectionString = connectionStr;
                 try
                 {
+                    connection.ConnectionString = connectionStr;
                     connection.Open();
                     successful = true;
                 }
@@ -142,22 +145,38 @@ namespace SchemaViewer
                 connection.Dispose();
             }
         }
-        private DataTable QueryMetaDataInfo(String collectionName, String[] restrictions = null)
+        private void ShowErrorInfo(String info)
         {
+            info.DialogShow();
+        }
+        private (Boolean successful, DataTable dt, String reason) QueryMetaDataInfo(String collectionName, String[] restrictions = null)
+        {
+
             var result = this.OpenConnection(this.CurrentConnectionFactory);
+            Boolean successful = result.successful;
             DataTable dt = null;
+            String reason = null;
             if (result.successful)
             {
                 try
                 {
                     dt = result.connection.GetSchema(collectionName, restrictions);
+                    successful = true;
+                }
+                catch (Exception exc)
+                {
+                    reason = exc.Message;
                 }
                 finally
                 {
                     this.CloseConnection(result.connection);
                 }
             }
-            return dt;
+            else
+            {
+                reason = result.failedReason;
+            }
+            return (successful, dt, reason);
         }
         private void ClearData()
         {
@@ -171,9 +190,12 @@ namespace SchemaViewer
             }
             else
             {
-                title = title ?? $"{this._cmbDataBaseType.Text},{this._cmbCollectionName.Text}";
-                DataShowForm form = new DataShowForm(title, dt);
-                form.Show();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    title = title ?? $"{this._cmbDataBaseType.Text},{this._cmbCollectionName.Text}";
+                    DataShowForm form = new DataShowForm(title, dt);
+                    form.Show();
+                }
             }
         }
         private void _cmbDataBaseType_SelectedIndexChanged(object sender, EventArgs e)
@@ -210,16 +232,29 @@ namespace SchemaViewer
         private void _btnConfrim_Click(object sender, EventArgs e)
         {
             this.ClearData();
-            DataTable dt = this.QueryMetaDataInfo(DbMetaDataCollectionNames.Restrictions);
-
-            this.ShowData(dt, true, $"{this._cmbDataBaseType.Text},{DbMetaDataCollectionNames.Restrictions}");
+            var result = this.QueryMetaDataInfo(DbMetaDataCollectionNames.MetaDataCollections);
+            if (result.successful)
+            {
+                this.ShowData(result.dt, true, $"{this._cmbDataBaseType.Text},{DbMetaDataCollectionNames.MetaDataCollections}");
+            }
+            else
+            {
+                result.reason.DialogShow();
+            }
         }
         private void Query()
         {
             String collectionName = this._cmbCollectionName.Text.Trim();
             String[] restrictions = this.GetQueryRestriction();
-            DataTable dt = this.QueryMetaDataInfo(collectionName, restrictions);
-            this.ShowData(dt,this._cbNewForm.Checked);
+            var result = this.QueryMetaDataInfo(collectionName, restrictions);
+            if (result.successful)
+            {
+                this.ShowData(result.dt, this._cbNewForm.Checked);
+            }
+            else
+            {
+                result.reason.DialogShow();
+            }
         }
         private void SchemaViewerForm_FormClosing(object sender, FormClosingEventArgs e)
         {

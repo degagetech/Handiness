@@ -42,7 +42,6 @@
             this._dgvDataShow.Location = new System.Drawing.Point(0, 0);
             this._dgvDataShow.MultiSelect = false;
             this._dgvDataShow.Name = "_dgvDataShow";
-            this._dgvDataShow.ReadOnly = true;
             this._dgvDataShow.RowHeadersVisible = false;
             this._dgvDataShow.RowTemplate.Height = 23;
             this._dgvDataShow.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
