@@ -62,7 +62,9 @@ namespace Handiness.Orm
                 if (this.IsColumnExistFromReader(dr, columnName))
                 {
                     Object value = dr[columnName];
-                    property.SetValue(obj, value == DBNull.Value ? null : value, null);
+                    value=value == DBNull.Value ? null : value;
+                  //  Table<T>.TableReflectionCache.PropertyAccessor.SetProperityValue(obj, property.Name, value);
+                     property.SetValue(obj, value == DBNull.Value ? null : value, null);
                 }
             }
             return obj;
@@ -99,6 +101,8 @@ namespace Handiness.Orm
                 if (row.Table.Columns.Contains(columnName))
                 {
                     Object value = row[columnName];
+                    value = value == DBNull.Value ? null : value;
+                  //  Table<T>.TableReflectionCache.PropertyAccessor.SetProperityValue(obj,property.Name,value);
                     property.SetValue(obj, value == DBNull.Value ? null : value, null);
 
                 }

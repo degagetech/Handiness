@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace  Handiness.Orm
+namespace Handiness.Orm
 {
     /// <summary>
     /// 表反射的缓存
     /// </summary>
     public class TableReflectionCache<T> where T : class
     {
+        public PropertyAccessor<T> PropertyAccessor { get; set; } = new PropertyAccessor<T>();
         public String TableName
         {
             get
@@ -34,7 +35,7 @@ namespace  Handiness.Orm
 
             //获取表特性
             customAttributes = this.Type.GetCustomAttributes(typeof(TableAttribute), true);
-            this.TableAttribute = customAttributes.Length == 0 ? new TableAttribute { Name = nameof(T) } : customAttributes[0] as TableAttribute;
+            this.TableAttribute = customAttributes.Length == 0 ? new TableAttribute(nameof(T)) : customAttributes[0] as TableAttribute;
             this.TableAttribute.Name = this.TableAttribute.Name ?? this.Type.Name;
             //获取列特性
             customAttributes = null;

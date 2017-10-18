@@ -4,17 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3D23B7E9-6D06-4318-91AA-58C6D100B7C8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Handiness.Orm</RootNamespace>
-    <AssemblyName>Handiness.Orm</AssemblyName>
+    <ProjectGuid>{22CA05F1-D1C4-48AA-9F02-6EAAD9E6795E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Handiness.Orm.Test</RootNamespace>
+    <AssemblyName>Handiness.Orm.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,15 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.9.9\lib\net40\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.105.2, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.105.2\lib\net40\System.Data.SQLite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,33 +47,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attribute\ColumnAttribute.cs" />
-    <Compile Include="Attribute\TableAttribute.cs" />
-    <Compile Include="Converter\LambdaToSqlConverter.cs" />
-    <Compile Include="Converter\ObjectToSqlConverter.cs" />
-    <Compile Include="DbProvider\DbProvider.cs" />
-    <Compile Include="DbProvider\MySqlDbProvider.cs" />
-    <Compile Include="DbProvider\SQLiteDbProvider.cs" />
-    <Compile Include="EnumDetails\BasicSqlFormat.cs" />
-    <Compile Include="EnumDetails\EnumDescriptionExtensions.cs" />
-    <Compile Include="EnumDetails\SqlKeyWord.cs" />
-    <Compile Include="Interface\ISelectResultVector.cs" />
-    <Compile Include="Interface\IServomotor.cs" />
-    <Compile Include="Interface\ITransactionExecutor.cs" />
-    <Compile Include="OrmTools.cs" />
+    <Compile Include="CodeTimer.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyAccessor.cs" />
-    <Compile Include="SelectResultVector.cs" />
-    <Compile Include="Servomotor\Servomotor.cs" />
-    <Compile Include="Servomotor\ServomotorExtend.cs" />
-    <Compile Include="Table\Table.cs" />
-    <Compile Include="Table\TableExtensions.cs" />
-    <Compile Include="Table\TableExtensionsforMysql.cs" />
-    <Compile Include="TransactionExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="test.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Handiness.Orm\Handiness.Orm.csproj">
+      <Project>{3d23b7e9-6d06-4318-91aa-58c6d100b7c8}</Project>
+      <Name>Handiness.Orm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.105.2\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.105.2\build\net40\System.Data.SQLite.Core.targets')" />

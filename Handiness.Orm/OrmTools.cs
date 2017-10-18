@@ -4,7 +4,7 @@ using System.Threading;
 namespace Handiness.Orm
 {
     /// <summary>
-    /// handiness orm工具箱
+    /// Handiness.Orm工具箱
     /// </summary>
     public static class OrmToolkit
     {

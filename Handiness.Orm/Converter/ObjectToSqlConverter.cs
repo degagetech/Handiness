@@ -33,7 +33,8 @@ namespace Handiness.Orm
             foreach (PropertyInfo propertyInfo in Table<T>.TableReflectionCache.ColumnPropertyCollection)
             {
                 columnAttribute = Table<T>.TableReflectionCache.ColumnAttributeCollection[propertyInfo.Name];
-                value = propertyInfo.GetValue(obj, null);
+                //    value = propertyInfo.GetValue(obj, null);
+                value = Table<T>.TableReflectionCache.PropertyAccessor.GetProperityValue<Object>(obj, propertyInfo.Name);
                 if (value == null)
                 {
                     if (columnAttribute.IsPrimaryKey)
@@ -78,7 +79,8 @@ namespace Handiness.Orm
             foreach (PropertyInfo propertyInfo in Table<T>.TableReflectionCache.ColumnPropertyCollection)
             {
                 columnAttribute = Table<T>.TableReflectionCache.ColumnAttributeCollection[propertyInfo.Name];
-                value = propertyInfo.GetValue(obj, null);
+             //   value = propertyInfo.GetValue(obj, null);
+                value = Table<T>.TableReflectionCache.PropertyAccessor.GetProperityValue<Object>(obj, propertyInfo.Name);
                 if (value == null)
                 {
                     if (columnAttribute.IsPrimaryKey)

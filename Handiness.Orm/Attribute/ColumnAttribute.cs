@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace  Handiness.Orm
+namespace Handiness.Orm
 {
     /// <summary>
     /// 附加在类的属性上的特性，以映射到数据库的表的字段
@@ -9,6 +9,10 @@ namespace  Handiness.Orm
     [AttributeUsage(AttributeTargets.Property)]
     public class ColumnAttribute : Attribute
     {
+        public ColumnAttribute(String name)
+        {
+            this.Name = name;
+        }
         /// <summary>
         ///在数据库中列的名字
         /// </summary>

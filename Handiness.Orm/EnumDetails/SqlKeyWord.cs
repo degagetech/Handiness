@@ -7,23 +7,23 @@ namespace Handiness.Orm
     /// </summary>
     public enum SqlKeyWord
     {
-        [Description("select")]
+        [Description("SELECT")]
         Select = 0,
-        [Description("insert")]
+        [Description("INSERT")]
         Insert,
-        [Description("update")]
+        [Description("UPDATE")]
         Update,
-        [Description("delete")]
+        [Description("DELETE")]
         Delete,
-        [Description("where")]
+        [Description("WHERE")]
         Where,
-        [Description("from")]
+        [Description("FROM")]
         From,
-        [Description("into")]
+        [Description("INTO")]
         Into,
-        [Description("set")]
+        [Description("SET")]
         Set,
-        [Description("values")]
+        [Description("VALUES")]
         Values,
         [Description("(")]
         LeftBracket,
@@ -46,9 +46,9 @@ namespace Handiness.Orm
         Equal,
         [Description("!=")]
         NotEqual,
-        [Description("and")]
+        [Description("AND")]
         And,
-        [Description("or")]
+        [Description("OR")]
         Or,
         [Description("*")]
         AllColumn,
@@ -57,7 +57,7 @@ namespace Handiness.Orm
         /// </summary>
         [Description(";")]
         Semicolon,
-        [Description("like")]
+        [Description("LIKE")]
         Like
     }
 }

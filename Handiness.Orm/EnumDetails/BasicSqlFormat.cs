@@ -13,32 +13,32 @@ namespace Handiness.Orm
         /// <summary>
         /// select {0} from {1}
         /// </summary>
-        [Description("select {0} from {1} ")]
+        [Description("SELECT {0} FROM {1} ")]
         SelectFormat = 0,
         /// <summary>
         /// update {0} set {1}
         /// </summary>
-        [Description("update {0} set {1} ")]
+        [Description("UPDATE {0} SET {1} ")]
         UpdateFormat,
         /// <summary>
         /// insert into {0}({1}) values({2})
         /// </summary>
-        [Description("insert into {0}({1}) values({2}) ")]
+        [Description("INSERT INTO {0}({1}) VALUES({2}) ")]
         InsertFormat,
         /// <summary>
         /// delete from {0}
         /// </summary>
-        [Description("delete from {0} ")]
+        [Description("DELETE FROM {0} ")]
         DeleteFormat,
         /// <summary>
         /// truncate table {0}
         /// </summary>
-        [Description("truncate table {0} ")]
+        [Description("TRUNCATE TABLE {0} ")]
         TruncateFormat,
         /// <summary>
         ///  replace into {0}({1}) values({2})
         /// </summary>
-        [Description("replace into {0}({1}) values({2}) ")]
+        [Description("REPLACE INTO {0}({1}) VALUES({2}) ")]
         ReplaceFormat,
     }
 }

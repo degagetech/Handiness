@@ -103,7 +103,8 @@ namespace Handiness.Orm
                     break;
                 default:
                     {
-                        value = Expression.Lambda(expression).Compile().DynamicInvoke();
+                        Func<Object> funcRetObj = Expression.Lambda<Func<Object>>(expression).Compile();
+                        value = funcRetObj.Invoke();
                     }
                     break;
             }

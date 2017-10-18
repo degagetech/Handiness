@@ -14,11 +14,11 @@ namespace Handiness.Orm
         /// <summary>
         ///描述的缓存
         /// </summary>
-        private static ConcurrentDictionary<Enum, String> _DescriptionCache = new ConcurrentDictionary<Enum, String>();
+        private readonly static ConcurrentDictionary<Enum, String> _DescriptionCache = new ConcurrentDictionary<Enum, String>();
         /// <summary>
         /// 枚举类型缓存
         /// </summary>
-        private static ConcurrentDictionary<Enum, Type> _EnumTypeCache = new ConcurrentDictionary<Enum, Type>();
+        private readonly static ConcurrentDictionary<Enum, Type> _EnumTypeCache = new ConcurrentDictionary<Enum, Type>();
         /// <summary>
         /// 同步对象
         /// </summary>

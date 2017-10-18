@@ -5,9 +5,9 @@ using System.Data;
 
 namespace Handiness.Orm
 {
-    public class MysqlDbProvider : DbProvider
+    public class MySqlDbProvider : DbProvider
     {
-        public MysqlDbProvider(String name, String connectionString, Boolean replaced = false, Boolean saved = false) : base(name, connectionString, replaced, saved) { }
+        public MySqlDbProvider(String name, String connectionString, Boolean replaced = false, Boolean saved = false) : base(name, connectionString, replaced, saved) { }
 
         public override DbConnection DbConnectionFactroy(String connectionString = null, Boolean isRelevance = false)
         {
@@ -35,7 +35,6 @@ namespace Handiness.Orm
         public override DbParameter DbParameterFactroy(String name = null, DbType dbType = DbType.Object, object value = null)
         {
             MySqlParameter parameter = new MySqlParameter(name, value);
-         //   parameter.DbType = dbType;
             return parameter;
         }
         public override String PrefixParameterName
