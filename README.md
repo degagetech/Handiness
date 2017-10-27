@@ -2,22 +2,24 @@
 轻型ORM框架，支持Lambda、Linq 、手写SQL以及实体类的自动生成，目前规划了五个适配层以支持Mysql、Oracle、SQL Server、SQLite、Redis（不完全支持）五种数据库、
 
 Handiness ORM 1.0 版本使用示例
-/*************定义Model*****************/
- [Table("student")]
-    public class Student
-    {
-        [Column("id")]
-        public String Id { get; set; }
-        [Column("name")]
-        public String Name { get; set; }
-        [Column("age")]
-        public Int32 Age { get; set; }
-        [Column("student_no")]
-        public String StudentNo { get; set; }
-    }
-    /*********************基础的增、删、改、查*************************/
 
-              DbProvider dbProvider = new SQLiteDbProvider("SQLiteDbProvider", @"Data Source=.\test.db;UTF8Encoding=True;");
+ /*************定义Model*****************/
+
+            [Table("student")]
+            public class Student
+            {
+                [Column("id")]
+                public String Id { get; set; }
+                [Column("name")]
+                public String Name { get; set; }
+                [Column("age")]
+                public Int32 Age { get; set; }
+                [Column("student_no")]
+                public String StudentNo { get; set; }
+            }
+ /*********************基础的增、删、改、查*************************/
+
+            DbProvider dbProvider = new SQLiteDbProvider("SQLiteDbProvider", @"Data Source=.\test.db;UTF8Encoding=True;");
             Table<Student> table = new Table<Student>(dbProvider);
             CodeTimer.Initialize();
 
