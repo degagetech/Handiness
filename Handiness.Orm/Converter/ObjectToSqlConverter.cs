@@ -34,7 +34,7 @@ namespace Handiness.Orm
             {
                 columnAttribute = Table<T>.TableReflectionCache.ColumnAttributeCollection[propertyInfo.Name];
                 //    value = propertyInfo.GetValue(obj, null);
-                value = Table<T>.TableReflectionCache.PropertyAccessor.GetProperityValue<Object>(obj, propertyInfo.Name);
+                value = Table<T>.TableReflectionCache.PropertyAccessor.GetProperityValue(obj, propertyInfo.Name);
                 if (value == null)
                 {
                     if (columnAttribute.IsPrimaryKey)
@@ -80,7 +80,7 @@ namespace Handiness.Orm
             {
                 columnAttribute = Table<T>.TableReflectionCache.ColumnAttributeCollection[propertyInfo.Name];
              //   value = propertyInfo.GetValue(obj, null);
-                value = Table<T>.TableReflectionCache.PropertyAccessor.GetProperityValue<Object>(obj, propertyInfo.Name);
+                value = Table<T>.TableReflectionCache.PropertyAccessor.GetProperityValue(obj, propertyInfo.Name);
                 if (value == null)
                 {
                     if (columnAttribute.IsPrimaryKey)

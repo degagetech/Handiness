@@ -23,29 +23,45 @@ namespace Handiness.Orm.Test
         {
             DbProvider dbProvider = new SQLiteDbProvider("SQLiteDbProvider", @"Data Source=.\test.db;UTF8Encoding=True;");
             Table<Student> table = new Table<Student>(dbProvider);
-            table.Insert(new Student
+            CodeTimer.Initialize();
+            CodeTimer.Time("Insert Test:", 10, () =>
+                  {
+                      table.Insert(new Student
+                      {
+                          Id = Guid.NewGuid().ToString("N"),
+                          Age = 20,
+                          Name = "WLJ",
+                          StudentNo = "0202140216",
+                      }).ExecuteNonQuery();
+                  });
+            CodeTimer.Time("Insert Test:", 10, () =>
             {
-                Id = Guid.NewGuid().ToString("N"),
-                Age = 20,
-                Name = "WLJ",
-                StudentNo = "0202140216",
-            }).ExecuteNonQuery();
-
-            ConsoleColor currentForeColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-
-            List<Student> studentList=table.Select().ExecuteReader().ToList();
-            studentList.ForEach(
-                (t)=>
+                table.Insert(new Student
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"name:{t.Name}");
-                    Console.WriteLine($"name:{t.Id}");
-                    Console.WriteLine();
-                }
-                );
+                    Id = Guid.NewGuid().ToString("N"),
+                    Age = 20,
+                    Name = "WLJ",
+                    StudentNo = "0202140216",
+                }).ExecuteNonQuery();
+            });
 
-            Console.ForegroundColor = currentForeColor;
+            //CodeTimer.Time("Select Test:", 1, () =>
+            //{
+            //    List<Student> studentList = table.Select().ExecuteReader().ToList();
+            //    studentList.ForEach(
+            //        (t) =>
+            //        {
+            //            Console.WriteLine();
+            //            Console.WriteLine($"name:{t.Name}");
+            //            Console.WriteLine($"id:{t.Id}");
+            //            Console.WriteLine();
+            //        }
+            //        );
+            //});
+            Console.Read();
+
+         
+
         }
     }
 }

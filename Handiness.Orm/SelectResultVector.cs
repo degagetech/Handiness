@@ -63,8 +63,8 @@ namespace Handiness.Orm
                 {
                     Object value = dr[columnName];
                     value=value == DBNull.Value ? null : value;
-                  //  Table<T>.TableReflectionCache.PropertyAccessor.SetProperityValue(obj, property.Name, value);
-                     property.SetValue(obj, value == DBNull.Value ? null : value, null);
+                    Table<T>.TableReflectionCache.PropertyAccessor.SetProperityValue(obj, property.Name, value);
+                     //property.SetValue(obj, value == DBNull.Value ? null : value, null);
                 }
             }
             return obj;
@@ -102,8 +102,8 @@ namespace Handiness.Orm
                 {
                     Object value = row[columnName];
                     value = value == DBNull.Value ? null : value;
-                  //  Table<T>.TableReflectionCache.PropertyAccessor.SetProperityValue(obj,property.Name,value);
-                    property.SetValue(obj, value == DBNull.Value ? null : value, null);
+                    Table<T>.TableReflectionCache.PropertyAccessor.SetProperityValue(obj,property.Name,value);
+                    //property.SetValue(obj, value == DBNull.Value ? null : value, null);
 
                 }
             }
