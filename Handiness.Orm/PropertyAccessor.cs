@@ -26,20 +26,14 @@ namespace Handiness.Orm
         /// </summary>
         protected const String ProperitySetterNameFormat = "set_{0}";
 
+
         /// <summary>
-        /// 泛型无返回值方法附加头 ACT_GEN
-        /// </summary>
-        protected const Int32 GenericActionHead = 7;
-        /// <summary>
-        /// 普通无返回值方法附加头 ACT_
+        /// 无返回值方法附加头 ACT_
         /// </summary>
         protected const Int32 ActionHead = 13;
+
         /// <summary>
-        /// 泛型有返回值方法附加头 RET_GEN
-        /// </summary>
-        protected const Int32 GenericFunctionHead = 19;
-        /// <summary>
-        /// 普通有返回值方法附加头 RET_
+        /// 有返回值方法附加头 RET_
         /// </summary>
         protected const Int32 FunctionHead = 23;
 
@@ -47,6 +41,12 @@ namespace Handiness.Orm
         private ConcurrentDictionary<Int64, Delegate> _deleagateCache = new ConcurrentDictionary<Int64, Delegate>();
         private Type _type = typeof(T);
 
+        /// <summary>
+        /// 设置对象指定属性名称的值
+        /// </summary>
+        /// <param name="obj">被设置的对象</param>
+        /// <param name="propertyName">属性名称</param>
+        /// <param name="value">指定的值</param>
         public void SetProperityValue(T obj, String propertyName, Object value)
         {
             Type type = this._type;
@@ -73,13 +73,15 @@ namespace Handiness.Orm
             action.Invoke(obj, dyncValue);
         }
 
-
+        /// <summary>
+        /// 设置对象指定属性名称的值，此函数是 <see cref="SetProperityValue"/> 泛型版本，有一定性能提升
+        /// </summary>
         public void SetProperityValue<TINPUT>(T obj, String propertyName, TINPUT value)
         {
             Type type = this._type;
             Type inputType = value.GetType();
             Action<T, TINPUT> action = null;
-            Int64 key = this.GenerationKey(GenericActionHead, type.GetHashCode(), propertyName.GetHashCode(), inputType.GetHashCode());
+            Int64 key = this.GenerationKey(ActionHead, type.GetHashCode(), propertyName.GetHashCode(), inputType.GetHashCode());
             var getResult = this.GetDelegateCache(key);
             if (getResult.existed)
             {
@@ -98,6 +100,12 @@ namespace Handiness.Orm
             action.Invoke(obj, value);
         }
 
+        /// <summary>
+        /// 获取对象指定属性名称的值
+        /// </summary>
+        /// <param name="obj">指定的对象</param>
+        /// <param name="propertyName">获取的属性的名称</param>
+        /// <returns>返回属性的值</returns>
         public Object GetProperityValue(T obj, String propertyName)
         {
             Type type = this._type;
@@ -120,12 +128,15 @@ namespace Handiness.Orm
             return func.Invoke(obj);
         }
 
+        /// <summary>
+        ///  获取对象指定属性名称的值，此函数是<see cref="GetProperityValue"/> 的泛型版本，有一定性能提升
+        /// </summary>
         public TResult GetProperityValue<TResult>(T obj, String propertyName)
         {
             Type type = this._type;
             Type retType = typeof(TResult);
             Func<T, TResult> func = null;
-            Int64 key = this.GenerationKey(GenericFunctionHead, type.GetHashCode(), propertyName.GetHashCode(), retType.GetHashCode());
+            Int64 key = this.GenerationKey(FunctionHead, type.GetHashCode(), propertyName.GetHashCode(), retType.GetHashCode());
             var getResult = this.GetDelegateCache(key);
             if (getResult.existed)
             {
