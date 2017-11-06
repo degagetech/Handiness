@@ -17,7 +17,7 @@ namespace Handiness
     /// <summary>
     /// 用以传递特定的Schema信息
     /// </summary>
-    public class SchemaCourier<T> where T : RowBase
+    public class SchemaCourier<T> where T : class
     {
         public TableSchema Table { get; private set; }
         public IDictionary<String, ColumnSchema> ColumnDict { get; private set; }

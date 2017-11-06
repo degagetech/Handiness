@@ -80,5 +80,36 @@ namespace Handiness
             }
             return obj;
         }
+        public static T DeSerializeFromString<T>(String str) where T : class
+        {
+            T obj = null;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            using (StringReader reader = new StringReader(str))
+            {
+                obj = xmlSerializer.Deserialize(reader) as T;
+            }
+            return obj;
+        }
+        /// <summary>
+        /// 将对象XML序列化成字符串对象
+        /// </summary>
+        public static String SerializeToString<T>(T obj)
+        {
+            String str = null;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            //StringWriter 默认编码 utf-16 反序列化时会发生异常
+            //using (StringWriter writer = new StringWriter())
+            //{
+
+            //    xmlSerializer.Serialize(writer,obj);
+            //    str = writer.ToString();
+            //}
+            using (MemoryStream stream = new MemoryStream())
+            {
+                xmlSerializer.Serialize(stream, obj);
+                str = UTF8Encoding.UTF8.GetString(stream.ToArray());
+            }
+            return str;
+        }
     }
 }

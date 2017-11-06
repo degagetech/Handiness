@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Handiness.Orm;
+using System.Threading;
 namespace Handiness.Orm.Test
 {
     [Table("student")]
@@ -17,10 +18,12 @@ namespace Handiness.Orm.Test
         [Column("student_no")]
         public String StudentNo { get; set; }
     }
+
     class Program
     {
         static void Main(string[] args)
         {
+
             DbProvider dbProvider = new SQLiteDbProvider("SQLiteDbProvider", @"Data Source=.\test.db;UTF8Encoding=True;");
             Table<Student> table = new Table<Student>(dbProvider);
             CodeTimer.Initialize();
@@ -51,11 +54,11 @@ namespace Handiness.Orm.Test
             CodeTimer.Time("Update Test:", 1, () =>
             {
                 table.
-            Update
-            (
-                () =>
-               new Student { Name = "WLJ1" }
-            ).
+                Update
+                (
+                    () =>
+                   new Student { Name = "WLJ1" }
+                ).
             Where(t => t.Age == 21).
             ExecuteNonQuery();
             });
@@ -82,7 +85,7 @@ namespace Handiness.Orm.Test
             });
             Console.Read();
 
-         
+
 
         }
     }
