@@ -49,7 +49,7 @@ namespace Handiness.CodeBuild
         [XmlAttribute]
         public String MappingType { get; set; }
         [XmlAttribute]
-        public Boolean? IsNullable { get; set; } 
+        public Boolean IsNullable { get; set; } 
         [XmlAttribute]
         public String Length { get; set; } 
     }
