@@ -272,7 +272,7 @@ namespace Handiness.VSIX
             this.ResumeCombobox(this._cbxActiveProject);
         }
         #region Combobox 操作
-        private void AddItemsCombobox<T>(Concision.Control.Combobox comboxbox, IEnumerable<T> items, Func<T, String> getText)
+        private void AddItemsCombobox<T>(Concision.Controls.ConcisionCombobox comboxbox, IEnumerable<T> items, Func<T, String> getText)
         {
             if (items != null)
             {
@@ -283,12 +283,12 @@ namespace Handiness.VSIX
                 }
             }
         }
-        private void SuspendCombobox(Concision.Control.Combobox comboxbox, String text = "扫描中...")
+        private void SuspendCombobox(Concision.Controls.ConcisionCombobox comboxbox, String text = "扫描中...")
         {
             comboxbox.Text = text;
             comboxbox.IsWaiting = true;
         }
-        private void ResumeCombobox(Concision.Control.Combobox comboxbox, String text = null)
+        private void ResumeCombobox(Concision.Controls.ConcisionCombobox comboxbox, String text = null)
         {
             if (text != null) comboxbox.Text = text;
             else
@@ -425,7 +425,7 @@ namespace Handiness.VSIX
             }
             return null;
         }
-        private void DrawButtonStyle(Concision.Control.Button button, String text, Boolean isWaiting = false)
+        private void DrawButtonStyle(Concision.Controls.ConcisionButton button, String text, Boolean isWaiting = false)
         {
             button.IsWaiting = isWaiting;
             button.Text = text;

@@ -144,7 +144,8 @@ namespace Handiness.CodeBuild
             HashSet<String> placeHolders = this.GetPlaceholderNames(codeTemplate.Body, PlaceholderSymbol);
             foreach (String placeHolder in placeHolders)
             {
-                String fillData = this.TFDGenerator.GetFillData(placeHolder.Trim().ToLower());
+                String preprocess = placeHolder.Trim().ToLower();
+                String fillData = this.TFDGenerator.GetFillData(preprocess,null, schema.TableSchema.Name);
                 tableCode = tableCode.Replace($"{PlaceholderSymbol}{placeHolder}{PlaceholderSymbol}", fillData);
             }
             foreach (var loopGroup in codeTemplate.LoopGroups)

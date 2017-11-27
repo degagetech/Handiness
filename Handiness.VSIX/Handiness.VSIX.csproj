@@ -75,6 +75,9 @@
     <Compile Include="TextResource.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CodeTemplate\NET_Simple.ct">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="CodeTemplate\NET_Default.ct">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -83,8 +86,12 @@
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="TypeMapping\NET_SQLServer.tm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TypeMapping\NET_MySQL.tm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>

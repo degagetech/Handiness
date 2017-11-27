@@ -27,11 +27,6 @@ namespace Handiness.Services
         /// <param name="name">契约名称</param>
         public static T GetExport<T>(DirectoryCatalog catalog, String name = null)
         {
-            //using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
-            //{
-            //    exportProvider.SourceProvider = exportProvider;
-            //    return exportProvider.GetExportedValue<T>(name);
-            //}
             CatalogExportProvider exportProvider = new CatalogExportProvider(catalog);
             exportProvider.SourceProvider = exportProvider;
             return exportProvider.GetExportedValue<T>(name);
@@ -51,11 +46,6 @@ namespace Handiness.Services
         /// </summary>
         public static IEnumerable<T> GetExports<T>(ComposablePartCatalog catalog)
         {
-            //using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
-            //{
-            //    exportProvider.SourceProvider = exportProvider;
-            //    return exportProvider.GetExportedValues<T>();
-            //}
             CatalogExportProvider exportProvider = new CatalogExportProvider(catalog);
             exportProvider.SourceProvider = exportProvider;
             return exportProvider.GetExportedValues<T>();

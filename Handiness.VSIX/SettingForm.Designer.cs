@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.windowsButton1 = new Concision.Control.WindowsButton();
-            this._btnCannel = new Concision.Control.Button();
-            this._btnOk = new Concision.Control.Button();
-            this.line1 = new Concision.Control.Line();
-            this.symbol1 = new Concision.Control.Symbol();
-            this.scutcheon1 = new Concision.Control.Scutcheon();
-            this.scutcheon2 = new Concision.Control.Scutcheon();
-            this.scutcheon3 = new Concision.Control.Scutcheon();
+            this.windowsButton1 = new Concision.Controls.WindowsButton();
+            this._btnCannel = new Concision.Controls.ConcisionButton();
+            this._btnOk = new Concision.Controls.ConcisionButton();
+            this.line1 = new Concision.Controls.Line();
+            this.symbol1 = new Concision.Controls.Symbol();
+            this.scutcheon1 = new Concision.Controls.Scutcheon();
+            this.scutcheon2 = new Concision.Controls.Scutcheon();
+            this.scutcheon3 = new Concision.Controls.Scutcheon();
             this._txtNameSpace = new System.Windows.Forms.TextBox();
             this._txtConnectionString = new System.Windows.Forms.TextBox();
             this._eprNamesapce = new System.Windows.Forms.ErrorProvider(this.components);
@@ -65,7 +65,7 @@
             this.windowsButton1.TabIndex = 0;
             this.windowsButton1.Text = "";
             this.windowsButton1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.windowsButton1.WindowsButtonType = Concision.Control.WindowsButtonType.Close;
+            this.windowsButton1.WindowsButtonType = Concision.Controls.WindowsButtonType.Close;
             // 
             // _btnCannel
             // 
@@ -147,7 +147,7 @@
             this.scutcheon1.Margin = new System.Windows.Forms.Padding(0);
             this.scutcheon1.Name = "scutcheon1";
             this.scutcheon1.ScutcheonColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.scutcheon1.ScutcheonShape = Concision.Control.ScutcheonShapeType.Square;
+            this.scutcheon1.ScutcheonShape = Concision.Controls.ScutcheonShapeType.Square;
             this.scutcheon1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this.scutcheon1.ShadowWidth = 1;
             this.scutcheon1.Size = new System.Drawing.Size(80, 30);
@@ -164,7 +164,7 @@
             this.scutcheon2.Margin = new System.Windows.Forms.Padding(0);
             this.scutcheon2.Name = "scutcheon2";
             this.scutcheon2.ScutcheonColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.scutcheon2.ScutcheonShape = Concision.Control.ScutcheonShapeType.Square;
+            this.scutcheon2.ScutcheonShape = Concision.Controls.ScutcheonShapeType.Square;
             this.scutcheon2.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this.scutcheon2.ShadowWidth = 1;
             this.scutcheon2.Size = new System.Drawing.Size(98, 30);
@@ -181,7 +181,7 @@
             this.scutcheon3.Margin = new System.Windows.Forms.Padding(0);
             this.scutcheon3.Name = "scutcheon3";
             this.scutcheon3.ScutcheonColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.scutcheon3.ScutcheonShape = Concision.Control.ScutcheonShapeType.Square;
+            this.scutcheon3.ScutcheonShape = Concision.Controls.ScutcheonShapeType.Square;
             this.scutcheon3.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this.scutcheon3.ShadowWidth = 1;
             this.scutcheon3.Size = new System.Drawing.Size(98, 30);
@@ -245,14 +245,14 @@
 
         #endregion
 
-        private Concision.Control.WindowsButton windowsButton1;
-        private Concision.Control.Button _btnCannel;
-        private Concision.Control.Button _btnOk;
-        private Concision.Control.Line line1;
-        private Concision.Control.Symbol symbol1;
-        private Concision.Control.Scutcheon scutcheon1;
-        private Concision.Control.Scutcheon scutcheon2;
-        private Concision.Control.Scutcheon scutcheon3;
+        private Concision.Controls.WindowsButton windowsButton1;
+        private Concision.Controls.ConcisionButton _btnCannel;
+        private Concision.Controls.ConcisionButton _btnOk;
+        private Concision.Controls.Line line1;
+        private Concision.Controls.Symbol symbol1;
+        private Concision.Controls.Scutcheon scutcheon1;
+        private Concision.Controls.Scutcheon scutcheon2;
+        private Concision.Controls.Scutcheon scutcheon3;
         private System.Windows.Forms.TextBox _txtNameSpace;
         private System.Windows.Forms.TextBox _txtConnectionString;
         private System.Windows.Forms.ErrorProvider _eprNamesapce;

@@ -33,26 +33,26 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            this._wbtnClose = new Concision.Control.WindowsButton();
-            this._lineTop = new Concision.Control.Line();
-            this._sylStepStatus = new Concision.Control.Symbol();
-            this._lineBottom = new Concision.Control.Line();
-            this._lblTipInfo = new Concision.Control.Scutcheon();
-            this._wbtnMax = new Concision.Control.WindowsButton();
-            this._wbtnMin = new Concision.Control.WindowsButton();
-            this._cbxMetadataProvider = new Concision.Control.Combobox();
-            this._lineLeftRight = new Concision.Control.Line();
-            this._cbxCodeTemplate = new Concision.Control.Combobox();
-            this._cbxMapType = new Concision.Control.Combobox();
-            this._cbxNameFormat = new Concision.Control.Combobox();
-            this._cbxActiveProject = new Concision.Control.Combobox();
-            this._pnlMetadataContainer = new Concision.Control.Panel();
+            this._wbtnClose = new Concision.Controls.WindowsButton();
+            this._lineTop = new Concision.Controls.Line();
+            this._sylStepStatus = new Concision.Controls.Symbol();
+            this._lineBottom = new Concision.Controls.Line();
+            this._lblTipInfo = new Concision.Controls.Scutcheon();
+            this._wbtnMax = new Concision.Controls.WindowsButton();
+            this._wbtnMin = new Concision.Controls.WindowsButton();
+            this._cbxMetadataProvider = new Concision.Controls.ConcisionCombobox();
+            this._lineLeftRight = new Concision.Controls.Line();
+            this._cbxCodeTemplate = new Concision.Controls.ConcisionCombobox();
+            this._cbxMapType = new Concision.Controls.ConcisionCombobox();
+            this._cbxNameFormat = new Concision.Controls.ConcisionCombobox();
+            this._cbxActiveProject = new Concision.Controls.ConcisionCombobox();
+            this._pnlMetadataContainer = new Concision.Controls.Panel();
             this._dgvTableSchema = new System.Windows.Forms.DataGridView();
             this._trvSchema = new System.Windows.Forms.TreeView();
-            this._sylSetting = new Concision.Control.Symbol();
-            this._sylRefresh = new Concision.Control.Symbol();
-            this._btnCodeBuild = new Concision.Control.Button();
-            this._btnCannel = new Concision.Control.Button();
+            this._sylSetting = new Concision.Controls.Symbol();
+            this._sylRefresh = new Concision.Controls.Symbol();
+            this._btnCodeBuild = new Concision.Controls.ConcisionButton();
+            this._btnCannel = new Concision.Controls.ConcisionButton();
             this._lblTip = new System.Windows.Forms.Label();
             this._tipTable = new System.Windows.Forms.ToolTip(this.components);
             this._pnlMetadataContainer.SuspendLayout();
@@ -79,7 +79,7 @@
             this._wbtnClose.TabIndex = 0;
             this._wbtnClose.Text = "";
             this._wbtnClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._wbtnClose.WindowsButtonType = Concision.Control.WindowsButtonType.Close;
+            this._wbtnClose.WindowsButtonType = Concision.Controls.WindowsButtonType.Close;
             // 
             // _lineTop
             // 
@@ -142,7 +142,7 @@
             this._lblTipInfo.Margin = new System.Windows.Forms.Padding(0);
             this._lblTipInfo.Name = "_lblTipInfo";
             this._lblTipInfo.ScutcheonColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this._lblTipInfo.ScutcheonShape = Concision.Control.ScutcheonShapeType.Square;
+            this._lblTipInfo.ScutcheonShape = Concision.Controls.ScutcheonShapeType.Square;
             this._lblTipInfo.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._lblTipInfo.ShadowWidth = 1;
             this._lblTipInfo.Size = new System.Drawing.Size(235, 30);
@@ -170,7 +170,7 @@
             this._wbtnMax.TabIndex = 7;
             this._wbtnMax.Text = "";
             this._wbtnMax.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._wbtnMax.WindowsButtonType = Concision.Control.WindowsButtonType.Maximize;
+            this._wbtnMax.WindowsButtonType = Concision.Controls.WindowsButtonType.Maximize;
             // 
             // _wbtnMin
             // 
@@ -192,7 +192,7 @@
             this._wbtnMin.TabIndex = 8;
             this._wbtnMin.Text = "";
             this._wbtnMin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._wbtnMin.WindowsButtonType = Concision.Control.WindowsButtonType.Minimize;
+            this._wbtnMin.WindowsButtonType = Concision.Controls.WindowsButtonType.Minimize;
             // 
             // _cbxMetadataProvider
             // 
@@ -551,26 +551,26 @@
 
         #endregion
 
-        private Concision.Control.WindowsButton _wbtnClose;
-        private Concision.Control.Line _lineTop;
-        private Concision.Control.Symbol _sylStepStatus;
-        private Concision.Control.Line _lineBottom;
-        private Concision.Control.Scutcheon _lblTipInfo;
-        private Concision.Control.WindowsButton _wbtnMax;
-        private Concision.Control.WindowsButton _wbtnMin;
-        private Concision.Control.Combobox _cbxMetadataProvider;
-        private Concision.Control.Line _lineLeftRight;
-        private Concision.Control.Combobox _cbxCodeTemplate;
-        private Concision.Control.Combobox _cbxMapType;
-        private Concision.Control.Combobox _cbxNameFormat;
-        private Concision.Control.Combobox _cbxActiveProject;
-        private Concision.Control.Panel _pnlMetadataContainer;
-        private Concision.Control.Symbol _sylSetting;
-        private Concision.Control.Symbol _sylRefresh;
+        private Concision.Controls.WindowsButton _wbtnClose;
+        private Concision.Controls.Line _lineTop;
+        private Concision.Controls.Symbol _sylStepStatus;
+        private Concision.Controls.Line _lineBottom;
+        private Concision.Controls.Scutcheon _lblTipInfo;
+        private Concision.Controls.WindowsButton _wbtnMax;
+        private Concision.Controls.WindowsButton _wbtnMin;
+        private Concision.Controls.ConcisionCombobox _cbxMetadataProvider;
+        private Concision.Controls.Line _lineLeftRight;
+        private Concision.Controls.ConcisionCombobox _cbxCodeTemplate;
+        private Concision.Controls.ConcisionCombobox _cbxMapType;
+        private Concision.Controls.ConcisionCombobox _cbxNameFormat;
+        private Concision.Controls.ConcisionCombobox _cbxActiveProject;
+        private Concision.Controls.Panel _pnlMetadataContainer;
+        private Concision.Controls.Symbol _sylSetting;
+        private Concision.Controls.Symbol _sylRefresh;
         private System.Windows.Forms.TreeView _trvSchema;
         private System.Windows.Forms.DataGridView _dgvTableSchema;
-        private Concision.Control.Button _btnCodeBuild;
-        private Concision.Control.Button _btnCannel;
+        private Concision.Controls.ConcisionButton _btnCodeBuild;
+        private Concision.Controls.ConcisionButton _btnCannel;
         private System.Windows.Forms.Label _lblTip;
         private System.Windows.Forms.ToolTip _tipTable;
     }

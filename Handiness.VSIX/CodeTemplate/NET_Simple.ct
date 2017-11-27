@@ -4,10 +4,10 @@
       ~关于循环组格式的编辑说明：循环组中的格式会被应用到所有列上，之后框架将所有套用格式的列信息拼接起来，并填充到
       Body中与循环组Key相关的循环组占位符中，例如 #Test#
      
-      namespace  ##命名空间  例如 ：$namespace$ 在代码生成后会被替换为 Handiness
+     namespace  ##命名空间  例如 ：$namespace$ 在代码生成后会被替换为 Handiness
       tablename   ##表的名称
       tableexplain ##表的注释信息
-      classname    ##类的名称（由表名转换而来）
+      classname    ##表的注释信息
       columnname ##列的名称
       propertyname ##属性名称（由列名转换而来）
       fieldname ##字段名称（由属性名转换而来）
@@ -19,54 +19,35 @@
 
 
     <CodeTemplate  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Explain>.Net 默认模板</Explain>
+  <Explain>.Net 简易模板</Explain>
   <Postfix>cs</Postfix>
   <Body>
     using System;
-    using Handiness;
+    using Biobank.Common.Orm;
     namespace $namespace$
     {
-          public class $classname$:RowBase
+           /// summary
+           /// $tableexplain$
+          /// /summary
+        [Table("$tablename$")]
+         public class $classname$
           {
                #Properties#
-               protected override void SetPropertyValue(String propertyName, Object newValue)
-               {
-                      switch (propertyName)
-                      {
-                          #Switch#
-                          default: break;
-                      }
-                }
           }
     }
   </Body>
   <LoopGroups>
         <LoopGroup Key="Properties">
               <Format>
-                //$columnexplain$
+                /// summary
+                /// $columnexplain$
+                /// /summary
+              [Column("$columnname$")]
                public  $mappingtype$ $propertyname$
                 {
-                      get=>this.$fieldname$;
-                      set
-                      {
-                          if (this.$fieldname$.Equals(value))
-                          {
-                              this.$fieldname$ = value;
-                              this.OnNotifyPropertyChanged(nameof(this.$propertyname$), value);
-                          }
-                      }
+                      set;get;
                 }
-                private  $mappingtype$ $fieldname$;
             </Format>
           </LoopGroup>
-          <LoopGroup Key="Switch">
-            <Format>
-                    case nameof(this.$propertyname$):
-                              {
-                                  this.$propertyname$ = ($mappingtype$)newValue;
-                              }
-                              return;
-              </Format>
-            </LoopGroup>
   </LoopGroups>
 </CodeTemplate>

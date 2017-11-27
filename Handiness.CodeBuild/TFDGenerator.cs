@@ -90,11 +90,12 @@ namespace Handiness.CodeBuild
         {
             this._dataTable.Rows.Clear();
 
-            //添加名称空间列
-            this.CreateFillDataRow(PlaceHolderRecognizableCollection.NameSpace, nameSpace, null, null, true);
+ 
 
             foreach (var schema in schemas)
             {
+                //添加名称空间列
+                this.CreateFillDataRow(PlaceHolderRecognizableCollection.NameSpace, nameSpace, schema.TableSchema.Name, null, true);
                 this.CreateFillDataRow(
                     PlaceHolderRecognizableCollection.TableName,
                     schema.TableSchema.Name,

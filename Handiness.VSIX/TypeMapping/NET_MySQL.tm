@@ -27,5 +27,8 @@
     <MappingNode DbType="nchar" MappingType="String" />
     <MappingNode DbType="nvarchar" MappingType="String" />
     <MappingNode DbType="longblob" MappingType="Byte[]" />
+    <MappingNode DbType="datetime" MappingType="DateTime" />
+    <MappingNode DbType="tinyint" MappingType="Boolean" />
+    <MappingNode DbType="date" MappingType="DateTime" />
   </MappingNodes>
 </TypeMapping>
