@@ -6,122 +6,71 @@ using System.Text;
 using System.Threading;
 using System.Collections.Concurrent;
 using System.Data.Common;
-
 namespace Handiness.Orm
 {
-    public class WriteTransactionExecutor<T> : ITransactionExecutor<T> where T : class
+    public class TransactionExecutor<T> : ITransactionExecutor<T> where T : class
     {
-        public Int32 BufferMaximum
-        {
-            get; protected set;
-        }
 
-        public Int32 CurrentBufferCount
+        public Int32 Count
         {
             get { return this._buffer.Count; }
         }
 
-        public Int32 Sum
-        {
-            get; protected set;
-        }
         /********************************/
-        protected Table<T> _table;
-        protected List<T> _buffer = new List<T>();
-        protected String _connectionString ;
-        internal WriteTransactionExecutor(Table<T> tableObj, Int32 maximum,String connectionString=null)
+        protected DbProvider _provider;
+        protected ConcurrentQueue<SQLComponent> _buffer = new ConcurrentQueue<SQLComponent>();
+        protected Int32 _allowFlag = 1;
+
+        public TransactionExecutor(DbProvider provider)
         {
-            if (null == (this._connectionString = connectionString))
-            {
-                this._connectionString = tableObj.BindingDbProvider.ConnectionString;
-                if (String.IsNullOrEmpty(this._connectionString))
-                {
-                    throw new ArgumentException("Db connection string is  invalid!");
-                }
-            }
-            this._table = tableObj;
-            this.BufferMaximum = maximum;
+            this._provider = provider;
         }
-        public virtual void Flush()
+        public virtual Boolean Execute()
         {
-            Int32 affect = 0;
-            using (DbConnection connection = this._table.BindingDbProvider.DbConnectionFactroy(this._connectionString))
+            Boolean successed = false;
+            Interlocked.Exchange(ref this._allowFlag, 0);
+            using (DbConnection connection = this._provider.DbConnection())
             {
                 connection.Open();
                 DbTransaction tansaction = connection.BeginTransaction();
                 try
                 {
-                    foreach (T obj in this._buffer)
+                    while (this._buffer.Count > 0)
                     {
-                        affect+=this._table.Insert(obj).ExecuteNonQuery(connection);
+                        if (this._buffer.TryDequeue(out SQLComponent component))
+                        {
+                            DbCommand command = this._provider.DbCommand();
+                            command.Connection = connection;
+                            command.CommandText = component.SQL;
+                            command.Parameters.AddRange(component.Parameters.ToArray());
+                            command.ExecuteNonQuery();
+                        }
                     }
                     tansaction.Commit();
+                    successed = true;
                 }
                 catch
                 {
                     tansaction.Rollback();
-                    affect = 0;
                     throw;
                 }
-            } 
-            this.Sum += affect;
-            if (affect == this._buffer.Count)
-            {
-                this._buffer.Clear();
+                finally
+                {
+                    Interlocked.Exchange(ref this._allowFlag, 1);
+                }
             }
+            return successed;
         }
 
-        public void BulkPush(IEnumerable<T> objs)
+        public void Push(SQLComponent componect)
         {
-            this._buffer.AddRange(objs);
-            if (this.CurrentBufferCount > this.BufferMaximum)
+            if (this._allowFlag!=0)
             {
-                this.Flush();
+                this._buffer.Enqueue(componect);
             }
-        }
 
-        public void Push(T obj)
-        {
-            this._buffer.Add(obj);
-            if (this.CurrentBufferCount > this.BufferMaximum)
-            {
-                this.Flush();
-            }
         }
     }
 
-    public class ReplaceTransactionExecutor<T> : WriteTransactionExecutor<T> where T : class
-    {
-        internal ReplaceTransactionExecutor(Table<T> tableObj, Int32 maximum, String connectionString = null):base(tableObj,maximum,connectionString)
-        {
-        }
-        public override void Flush()
-        {
-            Int32 affect = 0;
-            using (DbConnection connection = this._table.BindingDbProvider.DbConnectionFactroy(this._connectionString))
-            {
-                connection.Open();
-                DbTransaction tansaction = connection.BeginTransaction();
-                try
-                {
-                    foreach (T obj in this._buffer)
-                    {
-                        affect += this._table.Replace(obj).ExecuteNonQuery(connection);
-                    }
-                    tansaction.Commit();
-                }
-                catch
-                {
-                    tansaction.Rollback();
-                    affect = 0;
-                    throw;
-                }
-            }
-            this.Sum += affect;
-            if (affect == this._buffer.Count)
-            {
-                this._buffer.Clear();
-            }
-        }
-    }
+
 }

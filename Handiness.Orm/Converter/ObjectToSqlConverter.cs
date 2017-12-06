@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
-using static Handiness.Orm.OrmToolkit;
 namespace Handiness.Orm
 {
     /// <summary>
-    /// 对象转换器
+    /// 用于将对象包含的信息转换成相应类型的SQL语句字符串
     /// </summary>
     public class ObjectToSqlConverter<T> where T : class
     {
@@ -17,109 +16,98 @@ namespace Handiness.Orm
             foreach (T obj in objs)
             {
                 ++replaceCount;
-                convertedString += ReplaceConvert(dbProvider, obj, parameterList, postfixParameterName + replaceCount.ToString()) + SqlKeyWord.Semicolon.Describe(true);
+                convertedString += ReplaceConvert(dbProvider, obj, parameterList, postfixParameterName + replaceCount.ToString()) + SqlKeyWord.SEMICOLON;
             }
             return convertedString;
         }
-        public static String ReplaceConvert(DbProvider dbProvider, T obj, List<DbParameter> parameterList = null, String postfixParameterName = null) 
+        public static String ReplaceConvert(DbProvider dbProvider, T obj, List<DbParameter> parameterList = null, String postfixParameterName = null)
         {
-            String convertedString = BasicSqlFormat.ReplaceFormat.Describe();
-            ColumnAttribute columnAttribute = null;
+            String convertedString = BasicSqlFormat.REPLACE_FORMAT;
+            String columnName = null;
+            String parameterName = null;
             Object value = null;
             DbParameter dbParameter = null;
             String parameterNames = String.Empty;
             String columnNames = String.Empty;
-
-            foreach (PropertyInfo propertyInfo in Table<T>.TableReflectionCache.ColumnPropertyCollection)
+            Int32 length = Table<T>.Schema.Properties.Length;
+            for (Int32 i = 0; i < length; ++i)
             {
-                columnAttribute = Table<T>.TableReflectionCache.ColumnAttributeCollection[propertyInfo.Name];
-                //    value = propertyInfo.GetValue(obj, null);
-                value = Table<T>.TableReflectionCache.PropertyAccessor.GetProperityValue(obj, propertyInfo.Name);
-                if (value == null)
-                {
-                    if (columnAttribute.IsPrimaryKey)
-                    {
-                        throw new ArgumentNullException(String.Format("Table: {0}，Filed:{1} Primary key can not be empty!", Table<T>.TableReflectionCache.TableName, columnAttribute.Name));
-                    }
-                    if (columnAttribute.IsNotNullable)
-                    {
-                        if (columnAttribute.DefalutValue == null)
-                            throw new ArgumentNullException(String.Format("Table: {0}，Filed:{1} Can not be empty!", Table<T>.TableReflectionCache.TableName, columnAttribute.Name));
-                        else
-                            value = columnAttribute.DefalutValue;
-                    }
-                    else
-                        continue;
-                }
-                columnNames += columnAttribute.Name + SqlKeyWord.Comma.Describe();
-                dbParameter = dbProvider.DbParameterFactroy(
-                     dbProvider.PrefixParameterName + columnAttribute.Name + postfixParameterName,
-                    columnAttribute.Type,
+                PropertyInfo info = Table<T>.Schema.Properties[i];
+                columnName = Table<T>.Schema[info.Name];
+                value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
+                //主键、默认值、可空判断
+                parameterName = dbProvider.Prefix + columnName + postfixParameterName;
+
+                dbParameter = dbProvider.DbParameter(
+                  parameterName,
                     value);
-                parameterNames += dbParameter.ParameterName + SqlKeyWord.Comma.Describe();
+                if (i != (length - 1))
+                {
+                    columnNames += columnName + SqlKeyWord.COMMA;
+                    parameterNames += dbParameter.ParameterName + SqlKeyWord.COMMA;
+                }
                 parameterList?.Add(dbParameter);
             }
-            TrimEndComma(ref columnNames);
-            TrimEndComma(ref parameterNames);
             convertedString = String.Format(convertedString,
-                Table<T>.TableReflectionCache.TableName,
+                Table<T>.Schema.TableName,
                 columnNames,
                 parameterNames);
             return convertedString;
         }
         public static String InsertConvert(DbProvider dbProvider, T obj, List<DbParameter> parameterList = null, String postfixParameterName = null)
         {
-            String convertedString = BasicSqlFormat.InsertFormat.Describe();
-            ColumnAttribute columnAttribute = null;
+            String convertedString = BasicSqlFormat.INSERT_FORMAT;
+            String columnName = null;
+            String parameterName = null;
             Object value = null;
             DbParameter dbParameter = null;
             String parameterNames = String.Empty;
             String columnNames = String.Empty;
-
-            foreach (PropertyInfo propertyInfo in Table<T>.TableReflectionCache.ColumnPropertyCollection)
+            Int32 length = Table<T>.Schema.Properties.Length;
+            for (Int32 i = 0; i < length; ++i)
             {
-                columnAttribute = Table<T>.TableReflectionCache.ColumnAttributeCollection[propertyInfo.Name];
-             //   value = propertyInfo.GetValue(obj, null);
-                value = Table<T>.TableReflectionCache.PropertyAccessor.GetProperityValue(obj, propertyInfo.Name);
-                if (value == null)
+                PropertyInfo info = Table<T>.Schema.Properties[i];
+                columnName = Table<T>.Schema[info.Name];
+                value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
+                //if (value == null)
+                //{
+                //    if (columnAttribute.IsPrimaryKey)
+                //    {
+                //        throw new ArgumentNullException($"Table: {Table<T>.Cache.TableName}，Filed:{columnAttribute.Name} Primary key can not be empty!");
+                //    }
+                //    if (columnAttribute.IsNullable)
+                //    {
+                //        if (columnAttribute.DefalutValue == null)
+                //            throw new ArgumentNullException($"Table: {Table<T>.Cache.TableName}，Filed:{columnAttribute.Name} Can not be empty!");
+                //        else
+                //            value = columnAttribute.DefalutValue;
+                //    }
+                //    else
+                //        continue;
+                //}
+                parameterName = dbProvider.Prefix + columnName + postfixParameterName;
+                dbParameter = dbProvider.DbParameter(parameterName,value);
+                if (i != (length - 1))
                 {
-                    if (columnAttribute.IsPrimaryKey)
-                    {
-                        throw new ArgumentNullException(String.Format("Table: {0}，Filed:{1} Primary key can not be empty!", Table<T>.TableReflectionCache.TableName, columnAttribute.Name));
-                    }
-                    if (columnAttribute.IsNotNullable)
-                    {
-                        if (columnAttribute.DefalutValue == null)
-                            throw new ArgumentNullException(String.Format("Table: {0}，Filed:{1} Can not be empty!", Table<T>.TableReflectionCache.TableName, columnAttribute.Name));
-                        else
-                            value = columnAttribute.DefalutValue;
-                    }
-                    else continue;
+                    columnNames +=columnName+ SqlKeyWord.COMMA;
+                    parameterNames += dbParameter.ParameterName + SqlKeyWord.COMMA;
                 }
-                columnNames += columnAttribute.Name + SqlKeyWord.Comma.Describe();
-                dbParameter = dbProvider.DbParameterFactroy(
-                     dbProvider.PrefixParameterName + columnAttribute.Name + postfixParameterName,
-                    columnAttribute.Type,
-                    value);
-                parameterNames += dbParameter.ParameterName + SqlKeyWord.Comma.Describe();
                 parameterList?.Add(dbParameter);
             }
-            TrimEndComma(ref columnNames);
-            TrimEndComma(ref parameterNames);
             convertedString = String.Format(convertedString,
-                Table<T>.TableReflectionCache.TableName,
+                Table<T>.Schema.TableName,
                 columnNames,
                 parameterNames);
             return convertedString;
         }
-        public static String BulkInsertConvert(DbProvider dbProvider, IEnumerable<T> objs, List<DbParameter> parameterList = null, String postfixParameterName = null)
+        public static String BatchInsertConvert(DbProvider dbProvider, IEnumerable<T> objs, List<DbParameter> parameterList = null, String postfixParameterName = null)
         {
             String convertedString = String.Empty;
             Int32 insertCount = 0;
             foreach (T obj in objs)
             {
                 ++insertCount;
-                convertedString += InsertConvert(dbProvider, obj, parameterList, postfixParameterName+insertCount.ToString()) + SqlKeyWord.Semicolon.Describe(true);
+                convertedString += InsertConvert(dbProvider, obj, parameterList, postfixParameterName + insertCount.ToString()) + SqlKeyWord.SEMICOLON;
             }
             return convertedString;
         }

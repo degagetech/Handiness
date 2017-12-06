@@ -2,186 +2,104 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System.Linq.Expressions;
-using System.Collections.Concurrent;
+
+
 namespace Handiness.Orm
 {
-    public class PropertyAccessor<T>
+    /// <summary>
+    /// 用于对属性的快速访问，其性能高于反射低于直接操作
+    /// </summary>
+    public sealed class PropertyAccessor
     {
-        private static PropertyAccessor<T> _Instance = new PropertyAccessor<T>();
-        public PropertyAccessor<T> Instance
-        {
-            get
-            {
-                return _Instance;
-            }
-        }
-
+        private Action<Object, Object>[] _setterCache = null;
+        private Func<Object, Object>[] _getterCache = null;
         /// <summary>
-        /// 属性获取访问器名称格式
+        /// Setter方法缓存计数器
         /// </summary>
-        protected const String ProperityGetterNameFormat = "get_{0}";
+        private Int32 _setterCacheCount = 0;
         /// <summary>
-        /// 属性设置访问器名称格式
+        /// Getter方法缓存计数器
         /// </summary>
-        protected const String ProperitySetterNameFormat = "set_{0}";
+        private Int32 _getterCacheCount = 0;
+        /****************/
+        public PropertyAccessor() { }
 
-
+        public void Initlialize(Int32 size)
+        {
+            this._setterCache = new Action<Object, Object>[size];
+            this._getterCache = new Func<Object, Object>[size];
+            this._setterCacheCount = 0;
+            this._getterCacheCount = 0;
+        }
         /// <summary>
-        /// 无返回值方法附加头 ACT_
+        /// 使用指定索引处的缓存委托设置实例的属性的值
         /// </summary>
-        protected const Int32 ActionHead = 13;
-
+        public void SetValue(Int32 index, Object instance, Object value)
+        {
+            if (value != null)
+            {
+                Action<Object, Object> cache = this._setterCache[index];
+                cache.Invoke(instance, value);
+            }
+        }
         /// <summary>
-        /// 有返回值方法附加头 RET_
+        /// 使用指定索引处的缓存委托获取实例的属性的值
         /// </summary>
-        protected const Int32 FunctionHead = 23;
-
-        /***********************/
-        private ConcurrentDictionary<Int64, Delegate> _deleagateCache = new ConcurrentDictionary<Int64, Delegate>();
-        private Type _type = typeof(T);
-
+        public Object GetValue(Int32 index, Object instance)
+        {
+            Func<Object, Object> cache = this._getterCache[index];
+            return cache.Invoke(instance);
+        }
         /// <summary>
-        /// 设置对象指定属性名称的值
+        /// 获取指定索引处setter的缓存
         /// </summary>
-        /// <param name="obj">被设置的对象</param>
-        /// <param name="propertyName">属性名称</param>
-        /// <param name="value">指定的值</param>
-        public void SetProperityValue(T obj, String propertyName, Object value)
+        public Action<Object, Object> SetterCache(Int32 index)
         {
-            Type type = this._type;
-            Type inputType = value.GetType();
-            dynamic dyncValue = value;
-            dynamic action = null;
-
-            Int64 key = this.GenerationKey(ActionHead, type.GetHashCode(), propertyName.GetHashCode(), inputType.GetHashCode());
-            var getResult = this.GetDelegateCache(key);
-            if (getResult.existed)
-            {
-                action = getResult.dlgtObj;
-            }
-            else
-            {
-                var getter = type.GetMethod(String.Format(ProperitySetterNameFormat, propertyName));
-                ParameterExpression instanceExp = Expression.Parameter(type, "obj");
-                ParameterExpression valueExp = Expression.Parameter(inputType, "value");
-                MethodCallExpression callExp = Expression.Call(instanceExp, getter, valueExp);
-                var lambda = Expression.Lambda(callExp, instanceExp, valueExp);
-                action = lambda.Compile();
-                this.AddDelegateCache(key, action);
-            }
-            action.Invoke(obj, dyncValue);
+            return this._setterCache[index];
         }
-
         /// <summary>
-        /// 设置对象指定属性名称的值，此函数是 <see cref="SetProperityValue"/> 泛型版本，有一定性能提升
+        /// 获取指定索引处getter的缓存
         /// </summary>
-        public void SetProperityValue<TINPUT>(T obj, String propertyName, TINPUT value)
+        public Func<Object, Object> GetterCache(Int32 index)
         {
-            Type type = this._type;
-            Type inputType = value.GetType();
-            Action<T, TINPUT> action = null;
-            Int64 key = this.GenerationKey(ActionHead, type.GetHashCode(), propertyName.GetHashCode(), inputType.GetHashCode());
-            var getResult = this.GetDelegateCache(key);
-            if (getResult.existed)
-            {
-                action = getResult.dlgtObj as Action<T, TINPUT>;
-            }
-            else
-            {
-                var getter = type.GetMethod(String.Format(ProperitySetterNameFormat, propertyName));
-                ParameterExpression instanceExp = Expression.Parameter(type, "obj");
-                ParameterExpression valueExp = Expression.Parameter(inputType, "value");
-                MethodCallExpression callExp = Expression.Call(instanceExp, getter, valueExp);
-                var lambda = Expression.Lambda<Action<T, TINPUT>>(callExp, instanceExp, valueExp);
-                action = lambda.Compile();
-                this.AddDelegateCache(key, action);
-            }
-            action.Invoke(obj, value);
+            return this._getterCache[index];
         }
-
         /// <summary>
-        /// 获取对象指定属性名称的值
+        /// 根据属性信息生成对应的缓存委托，并返回委托的位置
         /// </summary>
-        /// <param name="obj">指定的对象</param>
-        /// <param name="propertyName">获取的属性的名称</param>
-        /// <returns>返回属性的值</returns>
-        public Object GetProperityValue(T obj, String propertyName)
+        public Int32 BuildingSetPropertyCache(PropertyInfo info)
         {
-            Type type = this._type;
-            dynamic func = null;
-            Int64 key = this.GenerationKey(FunctionHead, type.GetHashCode(), propertyName.GetHashCode());
-            var getResult = this.GetDelegateCache(key);
-            if (getResult.existed)
-            {
-                func = getResult.dlgtObj;
-            }
-            else
-            {
-                var getter = type.GetMethod(String.Format(ProperityGetterNameFormat, propertyName));
-                ParameterExpression parameter = Expression.Parameter(type, "obj");
-                MethodCallExpression callExp = Expression.Call(parameter, getter);
-                var lambda = Expression.Lambda(callExp, parameter);
-                func = lambda.Compile();
-                this.AddDelegateCache(key, func);
-            }
-            return func.Invoke(obj);
+            MethodInfo method = info.GetSetMethod();
+            Type objectType = typeof(Object);
+            ParameterExpression instanceExp = Expression.Parameter(objectType, "instance");
+            ParameterExpression parameterExp = Expression.Parameter(objectType, "value");
+            UnaryExpression valueCastExp = Expression.Convert(parameterExp, info.PropertyType);
+            UnaryExpression instanceCastExp = Expression.Convert(instanceExp, info.ReflectedType);
+            MethodCallExpression invokeExp = Expression.Call(instanceCastExp, method, valueCastExp);
+            Action<Object, Object> handler = Expression.Lambda<Action<Object, Object>>(invokeExp, instanceExp, parameterExp).Compile();
+            this._setterCache[this._setterCacheCount] = handler;
+            return this._setterCacheCount++;
         }
-
         /// <summary>
-        ///  获取对象指定属性名称的值，此函数是<see cref="GetProperityValue"/> 的泛型版本，有一定性能提升
+        /// 根据属性信息生成对应的缓存委托，并返回委托的位置
         /// </summary>
-        public TResult GetProperityValue<TResult>(T obj, String propertyName)
+        public Int32 BuildingGetPropertyCache(PropertyInfo info)
         {
-            Type type = this._type;
-            Type retType = typeof(TResult);
-            Func<T, TResult> func = null;
-            Int64 key = this.GenerationKey(FunctionHead, type.GetHashCode(), propertyName.GetHashCode(), retType.GetHashCode());
-            var getResult = this.GetDelegateCache(key);
-            if (getResult.existed)
-            {
-                func = getResult.dlgtObj as Func<T, TResult>;
-            }
-            else
-            {
-                var getter = type.GetMethod(String.Format(ProperityGetterNameFormat, propertyName));
-                ParameterExpression parameter = Expression.Parameter(type, "obj");
-                MethodCallExpression callExp = Expression.Call(parameter, getter);
-                var lambda = Expression.Lambda<Func<T, TResult>>(callExp, parameter);
-                func = lambda.Compile();
-                this.AddDelegateCache(key, func);
-            }
-            return func.Invoke(obj);
-        }
+            MethodInfo methodInfo = info.GetGetMethod();
+            Type objectType = typeof(Object);
+            ParameterExpression instanceExp = Expression.Parameter(objectType, "instance");
 
-        protected Int64 GenerationKey(params Int32[] code)
-        {
-            Int64 key = 0;
-            Int32 count = code.Length;
-            for (Int32 i = 0; i < count; ++i)
-            {
-                key += code[i];
-            }
-            return key;
-        }
-        protected void AddDelegateCache(Int64 key, Delegate dlgtObj)
-        {
-            this._deleagateCache.TryAdd(key, dlgtObj);
-        }
-        protected (Boolean existed, Delegate dlgtObj) GetDelegateCache(Int64 key)
-        {
-            Boolean existed = false;
-            existed = this._deleagateCache.TryGetValue(key, out Delegate dlgtObj);
-            return (existed, dlgtObj);
-        }
-        protected Boolean RemoveDelegateCache(Int64 key)
-        {
-            return this._deleagateCache.TryRemove(key, out Delegate obj);
-        }
+            UnaryExpression instanceCastExp = Expression.Convert(instanceExp, info.ReflectedType);
 
-        public void ClearDelegateCache()
-        {
-            this._deleagateCache.Clear();
+            MethodCallExpression invokeExp = Expression.Call(instanceCastExp, methodInfo);
+
+            UnaryExpression resultCastExp = Expression.Convert(invokeExp, objectType);
+
+            Func<Object, Object> handler = Expression.Lambda<Func<Object, Object>>(resultCastExp, instanceExp).Compile();
+            this._getterCache[this._getterCacheCount] = handler;
+            return this._getterCacheCount++;
         }
     }
 }

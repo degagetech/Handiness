@@ -6,7 +6,7 @@ namespace Handiness.Orm
     /// <summary>
     /// 附加在类的属性上的特性，以映射到数据库的表的字段
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class ColumnAttribute : Attribute
     {
         public ColumnAttribute(String name)
@@ -26,9 +26,9 @@ namespace Handiness.Orm
         /// </summary>
         public Boolean IsPrimaryKey { get; set; }
         /// <summary>
-        /// 是否不可以为空
+        /// 是否可空
         /// </summary>
-        public Boolean IsNotNullable { get; set; }
+        public Boolean IsNullable { get; set; }
         /// <summary>
         /// 默认值
         /// </summary>

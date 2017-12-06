@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq.Expressions;
-using static Handiness.Orm.OrmToolkit;
+
 namespace Handiness.Orm
 {
     /// <summary>
-    /// lambda表达式转换器
+    ///用于将Lambda表达式转换成SQL语句
     /// </summary>
     public class LambdaToSqlConverter<T> where T : class
     {
 
         public static String SelectConvert(Expression<Func<T, dynamic>> selector = null, List<DbParameter> parameterList = null)
         {
-            String convertedString = BasicSqlFormat.SelectFormat.Describe();
+
+            String convertedString = BasicSqlFormat.SELECT_FORMAT;
             if (null == selector)
             {
                 convertedString = String.Format(convertedString,
-                    SqlKeyWord.AllColumn,
-                    Table<T>.TableReflectionCache.TableName);
+                    SqlKeyWord.ASTERISK,
+                    Table<T>.Schema.TableName);
             }
             else
             {
@@ -30,23 +31,22 @@ namespace Handiness.Orm
                 }
                 #region <<获取需要查询的列,并拼接Sql>>
                 MemberExpression memberExpression = null;
-                foreach (Expression expression in newExpression.Arguments)
+                var args = newExpression.Arguments;
+                Int32 count = 1;
+                foreach (Expression expression in args)
                 {
                     memberExpression = expression as MemberExpression;
-                    if (Table<T>.
-                        TableReflectionCache.
-                        ColumnAttributeCollection.
-                        ContainsKey(memberExpression.Member.Name))
+                    String columnName = Table<T>.
+                        Schema[memberExpression.Member.Name];
+                    if (null == columnName)
                     {
-                        ColumnAttribute columnAttribute = Table<T>.
-                            TableReflectionCache.
-                            ColumnAttributeCollection[memberExpression.Member.Name];
-                        columnNames += columnAttribute.Name;
-                        columnNames += SqlKeyWord.Comma.Describe();
+                        columnNames += columnName;
+                        if (count++ != args.Count)
+                            columnNames += SqlKeyWord.COMMA;
                     }
+
                 }
-                TrimEndComma(ref columnNames);
-                convertedString = String.Format(convertedString, columnNames, Table<T>.TableReflectionCache.TableName);
+                convertedString = String.Format(convertedString, columnNames, Table<T>.Schema.TableName);
                 #endregion
             }
             return convertedString;
@@ -59,32 +59,32 @@ namespace Handiness.Orm
             {
                 throw new ArgumentException("Invalid update expression!");
             }
-            String convertedString = BasicSqlFormat.UpdateFormat.Describe();
+            String convertedString = BasicSqlFormat.UPDATE_FORMAT;
             String updateColumnNames = String.Empty;
             //获取需要更新的列 以及其值
-            foreach (MemberAssignment memberAssignment in memberInitExpression.Bindings)
+            var bindings = memberInitExpression.Bindings;
+            Int32 count = 1;
+            foreach (MemberAssignment memberAssignment in bindings)
             {
-                ColumnAttribute columnAttribute =
+                String columnName =
                             Table<T>.
-                            TableReflectionCache.
-                            ColumnAttributeCollection[memberAssignment.Member.Name];
-                String parameterName = dbProvider.PrefixParameterName + columnAttribute.Name + postfixParameterName;
-                DbParameter dbParameter = dbProvider.DbParameterFactroy
+                            Schema[memberAssignment.Member.Name];
+                String parameterName = dbProvider.Prefix + columnName + postfixParameterName;
+                DbParameter dbParameter = dbProvider.DbParameter
                     (
                             parameterName,
-                            columnAttribute.Type,
                             ExtractExpressionContainValue(memberAssignment.Expression)
                     );
                 /*.................拼接更新的SQL.................*/
-                updateColumnNames += columnAttribute.Name;
-                updateColumnNames += SqlKeyWord.Equal.Describe();
+                updateColumnNames += columnName;
+                updateColumnNames += SqlKeyWord.EQUAL;
                 updateColumnNames += parameterName;
-                updateColumnNames += SqlKeyWord.Comma.Describe();
+                if (count++ != bindings.Count)
+                    updateColumnNames += SqlKeyWord.COMMA;
 
                 parameterList?.Add(dbParameter);
             }
-            TrimEndComma(ref updateColumnNames);
-            convertedString = String.Format(convertedString, Table<T>.TableReflectionCache.TableName, updateColumnNames);
+            convertedString = String.Format(convertedString, Table<T>.Schema.TableName, updateColumnNames);
 
             return convertedString;
         }
@@ -103,27 +103,27 @@ namespace Handiness.Orm
                     break;
                 default:
                     {
-                        Func<Object> funcRetObj = Expression.Lambda<Func<Object>>(expression).Compile();
-                        value = funcRetObj.Invoke();
+                        dynamic handler = Expression.Lambda(expression).Compile();
+                        value = handler.Invoke();
                     }
                     break;
             }
             return value;
         }
-        internal static Dictionary<ExpressionType, SqlKeyWord> ExpressionTypeMapTable = new Dictionary<ExpressionType, SqlKeyWord>()
+        internal static Dictionary<ExpressionType, String> ExpressionTypeMapTable = new Dictionary<ExpressionType, String>()
         {
-            {ExpressionType.AndAlso,SqlKeyWord.And},
-            {ExpressionType.OrElse,SqlKeyWord.Or},
-            {ExpressionType.GreaterThan,SqlKeyWord.GreaterThan},
-            {ExpressionType.GreaterThanOrEqual,SqlKeyWord.GreaterThanOrEqual},
-            {ExpressionType.LessThan,SqlKeyWord.LessThan},
-            {ExpressionType.LessThanOrEqual,SqlKeyWord.LessThanOrEqual},
-            {ExpressionType.Equal,SqlKeyWord.Equal},
-            {ExpressionType.NotEqual,SqlKeyWord.NotEqual}
+            {ExpressionType.AndAlso,SqlKeyWord.AND},
+            {ExpressionType.OrElse,SqlKeyWord.OR},
+            {ExpressionType.GreaterThan,SqlKeyWord.GREATERTHAN},
+            {ExpressionType.GreaterThanOrEqual,SqlKeyWord.GREATERTHAN_OR_EQUAL},
+            {ExpressionType.LessThan,SqlKeyWord.LESSTHAN},
+            {ExpressionType.LessThanOrEqual,SqlKeyWord.LESSTHAN_OR_EQUAL},
+            {ExpressionType.Equal,SqlKeyWord.EQUAL},
+            {ExpressionType.NotEqual,SqlKeyWord.NOT_EQUAL}
         };
-        internal static Dictionary<String, SqlKeyWord> MethodNameMapTable = new Dictionary<String, SqlKeyWord>
+        internal static Dictionary<String, String> MethodNameMapTable = new Dictionary<String, String>
         {
-            { "Contains",SqlKeyWord.Like}
+            { "Contains",SqlKeyWord.LIKE}
         };
         /// <summary>
         /// 判断此表达式在整个表达式树中是否属于枝结点
@@ -162,17 +162,17 @@ namespace Handiness.Orm
                     Object value = null;
                     MethodCallExpression callExpression = expression as MethodCallExpression;
                     MemberExpression memberExpression = callExpression.Object as MemberExpression;
-                    symbol = MethodNameMapTable[callExpression.Method.Name].Describe(true,true);
+                    symbol = MethodNameMapTable[callExpression.Method.Name];
                     propertyName = memberExpression.Member.Name;
                     value = ExtractExpressionContainValue(callExpression.Arguments[0]);
 
-                    ColumnAttribute columnAttribute = Table<T>.TableReflectionCache.ColumnAttributeCollection[propertyName];
-                    DbParameter parameter = dbProvider.DbParameterFactroy(
-                         dbProvider.PrefixParameterName + columnAttribute.Name+ parameterList?.Count,
-                         columnAttribute.Type,
+                    String columnName = Table<T>.Schema[propertyName];
+                    String parameterName = dbProvider.Prefix + columnName + parameterList?.Count;
+                    DbParameter parameter = dbProvider.DbParameter(
+                         parameterName,
                          value
                         );
-                    sql += columnAttribute.Name;
+                    sql += columnName;
                     sql += symbol;
                     sql += parameter.ParameterName;
                     parameterList?.Add(parameter);
@@ -188,15 +188,15 @@ namespace Handiness.Orm
 
                         MemberExpression memberExpression = binaryExpression.Left as MemberExpression;
                         propertyName = memberExpression.Member.Name;
-                        symbol = ExpressionTypeMapTable[binaryExpression.NodeType].Describe();
+                        symbol = ExpressionTypeMapTable[binaryExpression.NodeType];
                         value = ExtractExpressionContainValue(binaryExpression.Right);
-                        ColumnAttribute columnAttribute = Table<T>.TableReflectionCache.ColumnAttributeCollection[propertyName];
-                        DbParameter parameter = dbProvider.DbParameterFactroy(
-                             dbProvider.PrefixParameterName + columnAttribute.Name+ parameterList?.Count,
-                             columnAttribute.Type,
+                        String columnName = Table<T>.Schema[propertyName];
+                        String parameterName = dbProvider.Prefix + columnName + parameterList?.Count;
+                        DbParameter parameter = dbProvider.DbParameter(
+                             parameterName,
                              value
                             );
-                        sql += columnAttribute.Name;
+                        sql += columnName;
                         sql += symbol;
                         sql += parameter.ParameterName;
                         parameterList?.Add(parameter);
@@ -204,7 +204,7 @@ namespace Handiness.Orm
                     else
                     {
                         ExpressionTreeAnalyzing(dbProvider, binaryExpression.Left, ref sql, parameterList);
-                        sql += ExpressionTypeMapTable[binaryExpression.NodeType].Describe(true, true);
+                        sql += ExpressionTypeMapTable[binaryExpression.NodeType];
                         ExpressionTreeAnalyzing(dbProvider, binaryExpression.Right, ref sql, parameterList);
                     }
                 }

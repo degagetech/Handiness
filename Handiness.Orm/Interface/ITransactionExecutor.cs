@@ -7,30 +7,30 @@ using System.Text;
 namespace Handiness.Orm
 {
     /// <summary>
-    /// 事务执行器
+    ///保证压入到执行器的一批SQL操作执行的事务性，这一批SQL操作要么都成功要么都失败
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public interface ITransactionExecutor<T> where T : class
     {
+
         /// <summary>
-        /// 事务执行器的最大大小，一但插入数量大小超过此大小，事务执行器将数据持久化到数据库中，并清空缓冲区
+        /// 表示当前事务执行器中包含的SQL组件的数量
         /// </summary>
-        Int32 BufferMaximum { get; }
-        Int32 CurrentBufferCount { get; }
+        Int32 Count { get; }
+
         /// <summary>
-        /// 事务执行器 已写数据的总计数，不包括缓冲区的
+        /// 将SQL组件添加到事务执行器，注意在事务执行器执行时此操作应该是无效的
         /// </summary>
-        Int32 Sum { get; }
+        void Push(SQLComponent componect);
+        ///// <summary>
+        ///// 将插入对象转换成SQL组件后插入到事务执行器
+        ///// </summary>
+        ///// <param name="obj">需要插入的对象</param>
+        //void InsertPush(T obj);
         /// <summary>
-        /// 将记录压入事务执行器
+        /// 执行事务执行器包含的所有SQL组件
         /// </summary>
-        /// <param name="obj"></param>
-        void Push(T obj);
-        void BulkPush(IEnumerable<T> objs);
-        /// <summary>
-        /// 刷新事务执行器缓冲区中的数据，持久化到数据库中，并清空缓冲区
-        /// </summary>
-        void Flush();
+        /// <returns>表示事务执行成功与否</returns>
+        Boolean Execute();
     }
 
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+
+using System;
 using System.Data.SQLite;
 using System.Data.Common;
 using System.Data;
@@ -7,9 +9,9 @@ namespace Handiness.Orm
 {
     public class SQLiteDbProvider : DbProvider
     {
-        public SQLiteDbProvider(String name, String connectionString, Boolean replaced = false, Boolean saved = false) : base(name, connectionString, replaced, saved) { }
+        public SQLiteDbProvider(String name, String connectionString) : base(name, connectionString) { }
 
-        public override DbConnection DbConnectionFactroy(String connectionString = null, Boolean isRelevance = false)
+        public override DbConnection DbConnection(String connectionString = null, Boolean isRelevance = false)
         {
            
             SQLiteConnection connection = new SQLiteConnection();
@@ -20,7 +22,7 @@ namespace Handiness.Orm
             }
             return connection;
         }
-        public override DbCommand DbCommandFactroy(String commandText = null, DbParameter[] dbParameterArray = null)
+        public override DbCommand DbCommand(String commandText = null, DbParameter[] dbParameterArray = null)
         {
             SQLiteCommand sqliteCommand = new SQLiteCommand();
             if (!String.IsNullOrEmpty(commandText))
@@ -33,12 +35,12 @@ namespace Handiness.Orm
             }
             return sqliteCommand;
         }
-        public override DbParameter DbParameterFactroy(String name = null, DbType dbType = DbType.Object, object value = null)
+        public override DbParameter DbParameter(String name = null, Object value = null, DbType dbType = DbType.Object)
         {
             SQLiteParameter parameter = new SQLiteParameter(name, value);
             return parameter;
         }
-        public override String PrefixParameterName
+        public override String Prefix
         {
             get
             {
