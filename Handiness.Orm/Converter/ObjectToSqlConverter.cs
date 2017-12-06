@@ -29,10 +29,10 @@ namespace Handiness.Orm
             DbParameter dbParameter = null;
             String parameterNames = String.Empty;
             String columnNames = String.Empty;
-            Int32 length = Table<T>.Schema.Properties.Length;
+            Int32 length = Table<T>.Schema.PropertyInfos.Length;
             for (Int32 i = 0; i < length; ++i)
             {
-                PropertyInfo info = Table<T>.Schema.Properties[i];
+                PropertyInfo info = Table<T>.Schema.PropertyInfos[i];
                 columnName = Table<T>.Schema[info.Name];
                 value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
                 //主键、默认值、可空判断
@@ -63,10 +63,10 @@ namespace Handiness.Orm
             DbParameter dbParameter = null;
             String parameterNames = String.Empty;
             String columnNames = String.Empty;
-            Int32 length = Table<T>.Schema.Properties.Length;
+            Int32 length = Table<T>.Schema.PropertyInfos.Length;
             for (Int32 i = 0; i < length; ++i)
             {
-                PropertyInfo info = Table<T>.Schema.Properties[i];
+                PropertyInfo info = Table<T>.Schema.PropertyInfos[i];
                 columnName = Table<T>.Schema[info.Name];
                 value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
                 //if (value == null)

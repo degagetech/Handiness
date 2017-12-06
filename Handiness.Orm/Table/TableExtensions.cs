@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
 namespace Handiness.Orm
@@ -9,29 +10,53 @@ namespace Handiness.Orm
     {
         /*.................查询.................*/
         /// <summary>
+        /// 执行指定的查询语句，并返回包含查询结果的<see cref="DataTable"/>对象
+        /// </summary>
+        /// <returns>若参数异常，返回空引用</returns>
+        public static DataTable Query(this Table tableObj, String sql, params DbParameter[] paras)
+        {
+            DataTable table = null;
+            if (String.IsNullOrEmpty(sql))
+            {
+                return table;
+            }
+            table = new DataTable();
+            using (DbConnection connection = tableObj.DbProvider.DbConnection())
+            {
+                DbCommand command = tableObj.DbProvider.DbCommand();
+                command.Connection = connection;
+                command.CommandText = sql;
+                command.Parameters.AddRange(paras);
+                connection.Open();
+                DbDataReader dataReader = command.ExecuteReader();
+                command.Parameters.Clear();
+                table.Load(dataReader);
+            }
+            return table;
+        }
+        /// <summary>
         /// 执行指定的查询语句
         /// </summary>
         /// <param name="sql">参数占位需要自己处理</param>
         /// <param name="paras">参数</param>
-        /// <returns>若无数据，则返回一个元素个数为零的链表</returns>
-        public static List<T> ExecuteQuery<T>(this Table<T> tableObj, String sql, params DbParameter[] paras) where T : class
+        /// <returns>若无数据，或参数异常则返回一个元素个数为零的链表</returns>
+        public static List<T> Query<T>(this Table<T> tableObj, String sql, params DbParameter[] paras) where T : class
         {
             List<T> results = new List<T>();
-            if (!String.IsNullOrEmpty(sql))
+            if (String.IsNullOrEmpty(sql))
             {
                 return results;
             }
             using (DbConnection connection = tableObj.DbProvider.DbConnection())
             {
                 DbCommand command = tableObj.DbProvider.DbCommand();
+                command.Connection = connection;
                 command.CommandText = sql;
                 command.Parameters.AddRange(paras);
                 connection.Open();
                 DbDataReader dataReader = command.ExecuteReader();
-                if (dataReader.Read())
-                {
-
-                }
+                command.Parameters.Clear();
+                results = DataExtractor<T>.ToList(dataReader);
             }
             return results;
         }

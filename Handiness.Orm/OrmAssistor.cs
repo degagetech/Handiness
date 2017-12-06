@@ -9,7 +9,7 @@ namespace Handiness.Orm
     /// </summary>
     public static class OrmAssistor
     {
-
+#if SQLITE_ENABLE
         private readonly static String _SQLiteConnectionstringFormat = "Data Source={0};UTF8Encoding=True;";
         public static String FetchSQLiteConnectionString(String path) => String.Format(_SQLiteConnectionstringFormat, path);
         /// <summary>
@@ -20,7 +20,7 @@ namespace Handiness.Orm
             SQLiteConnection.ClearAllPools();
             GC.Collect();
         }
-
+#endif
         /********************************/
 
         /// <summary>
@@ -28,6 +28,7 @@ namespace Handiness.Orm
         /// </summary>
         internal static Boolean HasSqlKeyword(String sql, String keyword) => (-1 != sql?.ToLower().IndexOf(keyword.ToLower()));
 
-       
+     
+
     }
 }

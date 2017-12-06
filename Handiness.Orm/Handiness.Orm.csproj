@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SQLITE_ENABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;SQLITE_ENABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -55,11 +55,12 @@
     <Compile Include="Const\SqlKeyWord.cs" />
     <Compile Include="Converter\LambdaToSqlConverter.cs" />
     <Compile Include="Converter\ObjectToSqlConverter.cs" />
-    <Compile Include="DbDataReaderExtension.cs" />
+    <Compile Include="DataExtractor.cs" />
     <Compile Include="DbProvider\DbProvider.cs" />
     <Compile Include="DbProvider\SQLiteDbProvider.cs" />
     <Compile Include="Driver\Driver.cs" />
     <Compile Include="Driver\DriverExtension.cs" />
+    <Compile Include="InstanceCreator.cs" />
     <Compile Include="Interface\IDriver.cs" />
     <Compile Include="Interface\ISelectVector.cs" />
     <Compile Include="Interface\ITransactionExecutor.cs" />

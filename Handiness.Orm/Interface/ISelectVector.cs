@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 namespace Handiness.Orm
 {
     /// <summary> 
-    /// 查询容器，提交查询并处理查询结果
+    /// 查询容器，用于获取查询结果，注意！结果获取函数调用一次后其他同类函数调用无效
     /// </summary>
     public interface ISelectVector<T> : IDisposable
     {
@@ -21,7 +21,7 @@ namespace Handiness.Orm
         /// </summary>
         Boolean HasRows { get; }
         /// <summary>
-        /// 将查询结果转换成一个<see cref="List{T}"/>类型链表 
+        /// 将查询结果转换成一个<see cref="List{T}"/>类型链表，无结果则返回一个包含零个对象的链表
         /// </summary>
         /// <returns></returns>
         List<T> ToList();

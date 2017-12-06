@@ -12,6 +12,7 @@ namespace Handiness.Orm
     public class SchemaCache<T> where T : class
     {
         public PropertyAccessor PropertyAccessor { get; set; }
+        public InstanceCreator<T> Creator { get;  set; } 
 
         public String TableName
         {
@@ -30,9 +31,14 @@ namespace Handiness.Orm
 
         public TableSchema TableSchema { get; set; }
 
+        /// <summary>
+        /// Key为属性名
+        /// </summary>
         public Dictionary<String, ColumnSchema> ColumnSchemas { get; set; } = new Dictionary<String, ColumnSchema>();
 
-        public PropertyInfo[] Properties { get; set; }
+
+
+        public PropertyInfo[] PropertyInfos { get; set; }
 
         /// <summary>
         /// 通过属性名称获取映射的列名称，若无返回空引用
