@@ -92,6 +92,7 @@ namespace Handiness.Orm
         private void CloseConnection()
         {
             this.Command.Connection.Close();
+            this.Command.Parameters.Clear();
         }
         public ISelectVector<T> ExecuteReader(String connectionString = null)
         {
@@ -100,6 +101,7 @@ namespace Handiness.Orm
             this.OpenConnection();
             DataTable dataTable = new DataTable();
             dbDataReader = this.Command.ExecuteReader(CommandBehavior.CloseConnection);
+            this.Command.Parameters.Clear();
             ISelectVector<T> selectResultVector = ObjectFactory._.SelectVector<T>(dbDataReader);
             return selectResultVector;
         }

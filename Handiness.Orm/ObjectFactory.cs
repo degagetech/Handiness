@@ -41,9 +41,9 @@ namespace Handiness.Orm
         /// <summary>
         /// 返回一个实现事务执行器接口的类的对象
         /// </summary>
-        public ITransactionExecutor<T> TransactionExecutor<T>(DbProvider dbProvider) where T : class
+        public ITransactionExecutor TransactionExecutor(DbProvider dbProvider) 
         {
-            return new TransactionExecutor<T>(dbProvider);
+            return new TransactionExecutor(dbProvider);
         }
     }
 }

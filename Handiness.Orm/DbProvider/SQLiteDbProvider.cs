@@ -1,5 +1,5 @@
 ﻿
-
+#if SQLITE_ENABLE
 using System;
 using System.Data.SQLite;
 using System.Data.Common;
@@ -49,3 +49,4 @@ namespace Handiness.Orm
         }
     }
 }
+#endif

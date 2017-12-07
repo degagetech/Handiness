@@ -19,18 +19,22 @@ namespace Handiness.Orm
             SchemaCache<TModel> cache = new SchemaCache<TModel>();
             cache.Type = typeof(TModel);
             cache.PropertyAccessor = new PropertyAccessor();
+            cache.Creator = new InstanceCreator<TModel>();
+
             //获取类符合要求的属性
-            cache.Properties = cache.Type.GetProperties()?.Where(PropertyFilter)?.ToArray();
+            cache.PropertyInfos = cache.Type.GetProperties()?.Where(PropertyFilter)?.ToArray();
             cache.TableSchema = GetTableSchema(cache.Type);
-            if (cache.Properties != null)
+            if (cache.PropertyInfos != null)
             {
-                cache.PropertyAccessor.Initlialize(cache.Properties.Length);
-                foreach (PropertyInfo propertyInfo in cache.Properties)
+                cache.PropertyAccessor.Initlialize(cache.PropertyInfos.Length);
+                foreach (PropertyInfo propertyInfo in cache.PropertyInfos)
                 {
                     ColumnSchema schema = GetColumnSchema(propertyInfo);
                     cache.PropertyAccessor.BuildingGetPropertyCache(propertyInfo);
                     cache.PropertyAccessor.BuildingSetPropertyCache(propertyInfo);
+
                     cache.ColumnSchemas.Add(propertyInfo.Name, schema);
+
                 }
             }
             return cache;
@@ -97,7 +101,7 @@ namespace Handiness.Orm
         {
             Boolean passed = true;
             Object[] attrs = info.GetCustomAttributes(_IgnoreAttrType, true);
-            if (attrs.Length >= 0)
+            if (attrs.Length > 0)
             {
                 passed = false;
             }

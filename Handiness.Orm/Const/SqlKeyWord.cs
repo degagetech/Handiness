@@ -19,7 +19,7 @@ namespace Handiness.Orm
         public const String AND = " AND ";
         public const String OR = " OR ";
         public const String LIKE = " LIKE ";
-
+        public const String COUNT_ALL = "COUNT(*)";
         /// <summary>
         /// 左括号
         /// </summary>

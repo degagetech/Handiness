@@ -55,11 +55,12 @@
     <Compile Include="Const\SqlKeyWord.cs" />
     <Compile Include="Converter\LambdaToSqlConverter.cs" />
     <Compile Include="Converter\ObjectToSqlConverter.cs" />
-    <Compile Include="DbDataReaderExtension.cs" />
+    <Compile Include="DataExtractor.cs" />
     <Compile Include="DbProvider\DbProvider.cs" />
     <Compile Include="DbProvider\SQLiteDbProvider.cs" />
     <Compile Include="Driver\Driver.cs" />
     <Compile Include="Driver\DriverExtension.cs" />
+    <Compile Include="InstanceCreator.cs" />
     <Compile Include="Interface\IDriver.cs" />
     <Compile Include="Interface\ISelectVector.cs" />
     <Compile Include="Interface\ITransactionExecutor.cs" />
@@ -82,7 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="_README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

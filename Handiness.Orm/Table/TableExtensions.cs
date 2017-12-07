@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
 namespace Handiness.Orm
@@ -9,49 +10,94 @@ namespace Handiness.Orm
     {
         /*.................查询.................*/
         /// <summary>
+        /// 执行指定的查询语句，并返回包含查询结果的<see cref="DataTable"/>对象
+        /// </summary>
+        /// <returns>若参数异常，返回空引用</returns>
+        public static DataTable Query(this Table tableObj, String sql, params DbParameter[] paras)
+        {
+            DataTable table = null;
+            if (String.IsNullOrEmpty(sql))
+            {
+                return table;
+            }
+            table = new DataTable();
+            using (DbConnection connection = tableObj.DbProvider.DbConnection())
+            {
+                DbCommand command = tableObj.DbProvider.DbCommand();
+                PreExceute(connection, command, sql, paras);
+                DbDataReader dataReader = command.ExecuteReader();
+                command.Parameters.Clear();
+                table.Load(dataReader);
+            }
+            return table;
+        }
+
+        /// <summary>
+        /// 执行非查询SQL语句
+        /// </summary>
+        public static Int32 Execute(this Table tableObj, String sql, params DbParameter[] paras)
+        {
+            Int32 effect = 0;
+            using (DbConnection connection = tableObj.DbProvider.DbConnection())
+            {
+                DbCommand command = tableObj.DbProvider.DbCommand();
+                PreExceute(connection, command, sql, paras);
+                effect = command.ExecuteNonQuery();
+                command.Parameters.Clear();
+            }
+            return effect;
+        }
+        /// <summary>
         /// 执行指定的查询语句
         /// </summary>
         /// <param name="sql">参数占位需要自己处理</param>
         /// <param name="paras">参数</param>
-        /// <returns>若无数据，则返回一个元素个数为零的链表</returns>
-        public static List<T> ExecuteQuery<T>(this Table<T> tableObj, String sql, params DbParameter[] paras) where T : class
+        /// <returns>若无数据，或参数异常则返回一个元素个数为零的链表</returns>
+        public static List<T> Query<T>(this Table tableObj, String sql, params DbParameter[] paras) where T : class
         {
             List<T> results = new List<T>();
-            if (!String.IsNullOrEmpty(sql))
+            if (String.IsNullOrEmpty(sql))
             {
                 return results;
             }
             using (DbConnection connection = tableObj.DbProvider.DbConnection())
             {
                 DbCommand command = tableObj.DbProvider.DbCommand();
-                command.CommandText = sql;
-                command.Parameters.AddRange(paras);
-                connection.Open();
+                PreExceute(connection, command, sql, paras);
                 DbDataReader dataReader = command.ExecuteReader();
-                if (dataReader.Read())
-                {
-
-                }
+                command.Parameters.Clear();
+                results = DataExtractor<T>.ToList(dataReader);
             }
             return results;
         }
+        private static void PreExceute(
+            DbConnection connection,
+            DbCommand command,
+            String sql,
+            params DbParameter[] parameters)
+        {
+            command.Connection = connection;
+            command.CommandText = sql;
+            command.Parameters.AddRange(parameters);
+            connection.Open();
+        }
         /// <summary>
-        /// 
+        /// 查询指定列，列名使用字符串，例如 name,sex,age
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="tableObj"></param>
-        /// <param name="selectSql">只写需要查询的字段 例如 Name,Sex,Age</param>
+        /// <param name="columnNames">列名，例如 name,sex,age </param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static IDriver<T> Select<T>(this Table<T> tableObj, String selectSql, IEnumerable<DbParameter> parameters = null) where T : class
+        public static IDriver<T> Select<T>(this Table<T> tableObj, String columnNames, IEnumerable<DbParameter> parameters = null) where T : class
         {
-            if (String.IsNullOrEmpty(selectSql.Trim()))
+            if (String.IsNullOrEmpty(columnNames.Trim()))
             {
                 return Select<T>(tableObj);
             }
-            selectSql = String.Format(BasicSqlFormat.SELECT_FORMAT, selectSql, Table<T>.Schema.TableName);
+            columnNames = String.Format(BasicSqlFormat.SELECT_FORMAT, columnNames, Table<T>.Schema.TableName);
             IDriver<T> driver = tableObj.DbProvider.Driver<T>();
-            driver.SQLComponent.Append(selectSql, parameters);
+            driver.SQLComponent.Append(columnNames, parameters);
             return driver;
         }
         /// <summary>
@@ -59,7 +105,7 @@ namespace Handiness.Orm
         /// </summary>
         public static IDriver<T> Count<T>(this Table<T> tableObj) where T : class
         {
-            return Select<T>(tableObj, "COUNT(*)");
+            return Select<T>(tableObj, SqlKeyWord.COUNT_ALL);
         }
         public static IDriver<T> Select<T>(this Table<T> tableObj) where T : class
         {
@@ -76,7 +122,8 @@ namespace Handiness.Orm
         }
         public static IDriver<T> Select<T>(this Table<T> tableObj, Expression<Func<T, dynamic>> selector) where T : class
         {
-            String selectSql = LambdaToSqlConverter<T>.SelectConvert(selector);
+         
+            String selectSql = LambdaToSqlConverter<T>.SelectConvert(tableObj.DbProvider.ConflictFreeFormat,selector);
             if (String.IsNullOrEmpty(selectSql))
             {
                 return Select<T>(tableObj);
@@ -184,7 +231,7 @@ namespace Handiness.Orm
         }
 
         /**********Transaction***********/
-        public static DbTransaction BeginTransaction<T>(this Table<T> tableObj, String connectionString = null) where T : class
+        public static DbTransaction BeginTransaction(this Table tableObj, String connectionString = null) 
         {
             String connectionStr = connectionString == null ? tableObj.DbProvider.ConnectionString : connectionString;
             DbConnection connection = tableObj.DbProvider.DbConnection(connectionStr);
@@ -192,8 +239,9 @@ namespace Handiness.Orm
             DbTransaction tansaction = connection.BeginTransaction();
             return tansaction;
         }
-        public static void CommitTransaction<T>(this Table<T> tableObj, DbTransaction transaction) where T : class
+        public static void CommitTransaction(this Table tableObj, DbTransaction transaction) 
         {
+            if (transaction == null) return;
             try
             {
                 transaction.Commit();
@@ -204,7 +252,8 @@ namespace Handiness.Orm
             }
             finally
             {
-                if (transaction.Connection.State == System.Data.ConnectionState.Open)
+                if (transaction.Connection!=null && 
+                    transaction.Connection.State == System.Data.ConnectionState.Open)
                 {
                     transaction.Connection.Close();
                 }

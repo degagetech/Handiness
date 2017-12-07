@@ -11,7 +11,7 @@ namespace Handiness.Orm
     public class LambdaToSqlConverter<T> where T : class
     {
 
-        public static String SelectConvert(Expression<Func<T, dynamic>> selector = null, List<DbParameter> parameterList = null)
+        public static String SelectConvert(String conflictFreeFormat,Expression<Func<T, dynamic>> selector = null)
         {
 
             String convertedString = BasicSqlFormat.SELECT_FORMAT;
@@ -40,7 +40,7 @@ namespace Handiness.Orm
                         Schema[memberExpression.Member.Name];
                     if (null == columnName)
                     {
-                        columnNames += columnName;
+                        columnNames += String.Format(conflictFreeFormat, columnName);
                         if (count++ != args.Count)
                             columnNames += SqlKeyWord.COMMA;
                     }
@@ -73,10 +73,10 @@ namespace Handiness.Orm
                 DbParameter dbParameter = dbProvider.DbParameter
                     (
                             parameterName,
-                            ExtractExpressionContainValue(memberAssignment.Expression)
+                            ExtractExpressionContainValue(memberAssignment.Expression) ?? DBNull.Value
                     );
                 /*.................拼接更新的SQL.................*/
-                updateColumnNames += columnName;
+                updateColumnNames += String.Format(dbProvider.ConflictFreeFormat, columnName);
                 updateColumnNames += SqlKeyWord.EQUAL;
                 updateColumnNames += parameterName;
                 if (count++ != bindings.Count)
@@ -166,12 +166,14 @@ namespace Handiness.Orm
                     propertyName = memberExpression.Member.Name;
                     value = ExtractExpressionContainValue(callExpression.Arguments[0]);
 
-                    String columnName = Table<T>.Schema[propertyName];
+                    String columnName =Table<T>.Schema[propertyName];
                     String parameterName = dbProvider.Prefix + columnName + parameterList?.Count;
                     DbParameter parameter = dbProvider.DbParameter(
                          parameterName,
-                         value
+                         value ?? DBNull.Value
                         );
+                    columnName = String.Format(dbProvider.ConflictFreeFormat, columnName);
+
                     sql += columnName;
                     sql += symbol;
                     sql += parameter.ParameterName;
@@ -190,11 +192,13 @@ namespace Handiness.Orm
                         propertyName = memberExpression.Member.Name;
                         symbol = ExpressionTypeMapTable[binaryExpression.NodeType];
                         value = ExtractExpressionContainValue(binaryExpression.Right);
+
                         String columnName = Table<T>.Schema[propertyName];
                         String parameterName = dbProvider.Prefix + columnName + parameterList?.Count;
+                        columnName = String.Format(dbProvider.ConflictFreeFormat, columnName);
                         DbParameter parameter = dbProvider.DbParameter(
                              parameterName,
-                             value
+                             value ?? DBNull.Value
                             );
                         sql += columnName;
                         sql += symbol;

@@ -9,7 +9,7 @@ namespace Handiness.Orm
     /// </summary>
     public class ObjectToSqlConverter<T> where T : class
     {
-        public static String BulkReplaceConvert(DbProvider dbProvider, IEnumerable<T> objs, List<DbParameter> parameterList = null, String postfixParameterName = null)
+        public static String BatchReplaceConvert(DbProvider dbProvider, IEnumerable<T> objs, List<DbParameter> parameterList = null, String postfixParameterName = null)
         {
             String convertedString = String.Empty;
             Int32 replaceCount = 0;
@@ -29,10 +29,10 @@ namespace Handiness.Orm
             DbParameter dbParameter = null;
             String parameterNames = String.Empty;
             String columnNames = String.Empty;
-            Int32 length = Table<T>.Schema.Properties.Length;
+            Int32 length = Table<T>.Schema.PropertyInfos.Length;
             for (Int32 i = 0; i < length; ++i)
             {
-                PropertyInfo info = Table<T>.Schema.Properties[i];
+                PropertyInfo info = Table<T>.Schema.PropertyInfos[i];
                 columnName = Table<T>.Schema[info.Name];
                 value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
                 //主键、默认值、可空判断
@@ -40,12 +40,15 @@ namespace Handiness.Orm
 
                 dbParameter = dbProvider.DbParameter(
                   parameterName,
-                    value);
+                    value??DBNull.Value);
+                columnNames += String.Format(dbProvider.ConflictFreeFormat, columnName);
+                parameterNames += dbParameter.ParameterName;
                 if (i != (length - 1))
                 {
-                    columnNames += columnName + SqlKeyWord.COMMA;
-                    parameterNames += dbParameter.ParameterName + SqlKeyWord.COMMA;
+                    columnNames += SqlKeyWord.COMMA;
+                    parameterNames +=SqlKeyWord.COMMA;
                 }
+     
                 parameterList?.Add(dbParameter);
             }
             convertedString = String.Format(convertedString,
@@ -63,35 +66,23 @@ namespace Handiness.Orm
             DbParameter dbParameter = null;
             String parameterNames = String.Empty;
             String columnNames = String.Empty;
-            Int32 length = Table<T>.Schema.Properties.Length;
+            Int32 length = Table<T>.Schema.PropertyInfos.Length;
             for (Int32 i = 0; i < length; ++i)
             {
-                PropertyInfo info = Table<T>.Schema.Properties[i];
+                PropertyInfo info = Table<T>.Schema.PropertyInfos[i];
                 columnName = Table<T>.Schema[info.Name];
                 value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
-                //if (value == null)
-                //{
-                //    if (columnAttribute.IsPrimaryKey)
-                //    {
-                //        throw new ArgumentNullException($"Table: {Table<T>.Cache.TableName}，Filed:{columnAttribute.Name} Primary key can not be empty!");
-                //    }
-                //    if (columnAttribute.IsNullable)
-                //    {
-                //        if (columnAttribute.DefalutValue == null)
-                //            throw new ArgumentNullException($"Table: {Table<T>.Cache.TableName}，Filed:{columnAttribute.Name} Can not be empty!");
-                //        else
-                //            value = columnAttribute.DefalutValue;
-                //    }
-                //    else
-                //        continue;
-                //}
+
                 parameterName = dbProvider.Prefix + columnName + postfixParameterName;
-                dbParameter = dbProvider.DbParameter(parameterName,value);
+                dbParameter = dbProvider.DbParameter(parameterName,value ?? DBNull.Value);
+                columnNames += String.Format(dbProvider.ConflictFreeFormat,columnName);
+                parameterNames += dbParameter.ParameterName;
                 if (i != (length - 1))
                 {
-                    columnNames +=columnName+ SqlKeyWord.COMMA;
-                    parameterNames += dbParameter.ParameterName + SqlKeyWord.COMMA;
+                    columnNames += SqlKeyWord.COMMA;
+                    parameterNames += SqlKeyWord.COMMA;
                 }
+
                 parameterList?.Add(dbParameter);
             }
             convertedString = String.Format(convertedString,

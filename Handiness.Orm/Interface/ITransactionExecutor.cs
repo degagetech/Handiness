@@ -9,7 +9,7 @@ namespace Handiness.Orm
     /// <summary>
     ///保证压入到执行器的一批SQL操作执行的事务性，这一批SQL操作要么都成功要么都失败
     /// </summary>
-    public interface ITransactionExecutor<T> where T : class
+    public interface ITransactionExecutor
     {
 
         /// <summary>

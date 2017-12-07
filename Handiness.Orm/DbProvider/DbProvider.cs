@@ -78,6 +78,10 @@ namespace Handiness.Orm
         /// </summary>
         public virtual String Prefix { get; } = "@";
         /// <summary>
+        /// 用于避免关键词与表字段冲突
+        /// </summary>
+        public virtual String ConflictFreeFormat { get; set; } = "[{0}]";
+        /// <summary>
         /// 创建一个新的传动器
         /// </summary>
         public virtual IDriver<T> Driver<T>() where T : class => ObjectFactory._.Driver<T>(this);
@@ -85,7 +89,7 @@ namespace Handiness.Orm
         /// <summary>
         /// 创建一个新的事务执行器
         /// </summary>
-        public virtual ITransactionExecutor<T> TransactionExecutor<T>() where T : class => ObjectFactory._.TransactionExecutor<T>(this);
+        public virtual ITransactionExecutor TransactionExecutor()  => ObjectFactory._.TransactionExecutor(this);
     }
 
 }
