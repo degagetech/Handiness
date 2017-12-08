@@ -12,16 +12,10 @@ namespace Handiness.Orm
     public interface ISelectVector<T> : IDisposable
     {
 
+        DataTable ToDataTable();
+
         /// <summary>
-        /// 查询返回的<see cref="System.Data.Common.DbDataReader"/> 
-        /// </summary>
-        DbDataReader DbDataReader { get; set; }
-        /// <summary>
-        /// 查询结果中是否包含有一行或多行
-        /// </summary>
-        Boolean HasRows { get; }
-        /// <summary>
-        /// 将查询结果转换成一个<see cref="List{T}"/>类型链表，无结果则返回一个包含零个对象的链表
+        /// 将查询结果转换成一个<see cref="List{T}"/>类型链表，无结果则返回一个包含零个对象的链表，
         /// </summary>
         /// <returns></returns>
         List<T> ToList();
@@ -35,6 +29,7 @@ namespace Handiness.Orm
         /// </summary>
         /// <returns></returns>
         T[] ToArray();
+
         T Single();
   
         /// <summary>

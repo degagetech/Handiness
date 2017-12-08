@@ -20,6 +20,8 @@ namespace Handiness.Orm
         public const String OR = " OR ";
         public const String LIKE = " LIKE ";
         public const String COUNT_ALL = "COUNT(*)";
+        public const String DESC = " DESC ";
+        public const String ASC = " ASC ";
         /// <summary>
         /// 左括号
         /// </summary>

@@ -31,6 +31,10 @@ namespace Handiness.Orm
             this.AppendSQL(sql);
             this.AddParameters(parameters);
         }
+        public void AppendSQLFormat(String format,params Object[] paras)
+        {
+            this._sqlBuilder.AppendFormat(format, paras);
+        }
         /// <summary>
         /// 附加指定的SQL到组件中，此函数不会对SQL做任何处理只是单纯的附加的现有SQL末尾或头部
         /// </summary>

@@ -16,10 +16,10 @@ namespace Handiness.Orm
         public Expression<Func<T, dynamic>> Selector { get; set; }
 
 
-        public DbConnection Connection { get; set; }
+        public DbConnection Connection { get; private set; }
         public DbProvider DbProvider { get; private set; }
-        public DbCommand Command { get; set; }
- 
+        public DbCommand Command { get; private set; }
+
 
         public SQLComponent SQLComponent { get; set; } = new SQLComponent();
 
@@ -50,16 +50,23 @@ namespace Handiness.Orm
         }
         public Int32 ExecuteNonQuery(DbConnection connection)
         {
-            this.ExecutePrepare(connection);
+
             Int32 affact = 0;
-            affact = this.Command.ExecuteNonQuery();
+            try
+            {
+                this.ExecutePrepare(connection);
+                affact = this.Command.ExecuteNonQuery();
+            }
+            finally
+            {
+                this.Command?.Parameters.Clear();
+            }
             return affact;
         }
         private void ExecutePrepare(DbConnection connection)
         {
-            this.Command = connection.CreateCommand();
-            this.Command.CommandText = this.SQLComponent.SQL;
-            this.Command.Parameters.AddRange(this.SQLComponent.Parameters.ToArray());
+            this.Command = this.DbProvider.DbCommand(this.SQLComponent.SQL, this.SQLComponent.Parameters.ToArray());
+            this.Command.Connection = connection;
         }
         private void ExecutePrepare(String connectionString = null)
         {
@@ -68,11 +75,8 @@ namespace Handiness.Orm
                 throw new ArgumentException("connection string is invalied");
             }
             this.Connection = this.DbProvider.DbConnection(connectionString);
-            this.Command = this.DbProvider.DbCommand();
-            this.Command.CommandText = this.SQLComponent.SQL;
+            this.Command = this.DbProvider.DbCommand(this.SQLComponent.SQL, this.SQLComponent.Parameters.ToArray());
             this.Command.Connection = this.Connection;
-            this.Command.Parameters.Clear();
-            this.Command.Parameters.AddRange(this.SQLComponent.Parameters.ToArray());
         }
 
         private void OpenConnection()
@@ -91,26 +95,19 @@ namespace Handiness.Orm
         }
         private void CloseConnection()
         {
-            this.Command.Connection.Close();
-            this.Command.Parameters.Clear();
+            this.Command?.Connection?.Close();
+            this.Command?.Parameters.Clear();
+            this.Command = null;
+            this.Connection = null;
         }
-        public ISelectVector<T> ExecuteReader(String connectionString = null)
-        {
-            this.ExecutePrepare(connectionString);
-            DbDataReader dbDataReader = null;
-            this.OpenConnection();
-            DataTable dataTable = new DataTable();
-            dbDataReader = this.Command.ExecuteReader(CommandBehavior.CloseConnection);
-            this.Command.Parameters.Clear();
-            ISelectVector<T> selectResultVector = ObjectFactory._.SelectVector<T>(dbDataReader);
-            return selectResultVector;
-        }
+
 
         public Object ExecuteScalar(String connectionString = null)
         {
-            this.ExecutePrepare(connectionString);
+
             try
             {
+                this.ExecutePrepare(connectionString);
                 this.OpenConnection();
                 return this.Command.ExecuteScalar();
             }
@@ -123,10 +120,7 @@ namespace Handiness.Orm
         public IDriver<T> Where(Expression<Func<T, Boolean>> predicate)
         {
             this.SQLComponent.AppendWhere();
-            String whereSql = String.Empty;
-            List<DbParameter> dbParameters = new List<DbParameter>();
-            whereSql = LambdaToSqlConverter<T>.WhereConvert(this.DbProvider, predicate, dbParameters);
-            this.SQLComponent.Append(whereSql, dbParameters);
+            LambdaToSqlConverter<T>.WhereConvert(this.DbProvider, predicate,this.SQLComponent);
             return this;
         }
 
@@ -134,6 +128,46 @@ namespace Handiness.Orm
         {
             this.SQLComponent.AppendWhere();
             this.SQLComponent.Append(whereSql, dbParameters);
+            return this;
+        }
+        public ISelectVector<T> ExecuteReader(String connectionString = null)
+        {
+
+            ISelectVector<T> selectResultVector = ObjectFactory._.SelectVector<T>(this, connectionString);
+            return selectResultVector;
+        }
+        public ISelectVector<T> ExecuteReader(DbConnection connection)
+        {
+            ISelectVector<T> selectResultVector = ObjectFactory._.SelectVector<T>(this, connection);
+            return selectResultVector;
+        }
+
+        public Object ExecuteScalar(DbConnection connection)
+        {
+            Object result = null;
+            try
+            {
+                this.ExecutePrepare(connection);
+                result = this.Command.ExecuteScalar();
+            }
+            finally
+            {
+                this.Command?.Parameters.Clear();
+                this.Command = null;
+                this.Connection = null;
+            }
+            return result;
+        }
+
+        public IDriver<T> JoinOn<T1>(Expression<Func<T, T1, Boolean>> predicate) where T1 : class
+        {
+            LambdaToSqlConverter<T>.JoinOn<T1>(this.DbProvider, predicate, this.SQLComponent);
+            return this;
+        }
+
+        public IDriver<T> JoinWhere<T1>(Expression<Func<T, T1, Boolean>> predicate) where T1 : class
+        {
+            LambdaToSqlConverter<T>.JoinWhere<T1>(this.DbProvider, predicate, this.SQLComponent);
             return this;
         }
     }

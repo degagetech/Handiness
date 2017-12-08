@@ -56,8 +56,10 @@ namespace Handiness.Orm
         }
         public virtual DbCommand DbCommand(String commandText = null, DbParameter[] dbParameterArray = null)
         {
-            SqlCommand sqlCommand = new SqlCommand();
-            sqlCommand.CommandText = commandText;
+            SqlCommand sqlCommand = new SqlCommand
+            {
+                CommandText = commandText
+            };
             if (dbParameterArray != null && dbParameterArray.Length > 0)
             {
                 sqlCommand.Parameters.AddRange(dbParameterArray);
@@ -67,10 +69,12 @@ namespace Handiness.Orm
 
         public virtual DbParameter DbParameter(String name = null, Object value = null, DbType dbType = DbType.Object)
         {
-            SqlParameter sqlParameter = new SqlParameter();
-            sqlParameter.ParameterName = name;
-            sqlParameter.Value = value;
-        //    sqlParameter.DbType = dbType;
+            SqlParameter sqlParameter = new SqlParameter
+            {
+                ParameterName = name,
+                Value = value
+            };
+            //    sqlParameter.DbType = dbType;
             return sqlParameter;
         }
         /// <summary>

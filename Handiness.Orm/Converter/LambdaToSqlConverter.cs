@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace Handiness.Orm
 {
@@ -11,56 +12,49 @@ namespace Handiness.Orm
     public class LambdaToSqlConverter<T> where T : class
     {
 
-        public static String SelectConvert(String conflictFreeFormat,Expression<Func<T, dynamic>> selector = null)
+        public static String SelectConvert(String conflictFreeFormat, Expression<Func<T, dynamic>> selector)
         {
 
             String convertedString = BasicSqlFormat.SELECT_FORMAT;
-            if (null == selector)
-            {
-                convertedString = String.Format(convertedString,
-                    SqlKeyWord.ASTERISK,
-                    Table<T>.Schema.TableName);
-            }
-            else
-            {
-                String columnNames = String.Empty;
-                NewExpression newExpression = selector.Body as NewExpression;
-                if (newExpression.Arguments == null || newExpression.Arguments.Count <= 0)
-                {
-                    throw new ArgumentException("Select column can not be empty!");
-                }
-                #region <<获取需要查询的列,并拼接Sql>>
-                MemberExpression memberExpression = null;
-                var args = newExpression.Arguments;
-                Int32 count = 1;
-                foreach (Expression expression in args)
-                {
-                    memberExpression = expression as MemberExpression;
-                    String columnName = Table<T>.
-                        Schema[memberExpression.Member.Name];
-                    if (null == columnName)
-                    {
-                        columnNames += String.Format(conflictFreeFormat, columnName);
-                        if (count++ != args.Count)
-                            columnNames += SqlKeyWord.COMMA;
-                    }
 
-                }
-                convertedString = String.Format(convertedString, columnNames, Table<T>.Schema.TableName);
-                #endregion
+            NewExpression newExpression = selector.Body as NewExpression;
+            if (newExpression.Arguments == null || newExpression.Arguments.Count <= 0)
+            {
+                throw new ArgumentException("Select column can not be empty!");
             }
+            #region <<获取需要查询的列,并拼接Sql>>
+            MemberExpression memberExpression = null;
+            var args = newExpression.Arguments;
+            Int32 count = 1;
+            StringBuilder columnNames = new StringBuilder();
+            foreach (Expression expression in args)
+            {
+                memberExpression = expression as MemberExpression;
+                String columnName = Table<T>.
+                    Schema[memberExpression.Member.Name];
+                if (null == columnName)
+                {
+                    columnNames.Append(String.Format(conflictFreeFormat, columnName));
+                    if (count++ != args.Count)
+                        columnNames.Append(SqlKeyWord.COMMA);
+                }
+
+            }
+            convertedString = String.Format(convertedString, columnNames.ToString(), Table<T>.Schema.TableName);
+            #endregion
+
             return convertedString;
         }
 
-        public static String UpdateConvert(DbProvider dbProvider, Expression<Func<T>> regenerator, List<DbParameter> parameterList = null, String postfixParameterName = null)
+        public static void UpdateConvert(DbProvider dbProvider, Expression<Func<T>> regenerator, SQLComponent component)
         {
             MemberInitExpression memberInitExpression = regenerator.Body as MemberInitExpression;
             if (memberInitExpression.Bindings == null || memberInitExpression.Bindings.Count <= 0)
             {
                 throw new ArgumentException("Invalid update expression!");
             }
-            String convertedString = BasicSqlFormat.UPDATE_FORMAT;
-            String updateColumnNames = String.Empty;
+
+            StringBuilder updateColumnNames = new StringBuilder();
             //获取需要更新的列 以及其值
             var bindings = memberInitExpression.Bindings;
             Int32 count = 1;
@@ -69,24 +63,22 @@ namespace Handiness.Orm
                 String columnName =
                             Table<T>.
                             Schema[memberAssignment.Member.Name];
-                String parameterName = dbProvider.Prefix + columnName + postfixParameterName;
+                String parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
                 DbParameter dbParameter = dbProvider.DbParameter
                     (
                             parameterName,
                             ExtractExpressionContainValue(memberAssignment.Expression) ?? DBNull.Value
                     );
                 /*.................拼接更新的SQL.................*/
-                updateColumnNames += String.Format(dbProvider.ConflictFreeFormat, columnName);
-                updateColumnNames += SqlKeyWord.EQUAL;
-                updateColumnNames += parameterName;
+                updateColumnNames.Append(String.Format(dbProvider.ConflictFreeFormat, columnName));
+                updateColumnNames.Append(SqlKeyWord.EQUAL);
+                updateColumnNames.Append(parameterName);
                 if (count++ != bindings.Count)
-                    updateColumnNames += SqlKeyWord.COMMA;
+                    updateColumnNames.Append(SqlKeyWord.COMMA);
 
-                parameterList?.Add(dbParameter);
+                component.AddParameter(dbParameter);
             }
-            convertedString = String.Format(convertedString, Table<T>.Schema.TableName, updateColumnNames);
-
-            return convertedString;
+            component.AppendSQLFormat(BasicSqlFormat.UPDATE_FORMAT, Table<T>.Schema.TableName, updateColumnNames.ToString());
         }
         /// <summary>
         /// 提取表达式包含的Value
@@ -151,7 +143,7 @@ namespace Handiness.Orm
             }
             return isBranch;
         }
-        internal static void ExpressionTreeAnalyzing(DbProvider dbProvider, Expression expression, ref String sql, List<DbParameter> parameterList = null)
+        internal static void ExpressionTreeAnalyzing(DbProvider dbProvider, Expression expression, SQLComponent component)
         {
             if (IsBranchNode(expression))
             {
@@ -166,18 +158,19 @@ namespace Handiness.Orm
                     propertyName = memberExpression.Member.Name;
                     value = ExtractExpressionContainValue(callExpression.Arguments[0]);
 
-                    String columnName =Table<T>.Schema[propertyName];
-                    String parameterName = dbProvider.Prefix + columnName + parameterList?.Count;
+                    String columnName = Table<T>.Schema[propertyName];
+                    String parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
                     DbParameter parameter = dbProvider.DbParameter(
                          parameterName,
                          value ?? DBNull.Value
                         );
                     columnName = String.Format(dbProvider.ConflictFreeFormat, columnName);
+                    columnName = String.Format(CommonFormat.COLUMN_FORMAT, Table<T>.Schema.TableName, columnName);
 
-                    sql += columnName;
-                    sql += symbol;
-                    sql += parameter.ParameterName;
-                    parameterList?.Add(parameter);
+                    component.AppendSQL(columnName);
+                    component.AppendSQL(symbol);
+                    component.AppendSQL(parameter.ParameterName);
+                    component.AddParameter(parameter);
                 }
                 else
                 {
@@ -194,33 +187,47 @@ namespace Handiness.Orm
                         value = ExtractExpressionContainValue(binaryExpression.Right);
 
                         String columnName = Table<T>.Schema[propertyName];
-                        String parameterName = dbProvider.Prefix + columnName + parameterList?.Count;
-                        columnName = String.Format(dbProvider.ConflictFreeFormat, columnName);
+                        String parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
+                        columnName =String.Format(dbProvider.ConflictFreeFormat, columnName);
+                        columnName = String.Format(CommonFormat.COLUMN_FORMAT, Table<T>.Schema.TableName, columnName);
                         DbParameter parameter = dbProvider.DbParameter(
                              parameterName,
                              value ?? DBNull.Value
                             );
-                        sql += columnName;
-                        sql += symbol;
-                        sql += parameter.ParameterName;
-                        parameterList?.Add(parameter);
+                        component.AppendSQL(columnName);
+                        component.AppendSQL(symbol);
+                        component.AppendSQL(parameter.ParameterName);
+                        component.AddParameter(parameter);
                     }
                     else
                     {
-                        ExpressionTreeAnalyzing(dbProvider, binaryExpression.Left, ref sql, parameterList);
-                        sql += ExpressionTypeMapTable[binaryExpression.NodeType];
-                        ExpressionTreeAnalyzing(dbProvider, binaryExpression.Right, ref sql, parameterList);
+                        ExpressionTreeAnalyzing(dbProvider, binaryExpression.Left, component);
+                        component.AppendSQL(ExpressionTypeMapTable[binaryExpression.NodeType]);
+                        ExpressionTreeAnalyzing(dbProvider, binaryExpression.Right, component);
                     }
                 }
             }
 
         }
-        public static String WhereConvert(DbProvider dbProvider, Expression<Func<T, Boolean>> predicate, List<DbParameter> parameterList = null)
+        /// <summary>
+        /// 将指定的条件表达式转换为响应的条件SQL语句，此函数不会判断条件关键词的存在
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="predicate"></param>
+        /// <param name="component"></param>
+        public static void WhereConvert(DbProvider provider, Expression<Func<T, Boolean>> predicate, SQLComponent component)
         {
-            String convertedString = String.Empty;
             Expression body = predicate.Body;
-            ExpressionTreeAnalyzing(dbProvider, body, ref convertedString, parameterList);
-            return convertedString;
+            ExpressionTreeAnalyzing(provider, body, component);
+        }
+        public static void JoinOn<T1>(DbProvider provider, Expression<Func<T, T1, Boolean>> predicate, SQLComponent component) where T1 : class
+        {
+            StringBuilder builder = new StringBuilder();
+            throw new Exception();
+        }
+        public static void JoinWhere<T1>(DbProvider provider, Expression<Func<T, T1, Boolean>> predicate, SQLComponent component) where T1 : class
+        {
+            throw new Exception();
         }
     }
 

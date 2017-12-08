@@ -32,8 +32,8 @@ namespace Handiness.Orm
                     ColumnSchema schema = GetColumnSchema(propertyInfo);
                     cache.PropertyAccessor.BuildingGetPropertyCache(propertyInfo);
                     cache.PropertyAccessor.BuildingSetPropertyCache(propertyInfo);
-
                     cache.ColumnSchemas.Add(propertyInfo.Name, schema);
+                    cache.ColumnNames.Add(schema.Name);
 
                 }
             }

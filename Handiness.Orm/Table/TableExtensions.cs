@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
+using System.Text;
+
 namespace Handiness.Orm
 {
 
@@ -24,7 +26,8 @@ namespace Handiness.Orm
             using (DbConnection connection = tableObj.DbProvider.DbConnection())
             {
                 DbCommand command = tableObj.DbProvider.DbCommand();
-                PreExceute(connection, command, sql, paras);
+                ExceutePrepare(connection, command, sql, paras);
+                connection.Open();
                 DbDataReader dataReader = command.ExecuteReader();
                 command.Parameters.Clear();
                 table.Load(dataReader);
@@ -41,7 +44,8 @@ namespace Handiness.Orm
             using (DbConnection connection = tableObj.DbProvider.DbConnection())
             {
                 DbCommand command = tableObj.DbProvider.DbCommand();
-                PreExceute(connection, command, sql, paras);
+                ExceutePrepare(connection, command, sql, paras);
+                connection.Open();
                 effect = command.ExecuteNonQuery();
                 command.Parameters.Clear();
             }
@@ -63,14 +67,15 @@ namespace Handiness.Orm
             using (DbConnection connection = tableObj.DbProvider.DbConnection())
             {
                 DbCommand command = tableObj.DbProvider.DbCommand();
-                PreExceute(connection, command, sql, paras);
+                ExceutePrepare(connection, command, sql, paras);
+                connection.Open();
                 DbDataReader dataReader = command.ExecuteReader();
                 command.Parameters.Clear();
                 results = DataExtractor<T>.ToList(dataReader);
             }
             return results;
         }
-        private static void PreExceute(
+        private static void ExceutePrepare(
             DbConnection connection,
             DbCommand command,
             String sql,
@@ -79,7 +84,7 @@ namespace Handiness.Orm
             command.Connection = connection;
             command.CommandText = sql;
             command.Parameters.AddRange(parameters);
-            connection.Open();
+
         }
         /// <summary>
         /// 查询指定列，列名使用字符串，例如 name,sex,age
@@ -107,12 +112,43 @@ namespace Handiness.Orm
         {
             return Select<T>(tableObj, SqlKeyWord.COUNT_ALL);
         }
+        public static IDriver<T> Select<T>(this Table tableObj, String columnNames = null) where T : class
+        {
+            String sql = String.Format
+                (
+                BasicSqlFormat.SELECT_FORMAT,
+                columnNames ?? GetAllColumnNames<T>(tableObj),
+                Table<T>.Schema.TableName
+                );
+
+            IDriver<T> driver = tableObj.DbProvider.Driver<T>();
+            driver.SQLComponent.AppendSQL(sql);
+            return driver;
+        }
+        public static String GetAllColumnNames<T>(Table tableObj) where T : class
+        {
+            StringBuilder builder = new StringBuilder();
+            String tableName = Table<T>.Schema.TableName;
+            Int32 count = Table<T>.Schema.ColumnNames.Count;
+            Int32 i = 1;
+            foreach (String columnName in Table<T>.Schema.ColumnNames)
+            {
+                builder.AppendFormat(CommonFormat.COLUMN_FORMAT,
+                    tableName,
+                    String.Format(tableObj.DbProvider.ConflictFreeFormat, columnName));
+                if (i++ != count)
+                {
+                    builder.Append(SqlKeyWord.COMMA);
+                }
+            }
+            return builder.ToString(); ;
+        }
         public static IDriver<T> Select<T>(this Table<T> tableObj) where T : class
         {
             String sql = String.Format
                 (
                 BasicSqlFormat.SELECT_FORMAT,
-                SqlKeyWord.ASTERISK,
+                GetAllColumnNames<T>(tableObj),
                 Table<T>.Schema.TableName
                 );
 
@@ -122,8 +158,8 @@ namespace Handiness.Orm
         }
         public static IDriver<T> Select<T>(this Table<T> tableObj, Expression<Func<T, dynamic>> selector) where T : class
         {
-         
-            String selectSql = LambdaToSqlConverter<T>.SelectConvert(tableObj.DbProvider.ConflictFreeFormat,selector);
+
+            String selectSql = LambdaToSqlConverter<T>.SelectConvert(tableObj.DbProvider.ConflictFreeFormat, selector);
             if (String.IsNullOrEmpty(selectSql))
             {
                 return Select<T>(tableObj);
@@ -145,12 +181,8 @@ namespace Handiness.Orm
         public static IDriver<T> Update<T>(this Table<T> tableObj, Expression<Func<T>> regenerator) where T : class
         {
 
-            List<DbParameter> parameters = new List<DbParameter>();
-            String updateSql = LambdaToSqlConverter<T>.UpdateConvert(tableObj.DbProvider, regenerator, parameters, "UP");
-
             IDriver<T> driver = tableObj.DbProvider.Driver<T>();
-            driver.SQLComponent.Append(updateSql, parameters);
-
+            LambdaToSqlConverter<T>.UpdateConvert(tableObj.DbProvider, regenerator, driver.SQLComponent);
             return driver;
         }
         /// <summary>
@@ -178,13 +210,8 @@ namespace Handiness.Orm
         /*.................插入.................*/
         public static IDriver<T> Insert<T>(this Table<T> tableObj, T obj) where T : class
         {
-
-            List<DbParameter> parameters = new List<DbParameter>();
-            String insertSql = ObjectToSqlConverter<T>.InsertConvert(tableObj.DbProvider, obj, parameters);
-
             IDriver<T> driver = tableObj.DbProvider.Driver<T>();
-            driver.SQLComponent.Append(insertSql, parameters);
-
+            ObjectToSqlConverter<T>.InsertConvert(tableObj.DbProvider, obj, driver.SQLComponent);
             return driver;
         }
         /*.................批量插入.................*/
@@ -193,10 +220,9 @@ namespace Handiness.Orm
         /// </summary>
         public static IDriver<T> BatchInsert<T>(this Table<T> tableObj, IEnumerable<T> objs) where T : class
         {
-            List<DbParameter> parameters = new List<DbParameter>();
-            String insertSql = ObjectToSqlConverter<T>.BatchInsertConvert(tableObj.DbProvider, objs, parameters);
             IDriver<T> driver = tableObj.DbProvider.Driver<T>();
-            driver.SQLComponent.Append(insertSql, parameters);
+            ObjectToSqlConverter<T>.BatchInsertConvert(tableObj.DbProvider, objs, driver.SQLComponent);
+
             return driver;
         }
         public static IDriver<T> Insert<T>(this Table<T> tableObj, String columnSql, String valueSql, IEnumerable<DbParameter> parameters) where T : class
@@ -231,15 +257,15 @@ namespace Handiness.Orm
         }
 
         /**********Transaction***********/
-        public static DbTransaction BeginTransaction(this Table tableObj, String connectionString = null) 
+        public static DbTransaction BeginTransaction(this Table tableObj, String connectionString = null)
         {
-            String connectionStr = connectionString == null ? tableObj.DbProvider.ConnectionString : connectionString;
+            String connectionStr = connectionString ?? tableObj.DbProvider.ConnectionString;
             DbConnection connection = tableObj.DbProvider.DbConnection(connectionStr);
             connection.Open();
             DbTransaction tansaction = connection.BeginTransaction();
             return tansaction;
         }
-        public static void CommitTransaction(this Table tableObj, DbTransaction transaction) 
+        public static void CommitTransaction(this Table tableObj, DbTransaction transaction)
         {
             if (transaction == null) return;
             try
@@ -252,7 +278,7 @@ namespace Handiness.Orm
             }
             finally
             {
-                if (transaction.Connection!=null && 
+                if (transaction.Connection != null &&
                     transaction.Connection.State == System.Data.ConnectionState.Open)
                 {
                     transaction.Connection.Close();
