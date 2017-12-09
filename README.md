@@ -31,9 +31,8 @@
   </code>
           
   
-   
-   #### 调用代码
-            <code>
+   #### 调用代码
+         <code>
             DbProvider provider = new DbProvider("SQL Server", config.MainDbConnectionString);
 
             Table<PermisGroup> groupTable = new Table<PermisGroup>(provider);
