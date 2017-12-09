@@ -21,11 +21,12 @@ namespace Handiness.Orm
         /// <summary>
         /// 表结构信息缓存
         /// </summary>
-        public static SchemaCache<T> Schema { get; } = GetSchemaCache();
+        public static SchemaCache Schema { get; } = GetSchemaCache();
+        public static InstanceCreator<T> Creator = new InstanceCreator<T>();
 
-        public static SchemaCache<T> GetSchemaCache()
+        public static SchemaCache GetSchemaCache()
         {
-            return SchemaCacheBuilder.CreateByAttribute<T>();
+            return SchemaCacheBuilder.CreateByAttribute(typeof(T));
         }
 
         public Table(DbProvider dbProvider):base(dbProvider)

@@ -31,6 +31,10 @@ namespace Handiness.Orm
             this.AppendSQL(sql);
             this.AddParameters(parameters);
         }
+        public void AppendSQLFormat(String format,params Object[] paras)
+        {
+            this._sqlBuilder.AppendFormat(format, paras);
+        }
         /// <summary>
         /// 附加指定的SQL到组件中，此函数不会对SQL做任何处理只是单纯的附加的现有SQL末尾或头部
         /// </summary>
@@ -82,7 +86,7 @@ namespace Handiness.Orm
             this._sqlBuilder.Remove(0, this._sqlBuilder.Length - SqlKeyWord.COMMA.Length);
         }
         /// <summary>
-        /// 在SQL组件末尾处附加 <see cref="SqlKeyWord.WHERE"/> 关键词，若存在则附加 <see cref="SqlKeyWord.AND"/> 关键词
+        /// 在SQL组件末尾处附加 <see cref="SqlKeyWord.WHERE"/> 关键词，若存在则附加 <see cref="SqlKeyWord.AND"/> 或者 <see cref="SqlKeyWord.OR"/>关键词
         /// </summary>
         public void AppendWhere(Boolean appendAnd = true)
         {
@@ -91,10 +95,18 @@ namespace Handiness.Orm
             {
                 this._sqlBuilder.Append(SqlKeyWord.WHERE);
             }
-            else if (appendAnd)
+            else
             {
-                this._sqlBuilder.Append(SqlKeyWord.AND);
+                if (appendAnd)
+                {
+                    this._sqlBuilder.Append(SqlKeyWord.AND);
+                }
+                else
+                {
+                    this._sqlBuilder.Append(SqlKeyWord.OR);
+                }
             }
+         
         }
         /// <summary>
         /// 使用指定的SQL字符串与参数集合创建一个<see cref="SQLComponent"/>对象

@@ -1,56 +1,69 @@
-﻿#define MYSQL_NO
-#if MYSQL
+﻿
 using System;
 using System.Linq.Expressions;
-
+using System.Data;
+using System.Text;
+using System.Data.Common;
+using System.Collections;
 namespace Handiness.Orm
 {
     public static class DriverExtension
     {
-        internal static readonly String LimitKeywordFormat = " LIMIT {0},{1} ";
-        internal static readonly String TopKeywordFormat = " LIMIT {0} ";
-        internal static readonly String DescKeyword = " DESC ";
-        internal static readonly String AscKeyword = " ASC ";
-        internal static readonly String OrderByKeywordFormat = " ORDER BY {0} {1} ";
-        public static IDriver<T> Limit<T>(this IDriver<T> driver, Int32 beginIndex, Int32 count = -1) where T : class
+        public static IDriver<T> JoinIn<T,T1>(this IDriver<T> driver, Expression<Func<T1, Object>> filter,  Object[] values)
+          where T : class where T1:class
         {
-            if (-1 >= beginIndex && count < -1)
-            {
-                throw new ArgumentException("Limit beginIndex or count is invalid!");
-            }
-            String limitSql = String.Format(LimitKeywordFormat, beginIndex, count);
-            driver.AppendSql(limitSql);
+            driver.SQLComponent.AppendWhere();
+            AnalyingIn<T1>(driver.DbProvider, filter, driver.SQLComponent, values);
             return driver;
         }
-        public static IDriver<T> Top<T>(this IDriver<T> driver, Int32 count) where T : class
+        public static IDriver<T> In<T>(this IDriver<T> driver, Expression<Func<T,Object>> filter, Object[] values)
+            where T:class
         {
-            if (count < -1)
-            {
-                throw new ArgumentException("Top count is invalid!");
-            }
-            String topSql = String.Format(TopKeywordFormat, count);
-            driver.AppendSql(topSql);
+            driver.SQLComponent.AppendWhere();
+            AnalyingIn<T>(driver.DbProvider,filter,driver.SQLComponent,values);
             return driver;
         }
-        public static IDriver<T> OrderBy<T>(this IDriver<T> driver, String dependent, Boolean desc = true) where T : class
+        public static IDriver<T> OrIn<T>(this IDriver<T> driver, Expression<Func<T, Object>> filter, Object[] values)
+         where T : class
         {
-            if (String.IsNullOrEmpty(dependent))
-            {
-                throw new ArgumentException("Order by dependent is invalid!");
-            }
-            String orderBySql = String.Format(OrderByKeywordFormat, dependent, desc ? DescKeyword : AscKeyword);
-            driver.AppendSql(orderBySql);
+            driver.SQLComponent.AppendWhere(false);
+            AnalyingIn<T>(driver.DbProvider, filter, driver.SQLComponent, values);
             return driver;
         }
-        public static IDriver<T> OrderBy<T>(this IDriver<T> driver, Expression<Func<T, String>> dependent, Boolean desc = true) where T : class
+        internal static void AnalyingIn<T>(DbProvider dbProvider, Expression<Func<T, Object>> filter,SQLComponent component, Object[] values)
+            where T:class
         {
-            if (null == dependent)
+            if (filter.Body.NodeType != ExpressionType.MemberAccess)
+                throw new ArgumentException(nameof(filter));
+
+            MemberExpression expression = filter.Body as MemberExpression;
+
+         
+            SchemaCache schema = Table<T>.Schema;
+            String columnName = schema.GetColumnName(expression.Member.Name);
+            columnName = String.Format(dbProvider.ConflictFreeFormat, columnName);
+            columnName = String.Format(CommonFormat.COLUMN_FORMAT, schema.TableName, columnName);
+
+            StringBuilder inParaNames = new StringBuilder();
+            Int32 count = values.Length;
+            String paraSymbol = "inPara";
+            for (Int32 i = 0; i < count; ++i)
             {
-                throw new ArgumentException("Order by dependent is invalid!");
+                String paraName = dbProvider.Prefix + paraSymbol + ParaCounter<Object>.CountStr;
+                inParaNames.Append(paraName);
+                if (i != (count - 1))
+                {
+                    inParaNames.Append(SqlKeyWord.COMMA);
+                }
+                DbParameter parameter = dbProvider.DbParameter(
+                    paraName,values[i]
+                    );
+                component.AddParameter(parameter);
             }
-            String dependentStr = Expression.Lambda(dependent.Body).Compile().DynamicInvoke() as String; 
-            return OrderBy<T>(driver, dependentStr, desc);
+            component.AppendSQL(columnName);
+            component.AppendSQL(SqlKeyWord.IN);
+            component.AppendSQLFormat(CommonFormat.BRACKET_FORMAT, inParaNames.ToString());
+
         }
     }
 }
-#endif

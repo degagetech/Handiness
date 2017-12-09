@@ -56,8 +56,10 @@ namespace Handiness.Orm
         }
         public virtual DbCommand DbCommand(String commandText = null, DbParameter[] dbParameterArray = null)
         {
-            SqlCommand sqlCommand = new SqlCommand();
-            sqlCommand.CommandText = commandText;
+            SqlCommand sqlCommand = new SqlCommand
+            {
+                CommandText = commandText
+            };
             if (dbParameterArray != null && dbParameterArray.Length > 0)
             {
                 sqlCommand.Parameters.AddRange(dbParameterArray);
@@ -67,16 +69,22 @@ namespace Handiness.Orm
 
         public virtual DbParameter DbParameter(String name = null, Object value = null, DbType dbType = DbType.Object)
         {
-            SqlParameter sqlParameter = new SqlParameter();
-            sqlParameter.ParameterName = name;
-            sqlParameter.Value = value;
-        //    sqlParameter.DbType = dbType;
+            SqlParameter sqlParameter = new SqlParameter
+            {
+                ParameterName = name,
+                Value = value
+            };
+            //    sqlParameter.DbType = dbType;
             return sqlParameter;
         }
         /// <summary>
         /// SQL参数对象名称前导符
         /// </summary>
         public virtual String Prefix { get; } = "@";
+        /// <summary>
+        /// 用于避免关键词与表字段冲突
+        /// </summary>
+        public virtual String ConflictFreeFormat { get; set; } = "[{0}]";
         /// <summary>
         /// 创建一个新的传动器
         /// </summary>
@@ -85,7 +93,7 @@ namespace Handiness.Orm
         /// <summary>
         /// 创建一个新的事务执行器
         /// </summary>
-        public virtual ITransactionExecutor<T> TransactionExecutor<T>() where T : class => ObjectFactory._.TransactionExecutor<T>(this);
+        public virtual ITransactionExecutor TransactionExecutor()  => ObjectFactory._.TransactionExecutor(this);
     }
 
 }

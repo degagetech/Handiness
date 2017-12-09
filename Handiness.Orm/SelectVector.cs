@@ -17,30 +17,43 @@ namespace Handiness.Orm
     public class SelectVector<T> : ISelectVector<T> where T : class
     {
 
-        public DbDataReader DbDataReader { get; set; }
+        public IDriver<T> Driver { get; private set; }
 
+        public DbConnection Connection { get; private set; }
 
-
-
-
-        public SelectVector(DbDataReader dbDataReader)
+        /// <summary>
+        /// 表示是否需要手动关闭Connection
+        /// </summary>
+        private Boolean _needClose = false;
+        private String _connectionString;
+        public SelectVector(IDriver<T> driver, String connectionString = null)
         {
-            this.DbDataReader = dbDataReader;
-            
+            this.Driver = driver;
+            this._connectionString = connectionString;
+            this._needClose = true;
         }
-
-
-        public Boolean HasRows
+        public SelectVector(IDriver<T> driver, DbConnection connection)
         {
-            get
+            this.Driver = driver;
+            this.Connection = connection;
+
+        }
+        public DataTable ToDataTable()
+        {
+            DataTable result = new DataTable();
+            DbDataReader reader = null;
+            try
             {
-                if (this.DbDataReader != null)
-                    return this.DbDataReader.HasRows;
-                return false;
+                reader = this.GetReader();
+                result.Load(reader);
             }
+            finally
+            {
+                reader?.Close();
+                this.Close();
+            }
+            return result;
         }
-
-
 
         public T[] ToArray()
         {
@@ -48,21 +61,42 @@ namespace Handiness.Orm
             return result.ToArray();
         }
 
-
+        private DbDataReader GetReader()
+        {
+            if (this._needClose)
+            {
+                this.Connection = this.Driver.DbProvider.DbConnection(this._connectionString);
+                this.Connection.Open();
+            }
+            else if(this.Connection==null)
+            {
+                this.Connection = this.Driver.DbProvider.DbConnection(this._connectionString);
+                this._needClose = true;
+            }
+            DbCommand command = this.Driver.DbProvider.DbCommand(
+                  this.Driver.SQLComponent.SQL,
+                  this.Driver.SQLComponent.Parameters.ToArray()
+                  );
+            command.Connection = this.Connection;
+            DbDataReader reader = command.ExecuteReader();
+            command.Parameters.Clear();
+            return reader;
+        }
 
         public List<T> ToList()
         {
             List<T> result = new List<T>();
-            if (this.HasRows)
+            DbDataReader reader = null;
+            try
             {
-                try
-                {
-                    result=DataExtractor<T>.ToList(this.DbDataReader);
-                }
-                finally
-                {
-                    this.Close();
-                }
+                reader = this.GetReader();
+                result = DataExtractor<T>.ToList(reader);
+           
+            }
+            finally
+            {
+                reader?.Close();
+                this.Close();
             }
             return result;
         }
@@ -73,9 +107,10 @@ namespace Handiness.Orm
         }
         public void Close()
         {
-            if (this.DbDataReader != null && !this.DbDataReader.IsClosed)
+            if (this._needClose && this.Connection != null && this.Connection.State==ConnectionState.Open)
             {
-                this.DbDataReader.Close();
+                this.Connection.Close();
+                this.Connection = null;
             }
         }
         public T Single()
@@ -86,5 +121,7 @@ namespace Handiness.Orm
         {
             return this.ToList().FirstOrDefault();
         }
+
+     
     }
 }

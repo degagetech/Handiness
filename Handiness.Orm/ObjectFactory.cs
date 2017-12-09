@@ -27,9 +27,16 @@ namespace Handiness.Orm
         /// <summary>
         /// 返回一个实现查询容器的类的对象
         /// </summary>
-        public ISelectVector<T> SelectVector<T>(DbDataReader dbDataReader) where T : class
+        public ISelectVector<T> SelectVector<T>(IDriver<T> driver,String connectionString=null) where T : class
         {
-            return new SelectVector<T>(dbDataReader);
+            return new SelectVector<T>(driver, connectionString);
+        }
+        /// <summary>
+        /// 返回一个实现查询容器的类的对象
+        /// </summary>
+        public ISelectVector<T> SelectVector<T>(IDriver<T> driver, DbConnection connection) where T : class
+        {
+            return new SelectVector<T>(driver, connection);
         }
         /// <summary>
         /// 返回一个实现传动器接口的类的对象
@@ -41,9 +48,9 @@ namespace Handiness.Orm
         /// <summary>
         /// 返回一个实现事务执行器接口的类的对象
         /// </summary>
-        public ITransactionExecutor<T> TransactionExecutor<T>(DbProvider dbProvider) where T : class
+        public ITransactionExecutor TransactionExecutor(DbProvider dbProvider) 
         {
-            return new TransactionExecutor<T>(dbProvider);
+            return new TransactionExecutor(dbProvider);
         }
     }
 }

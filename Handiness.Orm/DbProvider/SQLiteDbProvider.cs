@@ -13,9 +13,11 @@ namespace Handiness.Orm
 
         public override DbConnection DbConnection(String connectionString = null, Boolean isRelevance = false)
         {
-           
-            SQLiteConnection connection = new SQLiteConnection();
-            connection.ConnectionString = connectionString ?? this.ConnectionString;
+
+            SQLiteConnection connection = new SQLiteConnection
+            {
+                ConnectionString = connectionString ?? this.ConnectionString
+            };
             if (isRelevance)
             {
                 this.ConnectionString = connection.ConnectionString;

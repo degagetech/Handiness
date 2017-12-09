@@ -14,12 +14,12 @@ namespace Handiness.Orm
         /// <summary>
         /// 通过附加在指定类及其属性上的特性获取相关Schema缓存信息
         /// </summary>
-        public static SchemaCache<TModel> CreateByAttribute<TModel>() where TModel : class
+        public static SchemaCache CreateByAttribute(Type type)
         {
-            SchemaCache<TModel> cache = new SchemaCache<TModel>();
-            cache.Type = typeof(TModel);
+            SchemaCache cache = new SchemaCache();
+            cache.Type = type;
             cache.PropertyAccessor = new PropertyAccessor();
-            cache.Creator = new InstanceCreator<TModel>();
+           
 
             //获取类符合要求的属性
             cache.PropertyInfos = cache.Type.GetProperties()?.Where(PropertyFilter)?.ToArray();
@@ -32,8 +32,8 @@ namespace Handiness.Orm
                     ColumnSchema schema = GetColumnSchema(propertyInfo);
                     cache.PropertyAccessor.BuildingGetPropertyCache(propertyInfo);
                     cache.PropertyAccessor.BuildingSetPropertyCache(propertyInfo);
-
                     cache.ColumnSchemas.Add(propertyInfo.Name, schema);
+                    cache.ColumnNames.Add(schema.Name);
 
                 }
             }

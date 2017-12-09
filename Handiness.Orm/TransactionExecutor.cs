@@ -8,7 +8,7 @@ using System.Collections.Concurrent;
 using System.Data.Common;
 namespace Handiness.Orm
 {
-    public class TransactionExecutor<T> : ITransactionExecutor<T> where T : class
+    public class TransactionExecutor : ITransactionExecutor
     {
 
         public Int32 Count

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
+using System.Text;
+
 namespace Handiness.Orm
 {
     /// <summary>
@@ -9,26 +11,22 @@ namespace Handiness.Orm
     /// </summary>
     public class ObjectToSqlConverter<T> where T : class
     {
-        public static String BulkReplaceConvert(DbProvider dbProvider, IEnumerable<T> objs, List<DbParameter> parameterList = null, String postfixParameterName = null)
+        public static void BatchReplaceConvert(DbProvider dbProvider, IEnumerable<T> objs, SQLComponent component)
         {
-            String convertedString = String.Empty;
-            Int32 replaceCount = 0;
             foreach (T obj in objs)
             {
-                ++replaceCount;
-                convertedString += ReplaceConvert(dbProvider, obj, parameterList, postfixParameterName + replaceCount.ToString()) + SqlKeyWord.SEMICOLON;
+                ReplaceConvert(dbProvider, obj, component);
+                component.AppendSQL(SqlKeyWord.SEMICOLON);
             }
-            return convertedString;
         }
-        public static String ReplaceConvert(DbProvider dbProvider, T obj, List<DbParameter> parameterList = null, String postfixParameterName = null)
+        public static void ReplaceConvert(DbProvider dbProvider, T obj, SQLComponent component)
         {
-            String convertedString = BasicSqlFormat.REPLACE_FORMAT;
             String columnName = null;
             String parameterName = null;
             Object value = null;
             DbParameter dbParameter = null;
-            String parameterNames = String.Empty;
-            String columnNames = String.Empty;
+            StringBuilder parameterNames = new StringBuilder();
+            StringBuilder columnNames = new StringBuilder();
             Int32 length = Table<T>.Schema.PropertyInfos.Length;
             for (Int32 i = 0; i < length; ++i)
             {
@@ -36,80 +34,67 @@ namespace Handiness.Orm
                 columnName = Table<T>.Schema[info.Name];
                 value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
                 //主键、默认值、可空判断
-                parameterName = dbProvider.Prefix + columnName + postfixParameterName;
+                parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
 
                 dbParameter = dbProvider.DbParameter(
                   parameterName,
-                    value);
+                    value ?? DBNull.Value);
+                columnNames.Append(String.Format(dbProvider.ConflictFreeFormat, columnName));
+                parameterNames.Append(dbParameter.ParameterName);
                 if (i != (length - 1))
                 {
-                    columnNames += columnName + SqlKeyWord.COMMA;
-                    parameterNames += dbParameter.ParameterName + SqlKeyWord.COMMA;
+                    columnNames.Append(SqlKeyWord.COMMA);
+                    parameterNames.Append(SqlKeyWord.COMMA);
                 }
-                parameterList?.Add(dbParameter);
+
+                component.AddParameter(dbParameter);
             }
-            convertedString = String.Format(convertedString,
+            component.AppendSQLFormat(BasicSqlFormat.REPLACE_FORMAT,
                 Table<T>.Schema.TableName,
-                columnNames,
-                parameterNames);
-            return convertedString;
+                columnNames.ToString(),
+                parameterNames.ToString());
         }
-        public static String InsertConvert(DbProvider dbProvider, T obj, List<DbParameter> parameterList = null, String postfixParameterName = null)
+        public static void InsertConvert(DbProvider dbProvider, T obj, SQLComponent component)
         {
-            String convertedString = BasicSqlFormat.INSERT_FORMAT;
+
             String columnName = null;
             String parameterName = null;
             Object value = null;
             DbParameter dbParameter = null;
-            String parameterNames = String.Empty;
-            String columnNames = String.Empty;
+            StringBuilder parameterNames = new StringBuilder();
+            StringBuilder columnNames = new StringBuilder();
             Int32 length = Table<T>.Schema.PropertyInfos.Length;
             for (Int32 i = 0; i < length; ++i)
             {
                 PropertyInfo info = Table<T>.Schema.PropertyInfos[i];
                 columnName = Table<T>.Schema[info.Name];
                 value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
-                //if (value == null)
-                //{
-                //    if (columnAttribute.IsPrimaryKey)
-                //    {
-                //        throw new ArgumentNullException($"Table: {Table<T>.Cache.TableName}，Filed:{columnAttribute.Name} Primary key can not be empty!");
-                //    }
-                //    if (columnAttribute.IsNullable)
-                //    {
-                //        if (columnAttribute.DefalutValue == null)
-                //            throw new ArgumentNullException($"Table: {Table<T>.Cache.TableName}，Filed:{columnAttribute.Name} Can not be empty!");
-                //        else
-                //            value = columnAttribute.DefalutValue;
-                //    }
-                //    else
-                //        continue;
-                //}
-                parameterName = dbProvider.Prefix + columnName + postfixParameterName;
-                dbParameter = dbProvider.DbParameter(parameterName,value);
+
+                parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
+                dbParameter = dbProvider.DbParameter(parameterName, value ?? DBNull.Value);
+
+                columnNames.Append(String.Format(dbProvider.ConflictFreeFormat, columnName));
+                parameterNames.Append(dbParameter.ParameterName);
                 if (i != (length - 1))
                 {
-                    columnNames +=columnName+ SqlKeyWord.COMMA;
-                    parameterNames += dbParameter.ParameterName + SqlKeyWord.COMMA;
+                    columnNames.Append(SqlKeyWord.COMMA);
+                    parameterNames.Append(SqlKeyWord.COMMA);
                 }
-                parameterList?.Add(dbParameter);
+                component.AddParameter(dbParameter);
             }
-            convertedString = String.Format(convertedString,
+            component.AppendSQLFormat(BasicSqlFormat.INSERT_FORMAT,
                 Table<T>.Schema.TableName,
-                columnNames,
-                parameterNames);
-            return convertedString;
+                columnNames.ToString(),
+                parameterNames.ToString());
+
         }
-        public static String BatchInsertConvert(DbProvider dbProvider, IEnumerable<T> objs, List<DbParameter> parameterList = null, String postfixParameterName = null)
+        public static void BatchInsertConvert(DbProvider dbProvider, IEnumerable<T> objs, SQLComponent component)
         {
-            String convertedString = String.Empty;
-            Int32 insertCount = 0;
             foreach (T obj in objs)
             {
-                ++insertCount;
-                convertedString += InsertConvert(dbProvider, obj, parameterList, postfixParameterName + insertCount.ToString()) + SqlKeyWord.SEMICOLON;
+                InsertConvert(dbProvider, obj, component);
+                component.AppendSQL(SqlKeyWord.SEMICOLON);
             }
-            return convertedString;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Handiness.Orm
 
         public static T FromDbDataReader(DbDataReader dr, HashSet<String> containCols)
         {
-            T instance = Table<T>.Schema.Creator.New();
+            T instance = Table<T>.Creator.New();
             String columnName = null;
             Int32 length = Table<T>.Schema.PropertyInfos.Length;
             for (Int32 i = 0; i < length; ++i)
