@@ -30,7 +30,7 @@
     }
   </code>
           
-   ***
+  
    
    #### 调用代码
             <code>
@@ -45,8 +45,6 @@
             Console.WriteLine(driver.SQLComponent.SQL);
             //SELECT permis_group.[id] , permis_group.[name] , permis_group.[description] , permis_group.[disable] , permis_group.                   //[backup] FROM permis_group WHERE(permis_group.[id] = @id1)
             groupInfos = driver.ExecuteReader().ToList();
-
-           
             groupInfos = groupTable.Query<PermisGroup>("SELECT * FROM permis_group_user");
 
             groupInfos = groupTable.
