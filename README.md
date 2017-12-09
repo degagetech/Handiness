@@ -32,8 +32,8 @@
           
   
    #### 调用代码
-   <br>
-         <code>
+   <br/>
+        <code>
          
             DbProvider provider = new DbProvider("SQL Server", config.MainDbConnectionString);
             Table<PermisGroup> groupTable = new Table<PermisGroup>(provider);
@@ -42,9 +42,13 @@
             //select 
             groupInfos = groupTable.Select().ExecuteReader().ToList();
             IDriver<PermisGroup> driver = groupTable.Select().Where(t => t.Id == "XXX");
+        </code>   
             Console.WriteLine(driver.SQLComponent.SQL);
-       </code>
-            //SELECT permis_group.[id] , permis_group.[name] , permis_group.[description] , permis_group.[disable] , permis_group.                   //[backup] FROM permis_group WHERE(permis_group.[id] = @id1)
+            
+            //生成的SQL如下
+            //SELECT permis_group.[id] , permis_group.[name] , permis_group.[description] , 
+            //permis_group.[disable] , permis_group.                   
+            //[backup] FROM permis_group WHERE(permis_group.[id] = @id1)
             
         <code>
             groupInfos = driver.ExecuteReader().ToList();
