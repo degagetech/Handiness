@@ -2,7 +2,7 @@
 
 
 #### 实体类的定义
-<code>
+```
     //正常情况下附加特性以说明数据库结构信息
     [Table("permis_group_user")]
     public class PermisGroupUser
@@ -28,12 +28,12 @@
         public Boolean Disable { set; get; }
         public String Backup { set; get; }
     }
-  </code>
+```
           
   
    #### 调用代码
    <br/>
-        <code>
+       ```
          
             DbProvider provider = new DbProvider("SQL Server", config.MainDbConnectionString);
             Table<PermisGroup> groupTable = new Table<PermisGroup>(provider);
@@ -42,7 +42,7 @@
             //select 
             groupInfos = groupTable.Select().ExecuteReader().ToList();
             IDriver<PermisGroup> driver = groupTable.Select().Where(t => t.Id == "XXX");
-        </code>   
+ 
             Console.WriteLine(driver.SQLComponent.SQL);
             
             //生成的SQL如下
@@ -50,7 +50,7 @@
             //permis_group.[disable] , permis_group.                   
             //[backup] FROM permis_group WHERE(permis_group.[id] = @id1)
             
-        <code>
+       
             groupInfos = driver.ExecuteReader().ToList();
             groupInfos = groupTable.Query<PermisGroup>("SELECT * FROM permis_group_user");
 
@@ -84,4 +84,4 @@
 
             //where like
             effect = groupTable.Delete().Where(t => t.Id.Like("*xxx*")).ExecuteNonQuery();
-            </code>
+```
