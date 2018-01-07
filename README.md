@@ -1,80 +1,92 @@
-# Handiness
-轻型ORM框架，支持Lambda、Linq 、手写SQL以及实体类的自动生成，目前规划了五个适配层以支持Mysql、Oracle、SQL Server、SQLite、Redis（不完全支持）五种数据库、
 
-Handiness ORM 1.0 版本使用示例
 
- /*************定义Model*****************/
 
-            [Table("student")]
-            public class Student
-            {
-                [Column("id")]
-                public String Id { get; set; }
-                [Column("name")]
-                public String Name { get; set; }
-                [Column("age")]
-                public Int32 Age { get; set; }
-                [Column("student_no")]
-                public String StudentNo { get; set; }
-            }
- /*********************基础的增、删、改、查*************************/
+#### 实体类的定义
+```
+    //正常情况下附加特性以说明数据库结构信息
+    [Table("permis_group_user")]
+    public class PermisGroupUser
+    {
+        [Column("user_id")]
+        public String UserId { set; get; }
 
-            DbProvider dbProvider = new SQLiteDbProvider("SQLiteDbProvider", @"Data Source=.\test.db;UTF8Encoding=True;");
-            Table<Student> table = new Table<Student>(dbProvider);
-            CodeTimer.Initialize();
+        [Column("group_id")]
+        public String GroupId { set; get; }
+
+
+        [Column("disable")]
+        public Boolean Disable { set; get; }
+    }
+    //若无特性信息说明 ORM框架则会根据类名、属性推导出表名、列名
+    //根据类名推导表名 permis_group
+    public class PermisGroup
+    {
+        //根据属性名推导列名 id
+        public String Id { set; get; }
+        public String Name { set; get; }
+        public String Description { set; get; }
+        public Boolean Disable { set; get; }
+        public String Backup { set; get; }
+    }
+```
+          
+  
+   #### 调用代码
+  
+   ```
+            DbProvider provider = new DbProvider("SQL Server", config.MainDbConnectionString);
+            Table<PermisGroup> groupTable = new Table<PermisGroup>(provider);
+            List<PermisGroup> groupInfos = null;
+            
+            //select 
+            groupInfos = groupTable.Select().ExecuteReader().ToList();
+            IDriver<PermisGroup> driver = groupTable.Select().Where(t => t.Id == "XXX");
+ 
+            Console.WriteLine(driver.SQLComponent.SQL);
+    
+            //生成的SQL如下
+            //SELECT 
+            //permis_group.[id] , permis_group.[name] , permis_group.[description] , 
+            //permis_group.[disable] , permis_group.[backup]            
+            //FROM 
+            //permis_group 
+            //WHERE
+            //(
+            //permis_group.[id] = @id1
+            //)
+            
+   
+            groupInfos = driver.ExecuteReader().ToList();
+            groupInfos = groupTable.Query<PermisGroup>("SELECT * FROM permis_group_user");
+
+            groupInfos = groupTable.
+                Select().
+                JoinOn<PermisGroupUser>((tg, tgu) => tg.Id == tgu.GroupId).
+                Where(t => t.Id == "XXX").
+                OrWhere(t => t.Name == "XXX").
+                OrIn(t => t.Id, new String[] { "x", "x", "x" }).
+                ExecuteReader().
+                ToList();
+            //...
 
             //Insert
-            CodeTimer.Time("Insert Test:", 10, () =>
-                  {
-                      table.Insert(new Student
-                      {
-                          Id = Guid.NewGuid().ToString("N"),
-                          Age = 21,
-                          Name = "WLJ",
-                          StudentNo = "0202140216",
-                      }).ExecuteNonQuery();
-                  });
-            CodeTimer.Time("Insert Test:", 10, () =>
+            Int32 effect = groupTable.Insert(new PermisGroup
             {
-                table.Insert(new Student
-                {
-                    Id = Guid.NewGuid().ToString("N"),
-                    Age = 20,
-                    Name = "WLJ",
-                    StudentNo = "0202140216",
-                }).ExecuteNonQuery();
-            });
+                Id = "xx",
+                Name = "xx",
+            }).ExecuteNonQuery();
+            effect = groupTable.Execute("INSERT INTO xxx(id) VALUES(@xxx)", provider.DbParameter("@xxx", "xxxValue"));
 
-            //Update
-            CodeTimer.Time("Update Test:", 1, () =>
+            //update
+
+            effect = groupTable.Update(() => new PermisGroup
             {
-                table.
-            Update
-            (
-                () =>
-               new Student { Name = "WLJ1" }
-            ).
-            Where(t => t.Age == 21).
-            ExecuteNonQuery();
-            });
+                Name = "NewName"
+            }).Where(t => t.Id == "id").ExecuteNonQuery();
 
-            //Delete
-            CodeTimer.Time("Delete Test:", 1, () =>
-              {
-                  table.Delete().Where(t => t.Name == "WLJ").ExecuteNonQuery();
+            //delete
+            effect = groupTable.Delete().Where(t => t.Id == "xxx").ExecuteNonQuery();
 
-              });
-            //Select
-            CodeTimer.Time("Select Test:", 1, () =>
-            {
-                List<Student> studentList = table.Select().ExecuteReader().ToList();
-                //studentList.ForEach(
-                //    (t) =>
-                //    {
-                //        Console.WriteLine();
-                //        Console.WriteLine($"name:{t.Name}");
-                //        Console.WriteLine($"id:{t.Id}");
-                //        Console.WriteLine();
-                //    }
-                //    );
-            });
+            //where like
+            effect = groupTable.Delete().Where(t => t.Id.Like("*xxx*")).ExecuteNonQuery();
+```
