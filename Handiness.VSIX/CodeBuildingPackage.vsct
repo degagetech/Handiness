@@ -56,7 +56,7 @@
         <Parent guid="guidCodeBuildingPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="cmdIcon" id="cmdIcon1" />
         <Strings>
-          <ButtonText>Handiness Code Build</ButtonText>
+          <ButtonText>Model Build</ButtonText>
         </Strings>
       </Button>
     </Buttons>

@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Task = System.Threading.Tasks.Task;
+using System.Text;
 
-namespace Handiness.VSIX
+namespace Handiness.CodeBuild
 {
     public partial class MainForm : BaseForm
     {
@@ -54,7 +55,16 @@ namespace Handiness.VSIX
             CodeTemplate,
             MappingType,
             NameModifier,
-            Project
+            Project,
+            Directory
+        }
+        /// <summary>
+        /// 代码保存方式
+        /// </summary>
+        public enum CodeSaveMode
+        {
+            Project,
+            Direcotry
         }
         /// <summary>
         /// 扫描类型改变时
@@ -65,6 +75,7 @@ namespace Handiness.VSIX
 
         public IServiceProvider ServiceProvider { get; set; }
         public BuildAssistPacket BuildAssistPacket { get; set; } = new BuildAssistPacket();
+        private CodeSaveMode SaveModel { get; set; }
 
         public MainForm()
         {
@@ -74,36 +85,48 @@ namespace Handiness.VSIX
             this.BuildingStatusChanged += MainForm_BuildingStatusChanged;
             this.SettingTreeStyle();
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            this._rbProject.Checked = true;
+            this.BuildAssistPacket.ConnectionString = ConfigurationAssistor.ConnectionString;
+            this.BuildAssistPacket.NameSpace = ConfigurationAssistor.NameSpace;
+        }
         #region 文字信息绘制
         private void MainForm_BuildingStatusChanged(BuildingStatus state, Object extra)
         {
-            String stateInfo = String.Empty;
-            switch (state)
-            {
-                case BuildingStatus.Error:
+            Action action = new Action(() =>
+                {
+                    String stateInfo = String.Empty;
+                    switch (state)
                     {
-                        Exception exc = extra as Exception;
-                        stateInfo = $"发生错误：{exc.Message}";
-                        this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithNormal, false);
+                        case BuildingStatus.Error:
+                            {
+                                Exception exc = extra as Exception;
+                                stateInfo = $"发生错误：{exc.Message}";
+                                this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithNormal, false);
+                            }
+                            break;
+                        case BuildingStatus.Processing:
+                            {
+                                stateInfo = "组建中...";
+                                this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithBuilding, true);
+                            }
+                            break;
+                        case BuildingStatus.ProjectChanging: stateInfo = "项目文件添加"; break;
+                        case BuildingStatus.ProjectChanged: stateInfo = "项目文件完成"; break;
+                        case BuildingStatus.Completed:
+                        default:
+                            {
+                                stateInfo = "组建完成";
+                                this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithNormal, false);
+                            }
+                            break;
                     }
-                    break;
-                case BuildingStatus.Processing:
-                    {
-                        stateInfo = "组建中...";
-                        this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithBuilding, true);
-                    }
-                    break;
-                case BuildingStatus.ProjectChanging: stateInfo = "项目文件添加"; break;
-                case BuildingStatus.ProjectChanged: stateInfo = "项目文件完成"; break;
-                case BuildingStatus.Completed:
-                default:
-                    {
-                        stateInfo = "组建完成";
-                        this.DrawButtonStyle(this._btnCodeBuild, TextResource.BuildButtonTextWithNormal, false);
-                    }
-                    break;
-            }
-            this.DrawTipInfo($"组建状态：{stateInfo}");
+                    this.DrawTipInfo($"组建状态：{stateInfo}");
+                });
+            this.Invoke(action);
+
         }
 
         private void MainForm_MetadataBuildingStatusChanged(MetadataBuildingStatus state, Object extra)
@@ -151,7 +174,7 @@ namespace Handiness.VSIX
                 case ScanProcessType.Project: scanInfo = "可用项目"; break;
                 default: break;
             }
-            this.DrawTipInfo($"扫描可用选：{scanInfo}");
+            this.DrawTipInfo($"扫描可用选项：{scanInfo}");
         }
         private void DrawParaErrorInfo(BuildingParaErrors error)
         {
@@ -163,6 +186,7 @@ namespace Handiness.VSIX
                 case BuildingParaErrors.MetadataProvider: errorInfo = "元数据提供者"; break;
                 case BuildingParaErrors.NameModifier: errorInfo = "名称修改器"; break;
                 case BuildingParaErrors.Project: errorInfo = "可用项目"; break;
+                case BuildingParaErrors.Directory: errorInfo = "保存目录"; break;
                 default: break;
             }
             this.DrawTipInfo($"参数错误：{errorInfo}");
@@ -246,30 +270,49 @@ namespace Handiness.VSIX
 
 
             //扫描可用项目
-            this.OnScanProcessTypeChanged(ScanProcessType.Project);
-            this.SuspendCombobox(this._cbxActiveProject);
-            IEnumerable<EnvDTE.Project> projects = await Task.Run(() =>
+            if (this.ServiceProvider != null)
             {
-                IList<EnvDTE.Project> result = null;
-                if (this.ServiceProvider != null)
+                this.OnScanProcessTypeChanged(ScanProcessType.Project);
+                this.SuspendCombobox(this._cbxActiveProject);
+                IEnumerable<EnvDTE.Project> projects = await Task.Run(() =>
                 {
+                    IList<EnvDTE.Project> result = null;
+
                     var dteObject = this.ServiceProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
                     Solution sln = dteObject.Solution;
-                    Array startsProjects = sln.SolutionBuild.StartupProjects as Array;
-                    if (startsProjects != null && startsProjects.Length > 0)
+                    Int32 count = sln.Projects.Count;
+                    if (sln.Projects.Count > 0)
                     {
                         result = new List<EnvDTE.Project>();
                         foreach (EnvDTE.Project project in sln.Projects)
                         {
+                            //Int32 itemCount = project.ProjectItems.Count;
+                            //if (project.ProjectItems!=null && project.ProjectItems.Count > 0)
+                            //{
+                            //    foreach (ProjectItem innerProject in project.ProjectItems)
+                            //    {
+                            //       result.Add(innerProject.SubProject);
+                            //    }
+                            //}
+                            //else
+                            //{
                             result.Add(project);
+                            //}
                         }
-                    }
-                }
-                return result;
-            });
 
-            this.AddItemsCombobox<EnvDTE.Project>(this._cbxActiveProject, projects, (t) => t.Name);
-            this.ResumeCombobox(this._cbxActiveProject);
+                    }
+                    return result;
+                });
+
+                this.AddItemsCombobox<EnvDTE.Project>(this._cbxActiveProject, projects, (t) => t.Name);
+                this.ResumeCombobox(this._cbxActiveProject);
+            }
+            else
+            {
+                this._rbProject.Enabled = false;
+                this._rbDirectory.Checked = true;
+                this.SettingSaveMode(CodeSaveMode.Direcotry);
+            }
         }
         #region Combobox 操作
         private void AddItemsCombobox<T>(Concision.Controls.ConcisionCombobox comboxbox, IEnumerable<T> items, Func<T, String> getText)
@@ -349,13 +392,42 @@ namespace Handiness.VSIX
                         var codes = codeBuilder.Building();
                         foreach (var code in codes)
                         {
-                            this.AddCodeToProject(code.Name, code.Code, this.BuildAssistPacket.Project);
+                            switch (this.SaveModel)
+                            {
+                                case CodeSaveMode.Project:
+                                    {
+                                        this.AddCodeToProject(code.Name, code.Code, this.BuildAssistPacket.Project);
+                                    }
+                                    break;
+                                case CodeSaveMode.Direcotry:
+                                    {
+                                        String destPath = Path.Combine(this.BuildAssistPacket.SaveDirectory, code.Name);
+                                        File.WriteAllText(destPath, code.Code, Encoding.UTF8);
+                                    }
+                                    break;
+                            }
+
                         }
                         String schemaFileName = $"{ this.BuildAssistPacket.MetadataProvider.DatabaseName}.{SchemaXml.SchemFileExt}";
                         String schemaFilePath = @".\" + schemaFileName;
+
                         if (codeBuilder.BuildingSchemaFile(schemaFilePath))
                         {
-                            this.AddFileToProject(schemaFilePath, this.BuildAssistPacket.Project);
+                            switch (this.SaveModel)
+                            {
+                                case CodeSaveMode.Project:
+                                    {
+                                        this.AddFileToProject(schemaFilePath, this.BuildAssistPacket.Project);
+                                    }
+                                    break;
+                                case CodeSaveMode.Direcotry:
+                                    {
+                                        String destPath = Path.Combine(this.BuildAssistPacket.SaveDirectory, schemaFileName);
+                                        File.Move(schemaFilePath, destPath);
+                                    }
+                                    break;
+                            }
+
                         }
                         return (true, null);
                     }
@@ -443,6 +515,7 @@ namespace Handiness.VSIX
             if (DialogResult.OK == form.ShowDialog())
             {
                 this.BuildingMetadata(provider);
+                ConfigurationAssistor.ConnectionString = this.BuildAssistPacket.ConnectionString;
             }
         }
         private void DrawTipInfo(String text)
@@ -500,7 +573,7 @@ namespace Handiness.VSIX
         {
             TreeNode tableNode = new TreeNode(schema.Item1.Name);
             tableNode.ToolTipText = schema.Item1.Explain ?? schema.Item1.Name;
-            tableNode.Checked = true;
+            tableNode.Checked = false;
             this._trvSchema.Nodes.Add(tableNode);
             tableNode.Tag = schema;
         }
@@ -524,8 +597,27 @@ namespace Handiness.VSIX
 
             assistPacket.TypeMapper = new TypeMapper(typeMapping);
 
-            assistPacket.Project = this._cbxActiveProject.SelectedValue as EnvDTE.Project;
-            if (assistPacket.Project == null) return (passed, BuildingParaErrors.Project);
+            switch (this.SaveModel)
+            {
+                case CodeSaveMode.Project:
+                    {
+                        assistPacket.Project = this._cbxActiveProject.SelectedValue as EnvDTE.Project;
+                        if (assistPacket.Project == null) return (passed, BuildingParaErrors.Project);
+                    }
+                    break;
+                case CodeSaveMode.Direcotry:
+                    {
+                        String directory = this._txtDirectory.Text.Trim();
+                        if (String.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+                        {
+                            return (passed, BuildingParaErrors.Directory);
+                        }
+                        assistPacket.SaveDirectory = directory;
+                    }
+                    break;
+                default: return (passed, BuildingParaErrors.None); ;
+            }
+
 
             passed = true;
             return (passed, BuildingParaErrors.None);
@@ -561,6 +653,105 @@ namespace Handiness.VSIX
         private void CloseAllConnection()
         {
             //foreach(var item in this._cbxMetadataProvider.Items)
+        }
+
+        private void _rbDirectory_CheckedChanged(object sender, EventArgs e)
+        {
+            this.SettingSaveMode(CodeSaveMode.Direcotry);
+        }
+
+        private void _rbProject_CheckedChanged(object sender, EventArgs e)
+        {
+            this.SettingSaveMode(CodeSaveMode.Project);
+        }
+        private void SettingSaveMode(CodeSaveMode mode)
+        {
+            this.SaveModel = mode;
+            switch (mode)
+            {
+                case CodeSaveMode.Direcotry:
+                    {
+
+                        this._txtDirectory.ReadOnly = false;
+                        this._symbolSelectDirectory.Enabled = true;
+
+                        this._cbxActiveProject.Enabled = false;
+                    }
+                    break;
+                case CodeSaveMode.Project:
+                    {
+                        this._cbxActiveProject.Enabled = true;
+
+                        this._txtDirectory.ReadOnly = true;
+                        this._symbolSelectDirectory.Enabled = false;
+                    }
+                    break;
+            }
+        }
+        private void _symbolSelectDirectory_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.OK == this._fbdDirectorySelect.ShowDialog())
+            {
+                this._txtDirectory.Text = this._fbdDirectorySelect.SelectedPath;
+            }
+        }
+
+        private void _cbSelected_CheckedChanged(object sender, EventArgs e)
+        {
+            this.SelectedAllNode(this._cbSelected.Checked);
+        }
+        private void SelectedAllNode(Boolean selected = true)
+        {
+            foreach (TreeNode node in this._trvSchema.Nodes)
+            {
+                node.Checked = selected;
+            }
+        }
+
+        private void _symbolEditTemplate_Click(object sender, EventArgs e)
+        {
+            CodeTemplateXml templateXml = this._cbxCodeTemplate.SelectedValue as CodeTemplateXml;
+            if (templateXml != null)
+            {
+                EditForm form = new EditForm();
+                form.ShowEditContent<CodeTemplateXml>(templateXml);
+                if (DialogResult.OK == form.ShowDialog())
+                {
+                    templateXml = form.GetEditContentObject<CodeTemplateXml>();
+                    if (templateXml != null)
+                    {
+                        this._cbxCodeTemplate.SelectedValue = templateXml;
+                    }
+                    else
+                    {
+                        MessageBox.Show("对代码模板的修改无法被正确反序列化");
+                    }
+                }
+            }
+
+        }
+
+        private void _symbolEditMapper_Click(object sender, EventArgs e)
+        {
+            TypeMappingXml typeMapXml = this._cbxMapType.SelectedValue as TypeMappingXml;
+            if (typeMapXml != null)
+            {
+                EditForm form = new EditForm();
+                form.ShowEditContent<TypeMappingXml>(typeMapXml);
+                if (DialogResult.OK == form.ShowDialog())
+                {
+                    typeMapXml = form.GetEditContentObject<TypeMappingXml>();
+                    if (typeMapXml != null)
+                    {
+                        this._cbxMapType.SelectedValue = typeMapXml;
+                    }
+                    else
+                    {
+                        MessageBox.Show("对类型映射模板的修改无法被正确反序列化");
+                    }
+                }
+            }
+
         }
     }
 }

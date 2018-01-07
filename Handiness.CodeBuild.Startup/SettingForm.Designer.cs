@@ -1,4 +1,4 @@
-﻿namespace Handiness.VSIX
+﻿namespace Handiness.CodeBuild
 {
     partial class SettingForm
     {
@@ -71,17 +71,18 @@
             // 
             this._btnCannel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnCannel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._btnCannel.DialogResult = System.Windows.Forms.DialogResult.None;
             this._btnCannel.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._btnCannel.EnabledMousePierce = false;
             this._btnCannel.EnabledWaitingClick = false;
             this._btnCannel.ForeColor = System.Drawing.Color.White;
             this._btnCannel.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
             this._btnCannel.IsWaiting = false;
-            this._btnCannel.Location = new System.Drawing.Point(508, 180);
+            this._btnCannel.Location = new System.Drawing.Point(488, 184);
             this._btnCannel.Margin = new System.Windows.Forms.Padding(0);
             this._btnCannel.Name = "_btnCannel";
             this._btnCannel.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this._btnCannel.Size = new System.Drawing.Size(68, 30);
+            this._btnCannel.Size = new System.Drawing.Size(88, 30);
             this._btnCannel.TabIndex = 8;
             this._btnCannel.Text = "取 消";
             this._btnCannel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -91,17 +92,18 @@
             // 
             this._btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnOk.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._btnOk.DialogResult = System.Windows.Forms.DialogResult.None;
             this._btnOk.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._btnOk.EnabledMousePierce = false;
             this._btnOk.EnabledWaitingClick = false;
             this._btnOk.ForeColor = System.Drawing.Color.White;
             this._btnOk.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(200)))), ((int)(((byte)(250)))));
             this._btnOk.IsWaiting = false;
-            this._btnOk.Location = new System.Drawing.Point(402, 180);
+            this._btnOk.Location = new System.Drawing.Point(366, 184);
             this._btnOk.Margin = new System.Windows.Forms.Padding(0);
             this._btnOk.Name = "_btnOk";
             this._btnOk.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            this._btnOk.Size = new System.Drawing.Size(68, 30);
+            this._btnOk.Size = new System.Drawing.Size(88, 30);
             this._btnOk.TabIndex = 7;
             this._btnOk.Text = "确 定";
             this._btnOk.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -205,8 +207,7 @@
             this._txtConnectionString.Name = "_txtConnectionString";
             this._txtConnectionString.Size = new System.Drawing.Size(436, 26);
             this._txtConnectionString.TabIndex = 15;
-            this._txtConnectionString.Text = "server=192.168.182.103;Port=3306;Uid=root;Pwd=123456;DataBase=handinessOrm;Poolin" +
-    "g=true;charset=utf8;";
+            this._txtConnectionString.Text = "server=XX;Port=XX;Uid=XX;Pwd=XX;DataBase=XX;Pooling=true;charset=utf8;";
             this._txtConnectionString.Validating += new System.ComponentModel.CancelEventHandler(this._txtConnectionString_Validating);
             // 
             // _eprNamesapce

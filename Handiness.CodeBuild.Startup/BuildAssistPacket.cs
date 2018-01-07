@@ -6,7 +6,7 @@ using Handiness;
 using Handiness.Metadata;
 using Handiness.CodeBuild;
 
-namespace Handiness.VSIX
+namespace Handiness.CodeBuild
 {
     /*-------------------------------------------------------------------------
  * 版权所有：王浪静
@@ -30,6 +30,6 @@ namespace Handiness.VSIX
         public String NameSpace { get; set; }
         public String ConnectionString { get; set; }
         public EnvDTE.Project Project { get; set; }
-
+        public String SaveDirectory { get; set; }
     }
 }

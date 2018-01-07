@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Concision;
 using Handiness.CodeBuild;
-namespace Handiness.VSIX
+namespace Handiness.CodeBuild
 {
     public partial class SettingForm : BaseForm
     {

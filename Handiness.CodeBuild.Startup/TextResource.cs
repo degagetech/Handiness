@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Handiness.VSIX
+namespace Handiness.CodeBuild
 {
     /*-------------------------------------------------------------------------
  * 版权所有：王浪静

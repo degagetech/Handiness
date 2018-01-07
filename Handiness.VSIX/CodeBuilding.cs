@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Windows.Forms;
 using EnvDTE;
-
+using Handiness.CodeBuild;
 namespace Handiness.VSIX
 {
     /// <summary>

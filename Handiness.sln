@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaViewer", "SchemaViewe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handiness.Orm.Test", "Handiness.Orm.Test\Handiness.Orm.Test.csproj", "{22CA05F1-D1C4-48AA-9F02-6EAAD9E6795E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handiness.CodeBuild.Startup", "Handiness.CodeBuild.Startup\Handiness.CodeBuild.Startup.csproj", "{6BD44CEF-69D0-4737-941A-2A6F669BF973}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{22CA05F1-D1C4-48AA-9F02-6EAAD9E6795E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22CA05F1-D1C4-48AA-9F02-6EAAD9E6795E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22CA05F1-D1C4-48AA-9F02-6EAAD9E6795E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BD44CEF-69D0-4737-941A-2A6F669BF973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD44CEF-69D0-4737-941A-2A6F669BF973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD44CEF-69D0-4737-941A-2A6F669BF973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD44CEF-69D0-4737-941A-2A6F669BF973}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

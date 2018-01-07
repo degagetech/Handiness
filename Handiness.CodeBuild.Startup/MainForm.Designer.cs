@@ -1,4 +1,4 @@
-﻿namespace Handiness.VSIX
+﻿namespace Handiness.CodeBuild
 {
     partial class MainForm
     {
@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this._wbtnClose = new Concision.Controls.WindowsButton();
             this._lineTop = new Concision.Controls.Line();
             this._sylStepStatus = new Concision.Controls.Symbol();
@@ -55,6 +55,14 @@
             this._btnCannel = new Concision.Controls.ConcisionButton();
             this._lblTip = new System.Windows.Forms.Label();
             this._tipTable = new System.Windows.Forms.ToolTip(this.components);
+            this._rbProject = new System.Windows.Forms.RadioButton();
+            this._rbDirectory = new System.Windows.Forms.RadioButton();
+            this._txtDirectory = new System.Windows.Forms.TextBox();
+            this._symbolSelectDirectory = new Concision.Controls.Symbol();
+            this._fbdDirectorySelect = new System.Windows.Forms.FolderBrowserDialog();
+            this._cbSelected = new System.Windows.Forms.CheckBox();
+            this._symbolEditTemplate = new Concision.Controls.Symbol();
+            this._symbolEditMapper = new Concision.Controls.Symbol();
             this._pnlMetadataContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvTableSchema)).BeginInit();
             this.SuspendLayout();
@@ -198,8 +206,9 @@
             // 
             this._cbxMetadataProvider.AutoDropDownHeight = true;
             this._cbxMetadataProvider.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxMetadataProvider.DialogResult = System.Windows.Forms.DialogResult.None;
             this._cbxMetadataProvider.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._cbxMetadataProvider.DropDownHeight = 0;
+            this._cbxMetadataProvider.DropDownHeight = 2;
             this._cbxMetadataProvider.DropDownWidth = 250;
             this._cbxMetadataProvider.EnabledMousePierce = false;
             this._cbxMetadataProvider.EnabledWaitingClick = false;
@@ -220,7 +229,7 @@
             this._cbxMetadataProvider.SymbolSize = 10F;
             this._cbxMetadataProvider.TabIndex = 9;
             this._cbxMetadataProvider.Text = "选择元数据提供者";
-            this._cbxMetadataProvider.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxMetadataProvider.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _lineLeftRight
             // 
@@ -232,7 +241,7 @@
             this._lineLeftRight.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._lineLeftRight.LineLength = 400;
             this._lineLeftRight.LineWidth = 1;
-            this._lineLeftRight.Location = new System.Drawing.Point(285, 92);
+            this._lineLeftRight.Location = new System.Drawing.Point(288, 92);
             this._lineLeftRight.Margin = new System.Windows.Forms.Padding(0);
             this._lineLeftRight.Name = "_lineLeftRight";
             this._lineLeftRight.Size = new System.Drawing.Size(1, 400);
@@ -244,8 +253,9 @@
             // 
             this._cbxCodeTemplate.AutoDropDownHeight = true;
             this._cbxCodeTemplate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxCodeTemplate.DialogResult = System.Windows.Forms.DialogResult.None;
             this._cbxCodeTemplate.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._cbxCodeTemplate.DropDownHeight = 0;
+            this._cbxCodeTemplate.DropDownHeight = 2;
             this._cbxCodeTemplate.DropDownWidth = 250;
             this._cbxCodeTemplate.EnabledMousePierce = false;
             this._cbxCodeTemplate.EnabledWaitingClick = false;
@@ -266,14 +276,15 @@
             this._cbxCodeTemplate.SymbolSize = 10F;
             this._cbxCodeTemplate.TabIndex = 11;
             this._cbxCodeTemplate.Text = "选择代码模板";
-            this._cbxCodeTemplate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxCodeTemplate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _cbxMapType
             // 
             this._cbxMapType.AutoDropDownHeight = true;
             this._cbxMapType.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxMapType.DialogResult = System.Windows.Forms.DialogResult.None;
             this._cbxMapType.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._cbxMapType.DropDownHeight = 0;
+            this._cbxMapType.DropDownHeight = 2;
             this._cbxMapType.DropDownWidth = 250;
             this._cbxMapType.EnabledMousePierce = false;
             this._cbxMapType.EnabledWaitingClick = false;
@@ -294,14 +305,15 @@
             this._cbxMapType.SymbolSize = 10F;
             this._cbxMapType.TabIndex = 13;
             this._cbxMapType.Text = "选择类型映射";
-            this._cbxMapType.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxMapType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _cbxNameFormat
             // 
             this._cbxNameFormat.AutoDropDownHeight = true;
             this._cbxNameFormat.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxNameFormat.DialogResult = System.Windows.Forms.DialogResult.None;
             this._cbxNameFormat.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._cbxNameFormat.DropDownHeight = 0;
+            this._cbxNameFormat.DropDownHeight = 2;
             this._cbxNameFormat.DropDownWidth = 250;
             this._cbxNameFormat.EnabledMousePierce = false;
             this._cbxNameFormat.EnabledWaitingClick = false;
@@ -322,14 +334,15 @@
             this._cbxNameFormat.SymbolSize = 10F;
             this._cbxNameFormat.TabIndex = 14;
             this._cbxNameFormat.Text = "选择命名格式";
-            this._cbxNameFormat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxNameFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _cbxActiveProject
             // 
             this._cbxActiveProject.AutoDropDownHeight = true;
             this._cbxActiveProject.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._cbxActiveProject.DialogResult = System.Windows.Forms.DialogResult.None;
             this._cbxActiveProject.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._cbxActiveProject.DropDownHeight = 0;
+            this._cbxActiveProject.DropDownHeight = 2;
             this._cbxActiveProject.DropDownWidth = 250;
             this._cbxActiveProject.EnabledMousePierce = false;
             this._cbxActiveProject.EnabledWaitingClick = false;
@@ -339,7 +352,7 @@
             this._cbxActiveProject.IsWaiting = false;
             this._cbxActiveProject.ItemFont = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this._cbxActiveProject.ItemHeight = 30;
-            this._cbxActiveProject.Location = new System.Drawing.Point(17, 286);
+            this._cbxActiveProject.Location = new System.Drawing.Point(17, 321);
             this._cbxActiveProject.Margin = new System.Windows.Forms.Padding(0);
             this._cbxActiveProject.Name = "_cbxActiveProject";
             this._cbxActiveProject.NormalColor = System.Drawing.Color.WhiteSmoke;
@@ -350,7 +363,7 @@
             this._cbxActiveProject.SymbolSize = 10F;
             this._cbxActiveProject.TabIndex = 15;
             this._cbxActiveProject.Text = "选择附加的项目";
-            this._cbxActiveProject.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._cbxActiveProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _pnlMetadataContainer
             // 
@@ -372,42 +385,42 @@
             // 
             // _dgvTableSchema
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvTableSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvTableSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
             this._dgvTableSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvTableSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this._dgvTableSchema.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this._dgvTableSchema.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this._dgvTableSchema.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._dgvTableSchema.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this._dgvTableSchema.ColumnHeadersHeight = 30;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvTableSchema.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvTableSchema.DefaultCellStyle = dataGridViewCellStyle11;
             this._dgvTableSchema.GridColor = System.Drawing.SystemColors.ControlLight;
             this._dgvTableSchema.Location = new System.Drawing.Point(180, 3);
             this._dgvTableSchema.Name = "_dgvTableSchema";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this._dgvTableSchema.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._dgvTableSchema.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this._dgvTableSchema.RowHeadersVisible = false;
             this._dgvTableSchema.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
             this._dgvTableSchema.RowTemplate.Height = 30;
@@ -437,10 +450,10 @@
             this._sylSetting.EnabledMousePierce = false;
             this._sylSetting.Font = new System.Drawing.Font("FontAwesome", 15F);
             this._sylSetting.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._sylSetting.Location = new System.Drawing.Point(213, 346);
+            this._sylSetting.Location = new System.Drawing.Point(166, 472);
             this._sylSetting.Margin = new System.Windows.Forms.Padding(0);
             this._sylSetting.Name = "_sylSetting";
-            this._sylSetting.Size = new System.Drawing.Size(54, 34);
+            this._sylSetting.Size = new System.Drawing.Size(35, 34);
             this._sylSetting.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._sylSetting.SymbolPattern = "";
             this._sylSetting.SymbolSize = 15F;
@@ -454,10 +467,10 @@
             this._sylRefresh.EnabledMousePierce = false;
             this._sylRefresh.Font = new System.Drawing.Font("FontAwesome", 15F);
             this._sylRefresh.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._sylRefresh.Location = new System.Drawing.Point(17, 346);
+            this._sylRefresh.Location = new System.Drawing.Point(210, 472);
             this._sylRefresh.Margin = new System.Windows.Forms.Padding(0);
             this._sylRefresh.Name = "_sylRefresh";
-            this._sylRefresh.Size = new System.Drawing.Size(54, 34);
+            this._sylRefresh.Size = new System.Drawing.Size(32, 34);
             this._sylRefresh.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._sylRefresh.SymbolPattern = "";
             this._sylRefresh.SymbolSize = 15F;
@@ -469,6 +482,7 @@
             // 
             this._btnCodeBuild.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnCodeBuild.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._btnCodeBuild.DialogResult = System.Windows.Forms.DialogResult.None;
             this._btnCodeBuild.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._btnCodeBuild.EnabledMousePierce = false;
             this._btnCodeBuild.EnabledWaitingClick = false;
@@ -489,6 +503,7 @@
             // 
             this._btnCannel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnCannel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._btnCannel.DialogResult = System.Windows.Forms.DialogResult.None;
             this._btnCannel.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._btnCannel.EnabledMousePierce = false;
             this._btnCannel.EnabledWaitingClick = false;
@@ -515,12 +530,120 @@
             this._lblTip.TabIndex = 19;
             this._lblTip.Text = "##";
             // 
+            // _rbProject
+            // 
+            this._rbProject.AutoSize = true;
+            this._rbProject.Location = new System.Drawing.Point(9, 287);
+            this._rbProject.Name = "_rbProject";
+            this._rbProject.Size = new System.Drawing.Size(86, 21);
+            this._rbProject.TabIndex = 20;
+            this._rbProject.TabStop = true;
+            this._rbProject.Text = "附加至项目";
+            this._rbProject.UseVisualStyleBackColor = true;
+            this._rbProject.CheckedChanged += new System.EventHandler(this._rbProject_CheckedChanged);
+            // 
+            // _rbDirectory
+            // 
+            this._rbDirectory.AutoSize = true;
+            this._rbDirectory.Location = new System.Drawing.Point(9, 374);
+            this._rbDirectory.Name = "_rbDirectory";
+            this._rbDirectory.Size = new System.Drawing.Size(86, 21);
+            this._rbDirectory.TabIndex = 21;
+            this._rbDirectory.TabStop = true;
+            this._rbDirectory.Text = "生成到目录";
+            this._rbDirectory.UseVisualStyleBackColor = true;
+            this._rbDirectory.CheckedChanged += new System.EventHandler(this._rbDirectory_CheckedChanged);
+            // 
+            // _txtDirectory
+            // 
+            this._txtDirectory.BackColor = System.Drawing.Color.WhiteSmoke;
+            this._txtDirectory.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._txtDirectory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this._txtDirectory.Location = new System.Drawing.Point(17, 408);
+            this._txtDirectory.Name = "_txtDirectory";
+            this._txtDirectory.Size = new System.Drawing.Size(225, 26);
+            this._txtDirectory.TabIndex = 22;
+            // 
+            // _symbolSelectDirectory
+            // 
+            this._symbolSelectDirectory.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._symbolSelectDirectory.EnabledMousePierce = false;
+            this._symbolSelectDirectory.Font = new System.Drawing.Font("FontAwesome", 13F);
+            this._symbolSelectDirectory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolSelectDirectory.Location = new System.Drawing.Point(245, 408);
+            this._symbolSelectDirectory.Margin = new System.Windows.Forms.Padding(0);
+            this._symbolSelectDirectory.Name = "_symbolSelectDirectory";
+            this._symbolSelectDirectory.Size = new System.Drawing.Size(35, 30);
+            this._symbolSelectDirectory.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolSelectDirectory.SymbolPattern = "";
+            this._symbolSelectDirectory.SymbolSize = 13F;
+            this._symbolSelectDirectory.TabIndex = 23;
+            this._symbolSelectDirectory.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._symbolSelectDirectory.Click += new System.EventHandler(this._symbolSelectDirectory_Click);
+            // 
+            // _fbdDirectorySelect
+            // 
+            this._fbdDirectorySelect.Description = "选择保存的文件夹";
+            // 
+            // _cbSelected
+            // 
+            this._cbSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._cbSelected.AutoSize = true;
+            this._cbSelected.Location = new System.Drawing.Point(289, 535);
+            this._cbSelected.Name = "_cbSelected";
+            this._cbSelected.Size = new System.Drawing.Size(92, 21);
+            this._cbSelected.TabIndex = 24;
+            this._cbSelected.Text = "全选/全不选";
+            this._cbSelected.UseVisualStyleBackColor = true;
+            this._cbSelected.CheckedChanged += new System.EventHandler(this._cbSelected_CheckedChanged);
+            // 
+            // _symbolEditTemplate
+            // 
+            this._symbolEditTemplate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._symbolEditTemplate.EnabledMousePierce = false;
+            this._symbolEditTemplate.Font = new System.Drawing.Font("FontAwesome", 10F);
+            this._symbolEditTemplate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolEditTemplate.Location = new System.Drawing.Point(271, 136);
+            this._symbolEditTemplate.Margin = new System.Windows.Forms.Padding(0);
+            this._symbolEditTemplate.Name = "_symbolEditTemplate";
+            this._symbolEditTemplate.Size = new System.Drawing.Size(15, 15);
+            this._symbolEditTemplate.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolEditTemplate.SymbolPattern = "";
+            this._symbolEditTemplate.SymbolSize = 10F;
+            this._symbolEditTemplate.TabIndex = 25;
+            this._symbolEditTemplate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._symbolEditTemplate.Click += new System.EventHandler(this._symbolEditTemplate_Click);
+            // 
+            // _symbolEditMapper
+            // 
+            this._symbolEditMapper.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._symbolEditMapper.EnabledMousePierce = false;
+            this._symbolEditMapper.Font = new System.Drawing.Font("FontAwesome", 10F);
+            this._symbolEditMapper.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolEditMapper.Location = new System.Drawing.Point(271, 249);
+            this._symbolEditMapper.Margin = new System.Windows.Forms.Padding(0);
+            this._symbolEditMapper.Name = "_symbolEditMapper";
+            this._symbolEditMapper.Size = new System.Drawing.Size(15, 15);
+            this._symbolEditMapper.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolEditMapper.SymbolPattern = "";
+            this._symbolEditMapper.SymbolSize = 10F;
+            this._symbolEditMapper.TabIndex = 26;
+            this._symbolEditMapper.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._symbolEditMapper.Click += new System.EventHandler(this._symbolEditMapper_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(900, 600);
+            this.Controls.Add(this._symbolEditMapper);
+            this.Controls.Add(this._symbolEditTemplate);
+            this.Controls.Add(this._cbSelected);
+            this.Controls.Add(this._symbolSelectDirectory);
+            this.Controls.Add(this._txtDirectory);
+            this.Controls.Add(this._rbDirectory);
+            this.Controls.Add(this._rbProject);
             this.Controls.Add(this._lblTip);
             this.Controls.Add(this._sylRefresh);
             this.Controls.Add(this._sylSetting);
@@ -546,6 +669,7 @@
             this._pnlMetadataContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvTableSchema)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -573,5 +697,13 @@
         private Concision.Controls.ConcisionButton _btnCannel;
         private System.Windows.Forms.Label _lblTip;
         private System.Windows.Forms.ToolTip _tipTable;
+        private System.Windows.Forms.RadioButton _rbProject;
+        private System.Windows.Forms.RadioButton _rbDirectory;
+        private System.Windows.Forms.TextBox _txtDirectory;
+        private Concision.Controls.Symbol _symbolSelectDirectory;
+        private System.Windows.Forms.FolderBrowserDialog _fbdDirectorySelect;
+        private System.Windows.Forms.CheckBox _cbSelected;
+        private Concision.Controls.Symbol _symbolEditTemplate;
+        private Concision.Controls.Symbol _symbolEditMapper;
     }
 }
