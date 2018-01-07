@@ -48,18 +48,21 @@ namespace Handiness.Orm
                 this.CloseConnection();
             }
         }
-        public Int32 ExecuteNonQuery(DbConnection connection)
+        public Int32 ExecuteNonQuery(DbConnection connection,DbTransaction transaction)
         {
 
             Int32 affact = 0;
             try
             {
                 this.ExecutePrepare(connection);
+                this.Command.Transaction = transaction;
                 affact = this.Command.ExecuteNonQuery();
             }
             finally
             {
-                this.Command?.Parameters.Clear();
+                this.Command.Parameters.Clear();
+                this.Command = null;
+                this.Connection = null;
             }
             return affact;
         }
@@ -117,19 +120,7 @@ namespace Handiness.Orm
             }
         }
 
-        public IDriver<T> Where(Expression<Func<T, Boolean>> predicate)
-        {
-            this.SQLComponent.AppendWhere();
-            LambdaToSqlConverter<T>.WhereConvert(this.DbProvider, predicate,this.SQLComponent);
-            return this;
-        }
-
-        public IDriver<T> Where(String whereSql, IEnumerable<DbParameter> dbParameters = null)
-        {
-            this.SQLComponent.AppendWhere();
-            this.SQLComponent.Append(whereSql, dbParameters);
-            return this;
-        }
+        
         public ISelectVector<T> ExecuteReader(String connectionString = null)
         {
 
@@ -161,14 +152,45 @@ namespace Handiness.Orm
 
         public IDriver<T> JoinOn<T1>(Expression<Func<T, T1, Boolean>> predicate) where T1 : class
         {
-            LambdaToSqlConverter<T>.JoinOn<T1>(this.DbProvider, predicate, this.SQLComponent);
+            this.SQLComponent.AppendSQLFormat(CommonFormat.JOIN_ON_FORMAT,Table<T1>.Schema.TableName,String.Empty);
+             LambdaToSqlConverter<T>.JoinOn<T1>(this.DbProvider, predicate, this.SQLComponent);
             return this;
         }
 
         public IDriver<T> JoinWhere<T1>(Expression<Func<T, T1, Boolean>> predicate) where T1 : class
         {
+            this.SQLComponent.AppendWhere();
             LambdaToSqlConverter<T>.JoinWhere<T1>(this.DbProvider, predicate, this.SQLComponent);
             return this;
         }
+        public IDriver<T> Where(Expression<Func<T, Boolean>> predicate)
+        {
+            this.SQLComponent.AppendWhere();
+            SQLComponent component = new SQLComponent();
+            LambdaToSqlConverter<T>.WhereConvert(this.DbProvider, predicate, component);
+            this.SQLComponent.AppendSQLFormat(CommonFormat.BRACKET_FORMAT, component.SQL);
+            this.SQLComponent.AddParameters(component.Parameters);
+            return this;
+        }
+
+        public IDriver<T> Where(String whereSql, IEnumerable<DbParameter> dbParameters = null)
+        {
+            this.SQLComponent.AppendWhere();
+            this.SQLComponent.AppendSQLFormat(CommonFormat.BRACKET_FORMAT, whereSql);
+            this.SQLComponent.AddParameters(dbParameters);
+
+            return this;
+        }
+        public IDriver<T> OrWhere(Expression<Func<T, Boolean>> predicate)
+        {
+            this.SQLComponent.AppendWhere(false);
+            SQLComponent component = new SQLComponent();
+            LambdaToSqlConverter<T>.WhereConvert(this.DbProvider, predicate, component);
+            this.SQLComponent.AppendSQLFormat(CommonFormat.BRACKET_FORMAT, component.SQL);
+            this.SQLComponent.AddParameters(component.Parameters);
+            return this;
+        }
+
+     
     }
 }

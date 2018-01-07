@@ -22,6 +22,8 @@ namespace Handiness.Orm
         public const String COUNT_ALL = "COUNT(*)";
         public const String DESC = " DESC ";
         public const String ASC = " ASC ";
+        public const String IN = " IN ";
+        public const String DISTINCT = " DISTINCT ";
         /// <summary>
         /// 左括号
         /// </summary>

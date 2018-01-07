@@ -9,12 +9,10 @@ namespace Handiness.Orm
     /// <summary>
     /// 存储类相关Schema信息的缓存
     /// </summary>
-    public class SchemaCache<T> where T : class
+    public class SchemaCache
     {
         public PropertyAccessor PropertyAccessor { get; set; }
-        public InstanceCreator<T> Creator { get;  set; } 
-
-
+  
         public String TableName
         {
             get => this.TableSchema.Name;

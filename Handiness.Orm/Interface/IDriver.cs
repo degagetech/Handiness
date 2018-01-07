@@ -33,6 +33,7 @@ namespace Handiness.Orm
 
         IDriver<T> Where(String whereSql, IEnumerable<DbParameter> parameters = null);
         IDriver<T> Where(Expression<Func<T, Boolean>> predicate);
+        IDriver<T> OrWhere(Expression<Func<T, Boolean>> predicate);
         /// <summary>
         /// 传入连接字符串，缺省的话使用 Table对象绑定的 DbProvider 的 连接字符串
         /// </summary>
@@ -53,6 +54,6 @@ namespace Handiness.Orm
         /// 执行非查询操作
         /// </summary>
         /// <returns></returns>
-        Int32 ExecuteNonQuery(DbConnection connection);
+        Int32 ExecuteNonQuery(DbConnection connection,DbTransaction transaction=null);
     }
 }

@@ -34,7 +34,19 @@ namespace Handiness.Orm
             }
             return table;
         }
+        public static IDriver<T> DistinctSelect<T>(this Table<T> tableObj, String columnNames = null) where T : class
+        {
+            String sql = String.Format
+               (
+               BasicSqlFormat.SELECT_DISTINCT_FORMAT,
+               columnNames ?? GetAllColumnNames<T>(tableObj),
+               Table<T>.Schema.TableName
+               );
 
+            IDriver<T> driver = tableObj.DbProvider.Driver<T>();
+            driver.SQLComponent.AppendSQL(sql);
+            return driver;
+        }
         /// <summary>
         /// 执行非查询SQL语句
         /// </summary>
@@ -186,6 +198,19 @@ namespace Handiness.Orm
             return driver;
         }
         /// <summary>
+        /// 使用指定对象更新记录，注意此方法只会更新不为空的字段，以及非主键字段
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tableObj"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static IDriver<T> Update<T>(this Table<T> tableObj, T obj) where T : class
+        {
+            IDriver<T> driver = tableObj.DbProvider.Driver<T>();
+            ObjectToSqlConverter<T>.UpdateConvert(tableObj.DbProvider, obj, driver.SQLComponent);
+            return driver;
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -257,33 +282,13 @@ namespace Handiness.Orm
         }
 
         /**********Transaction***********/
-        public static DbTransaction BeginTransaction(this Table tableObj, String connectionString = null)
+        public static DbTransaction Begin(this Table tableObj, String connectionString = null)
         {
             String connectionStr = connectionString ?? tableObj.DbProvider.ConnectionString;
             DbConnection connection = tableObj.DbProvider.DbConnection(connectionStr);
             connection.Open();
             DbTransaction tansaction = connection.BeginTransaction();
             return tansaction;
-        }
-        public static void CommitTransaction(this Table tableObj, DbTransaction transaction)
-        {
-            if (transaction == null) return;
-            try
-            {
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-            }
-            finally
-            {
-                if (transaction.Connection != null &&
-                    transaction.Connection.State == System.Data.ConnectionState.Open)
-                {
-                    transaction.Connection.Close();
-                }
-            }
         }
     }
 }

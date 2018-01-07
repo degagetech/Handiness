@@ -121,7 +121,7 @@ namespace Handiness.VSIX
             if (startsProjects == null || startsProjects.Length < 1)
                 return null;
             //获取的是项目的UniqueName
-            String retProjName = startsProjects.GetValue(0) as string;
+            String retProjName = startsProjects.GetValue(0) as String;
             if (retProjName == null)
                 return null;
 

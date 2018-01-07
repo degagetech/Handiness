@@ -19,5 +19,7 @@ namespace Handiness.Orm
         /// 内联接 0 表名 1联接条件
         /// </summary>
         public const String JOIN_ON_FORMAT = " JOIN {0} ON {1}";
+
+        public const String BRACKET_FORMAT = " ({0}) ";
     }
 }

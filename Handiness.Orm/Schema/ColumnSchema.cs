@@ -14,5 +14,6 @@ namespace Handiness.Orm
         /// 列名称
         /// </summary>
         public String Name { get; set; }
+        public Boolean IsPrimaryKey { get; set; }
     }
 }

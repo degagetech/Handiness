@@ -79,6 +79,7 @@
     <Compile Include="Schema\TableSchema.cs" />
     <Compile Include="SelectVector.cs" />
     <Compile Include="SQLComponent.cs" />
+    <Compile Include="StringExtension.cs" />
     <Compile Include="Table\Table.cs" />
     <Compile Include="Table\TableExtensions.cs" />
     <Compile Include="TransactionExecutor.cs" />

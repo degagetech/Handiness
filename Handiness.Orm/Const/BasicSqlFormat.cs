@@ -15,6 +15,10 @@ namespace Handiness.Orm
         /// </summary>
         public const String SELECT_FORMAT = "SELECT {0} FROM {1} ";
         /// <summary>
+        /// 查询 0  查询的列名  1 表名
+        /// </summary>
+        public const String SELECT_DISTINCT_FORMAT = "SELECT DISTINCT {0} FROM {1} ";
+        /// <summary>
         /// 更新 0 表名 1 设置
         /// </summary>
         public const String UPDATE_FORMAT = "UPDATE {0} SET {1} ";

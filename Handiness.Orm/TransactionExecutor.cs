@@ -33,17 +33,19 @@ namespace Handiness.Orm
             {
                 connection.Open();
                 DbTransaction tansaction = connection.BeginTransaction();
+                DbCommand command = this._provider.DbCommand();
+                command.Connection = connection;
+                command.Transaction = tansaction;
                 try
                 {
                     while (this._buffer.Count > 0)
                     {
                         if (this._buffer.TryDequeue(out SQLComponent component))
                         {
-                            DbCommand command = this._provider.DbCommand();
-                            command.Connection = connection;
                             command.CommandText = component.SQL;
                             command.Parameters.AddRange(component.Parameters.ToArray());
                             command.ExecuteNonQuery();
+                            command.Parameters.Clear();
                         }
                     }
                     tansaction.Commit();

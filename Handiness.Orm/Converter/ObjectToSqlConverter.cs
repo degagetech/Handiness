@@ -54,6 +54,33 @@ namespace Handiness.Orm
                 columnNames.ToString(),
                 parameterNames.ToString());
         }
+        public static void UpdateConvert(DbProvider dbProvider, T obj, SQLComponent component)
+        {
+            StringBuilder updateColumnNames = new StringBuilder();
+            Int32 length = Table<T>.Schema.PropertyInfos.Length;
+            for (Int32 i = 0; i < length; ++i)
+            {
+                PropertyInfo info = Table<T>.Schema.PropertyInfos[i];
+                ColumnSchema colSchema = Table<T>.Schema.GetColumnSchema(info.Name);
+                if (colSchema.IsPrimaryKey) continue;
+                Object value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
+                if (value == null) continue;
+                String columnName = colSchema.Name;
+                String parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
+                DbParameter dbParameter = dbProvider.DbParameter
+                    (
+                            parameterName,
+                            value ?? DBNull.Value
+                    );
+                updateColumnNames.Append(String.Format(dbProvider.ConflictFreeFormat, columnName));
+                updateColumnNames.Append(SqlKeyWord.EQUAL);
+                updateColumnNames.Append(parameterName);
+                updateColumnNames.Append(SqlKeyWord.COMMA);
+                component.AddParameter(dbParameter);
+            }
+            updateColumnNames.Remove(updateColumnNames.Length- SqlKeyWord.COMMA.Length, SqlKeyWord.COMMA.Length);
+            component.AppendSQLFormat(BasicSqlFormat.UPDATE_FORMAT, Table<T>.Schema.TableName, updateColumnNames.ToString());
+        }
         public static void InsertConvert(DbProvider dbProvider, T obj, SQLComponent component)
         {
 
@@ -69,19 +96,20 @@ namespace Handiness.Orm
                 PropertyInfo info = Table<T>.Schema.PropertyInfos[i];
                 columnName = Table<T>.Schema[info.Name];
                 value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
-
+                if (value == null) continue;
                 parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
                 dbParameter = dbProvider.DbParameter(parameterName, value ?? DBNull.Value);
 
                 columnNames.Append(String.Format(dbProvider.ConflictFreeFormat, columnName));
                 parameterNames.Append(dbParameter.ParameterName);
-                if (i != (length - 1))
-                {
-                    columnNames.Append(SqlKeyWord.COMMA);
-                    parameterNames.Append(SqlKeyWord.COMMA);
-                }
+                columnNames.Append(SqlKeyWord.COMMA);
+                parameterNames.Append(SqlKeyWord.COMMA);
                 component.AddParameter(dbParameter);
             }
+            Int32 commaLength = SqlKeyWord.COMMA.Length;
+            columnNames.Remove(columnNames.Length- commaLength, commaLength);
+            parameterNames.Remove(parameterNames.Length- commaLength, commaLength);
+
             component.AppendSQLFormat(BasicSqlFormat.INSERT_FORMAT,
                 Table<T>.Schema.TableName,
                 columnNames.ToString(),

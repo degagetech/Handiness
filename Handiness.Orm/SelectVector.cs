@@ -41,13 +41,15 @@ namespace Handiness.Orm
         public DataTable ToDataTable()
         {
             DataTable result = new DataTable();
+            DbDataReader reader = null;
             try
             {
-                var reader = this.GetReader();
+                reader = this.GetReader();
                 result.Load(reader);
             }
             finally
             {
+                reader?.Close();
                 this.Close();
             }
             return result;
@@ -84,13 +86,16 @@ namespace Handiness.Orm
         public List<T> ToList()
         {
             List<T> result = new List<T>();
+            DbDataReader reader = null;
             try
             {
-                var reader = this.GetReader();
+                reader = this.GetReader();
                 result = DataExtractor<T>.ToList(reader);
+           
             }
             finally
             {
+                reader?.Close();
                 this.Close();
             }
             return result;

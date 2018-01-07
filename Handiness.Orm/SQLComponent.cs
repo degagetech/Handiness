@@ -86,7 +86,7 @@ namespace Handiness.Orm
             this._sqlBuilder.Remove(0, this._sqlBuilder.Length - SqlKeyWord.COMMA.Length);
         }
         /// <summary>
-        /// 在SQL组件末尾处附加 <see cref="SqlKeyWord.WHERE"/> 关键词，若存在则附加 <see cref="SqlKeyWord.AND"/> 关键词
+        /// 在SQL组件末尾处附加 <see cref="SqlKeyWord.WHERE"/> 关键词，若存在则附加 <see cref="SqlKeyWord.AND"/> 或者 <see cref="SqlKeyWord.OR"/>关键词
         /// </summary>
         public void AppendWhere(Boolean appendAnd = true)
         {
@@ -95,10 +95,18 @@ namespace Handiness.Orm
             {
                 this._sqlBuilder.Append(SqlKeyWord.WHERE);
             }
-            else if (appendAnd)
+            else
             {
-                this._sqlBuilder.Append(SqlKeyWord.AND);
+                if (appendAnd)
+                {
+                    this._sqlBuilder.Append(SqlKeyWord.AND);
+                }
+                else
+                {
+                    this._sqlBuilder.Append(SqlKeyWord.OR);
+                }
             }
+         
         }
         /// <summary>
         /// 使用指定的SQL字符串与参数集合创建一个<see cref="SQLComponent"/>对象
