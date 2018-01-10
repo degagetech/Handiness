@@ -141,6 +141,10 @@
       <Project>{57e43300-ca7f-42c5-9d17-611399efe8f3}</Project>
       <Name>Handiness.MySql</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Handiness.Oracle\Handiness.Oracle.csproj">
+      <Project>{6ce17ab7-656f-4439-a1c4-9a6a74863376}</Project>
+      <Name>Handiness.Oracle</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Handiness\Handiness.csproj">
       <Project>{6b66b774-8b6e-4c61-8b24-9e5b8bf383a4}</Project>
       <Name>Handiness</Name>

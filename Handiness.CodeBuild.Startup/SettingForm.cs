@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Concision;
@@ -20,8 +21,8 @@ namespace Handiness.CodeBuild
             InitializeComponent();
             this.DialogResult = DialogResult.Cancel;
             this._txtNameSpace.Text = "Handiness";
-            Win32Utility.SetCueText(this._txtConnectionString,"请输入数据库连接字符串");
-            this._txtConnectionString.Focus();
+            Win32Utility.SetCueText(this._cbConnectionString,"请输入数据库连接字符串");
+            this._cbConnectionString.Focus();
             
         }
         public SettingForm(BuildAssistPacket assistPacket) : this()
@@ -33,7 +34,7 @@ namespace Handiness.CodeBuild
             }
             if (!String.IsNullOrEmpty(assistPacket.ConnectionString))
             {
-                this._txtConnectionString.Text = assistPacket.ConnectionString;
+                this._cbConnectionString.Text = assistPacket.ConnectionString;
             }
         }
 
@@ -59,14 +60,14 @@ namespace Handiness.CodeBuild
         }
         private void _txtConnectionString_Validating(object sender, CancelEventArgs e)
         {
-            if (!this.ValidatingData(this._txtConnectionString.Text))
+            if (!this.ValidatingData(this._cbConnectionString.Text))
             {
-                this._eprConnectionString.SetError(this._txtConnectionString, "连接字符串不能为空！");
+                this._eprConnectionString.SetError(this._cbConnectionString, "连接字符串不能为空！");
                 e.Cancel = true;
             }
             else
             {
-                this._eprConnectionString.SetError(this._txtConnectionString, String.Empty);
+                this._eprConnectionString.SetError(this._cbConnectionString, String.Empty);
             }
         }
 
@@ -81,10 +82,33 @@ namespace Handiness.CodeBuild
             if (isPassed)
             {
                 this.DialogResult = DialogResult.OK;
-                this.BuildAssistPacket.ConnectionString = this._txtConnectionString.Text.Trim();
+                this.BuildAssistPacket.ConnectionString = this._cbConnectionString.Text.Trim();
                 this.BuildAssistPacket.NameSpace = this._txtNameSpace.Text.Trim();
                 this.Close();
             }
+        }
+
+        private void _cbConnectionString_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void _cbConnectionString_SelectedValueChanged(object sender, EventArgs e)
+        {
+            String connStr = this._cbConnectionString.Text.Trim();
+            var match= Regex.Match(connStr, "\\[[\\s\\S]+\\]");
+            if (match.Success)
+            {
+                connStr = match.Value.Trim();
+                connStr = connStr.TrimStart('[');
+                connStr = connStr.TrimEnd(']');
+                this._cbConnectionString.Text = connStr;
+            }
+        }
+
+        private void _cbConnectionString_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

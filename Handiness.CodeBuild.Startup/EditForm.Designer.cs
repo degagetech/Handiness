@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._tbContent = new System.Windows.Forms.TextBox();
+            this._tbContent = new System.Windows.Forms.RichTextBox();
             this.scutcheon1 = new Concision.Controls.Scutcheon();
             this._btnCannel = new Concision.Controls.ConcisionButton();
             this._btnOk = new Concision.Controls.ConcisionButton();
@@ -148,7 +148,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox _tbContent;
+        private System.Windows.Forms.RichTextBox _tbContent;
         private Concision.Controls.Scutcheon scutcheon1;
         private Concision.Controls.ConcisionButton _btnCannel;
         private Concision.Controls.ConcisionButton _btnOk;

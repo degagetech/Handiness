@@ -119,13 +119,13 @@
   </resheader>
   <data name="textBox2.Text" xml:space="preserve">
     <value>SQL Server：
-Data Source=192.168.182.103;Uid=sa;Pwd=932444208;Initial Catalog=HandinessOrm;
+Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj-;Initial Catalog=biobank;
 
 Oracle：
 Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.182.104)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=test)));User Id=wlj;Password=932444208
 
 MySQL：
-server=192.168.182.103;Port=3306;Uid=root;Pwd=123456;DataBase=handinessorm;Pooling=true;charset=utf8;
+server=117.47.197.48;Port=3306;Uid=root;Pwd=123456;DataBase=handinessorm;Pooling=true;charset=utf8;
 
 SQLite：
 Data Source=.\test.db;UTF8Encoding=True;</value>

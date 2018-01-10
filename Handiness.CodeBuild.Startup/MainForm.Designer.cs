@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             this._wbtnClose = new Concision.Controls.WindowsButton();
             this._lineTop = new Concision.Controls.Line();
             this._sylStepStatus = new Concision.Controls.Symbol();
@@ -63,6 +63,7 @@
             this._cbSelected = new System.Windows.Forms.CheckBox();
             this._symbolEditTemplate = new Concision.Controls.Symbol();
             this._symbolEditMapper = new Concision.Controls.Symbol();
+            this._symbolConnection = new Concision.Controls.Symbol();
             this._pnlMetadataContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvTableSchema)).BeginInit();
             this.SuspendLayout();
@@ -224,6 +225,7 @@
             this._cbxMetadataProvider.NormalColor = System.Drawing.Color.WhiteSmoke;
             this._cbxMetadataProvider.SelectedIndex = -1;
             this._cbxMetadataProvider.SelectedText = null;
+            this._cbxMetadataProvider.SelectedValue = null;
             this._cbxMetadataProvider.Size = new System.Drawing.Size(250, 35);
             this._cbxMetadataProvider.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._cbxMetadataProvider.SymbolSize = 10F;
@@ -271,6 +273,7 @@
             this._cbxCodeTemplate.NormalColor = System.Drawing.Color.WhiteSmoke;
             this._cbxCodeTemplate.SelectedIndex = -1;
             this._cbxCodeTemplate.SelectedText = null;
+            this._cbxCodeTemplate.SelectedValue = null;
             this._cbxCodeTemplate.Size = new System.Drawing.Size(250, 35);
             this._cbxCodeTemplate.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._cbxCodeTemplate.SymbolSize = 10F;
@@ -300,6 +303,7 @@
             this._cbxMapType.NormalColor = System.Drawing.Color.WhiteSmoke;
             this._cbxMapType.SelectedIndex = -1;
             this._cbxMapType.SelectedText = null;
+            this._cbxMapType.SelectedValue = null;
             this._cbxMapType.Size = new System.Drawing.Size(250, 35);
             this._cbxMapType.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._cbxMapType.SymbolSize = 10F;
@@ -329,6 +333,7 @@
             this._cbxNameFormat.NormalColor = System.Drawing.Color.WhiteSmoke;
             this._cbxNameFormat.SelectedIndex = -1;
             this._cbxNameFormat.SelectedText = null;
+            this._cbxNameFormat.SelectedValue = null;
             this._cbxNameFormat.Size = new System.Drawing.Size(250, 35);
             this._cbxNameFormat.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._cbxNameFormat.SymbolSize = 10F;
@@ -358,6 +363,7 @@
             this._cbxActiveProject.NormalColor = System.Drawing.Color.WhiteSmoke;
             this._cbxActiveProject.SelectedIndex = -1;
             this._cbxActiveProject.SelectedText = null;
+            this._cbxActiveProject.SelectedValue = null;
             this._cbxActiveProject.Size = new System.Drawing.Size(250, 35);
             this._cbxActiveProject.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this._cbxActiveProject.SymbolSize = 10F;
@@ -385,42 +391,42 @@
             // 
             // _dgvTableSchema
             // 
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvTableSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvTableSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             this._dgvTableSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvTableSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this._dgvTableSchema.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this._dgvTableSchema.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this._dgvTableSchema.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._dgvTableSchema.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             this._dgvTableSchema.ColumnHeadersHeight = 30;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvTableSchema.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvTableSchema.DefaultCellStyle = dataGridViewCellStyle15;
             this._dgvTableSchema.GridColor = System.Drawing.SystemColors.ControlLight;
             this._dgvTableSchema.Location = new System.Drawing.Point(180, 3);
             this._dgvTableSchema.Name = "_dgvTableSchema";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this._dgvTableSchema.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._dgvTableSchema.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this._dgvTableSchema.RowHeadersVisible = false;
             this._dgvTableSchema.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
             this._dgvTableSchema.RowTemplate.Height = 30;
@@ -459,6 +465,7 @@
             this._sylSetting.SymbolSize = 15F;
             this._sylSetting.TabIndex = 17;
             this._sylSetting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._tipTable.SetToolTip(this._sylSetting, "设置命名空间及连接字符串");
             this._sylSetting.Click += new System.EventHandler(this._sylSetting_Click);
             // 
             // _sylRefresh
@@ -476,6 +483,7 @@
             this._sylRefresh.SymbolSize = 15F;
             this._sylRefresh.TabIndex = 18;
             this._sylRefresh.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._tipTable.SetToolTip(this._sylRefresh, "刷新所有的项目");
             this._sylRefresh.Click += new System.EventHandler(this._sylRefresh_Click);
             // 
             // _btnCodeBuild
@@ -631,12 +639,31 @@
             this._symbolEditMapper.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._symbolEditMapper.Click += new System.EventHandler(this._symbolEditMapper_Click);
             // 
+            // _symbolConnection
+            // 
+            this._symbolConnection.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._symbolConnection.EnabledMousePierce = false;
+            this._symbolConnection.Font = new System.Drawing.Font("FontAwesome", 15F);
+            this._symbolConnection.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolConnection.Location = new System.Drawing.Point(119, 473);
+            this._symbolConnection.Margin = new System.Windows.Forms.Padding(0);
+            this._symbolConnection.Name = "_symbolConnection";
+            this._symbolConnection.Size = new System.Drawing.Size(35, 34);
+            this._symbolConnection.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolConnection.SymbolPattern = "";
+            this._symbolConnection.SymbolSize = 15F;
+            this._symbolConnection.TabIndex = 27;
+            this._symbolConnection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._tipTable.SetToolTip(this._symbolConnection, "连接到数据库，并获取元数据信息");
+            this._symbolConnection.Click += new System.EventHandler(this._symbolConnection_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(900, 600);
+            this.Controls.Add(this._symbolConnection);
             this.Controls.Add(this._symbolEditMapper);
             this.Controls.Add(this._symbolEditTemplate);
             this.Controls.Add(this._cbSelected);
@@ -705,5 +732,6 @@
         private System.Windows.Forms.CheckBox _cbSelected;
         private Concision.Controls.Symbol _symbolEditTemplate;
         private Concision.Controls.Symbol _symbolEditMapper;
+        private Concision.Controls.Symbol _symbolConnection;
     }
 }

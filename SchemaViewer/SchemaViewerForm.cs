@@ -165,6 +165,7 @@ namespace SchemaViewer
                 }
                 catch (Exception exc)
                 {
+                    successful = false;
                     reason = exc.Message;
                 }
                 finally
@@ -215,6 +216,10 @@ namespace SchemaViewer
         {
             String[] restrictions = null;
             String restrictionStr = this._txtRestriction.Text.Trim();
+            if (String.IsNullOrEmpty(restrictionStr))
+            {
+                return restrictions;
+            }
             restrictions = restrictionStr.Split(new Char[] { ';' });
             if (restrictions.Length > 0)
             {

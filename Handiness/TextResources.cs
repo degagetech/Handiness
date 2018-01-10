@@ -19,7 +19,7 @@ namespace Handiness
     internal class TextResources
     {
         //名称格式
-        internal const String PatternOfALDllName = "Handiness.*.dll";
+        internal const String PatternOfALDllName = "Handiness*.dll";
 
         //错误信息
         internal const String ErrorOfALNameGuidWithEmpty = "数据库适配层guid为空";

@@ -38,9 +38,9 @@
             this.scutcheon2 = new Concision.Controls.Scutcheon();
             this.scutcheon3 = new Concision.Controls.Scutcheon();
             this._txtNameSpace = new System.Windows.Forms.TextBox();
-            this._txtConnectionString = new System.Windows.Forms.TextBox();
             this._eprNamesapce = new System.Windows.Forms.ErrorProvider(this.components);
             this._eprConnectionString = new System.Windows.Forms.ErrorProvider(this.components);
+            this._cbConnectionString = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this._eprNamesapce)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._eprConnectionString)).BeginInit();
             this.SuspendLayout();
@@ -200,16 +200,6 @@
             this._txtNameSpace.TabIndex = 14;
             this._txtNameSpace.Validating += new System.ComponentModel.CancelEventHandler(this._txtNameSpace_Validating);
             // 
-            // _txtConnectionString
-            // 
-            this._txtConnectionString.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._txtConnectionString.Location = new System.Drawing.Point(140, 130);
-            this._txtConnectionString.Name = "_txtConnectionString";
-            this._txtConnectionString.Size = new System.Drawing.Size(436, 26);
-            this._txtConnectionString.TabIndex = 15;
-            this._txtConnectionString.Text = "server=XX;Port=XX;Uid=XX;Pwd=XX;DataBase=XX;Pooling=true;charset=utf8;";
-            this._txtConnectionString.Validating += new System.ComponentModel.CancelEventHandler(this._txtConnectionString_Validating);
-            // 
             // _eprNamesapce
             // 
             this._eprNamesapce.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.AlwaysBlink;
@@ -220,12 +210,32 @@
             this._eprConnectionString.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.AlwaysBlink;
             this._eprConnectionString.ContainerControl = this;
             // 
+            // _cbConnectionString
+            // 
+            this._cbConnectionString.FormattingEnabled = true;
+            this._cbConnectionString.Items.AddRange(new object[] {
+            "SQL Server：[Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj-;Initial Catalog=bi" +
+                "obank;]",
+            "Oracle：[Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.1" +
+                "68.182.104)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=test)));User Id=wlj;Password" +
+                "=932444208]",
+            "MySQL：[server=117.47.197.48;Port=3306;Uid=root;Pwd=123456;DataBase=handinessorm;P" +
+                "ooling=true;charset=utf8;]",
+            "SQLite：[Data Source=.\\test.db;UTF8Encoding=True;]"});
+            this._cbConnectionString.Location = new System.Drawing.Point(140, 133);
+            this._cbConnectionString.Name = "_cbConnectionString";
+            this._cbConnectionString.Size = new System.Drawing.Size(436, 25);
+            this._cbConnectionString.TabIndex = 15;
+            this._cbConnectionString.SelectionChangeCommitted += new System.EventHandler(this._cbConnectionString_SelectionChangeCommitted);
+            this._cbConnectionString.SelectedValueChanged += new System.EventHandler(this._cbConnectionString_SelectedValueChanged);
+            this._cbConnectionString.TextChanged += new System.EventHandler(this._cbConnectionString_TextChanged);
+            // 
             // SettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(596, 235);
-            this.Controls.Add(this._txtConnectionString);
+            this.Controls.Add(this._cbConnectionString);
             this.Controls.Add(this._txtNameSpace);
             this.Controls.Add(this.scutcheon3);
             this.Controls.Add(this.scutcheon2);
@@ -255,8 +265,8 @@
         private Concision.Controls.Scutcheon scutcheon2;
         private Concision.Controls.Scutcheon scutcheon3;
         private System.Windows.Forms.TextBox _txtNameSpace;
-        private System.Windows.Forms.TextBox _txtConnectionString;
         private System.Windows.Forms.ErrorProvider _eprNamesapce;
         private System.Windows.Forms.ErrorProvider _eprConnectionString;
+        private System.Windows.Forms.ComboBox _cbConnectionString;
     }
 }

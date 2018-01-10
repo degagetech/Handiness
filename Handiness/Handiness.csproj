@@ -70,6 +70,8 @@
     <Compile Include="Services\InstanceExportService.cs" />
     <Compile Include="Services\ServicesFactory.cs" />
     <Compile Include="SQLNode\SQLNodeType.cs" />
+    <Compile Include="SQLServer\SQLServerAdaptiveExplain.cs" />
+    <Compile Include="SQLServer\SQLServerMetadataProvider.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TextResources.cs" />
     <Compile Include="ToolKit.cs" />

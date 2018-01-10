@@ -505,18 +505,22 @@ namespace Handiness.CodeBuild
 
         private void _sylSetting_Click(object sender, EventArgs e)
         {
+            SettingForm form = new SettingForm(this.BuildAssistPacket);
+
+            if (DialogResult.OK == form.ShowDialog())
+            {
+                ConfigurationAssistor.ConnectionString = this.BuildAssistPacket.ConnectionString;
+            }
+        }
+        protected void LoadMetadata()
+        {
             IMetadataProvider provider = this._cbxMetadataProvider.SelectedValue as IMetadataProvider;
             if (provider == null)
             {
                 this.OnMetadataBuildingStatusChanged(MetadataBuildingStatus.NotFoundMetadata);
                 return;
             }
-            SettingForm form = new SettingForm(this.BuildAssistPacket);
-            if (DialogResult.OK == form.ShowDialog())
-            {
-                this.BuildingMetadata(provider);
-                ConfigurationAssistor.ConnectionString = this.BuildAssistPacket.ConnectionString;
-            }
+            this.BuildingMetadata(provider);
         }
         private void DrawTipInfo(String text)
         {
@@ -752,6 +756,11 @@ namespace Handiness.CodeBuild
                 }
             }
 
+        }
+
+        private void _symbolConnection_Click(object sender, EventArgs e)
+        {
+            this.LoadMetadata();
         }
     }
 }
