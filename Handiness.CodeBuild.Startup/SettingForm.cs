@@ -95,15 +95,7 @@ namespace Handiness.CodeBuild
 
         private void _cbConnectionString_SelectedValueChanged(object sender, EventArgs e)
         {
-            String connStr = this._cbConnectionString.Text.Trim();
-            var match= Regex.Match(connStr, "\\[[\\s\\S]+\\]");
-            if (match.Success)
-            {
-                connStr = match.Value.Trim();
-                connStr = connStr.TrimStart('[');
-                connStr = connStr.TrimEnd(']');
-                this._cbConnectionString.Text = connStr;
-            }
+            
         }
 
         private void _cbConnectionString_TextChanged(object sender, EventArgs e)

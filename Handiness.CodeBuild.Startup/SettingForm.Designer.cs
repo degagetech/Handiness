@@ -214,21 +214,18 @@
             // 
             this._cbConnectionString.FormattingEnabled = true;
             this._cbConnectionString.Items.AddRange(new object[] {
-            "SQL Server：[Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj-;Initial Catalog=bi" +
-                "obank;]",
-            "Oracle：[Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.1" +
-                "68.182.104)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=test)));User Id=wlj;Password" +
-                "=932444208]",
-            "MySQL：[server=117.47.197.48;Port=3306;Uid=root;Pwd=123456;DataBase=handinessorm;P" +
-                "ooling=true;charset=utf8;]",
-            "SQLite：[Data Source=.\\test.db;UTF8Encoding=True;]"});
-            this._cbConnectionString.Location = new System.Drawing.Point(140, 133);
+            "SQL Server：Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj-;Initial Catalog=bio" +
+                "bank;",
+            "Oracle：Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.16" +
+                "8.182.104)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=test)));User Id=wlj;Password=" +
+                "932444208",
+            "MySQL：server=117.47.197.48;Port=3306;Uid=root;Pwd=123456;DataBase=handinessorm;Po" +
+                "oling=true;charset=utf8;]",
+            "SQLite：Data Source=.\\test.db;UTF8Encoding=True;"});
+            this._cbConnectionString.Location = new System.Drawing.Point(140, 130);
             this._cbConnectionString.Name = "_cbConnectionString";
             this._cbConnectionString.Size = new System.Drawing.Size(436, 25);
             this._cbConnectionString.TabIndex = 15;
-            this._cbConnectionString.SelectionChangeCommitted += new System.EventHandler(this._cbConnectionString_SelectionChangeCommitted);
-            this._cbConnectionString.SelectedValueChanged += new System.EventHandler(this._cbConnectionString_SelectedValueChanged);
-            this._cbConnectionString.TextChanged += new System.EventHandler(this._cbConnectionString_TextChanged);
             // 
             // SettingForm
             // 
