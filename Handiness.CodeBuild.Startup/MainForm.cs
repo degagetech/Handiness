@@ -545,6 +545,10 @@ namespace Handiness.CodeBuild
                          IEnumerable<ColumnSchema> colSchemas = provider.GetColumnSchemas(tableSchema.Name);
                          schemaList.Add(Tuple.Create(tableSchema, colSchemas));
                      }
+                     schemaList.Sort((t, t1) =>
+                     {
+                         return String.Compare(t.Item1.Name, t1.Item1.Name);
+                     });
                  }
                  catch (Exception exc)
                  {

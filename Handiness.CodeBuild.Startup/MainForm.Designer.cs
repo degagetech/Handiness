@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this._wbtnClose = new Concision.Controls.WindowsButton();
             this._lineTop = new Concision.Controls.Line();
             this._sylStepStatus = new Concision.Controls.Symbol();
@@ -46,7 +46,6 @@
             this._cbxMapType = new Concision.Controls.ConcisionCombobox();
             this._cbxNameFormat = new Concision.Controls.ConcisionCombobox();
             this._cbxActiveProject = new Concision.Controls.ConcisionCombobox();
-            this._pnlMetadataContainer = new Concision.Controls.Panel();
             this._dgvTableSchema = new System.Windows.Forms.DataGridView();
             this._trvSchema = new System.Windows.Forms.TreeView();
             this._sylSetting = new Concision.Controls.Symbol();
@@ -55,6 +54,7 @@
             this._btnCannel = new Concision.Controls.ConcisionButton();
             this._lblTip = new System.Windows.Forms.Label();
             this._tipTable = new System.Windows.Forms.ToolTip(this.components);
+            this._symbolConnection = new Concision.Controls.Symbol();
             this._rbProject = new System.Windows.Forms.RadioButton();
             this._rbDirectory = new System.Windows.Forms.RadioButton();
             this._txtDirectory = new System.Windows.Forms.TextBox();
@@ -63,9 +63,12 @@
             this._cbSelected = new System.Windows.Forms.CheckBox();
             this._symbolEditTemplate = new Concision.Controls.Symbol();
             this._symbolEditMapper = new Concision.Controls.Symbol();
-            this._symbolConnection = new Concision.Controls.Symbol();
-            this._pnlMetadataContainer.SuspendLayout();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this._dgvTableSchema)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // _wbtnClose
@@ -371,66 +374,46 @@
             this._cbxActiveProject.Text = "选择附加的项目";
             this._cbxActiveProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // _pnlMetadataContainer
-            // 
-            this._pnlMetadataContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._pnlMetadataContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this._pnlMetadataContainer.BorderColor = System.Drawing.Color.Gray;
-            this._pnlMetadataContainer.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            this._pnlMetadataContainer.BorderWith = 1;
-            this._pnlMetadataContainer.Controls.Add(this._dgvTableSchema);
-            this._pnlMetadataContainer.Controls.Add(this._trvSchema);
-            this._pnlMetadataContainer.EnabledMousePierce = false;
-            this._pnlMetadataContainer.IsDrawBorder = false;
-            this._pnlMetadataContainer.Location = new System.Drawing.Point(306, 61);
-            this._pnlMetadataContainer.Name = "_pnlMetadataContainer";
-            this._pnlMetadataContainer.Size = new System.Drawing.Size(594, 465);
-            this._pnlMetadataContainer.TabIndex = 16;
-            // 
             // _dgvTableSchema
             // 
-            dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvTableSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
-            this._dgvTableSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvTableSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             this._dgvTableSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this._dgvTableSchema.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this._dgvTableSchema.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this._dgvTableSchema.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._dgvTableSchema.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this._dgvTableSchema.ColumnHeadersHeight = 30;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvTableSchema.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvTableSchema.DefaultCellStyle = dataGridViewCellStyle7;
+            this._dgvTableSchema.Dock = System.Windows.Forms.DockStyle.Fill;
             this._dgvTableSchema.GridColor = System.Drawing.SystemColors.ControlLight;
-            this._dgvTableSchema.Location = new System.Drawing.Point(180, 3);
+            this._dgvTableSchema.Location = new System.Drawing.Point(0, 0);
             this._dgvTableSchema.Name = "_dgvTableSchema";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this._dgvTableSchema.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._dgvTableSchema.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this._dgvTableSchema.RowHeadersVisible = false;
             this._dgvTableSchema.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
             this._dgvTableSchema.RowTemplate.Height = 30;
-            this._dgvTableSchema.Size = new System.Drawing.Size(403, 459);
+            this._dgvTableSchema.Size = new System.Drawing.Size(392, 468);
             this._dgvTableSchema.TabIndex = 1;
             // 
             // _trvSchema
@@ -438,7 +421,7 @@
             this._trvSchema.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this._trvSchema.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._trvSchema.CheckBoxes = true;
-            this._trvSchema.Dock = System.Windows.Forms.DockStyle.Left;
+            this._trvSchema.Dock = System.Windows.Forms.DockStyle.Fill;
             this._trvSchema.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this._trvSchema.HotTracking = true;
             this._trvSchema.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
@@ -446,7 +429,7 @@
             this._trvSchema.Name = "_trvSchema";
             this._trvSchema.ShowLines = false;
             this._trvSchema.ShowNodeToolTips = true;
-            this._trvSchema.Size = new System.Drawing.Size(174, 465);
+            this._trvSchema.Size = new System.Drawing.Size(197, 468);
             this._trvSchema.TabIndex = 0;
             this._trvSchema.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this._trvSchema_NodeMouseClick);
             // 
@@ -537,6 +520,24 @@
             this._lblTip.Size = new System.Drawing.Size(500, 17);
             this._lblTip.TabIndex = 19;
             this._lblTip.Text = "##";
+            // 
+            // _symbolConnection
+            // 
+            this._symbolConnection.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._symbolConnection.EnabledMousePierce = false;
+            this._symbolConnection.Font = new System.Drawing.Font("FontAwesome", 15F);
+            this._symbolConnection.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolConnection.Location = new System.Drawing.Point(119, 473);
+            this._symbolConnection.Margin = new System.Windows.Forms.Padding(0);
+            this._symbolConnection.Name = "_symbolConnection";
+            this._symbolConnection.Size = new System.Drawing.Size(35, 34);
+            this._symbolConnection.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this._symbolConnection.SymbolPattern = "";
+            this._symbolConnection.SymbolSize = 15F;
+            this._symbolConnection.TabIndex = 27;
+            this._symbolConnection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._tipTable.SetToolTip(this._symbolConnection, "连接到数据库，并获取元数据信息");
+            this._symbolConnection.Click += new System.EventHandler(this._symbolConnection_Click);
             // 
             // _rbProject
             // 
@@ -639,23 +640,24 @@
             this._symbolEditMapper.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._symbolEditMapper.Click += new System.EventHandler(this._symbolEditMapper_Click);
             // 
-            // _symbolConnection
+            // splitContainer1
             // 
-            this._symbolConnection.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._symbolConnection.EnabledMousePierce = false;
-            this._symbolConnection.Font = new System.Drawing.Font("FontAwesome", 15F);
-            this._symbolConnection.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._symbolConnection.Location = new System.Drawing.Point(119, 473);
-            this._symbolConnection.Margin = new System.Windows.Forms.Padding(0);
-            this._symbolConnection.Name = "_symbolConnection";
-            this._symbolConnection.Size = new System.Drawing.Size(35, 34);
-            this._symbolConnection.SymbolColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this._symbolConnection.SymbolPattern = "";
-            this._symbolConnection.SymbolSize = 15F;
-            this._symbolConnection.TabIndex = 27;
-            this._symbolConnection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._tipTable.SetToolTip(this._symbolConnection, "连接到数据库，并获取元数据信息");
-            this._symbolConnection.Click += new System.EventHandler(this._symbolConnection_Click);
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(292, 61);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this._trvSchema);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this._dgvTableSchema);
+            this.splitContainer1.Size = new System.Drawing.Size(593, 468);
+            this.splitContainer1.SplitterDistance = 197;
+            this.splitContainer1.TabIndex = 28;
             // 
             // MainForm
             // 
@@ -663,6 +665,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(900, 600);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this._symbolConnection);
             this.Controls.Add(this._symbolEditMapper);
             this.Controls.Add(this._symbolEditTemplate);
@@ -674,7 +677,6 @@
             this.Controls.Add(this._lblTip);
             this.Controls.Add(this._sylRefresh);
             this.Controls.Add(this._sylSetting);
-            this.Controls.Add(this._pnlMetadataContainer);
             this.Controls.Add(this._cbxActiveProject);
             this.Controls.Add(this._cbxNameFormat);
             this.Controls.Add(this._cbxMapType);
@@ -693,8 +695,11 @@
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-            this._pnlMetadataContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvTableSchema)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -715,7 +720,6 @@
         private Concision.Controls.ConcisionCombobox _cbxMapType;
         private Concision.Controls.ConcisionCombobox _cbxNameFormat;
         private Concision.Controls.ConcisionCombobox _cbxActiveProject;
-        private Concision.Controls.Panel _pnlMetadataContainer;
         private Concision.Controls.Symbol _sylSetting;
         private Concision.Controls.Symbol _sylRefresh;
         private System.Windows.Forms.TreeView _trvSchema;
@@ -733,5 +737,6 @@
         private Concision.Controls.Symbol _symbolEditTemplate;
         private Concision.Controls.Symbol _symbolEditMapper;
         private Concision.Controls.Symbol _symbolConnection;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
