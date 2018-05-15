@@ -45,7 +45,17 @@ namespace Handiness.Orm
             else
                 this._sqlBuilder.Append(sql);
         }
-
+        /// <summary>
+        /// 清除组件当前的SQL信息，并使用新的SQL填充组件
+        /// </summary>
+        public void ClearSQL(String sql=null)
+        {
+            this._sqlBuilder.Clear();
+            if (sql != null)
+            {
+                this._sqlBuilder.Append(sql);
+            }
+        }
         /// <summary>
         /// 添加指定的 <see cref="DbParameter"/>对象到组件中,空的参数对象并不会被添加
         /// </summary>

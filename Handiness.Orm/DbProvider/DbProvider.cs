@@ -23,10 +23,11 @@ namespace Handiness.Orm
         {
             if (String.IsNullOrEmpty(name))
             {
-                throw new ArgumentNullException(" DbProvider para error：name is null");
+                throw new ArgumentNullException(nameof(name));
             }
             this.Name = name;
             this.ConnectionString = connectionString;
+
         }
         /// <summary>
         ///数据库提供者的名称
@@ -74,7 +75,11 @@ namespace Handiness.Orm
                 ParameterName = name,
                 Value = value
             };
-            //    sqlParameter.DbType = dbType;
+            if (dbType != DbType.Object)
+            {
+                sqlParameter.DbType = dbType;
+            }
+            //   sqlParameter.DbType = dbType;
             return sqlParameter;
         }
         /// <summary>
@@ -93,7 +98,7 @@ namespace Handiness.Orm
         /// <summary>
         /// 创建一个新的事务执行器
         /// </summary>
-        public virtual ITransactionExecutor TransactionExecutor()  => ObjectFactory._.TransactionExecutor(this);
+        public virtual ITransactionExecutor TransactionExecutor() => ObjectFactory._.TransactionExecutor(this);
     }
 
 }

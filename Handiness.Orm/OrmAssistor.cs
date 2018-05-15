@@ -1,6 +1,6 @@
 ﻿
 using System;
-using System.Data.SQLite;
+
 using System.Threading;
 namespace Handiness.Orm
 {
@@ -9,7 +9,20 @@ namespace Handiness.Orm
     /// </summary>
     public static class OrmAssistor
     {
-#if SQLITE_ENABLE
+
+        internal static String BuildColumnName(ColumnSchema schema, String freeFormat, String tableName = null)
+        {
+            String result = schema.Name;
+            result = String.Format(freeFormat, schema.Name);
+            if (!schema.DisableColumnSpecifically && tableName != null)
+            {
+                result = String.Format(CommonFormat.COLUMN_FORMAT, tableName, result);
+            }
+            return result;
+        }
+
+#if SQLITE_ENABLE_
+        using System.Data.SQLite;
         private readonly static String _SQLiteConnectionstringFormat = "Data Source={0};UTF8Encoding=True;";
         public static String FetchSQLiteConnectionString(String path) => String.Format(_SQLiteConnectionstringFormat, path);
         /// <summary>
@@ -25,10 +38,13 @@ namespace Handiness.Orm
 
         /// <summary>
         /// 查询指定的字符串中是否含有指定的SQL关键词
+        /// 
+        /// 
+        /// 
         /// </summary>
         internal static Boolean HasSqlKeyword(String sql, String keyword) => (-1 != sql?.ToLower().IndexOf(keyword.ToLower()));
 
-     
+
 
     }
 }

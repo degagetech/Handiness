@@ -6,31 +6,46 @@ using System.Text;
 using System.Reflection;
 namespace Handiness.Orm
 {
-    /// <summary>
-    ///用于将Lambda表达式转换成SQL语句
-    /// </summary>
-    public class LambdaToSqlConverter<T> where T : class
+    public class KnownExtendMethodNames
     {
+        public const String Contains = "Contains";
+        public const String Like = "Like";
+        public const String StartLike = "StartLike";
+        public const String EndLike = "EndLike";
+
         /// <summary>
         /// 方法名称与SQL关键词的映射
         /// </summary>
-        internal static Dictionary<String, String> MethodNameMapTable = new Dictionary<String, String>
+        internal static Dictionary<String, String> _ExtendMethodFormatDict = new Dictionary<String, String>
         {
-            { "Contains",SqlKeyWord.LIKE},
-            { "Like",SqlKeyWord.LIKE}
+            { KnownExtendMethodNames.Contains,"{0} LIKE '%'+{1}+'%' "},
+            { KnownExtendMethodNames.Like,"{0} LIKE '%'+{1}+'%' "},
+            { KnownExtendMethodNames.StartLike,"{0} LIKE {1}+'%' "},
+            { KnownExtendMethodNames.EndLike,"{0} LIKE '%'+{1}"}
         };
-        /// <summary>
-        /// 方法表达式解析委托映射表 ，Key方法名称
-        /// </summary>
-        internal static Dictionary<String, Action<DbProvider,
-            MethodCallExpression, SQLComponent, Dictionary<String, SchemaCache>>>
+        public static Boolean IsMethodSupport(String methodName)
+        {
+            return _ExtendMethodFormatDict.ContainsKey(methodName);
+        }
 
-            ExpressionAnalyzingMapTable =
-            new Dictionary<String, Action<DbProvider, MethodCallExpression, SQLComponent, Dictionary<String, SchemaCache>>>
-            {
-                { "Contains",AnalyzingLikeMethodExpression },
-                {"Like", AnalyzingLikeMethodExpression}
-            };
+        public static String GetFormat(String methodName)
+        {
+            return _ExtendMethodFormatDict[methodName];
+        }
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <param name="format"> {0} {1}  0 会被填充列名， 1 会被填充参数名</param>
+        /// <returns></returns>
+        public static void SetFormt(String methodName, String format)
+        {
+            _ExtendMethodFormatDict[methodName] = format;
+        }
+    }
+    public class LambdaToSqlConverter
+    {
+      
         /// <summary>
         /// 表达式类型符号与SQL符号的映射
         /// </summary>
@@ -48,10 +63,11 @@ namespace Handiness.Orm
 
 
 
+
         /// <summary>
         /// 提取表达式包含的Value
         /// </summary>
-        private static Object ExtractExpressionContainValue(Expression expression)
+        internal static Object ExtractExpressionContainValue(Expression expression)
         {
             Object value = null;
             switch (expression.NodeType)
@@ -105,13 +121,27 @@ namespace Handiness.Orm
             return isBranch;
         }
 
-        /// <summary>
-        /// 通过方法名称获取对应的SQL关键词
+
+    }
+    /// <summary>
+    ///用于将Lambda表达式转换成SQL语句
+    /// </summary>
+    public class LambdaToSqlConverter<T> : LambdaToSqlConverter where T : class
+    {
+        ///<summary>
+        /// 方法表达式解析委托映射表 ，Key方法名称
         /// </summary>
-        internal static String GetSqlKeyWord(String methodName)
-        {
-            return MethodNameMapTable[methodName];
-        }
+        internal static Dictionary<String, Action<DbProvider,
+            MethodCallExpression, SQLComponent, Dictionary<String, SchemaCache>>>
+
+            ExpressionAnalyzingMapTable =
+            new Dictionary<String, Action<DbProvider, MethodCallExpression, SQLComponent, Dictionary<String, SchemaCache>>>
+            {
+                {KnownExtendMethodNames.Contains,AnalyzingLikeMethodExpression },
+                {KnownExtendMethodNames.Like, AnalyzingLikeMethodExpression},
+                {KnownExtendMethodNames.StartLike, AnalyzingLikeMethodExpression},
+                {KnownExtendMethodNames.EndLike, AnalyzingLikeMethodExpression}
+            };
         /// <summary>
         /// 获取方法名称对应的表达式解析委托
         /// </summary>
@@ -129,7 +159,7 @@ namespace Handiness.Orm
             NewExpression newExpression = selector.Body as NewExpression;
             if (newExpression.Arguments == null || newExpression.Arguments.Count <= 0)
             {
-                throw new ArgumentException("Select column can not be empty!");
+                throw new ArgumentException(nameof(selector));
             }
 
             MemberExpression memberExpression = null;
@@ -160,7 +190,7 @@ namespace Handiness.Orm
             MemberInitExpression memberInitExpression = regenerator.Body as MemberInitExpression;
             if (memberInitExpression?.Bindings == null || memberInitExpression.Bindings.Count <= 0)
             {
-                throw new ArgumentException("Invalid update expression!");
+                throw new ArgumentException(nameof(regenerator));
             }
 
             StringBuilder updateColumnNames = new StringBuilder();
@@ -175,29 +205,20 @@ namespace Handiness.Orm
                 DbParameter dbParameter = dbProvider.DbParameter
                     (
                             parameterName,
-                            ExtractExpressionContainValue(memberAssignment.Expression) ?? DBNull.Value
+                            ExtractExpressionContainValue(memberAssignment.Expression) ?? DBNull.Value,
+                            colSchema.DbType
                     );
                 /*.................拼接更新的SQL.................*/
-                updateColumnNames.Append(String.Format(dbProvider.ConflictFreeFormat, columnName));
+                updateColumnNames.Append(OrmAssistor.BuildColumnName(colSchema, dbProvider.ConflictFreeFormat, Table<T>.Schema.TableName));
                 updateColumnNames.Append(SqlKeyWord.EQUAL);
                 updateColumnNames.Append(parameterName);
+                updateColumnNames.Append(SqlKeyWord.COMMA);
                 component.AddParameter(dbParameter);
             }
             updateColumnNames.Remove(updateColumnNames.Length - SqlKeyWord.COMMA.Length, SqlKeyWord.COMMA.Length);
 
             component.AppendSQLFormat(BasicSqlFormat.UPDATE_FORMAT, Table<T>.Schema.TableName, updateColumnNames.ToString());
         }
-        /// <summary>
-        /// 解析方法表达式
-        /// </summary>
-        internal static void AnalyzingMethodExpression(DbProvider dbProvider, MethodCallExpression callExpression, SQLComponent component,
-            Dictionary<String, SchemaCache> schemaDict = null)
-        {
-            String methodName = callExpression.Method.Name;
-            var analyingAction = GetAnalyzingAction(methodName);
-            analyingAction.Invoke(dbProvider, callExpression, component, schemaDict);
-        }
-
 
         /// <summary>
         /// 解析Contains、Like方法表达式，类似于 t.Id.Like("XXX") t.Id.Contains("XXX")
@@ -207,13 +228,16 @@ namespace Handiness.Orm
         /// <param name="component"></param>
         /// <param name="schemaDict"></param>
         internal static void AnalyzingLikeMethodExpression(DbProvider dbProvider, MethodCallExpression callExpression, SQLComponent component,
-            Dictionary<String, SchemaCache> schemaDict = null)
+            Dictionary<String, SchemaCache> schemaDict)
         {
-            SchemaCache schema = Table<T>.Schema;
             String methodName = callExpression.Method.Name;
+            if (!KnownExtendMethodNames.IsMethodSupport(methodName))
+            {
+                throw new ArgumentException(nameof(callExpression));
+            }
             String className = String.Empty;
             String propertyName = String.Empty;
-            String symbol = String.Empty;
+            String format = String.Empty;
             Object value = null;
             //调用类型本身提供的方法，方法表达式的调用对象就可提供成员信息
             MemberExpression memberExpression = callExpression.Object as MemberExpression;
@@ -229,34 +253,42 @@ namespace Handiness.Orm
             {
                 value = ExtractExpressionContainValue(callExpression.Arguments[0]);
             }
-            symbol = MethodNameMapTable[callExpression.Method.Name];
+            format = KnownExtendMethodNames.GetFormat(callExpression.Method.Name);
             propertyName = memberExpression.Member.Name;
             className = memberExpression.Member.DeclaringType.Name;
-            if (schemaDict != null)
-            {
-                schema = schemaDict[className];
-            }
+            SchemaCache schema = schemaDict[className];
 
-            String columnName = schema[propertyName];
-            String parameterName = dbProvider.Prefix + columnName + ParaCounter<Object>.CountStr;
+            var colSchema = schema.GetColumnSchema(propertyName);
+            String columnName = colSchema.Name;
+            String parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
             DbParameter parameter = dbProvider.DbParameter(
                  parameterName,
-                 value ?? DBNull.Value
+                 value ?? DBNull.Value,
+                 colSchema.DbType
                 );
-            columnName = String.Format(dbProvider.ConflictFreeFormat, columnName);
-            columnName = String.Format(CommonFormat.COLUMN_FORMAT, schema.TableName, columnName);
 
-            component.AppendSQL(columnName);
-            component.AppendSQL(symbol);
-            component.AppendSQL(parameter.ParameterName);
+            columnName = OrmAssistor.BuildColumnName(colSchema, dbProvider.ConflictFreeFormat, schema.TableName);
+            String sql = String.Format(format, columnName, parameter.ParameterName);
+            component.AppendSQL(sql);
             component.AddParameter(parameter);
         }
+        /// <summary>
+        /// 解析方法表达式
+        /// </summary>
+        internal static void AnalyzingMethodExpression(DbProvider dbProvider, MethodCallExpression callExpression, SQLComponent component,
+            Dictionary<String, SchemaCache> schemaDict)
+        {
+            String methodName = callExpression.Method.Name;
+            var analyingAction = GetAnalyzingAction(methodName);
+            analyingAction.Invoke(dbProvider, callExpression, component, schemaDict);
+        }
+
         /// <summary>
         /// 解析表达式树，并将解析结果填充到指定的 <see cref="SQLComponent"/> 对象中
         /// </summary>
         internal static void AnalyzingExpressionTree(DbProvider dbProvider, Expression expression,
             SQLComponent component,
-            Dictionary<String, SchemaCache> schemaDict = null)
+            Dictionary<String, SchemaCache> schemaDict)
         {
             if (IsBranchNode(expression))
             {
@@ -269,7 +301,7 @@ namespace Handiness.Orm
                     BinaryExpression binaryExpression = expression as BinaryExpression;
                     if (!IsBranchNode(binaryExpression.Left))
                     {
-                        SchemaCache schema = Table<T>.Schema;
+                        SchemaCache schema = null;
                         String propertyName = String.Empty;
                         String className = String.Empty;
                         String symbol = String.Empty;
@@ -278,9 +310,10 @@ namespace Handiness.Orm
                         Boolean isEqual = false;
                         MemberExpression memberExpression = binaryExpression.Left as MemberExpression;
                         MemberExpression rightMemberExpression = null;
+                        String rightClassName = null;
                         if (memberExpression == null || memberExpression.Member.MemberType != MemberTypes.Property)
                         {
-                            throw new Exception("where expression tree error");
+                            throw new ArgumentException(nameof(expression));
                         }
                         propertyName = memberExpression.Member.Name;
                         symbol = GetSymbol(binaryExpression.NodeType);
@@ -294,11 +327,12 @@ namespace Handiness.Orm
                         {
                             rightMemberExpression = binaryExpression.Right as MemberExpression;
                             isEqual = rightMemberExpression.Member.MemberType == memberExpression.Member.MemberType;
+                            rightClassName = rightMemberExpression.Member.DeclaringType.Name;
                         }
-                        if (schemaDict != null && isEqual)
+                        if (schemaDict != null && isEqual && schemaDict.Count>1 && schemaDict.ContainsKey(rightClassName))
                         {
                             //关联查询时  例如 t.XX==t1.XX 这种表达式的解析
-                            String rightClassName = rightMemberExpression.Member.DeclaringType.Name;
+
                             String rightPropertyName = rightMemberExpression.Member.Name;
                             SchemaCache rightSchema = schemaDict[rightClassName];
                             String innerSymbol = GetSymbol(binaryExpression.NodeType);
@@ -306,12 +340,10 @@ namespace Handiness.Orm
                             String leftColumnName = schema[propertyName];
                             String rightColumnName = rightSchema[rightPropertyName];
 
-                            leftColumnName = String.Format(dbProvider.ConflictFreeFormat, leftColumnName);
-                            leftColumnName = String.Format(CommonFormat.COLUMN_FORMAT, schema.TableName, leftColumnName);
+                            leftColumnName =OrmAssistor.BuildColumnName(schema.GetColumnSchema(propertyName), dbProvider.ConflictFreeFormat, schema.TableName);
 
+                            rightColumnName = OrmAssistor.BuildColumnName(rightSchema.GetColumnSchema(rightPropertyName), dbProvider.ConflictFreeFormat, rightSchema.TableName);
 
-                            rightColumnName = String.Format(dbProvider.ConflictFreeFormat, rightColumnName);
-                            rightColumnName = String.Format(CommonFormat.COLUMN_FORMAT, rightSchema.TableName, rightColumnName);
 
                             component.AppendSQL(leftColumnName);
                             component.AppendSQL(innerSymbol);
@@ -322,13 +354,14 @@ namespace Handiness.Orm
                         else
                         {
                             value = ExtractExpressionContainValue(binaryExpression.Right);
-                            String columnName = schema[propertyName];
-                            String parameterName = dbProvider.Prefix + columnName + ParaCounter<Object>.CountStr;
-                            columnName = String.Format(dbProvider.ConflictFreeFormat, columnName);
-                            columnName = String.Format(CommonFormat.COLUMN_FORMAT, schema.TableName, columnName);
+                            var colSchema = schema.GetColumnSchema(propertyName);
+                            String columnName = colSchema.Name;
+                            String parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
+                            columnName=OrmAssistor.BuildColumnName(colSchema, dbProvider.ConflictFreeFormat, schema.TableName);
                             DbParameter parameter = dbProvider.DbParameter(
                                  parameterName,
-                                 value ?? DBNull.Value
+                                 value ?? DBNull.Value,
+                                 colSchema.DbType
                                 );
                             component.AppendSQL(columnName);
                             component.AppendSQL(symbol);
@@ -356,7 +389,12 @@ namespace Handiness.Orm
         public static void WhereConvert(DbProvider provider, Expression<Func<T, Boolean>> predicate, SQLComponent component)
         {
             Expression body = predicate.Body;
-            AnalyzingExpressionTree(provider, body, component);
+
+            AnalyzingExpressionTree(provider, body, component,
+                new Dictionary<String, SchemaCache>
+                {
+                    { Table<T>.Schema.Type.Name, Table<T>.Schema }
+                });
         }
         public static void JoinOn<T1>(DbProvider provider, Expression<Func<T, T1, Boolean>> predicate, SQLComponent component) where T1 : class
         {

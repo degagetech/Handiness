@@ -36,7 +36,18 @@ namespace Handiness.Orm
         /// 逗号
         /// </summary>
         public const String COMMA = ",";
-
+        /// <summary>
+        /// 加号
+        /// </summary>
+        public const String PLUS = "+";
+        /// <summary>
+        /// 减号
+        /// </summary>
+        public const String MINUS = "-";
+        /// <summary>
+        /// 百分号
+        /// </summary>
+        public const String PERCENT = "%";
         /// <summary>
         /// 大于等于
         /// </summary>
@@ -74,6 +85,6 @@ namespace Handiness.Orm
         /// 分号
         /// </summary>
         public const String SEMICOLON = "; ";
-     
+
     }
 }

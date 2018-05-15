@@ -1,5 +1,5 @@
 ﻿
-#if SQLITE_ENABLE
+#if SQLITE_ENABLE_NO
 using System;
 using System.Data.SQLite;
 using System.Data.Common;
@@ -40,6 +40,10 @@ namespace Handiness.Orm
         public override DbParameter DbParameter(String name = null, Object value = null, DbType dbType = DbType.Object)
         {
             SQLiteParameter parameter = new SQLiteParameter(name, value);
+            if (dbType != DbType.Object)
+            {
+                parameter.DbType = dbType;
+            }
             return parameter;
         }
         public override String Prefix

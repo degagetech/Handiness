@@ -12,6 +12,7 @@ namespace Handiness.Orm
     public interface ISelectVector<T> : IDisposable
     {
 
+        DataSet ToDataSet();
         DataTable ToDataTable();
 
         /// <summary>

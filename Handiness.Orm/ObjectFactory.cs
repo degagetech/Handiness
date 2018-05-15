@@ -34,10 +34,11 @@ namespace Handiness.Orm
         /// <summary>
         /// 返回一个实现查询容器的类的对象
         /// </summary>
-        public ISelectVector<T> SelectVector<T>(IDriver<T> driver, DbConnection connection) where T : class
+        public ISelectVector<T> SelectVector<T>(IDriver<T> driver, DbConnection connection,DbTransaction transaction=null) where T : class
         {
-            return new SelectVector<T>(driver, connection);
+            return new SelectVector<T>(driver, connection, transaction);
         }
+
         /// <summary>
         /// 返回一个实现传动器接口的类的对象
         /// </summary>

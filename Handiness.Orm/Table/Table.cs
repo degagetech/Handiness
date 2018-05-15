@@ -16,7 +16,7 @@ namespace Handiness.Orm
             this.DbProvider = dbProvider;
         }
     }
-    public class Table<T>:Table where T : class
+    public class Table<T> : Table where T : class
     {
         /// <summary>
         /// 表结构信息缓存
@@ -24,18 +24,19 @@ namespace Handiness.Orm
         public static SchemaCache Schema { get; } = GetSchemaCache();
         public static InstanceCreator<T> Creator = new InstanceCreator<T>();
 
+  
         public static SchemaCache GetSchemaCache()
         {
             return SchemaCacheBuilder.CreateByAttribute(typeof(T));
         }
 
-        public Table(DbProvider dbProvider):base(dbProvider)
+        public Table(DbProvider dbProvider) : base(dbProvider)
         {
 
         }
     }
 
-  
+
     /******************************************/
-  
+
 }

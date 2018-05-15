@@ -71,6 +71,8 @@ namespace Handiness.Orm
         /// </summary>
         public Int32 BuildingSetPropertyCache(PropertyInfo info)
         {
+
+            //(Object instance,Object value)=>((ReflectedType)instance).Set_XXX((PropertyType)value);
             MethodInfo method = info.GetSetMethod();
             Type objectType = typeof(Object);
             ParameterExpression instanceExp = Expression.Parameter(objectType, "instance");
@@ -87,16 +89,15 @@ namespace Handiness.Orm
         /// </summary>
         public Int32 BuildingGetPropertyCache(PropertyInfo info)
         {
+
+            //(Object instance)=>(Object)((ReflectedType)instance).Get_XXX();
+
             MethodInfo methodInfo = info.GetGetMethod();
             Type objectType = typeof(Object);
             ParameterExpression instanceExp = Expression.Parameter(objectType, "instance");
-
             UnaryExpression instanceCastExp = Expression.Convert(instanceExp, info.ReflectedType);
-
             MethodCallExpression invokeExp = Expression.Call(instanceCastExp, methodInfo);
-
             UnaryExpression resultCastExp = Expression.Convert(invokeExp, objectType);
-
             Func<Object, Object> handler = Expression.Lambda<Func<Object, Object>>(resultCastExp, instanceExp).Compile();
             this._getterCache[this._getterCacheCount] = handler;
             return this._getterCacheCount++;

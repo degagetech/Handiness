@@ -31,14 +31,16 @@ namespace Handiness.Orm
             for (Int32 i = 0; i < length; ++i)
             {
                 PropertyInfo info = Table<T>.Schema.PropertyInfos[i];
-                columnName = Table<T>.Schema[info.Name];
+                var colSchema = Table<T>.Schema.GetColumnSchema(info.Name);
+                columnName = colSchema.Name;
                 value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
                 //主键、默认值、可空判断
                 parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
 
                 dbParameter = dbProvider.DbParameter(
-                  parameterName,
-                    value ?? DBNull.Value);
+                     parameterName,
+                     value ?? DBNull.Value,
+                     colSchema.DbType);
                 columnNames.Append(String.Format(dbProvider.ConflictFreeFormat, columnName));
                 parameterNames.Append(dbParameter.ParameterName);
                 if (i != (length - 1))
@@ -70,7 +72,8 @@ namespace Handiness.Orm
                 DbParameter dbParameter = dbProvider.DbParameter
                     (
                             parameterName,
-                            value ?? DBNull.Value
+                            value ?? DBNull.Value,
+                            colSchema.DbType
                     );
                 updateColumnNames.Append(String.Format(dbProvider.ConflictFreeFormat, columnName));
                 updateColumnNames.Append(SqlKeyWord.EQUAL);
@@ -78,7 +81,7 @@ namespace Handiness.Orm
                 updateColumnNames.Append(SqlKeyWord.COMMA);
                 component.AddParameter(dbParameter);
             }
-            updateColumnNames.Remove(updateColumnNames.Length- SqlKeyWord.COMMA.Length, SqlKeyWord.COMMA.Length);
+            updateColumnNames.Remove(updateColumnNames.Length - SqlKeyWord.COMMA.Length, SqlKeyWord.COMMA.Length);
             component.AppendSQLFormat(BasicSqlFormat.UPDATE_FORMAT, Table<T>.Schema.TableName, updateColumnNames.ToString());
         }
         public static void InsertConvert(DbProvider dbProvider, T obj, SQLComponent component)
@@ -94,11 +97,12 @@ namespace Handiness.Orm
             for (Int32 i = 0; i < length; ++i)
             {
                 PropertyInfo info = Table<T>.Schema.PropertyInfos[i];
-                columnName = Table<T>.Schema[info.Name];
+                var colSchema = Table<T>.Schema.GetColumnSchema(info.Name);
+                columnName = colSchema.Name;
                 value = Table<T>.Schema.PropertyAccessor.GetValue(i, obj);
                 if (value == null) continue;
                 parameterName = dbProvider.Prefix + columnName + ParaCounter<T>.CountStr;
-                dbParameter = dbProvider.DbParameter(parameterName, value ?? DBNull.Value);
+                dbParameter = dbProvider.DbParameter(parameterName, value ?? DBNull.Value, colSchema.DbType);
 
                 columnNames.Append(String.Format(dbProvider.ConflictFreeFormat, columnName));
                 parameterNames.Append(dbParameter.ParameterName);
@@ -107,8 +111,8 @@ namespace Handiness.Orm
                 component.AddParameter(dbParameter);
             }
             Int32 commaLength = SqlKeyWord.COMMA.Length;
-            columnNames.Remove(columnNames.Length- commaLength, commaLength);
-            parameterNames.Remove(parameterNames.Length- commaLength, commaLength);
+            columnNames.Remove(columnNames.Length - commaLength, commaLength);
+            parameterNames.Remove(parameterNames.Length - commaLength, commaLength);
 
             component.AppendSQLFormat(BasicSqlFormat.INSERT_FORMAT,
                 Table<T>.Schema.TableName,

@@ -15,7 +15,7 @@ namespace Handiness.Orm
         /// 执行指定的查询语句，并返回包含查询结果的<see cref="DataTable"/>对象
         /// </summary>
         /// <returns>若参数异常，返回空引用</returns>
-        public static DataTable Query(this Table tableObj, String sql, params DbParameter[] paras)
+        public static DataTable Query(this Table tableObj, String sql, DbParameter[] paras = null, DbConnection connection = null)
         {
             DataTable table = null;
             if (String.IsNullOrEmpty(sql))
@@ -23,8 +23,10 @@ namespace Handiness.Orm
                 return table;
             }
             table = new DataTable();
-            using (DbConnection connection = tableObj.DbProvider.DbConnection())
+            Boolean requiredDispose = connection == null;
+            try
             {
+                connection = connection??tableObj.DbProvider.DbConnection();
                 DbCommand command = tableObj.DbProvider.DbCommand();
                 ExceutePrepare(connection, command, sql, paras);
                 connection.Open();
@@ -32,14 +34,55 @@ namespace Handiness.Orm
                 command.Parameters.Clear();
                 table.Load(dataReader);
             }
+            finally
+            {
+                if (requiredDispose)
+                {
+                    connection.Dispose();
+                }
+            }
             return table;
+        }
+        /// <summary>
+        /// 执行指定的查询语句
+        /// </summary>
+        /// <param name="sql">参数占位需要自己处理</param>
+        /// <param name="paras">参数</param>
+        /// <returns>若无数据，或参数异常则返回一个元素个数为零的链表</returns>
+        public static List<T> Query<T>(this Table tableObj, String sql, DbParameter[] paras = null, DbConnection connection = null) where T : class
+        {
+            List<T> results = new List<T>();
+            if (String.IsNullOrEmpty(sql))
+            {
+                return results;
+            }
+            Boolean requiredDispose = connection == null;
+            try
+            {
+                connection = connection ?? tableObj.DbProvider.DbConnection();
+                DbCommand command = tableObj.DbProvider.DbCommand();
+                ExceutePrepare(connection, command, sql, paras);
+                connection.Open();
+                DbDataReader dataReader = command.ExecuteReader();
+                command.Parameters.Clear();
+                results = DataExtractor<T>.ToList(dataReader);
+            }
+            finally
+            {
+                if (requiredDispose)
+                {
+                    connection.Dispose();
+                }
+            }
+
+            return results;
         }
         public static IDriver<T> DistinctSelect<T>(this Table<T> tableObj, String columnNames = null) where T : class
         {
             String sql = String.Format
                (
                BasicSqlFormat.SELECT_DISTINCT_FORMAT,
-               columnNames ?? GetAllColumnNames<T>(tableObj),
+               columnNames ?? GetColumnNames<T>(tableObj),
                Table<T>.Schema.TableName
                );
 
@@ -63,39 +106,17 @@ namespace Handiness.Orm
             }
             return effect;
         }
-        /// <summary>
-        /// 执行指定的查询语句
-        /// </summary>
-        /// <param name="sql">参数占位需要自己处理</param>
-        /// <param name="paras">参数</param>
-        /// <returns>若无数据，或参数异常则返回一个元素个数为零的链表</returns>
-        public static List<T> Query<T>(this Table tableObj, String sql, params DbParameter[] paras) where T : class
-        {
-            List<T> results = new List<T>();
-            if (String.IsNullOrEmpty(sql))
-            {
-                return results;
-            }
-            using (DbConnection connection = tableObj.DbProvider.DbConnection())
-            {
-                DbCommand command = tableObj.DbProvider.DbCommand();
-                ExceutePrepare(connection, command, sql, paras);
-                connection.Open();
-                DbDataReader dataReader = command.ExecuteReader();
-                command.Parameters.Clear();
-                results = DataExtractor<T>.ToList(dataReader);
-            }
-            return results;
-        }
+
         private static void ExceutePrepare(
             DbConnection connection,
             DbCommand command,
             String sql,
-            params DbParameter[] parameters)
+            DbParameter[] parameters)
         {
             command.Connection = connection;
             command.CommandText = sql;
-            command.Parameters.AddRange(parameters);
+            if (parameters != null && parameters.Length > 0)
+                command.Parameters.AddRange(parameters);
 
         }
         /// <summary>
@@ -137,17 +158,35 @@ namespace Handiness.Orm
             driver.SQLComponent.AppendSQL(sql);
             return driver;
         }
-        public static String GetAllColumnNames<T>(Table tableObj) where T : class
+        /// <summary>
+        /// 获取指定类型的表的包含所有列名信息的字符串，若别名传入 null，表示根据使用默认设置的表名，若传入 <see cref="String.Empty"/>，表示不使用表名前缀
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tableObj"></param>
+        /// <param name="tableAlias"></param>
+        /// <returns></returns>
+        public static String GetColumnNames<T>(this Table<T> tableObj, String tableAlias = null) where T : class
+        {
+            return GetAllColumnNames<T>(tableObj, tableAlias);
+        }
+        public static String GetAllColumnNames<T>(this Table tableObj, String tableAlias = null) where T : class
         {
             StringBuilder builder = new StringBuilder();
-            String tableName = Table<T>.Schema.TableName;
+            String tableName = tableAlias;
+            if (tableAlias == String.Empty)
+            {
+                tableName = null;
+            }
+            else if (tableAlias == null)
+            {
+                tableName = Table<T>.Schema.TableName;
+            }
             Int32 count = Table<T>.Schema.ColumnNames.Count;
             Int32 i = 1;
-            foreach (String columnName in Table<T>.Schema.ColumnNames)
+            foreach (var colSchema in Table<T>.Schema.GetColumnSchemas())
             {
-                builder.AppendFormat(CommonFormat.COLUMN_FORMAT,
-                    tableName,
-                    String.Format(tableObj.DbProvider.ConflictFreeFormat, columnName));
+                String colName = OrmAssistor.BuildColumnName(colSchema, tableObj.DbProvider.ConflictFreeFormat, tableName);
+                builder.AppendFormat(colName);
                 if (i++ != count)
                 {
                     builder.Append(SqlKeyWord.COMMA);
@@ -160,7 +199,7 @@ namespace Handiness.Orm
             String sql = String.Format
                 (
                 BasicSqlFormat.SELECT_FORMAT,
-                GetAllColumnNames<T>(tableObj),
+                GetColumnNames<T>(tableObj),
                 Table<T>.Schema.TableName
                 );
 
@@ -189,6 +228,8 @@ namespace Handiness.Orm
             String columnName = Table<T>.Schema[propertyName];
             return Select<T>(tableObj, columnName);
         }
+
+
         /*.................更新.................*/
         public static IDriver<T> Update<T>(this Table<T> tableObj, Expression<Func<T>> regenerator) where T : class
         {
@@ -210,6 +251,7 @@ namespace Handiness.Orm
             ObjectToSqlConverter<T>.UpdateConvert(tableObj.DbProvider, obj, driver.SQLComponent);
             return driver;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -289,6 +331,57 @@ namespace Handiness.Orm
             connection.Open();
             DbTransaction tansaction = connection.BeginTransaction();
             return tansaction;
+        }
+
+
+        /// <summary>
+        ///  减小指定数值字段的值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tableObj"></param>
+        /// <param name="field"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public static IDriver<T> Decrement<T>(this Table<T> tableObj, Expression<Func<T, Object>> field, Single number = 1) where T : class
+        {
+            IDriver<T> driver = tableObj.DbProvider.Driver<T>();
+
+
+            var expression = (field.Body as UnaryExpression);
+            var mexp = expression.Operand as MemberExpression;
+            if (mexp == null) throw new ArgumentException(nameof(field));
+
+            SchemaCache schema = Table<T>.Schema;
+            var colSchema = schema.GetColumnSchema(mexp.Member.Name);
+            String columnName = OrmAssistor.BuildColumnName(colSchema, tableObj.DbProvider.ConflictFreeFormat, schema.TableName);
+            String setSql = columnName + SqlKeyWord.EQUAL + columnName + SqlKeyWord.MINUS + number.ToString();
+            String sql = String.Format(BasicSqlFormat.UPDATE_FORMAT, schema.TableName, setSql);
+            driver.SQLComponent.AppendSQL(sql);
+            return driver;
+        }
+        /// <summary>
+        /// 增大指定数值字段的值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tableObj"></param>
+        /// <param name="field"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public static IDriver<T> Increment<T>(this Table<T> tableObj, Expression<Func<T, Object>> field, Single number = 1) where T : class
+        {
+            IDriver<T> driver = tableObj.DbProvider.Driver<T>();
+
+
+            var expression = (field.Body as UnaryExpression);
+            var mexp = expression.Operand as MemberExpression;
+            if (mexp == null) throw new ArgumentException(nameof(field));
+            SchemaCache schema = Table<T>.Schema;
+            var colSchema = schema.GetColumnSchema(mexp.Member.Name);
+            String columnName = OrmAssistor.BuildColumnName(colSchema, tableObj.DbProvider.ConflictFreeFormat, schema.TableName);
+            String setSql = columnName + SqlKeyWord.EQUAL + columnName + SqlKeyWord.PLUS + number.ToString();
+            String sql = String.Format(BasicSqlFormat.UPDATE_FORMAT, schema.TableName, setSql);
+            driver.SQLComponent.AppendSQL(sql);
+            return driver;
         }
     }
 }

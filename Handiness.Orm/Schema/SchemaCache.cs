@@ -42,6 +42,10 @@ namespace Handiness.Orm
 
         public PropertyInfo[] PropertyInfos { get; set; }
 
+        public IEnumerable<ColumnSchema> GetColumnSchemas()
+        {
+            return this.ColumnSchemas.Values;
+        }
         /// <summary>
         /// 通过属性名称获取映射的列名称，若无返回空引用
         /// </summary>

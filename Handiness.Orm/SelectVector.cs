@@ -20,7 +20,7 @@ namespace Handiness.Orm
         public IDriver<T> Driver { get; private set; }
 
         public DbConnection Connection { get; private set; }
-
+        public DbTransaction Transaction { get; private set; }
         /// <summary>
         /// 表示是否需要手动关闭Connection
         /// </summary>
@@ -32,11 +32,11 @@ namespace Handiness.Orm
             this._connectionString = connectionString;
             this._needClose = true;
         }
-        public SelectVector(IDriver<T> driver, DbConnection connection)
+        public SelectVector(IDriver<T> driver, DbConnection connection, DbTransaction transaction=null)
         {
             this.Driver = driver;
             this.Connection = connection;
-
+            this.Transaction = transaction;
         }
         public DataTable ToDataTable()
         {
@@ -68,7 +68,7 @@ namespace Handiness.Orm
                 this.Connection = this.Driver.DbProvider.DbConnection(this._connectionString);
                 this.Connection.Open();
             }
-            else if(this.Connection==null)
+            else if (this.Connection == null)
             {
                 this.Connection = this.Driver.DbProvider.DbConnection(this._connectionString);
                 this._needClose = true;
@@ -78,6 +78,10 @@ namespace Handiness.Orm
                   this.Driver.SQLComponent.Parameters.ToArray()
                   );
             command.Connection = this.Connection;
+            if (this.Transaction != null)
+            {
+                command.Transaction = this.Transaction;
+            }
             DbDataReader reader = command.ExecuteReader();
             command.Parameters.Clear();
             return reader;
@@ -91,7 +95,7 @@ namespace Handiness.Orm
             {
                 reader = this.GetReader();
                 result = DataExtractor<T>.ToList(reader);
-           
+
             }
             finally
             {
@@ -107,7 +111,7 @@ namespace Handiness.Orm
         }
         public void Close()
         {
-            if (this._needClose && this.Connection != null && this.Connection.State==ConnectionState.Open)
+            if (this._needClose && this.Connection != null && this.Connection.State == ConnectionState.Open)
             {
                 this.Connection.Close();
                 this.Connection = null;
@@ -122,6 +126,14 @@ namespace Handiness.Orm
             return this.ToList().FirstOrDefault();
         }
 
-     
+        public DataSet ToDataSet()
+        {
+            DataSet result = new DataSet();
+
+            DataTable table = this.ToDataTable();
+            result.Tables.Add(table);
+
+            return result;
+        }
     }
 }

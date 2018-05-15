@@ -50,8 +50,10 @@ namespace Handiness.Orm
         private static ColumnSchema ConvertToColumnSchema(ColumnAttribute attribute)
         {
             ColumnSchema schema = new ColumnSchema();
-            schema.Name = attribute.Name;
+            schema.Name = attribute.Name.Trim();
             schema.IsPrimaryKey = attribute.IsPrimaryKey;
+            schema.DbType = attribute.DbType;
+            schema.DisableColumnSpecifically = attribute.DisableColumnSpecifically;
             return schema;
         }
         /// <summary>

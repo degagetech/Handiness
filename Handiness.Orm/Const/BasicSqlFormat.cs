@@ -8,7 +8,7 @@ namespace Handiness.Orm
     /// <summary>
     /// 提供一系列基础SQL语句的格式字符串
     /// </summary>
-    public class BasicSqlFormat
+    public partial class BasicSqlFormat
     {
         /// <summary>
         /// 查询 0  查询的列名  1 表名
@@ -18,6 +18,7 @@ namespace Handiness.Orm
         /// 查询 0  查询的列名  1 表名
         /// </summary>
         public const String SELECT_DISTINCT_FORMAT = "SELECT DISTINCT {0} FROM {1} ";
+
         /// <summary>
         /// 更新 0 表名 1 设置
         /// </summary>

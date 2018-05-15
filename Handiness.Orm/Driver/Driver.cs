@@ -132,6 +132,11 @@ namespace Handiness.Orm
             ISelectVector<T> selectResultVector = ObjectFactory._.SelectVector<T>(this, connection);
             return selectResultVector;
         }
+        public ISelectVector<T> ExecuteReader(DbConnection connection,DbTransaction transaction)
+        {
+            ISelectVector<T> selectResultVector = ObjectFactory._.SelectVector<T>(this, connection, transaction);
+            return selectResultVector;
+        }
 
         public Object ExecuteScalar(DbConnection connection)
         {

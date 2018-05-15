@@ -9,6 +9,7 @@ namespace Handiness.Orm
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class ColumnAttribute : Attribute
     {
+        public ColumnAttribute() { }
         public ColumnAttribute(String name)
         {
             this.Name = name;
@@ -17,10 +18,8 @@ namespace Handiness.Orm
         ///在数据库中列的名字
         /// </summary>
         public String Name { get; set; }
-        /// <summary>
-        /// 作为参数添加时选择的类型
-        /// </summary>
-        public DbType Type { get; set; }
+ 
+        public DbType DbType { get; set; } =DbType.Object;
         /// <summary>
         /// 是否是主键
         /// </summary>
@@ -33,5 +32,10 @@ namespace Handiness.Orm
         /// 默认值
         /// </summary>
         public Object DefalutValue { get; set; } = null;
+
+        /// <summary>
+        /// 在生成列名时，是否禁用更明确的指示，例如：不使用 表a.name 而是单纯使用 name
+        /// </summary>
+        public Boolean DisableColumnSpecifically { get; set; }
     }
 }
