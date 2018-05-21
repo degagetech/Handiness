@@ -4,10 +4,10 @@
       ~关于循环组格式的编辑说明：循环组中的格式会被应用到所有列上，之后框架将所有套用格式的列信息拼接起来，并填充到
       Body中与循环组Key相关的循环组占位符中，例如 #Test#
      
-     namespace  ##命名空间  例如 ：$namespace$ 在代码生成后会被替换为 Handiness
-      tablename   ##表的名称
-      tableexplain ##表的注释信息
-      classname    ##表的注释信息
+      namespace   ##命名空间  例如 ：$namespace$ 在代码生成后会被替换为 Handiness
+      tablename    ##表的名称
+      tableexplain  ##表的注释信息
+      classname    ##表的类名
       columnname ##列的名称
       propertyname ##属性名称（由列名转换而来）
       fieldname ##字段名称（由属性名转换而来）

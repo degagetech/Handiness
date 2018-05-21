@@ -24,7 +24,8 @@ namespace Handiness.Orm.Test
         static void Main(string[] args)
         {
 
-            DbProvider dbProvider = new SQLiteDbProvider("SQLiteDbProvider", @"Data Source=.\test.db;UTF8Encoding=True;");
+            //  DbProvider dbProvider = new SQLiteDbProvider("SQLiteDbProvider", @"Data Source=.\test.db;UTF8Encoding=True;");
+            DbProvider dbProvider = new DbProvider("test","your connection string");
             Table<Student> table = new Table<Student>(dbProvider);
             CodeTimer.Initialize();
 
