@@ -20,7 +20,7 @@ namespace Handiness2.Schema
         public static SchemaGetType SchemaGetType { get; set; }
 
         /// <summary>
-        /// 强制指定 Schema 信息，当指定 SchemaGetType  属性为非 <see cref="SchemaGetType.AutoDeduce"/> 时，若模型类的 Schema 信息缺失，则抛出异常，若关闭此属性，则框架使用自动推断补全 Schema 信息，此属性默认关闭
+        /// 强制指定 Schema 信息，当指定 SchemaGetType  属 性为非 <see cref="SchemaGetType.AutoDeduce"/> 时，若模型类的 Schema 信息缺失，则抛出异常，若关闭此属性，则框架使用自动推断补全 Schema 信息，此属性默认关闭
         /// </summary>
         public static Boolean IsMandatory { get; set; }
 
@@ -35,11 +35,14 @@ namespace Handiness2.Schema
         }
 
         /// <summary>
-        /// 重新引导框架加载 Schema 信息，此方法暂为支持
+        /// 重新引导框架加载 shcema 信息
+		/// 此方法成功运行后
+		/// 1.会重置框架内存中所有的 schema 信息
+		/// 2.现有的 <see cref="SQLElement"/> 缓存会全部失效
         /// </summary>
         public static void Reboot()
-        {
-            throw new NotImplementedException();
+		{ 
+            throw new NotImplementedException(); 
         }
     }
 }
