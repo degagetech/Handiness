@@ -22,4 +22,5 @@ namespace Handiness2
         /// </summary>
         public DbType Type { get; set; }
     }
+
 }
