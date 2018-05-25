@@ -20,6 +20,15 @@ namespace Handiness2.Schema
         /// </summary>
         public DbType DbType { get; set; } = DbType.Object;
 
+        /// <summary>
+        /// 长度
+        /// </summary>
+        public Int32 Length { get; set; }
+
+        /// <summary>
+        /// 是否可为空
+        /// </summary>
+        public Boolean IsNullable { get; set; } = true;
 
     }
 }
