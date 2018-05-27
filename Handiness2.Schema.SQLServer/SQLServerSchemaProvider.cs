@@ -37,7 +37,7 @@ namespace Handiness2.Schema.SQLServer
         internal const String TableOfDbName = "TABLE_CATALOG";
         internal const String TableOfComment = "TABLE_COMMENT";
 
-        internal static String SQLForTableSachema = $"SELECT a.name as {TableOfName},max(b.[value]) as {TableOfComment} FROM sysobjects a LEFT JOIN sys.extended_properties b ON a.id=b.major_id where a.xtype='U' AND b.minor_id=0   GROUP BY a.name";
+        internal static String SQLForTableSachema = $"SELECT a.name as {TableOfName},max(b.[value]) as {TableOfComment} FROM sysobjects a LEFT JOIN sys.extended_properties b ON a.id=b.major_id AND b.minor_id = 0 where a.xtype='U'   GROUP BY a.name";
         internal static String SQLForTableSachemaWithWhere = $"SELECT a.name as {TableOfName},max(b.[value]) as {TableOfComment} FROM sysobjects a LEFT JOIN sys.extended_properties b ON a.id=b.major_id where a.xtype='U' AND b.minor_id=0  AND a.name=" + "'{0}' GROUP BY a.name";
         internal static String SQLForColumnSchemaWithWhere = $@"SELECT
                             {ColumnOfName}=a.name,

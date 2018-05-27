@@ -8,14 +8,16 @@ namespace Handiness2.Schema.Test
         {
             ProviderFactory factory = new ProviderFactory();
             var provider=factory.LoadSchemProviders().First();
-            provider.Open("Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj+;Initial Catalog=biobank;");
+            provider.Open("Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj+;Initial Catalog=biobank_report;");
 
             foreach (var tableSchema in provider.LoadTableSchemaList())
             {
-                Console.WriteLine("Table:"+tableSchema.Name+" Explain:"+tableSchema.Explain,ConsoleColor.Green);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Table:"+tableSchema.Name+" Explain:"+tableSchema.Explain);
                 foreach (var columnSchema in provider.LoadColumnSchemaList(tableSchema.Name))
                 {
-                    Console.WriteLine("/t Column:" + columnSchema.Name + " Explain:" + tableSchema.Explain, ConsoleColor.Yellow);
+                    Console.ForegroundColor =ConsoleColor.Yellow;
+                    Console.WriteLine("\t Column:" + columnSchema.Name + " Explain:" + columnSchema.Explain);
                 }
             }
 
