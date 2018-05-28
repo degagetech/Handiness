@@ -47,7 +47,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Handiness2.SQLServer", "Han
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Handiness2.Schema.Test", "Handiness2.Schema.Test\Handiness2.Schema.Test.csproj", "{96D51B96-DD77-4A08-9AF6-6FD0C60F688F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handiness2.Schema.Exporter", "Handiness2.Schema.Exporter\Handiness2.Schema.Exporter.csproj", "{F4DA840A-9355-4FE9-AACB-F1BCF6E21636}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Handiness2.Schema.Exporter", "Handiness2.Schema.Exporter\Handiness2.Schema.Exporter.csproj", "{F4DA840A-9355-4FE9-AACB-F1BCF6E21636}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{F4C17339-59F4-4BDB-9839-0CD8B6A73216}"
+	ProjectSection(SolutionItems) = preProject
+		License.md = License.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +152,7 @@ Global
 		{9504693C-B36D-4293-83A8-E75668611573} = {F050011C-DFA4-421E-937E-0D5E3B25C6A5}
 		{96D51B96-DD77-4A08-9AF6-6FD0C60F688F} = {793753D2-F912-4712-9A39-28287760750F}
 		{F4DA840A-9355-4FE9-AACB-F1BCF6E21636} = {793753D2-F912-4712-9A39-28287760750F}
+		{F4C17339-59F4-4BDB-9839-0CD8B6A73216} = {793753D2-F912-4712-9A39-28287760750F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AAA4F27C-872C-483E-BE0C-21E78AB150D9}

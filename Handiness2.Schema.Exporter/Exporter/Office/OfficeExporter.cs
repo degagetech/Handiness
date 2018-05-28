@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using NPOI.HSSF;
+using System.Linq;
+using NPOI.SS.UserModel;
+
 namespace Handiness2.Schema.Exporter
 {
     public class OfficeExporter : BaseExporter
@@ -52,9 +55,34 @@ namespace Handiness2.Schema.Exporter
         #endregion
         public override void ExportSchema(ISchemaProvider provider, String args, Action<Int32, String> callback)
         {
-            //暂时无视参数
+            var command = CommandSerializer<OfficeExportCommand>.DeSerialize(args);
+            this.ExportSchema(provider, command, callback);
+        }
+        public void ExportSchema(ISchemaProvider provider, OfficeExportCommand command, Action<Int32, String> callback)
+        {
+            //使用指定的模板打开 Excel
+            switch (command.Type)
+            {
+                //TODO: 导出结构信息到 Excel
+                default:
+                case OfficeExportCommand.ExportTypeExcel:
+                    {
+                        IWorkbook workbook = OfficeAssistor.OpenExcel(command.Template);
+                        var tableSchemas = provider.LoadTableSchemaList().ToArray();
+                        for (Int32 i = 0; i < tableSchemas.Length; ++i)
+                        {
+                            var tableSchema = tableSchemas[i];
+                            var colSchemas = provider.LoadColumnSchemaList(tableSchema.Name);
 
-            var tableSchemas = provider.LoadTableSchemaList();
+                            foreach (var colSchema in colSchemas)
+                            {
+
+                            }
+                        }
+                    }
+                    break;
+            }
+
         }
     }
 }
