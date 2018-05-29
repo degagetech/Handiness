@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition.Convention;
 using System.Text;
+#if NETCOREAPP20
+using System.Composition.Convention;
+
 using System.Composition;
 using System.Composition.Hosting;
 using System.Composition.Hosting.Core;
+#endif 
+#if NET40
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+#endif
 using System.Reflection;
 using System.IO;
+
+
 namespace Handiness2.Schema
 {
     public class ProviderFactory
@@ -26,6 +35,17 @@ namespace Handiness2.Schema
         public IList<ISchemaProvider> LoadSchemProviders(Boolean isCached = true)
         {
             List<ISchemaProvider> providers = new List<ISchemaProvider>();
+#if NET40
+            String directory =Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            DirectoryCatalog catalog = new DirectoryCatalog(directory, SearchPattern);
+            using (CatalogExportProvider exportProvider = new CatalogExportProvider(catalog))
+            {
+                exportProvider.SourceProvider = exportProvider;
+                var exports= exportProvider.GetExportedValues<ISchemaProvider>();
+                providers.AddRange(exports);
+            }
+#endif
+#if NETCOREAPP20
             var convention = new ConventionBuilder();
             var part = convention.ForTypesDerivedFrom<ISchemaProvider>().Export();
             String directory = AppDomain.CurrentDomain.BaseDirectory;
@@ -47,6 +67,7 @@ namespace Handiness2.Schema
                 var exports = container.GetExports<ISchemaProvider>();
                 providers.AddRange(exports);
             }
+#endif
             this.SchemaProviders = providers;
             return providers;
         }

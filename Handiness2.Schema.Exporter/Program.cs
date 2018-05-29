@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 namespace Handiness2.Schema.Exporter
 {
@@ -8,20 +9,23 @@ namespace Handiness2.Schema.Exporter
         {
             ProviderFactory factory = new ProviderFactory();
             var provider = factory.LoadSchemProviders().First();
-            provider.Open("Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj+;Initial Catalog=biobank_report;");
-
-            foreach (var tableSchema in provider.LoadTableSchemaList())
+            provider.Open("Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj+;Initial Catalog=biobank;");
+            try
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Table:" + tableSchema.Name + " Explain:" + tableSchema.Explain);
-                foreach (var columnSchema in provider.LoadColumnSchemaList(tableSchema.Name))
+                OfficeExporter exporter = new OfficeExporter();
+                OfficeExportCommand command = new OfficeExportCommand();
+                command.Output = Path.Combine(@"C:\Users\93244\Desktop", "tableSchema.xlsx");
+                command.Type = OfficeExportCommand.ExportTypeExcel;
+                exporter.ExportSchema(provider, command, (e,i)=>
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("\t Column:" + columnSchema.Name + " Explain:" + columnSchema.Explain);
-                }
+                    Console.WriteLine($"{e.ToString()}%"+i);
+                });
             }
-
-            provider.Close();
+            finally
+            {
+                provider.Close();
+            }
+      
         }
     }
 }

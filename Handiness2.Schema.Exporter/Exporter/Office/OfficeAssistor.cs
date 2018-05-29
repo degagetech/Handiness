@@ -76,6 +76,31 @@ namespace Handiness2.Schema.Exporter
             }
             return cell;
         }
+        /// <summary>
+        /// 创建与指定 工作表关联的超链接
+        /// </summary>
+        /// <param name="sheet">工作表</param>
+        /// <param name="address">链接地址</param>
+        /// <returns></returns>
+        public static IHyperlink CreateHyperlink(ISheet sheet,String address=null)
+        {
+            IHyperlink link = null;
+            if (sheet is XSSFSheet)
+            {
+                link = new XSSFHyperlink(HyperlinkType.Document);
+            }
+            else
+            {
+                link = new HSSFHyperlink(HyperlinkType.Document);
+            }
+            //'Murray工作表_2'!A1
+            if (address == null)
+            {
+                address = "!A1";
+            }
+            link.Address =$"'{ sheet.SheetName}'"+ address;
+            return link;
+        }
         public static String GetCellData(ISheet sheet, Int32 x, Int32 y)
         {
             String value = null;

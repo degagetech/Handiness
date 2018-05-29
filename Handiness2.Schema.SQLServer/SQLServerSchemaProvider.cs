@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+#if NETCOREAPP20
 using System.Composition;
+#endif
 using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
 using System.Data.Common;
+#if NET40
+using System.ComponentModel.Composition;
+#endif
 
 namespace Handiness2.Schema.SQLServer
 {
+#if NET40
     [Export(typeof(ISchemaProvider))]
+#endif
     public class SQLServerSchemaProvider : ISchemaProvider
     {
         public String Name { get; } = "SQL Server";

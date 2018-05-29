@@ -12,6 +12,7 @@ namespace Handiness2.Schema.Exporter
     {
         internal const String ExportTypeExcel = "excel";
         internal const String ExportTypeWord = "word";
+        internal const String TemplateFileName = "template.xlsx";
         /// <summary>
         ///导出模板
         /// </summary>
@@ -20,14 +21,14 @@ namespace Handiness2.Schema.Exporter
         /// <summary>
         /// 导出类型
         /// </summary>
-        [CommandArgs("type", "type", HelpText = "导出类型" + ExportTypeExcel + "|" + ExportTypeWord)]
+        [CommandArgs("type", "type", HelpText = "导出类型，" + ExportTypeExcel + "|" + ExportTypeWord)]
         public String Type { get; set; }
 
         public OfficeExportCommand() : base()
         {
-            String path = Assembly.GetExecutingAssembly().CodeBase;
+            String path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path);
-            this.Template = path + "table template.xlsx";
+            this.Template =Path.Combine(path,TemplateFileName);
         }
     }
 }
