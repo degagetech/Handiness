@@ -36,13 +36,15 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Compile Remove="Exception\**" />
+    <EmbeddedResource Remove="Exception\**" />
+    <None Remove="Exception\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <ProjectReference Include="..\Handiness2.Schema.SQLServer\Handiness2.Schema.SQLServer.csproj" />
     <ProjectReference Include="..\Handiness2.Schema\Handiness2.Schema.csproj" />
     <ProjectReference Include="..\Handiness2\Handiness2.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Exception\" />
   </ItemGroup>
 
   <ItemGroup>

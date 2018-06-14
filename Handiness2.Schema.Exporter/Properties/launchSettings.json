@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Handiness2.Schema.Exporter": {
+      "commandName": "Project",
+      "commandLineArgs": "\"Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj+;Initial Catalog=biobank;\" \"test.xlsx\""
+    }
+  }
+}

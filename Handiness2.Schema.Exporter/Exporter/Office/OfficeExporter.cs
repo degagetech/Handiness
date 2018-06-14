@@ -116,7 +116,7 @@ namespace Handiness2.Schema.Exporter
 
 
         #endregion
-        public override void ExportSchema(ISchemaProvider provider, String args, Action<Int32, String> callback)
+        public override void ExportSchema(ISchemaProvider provider, String args, Action<Int32, TableSchema> callback)
         {
             var command = CommandSerializer<OfficeExportCommand>.DeSerialize(args);
             this.ExportSchema(provider, command, callback);
@@ -187,10 +187,9 @@ namespace Handiness2.Schema.Exporter
             {
                 var cell = OfficeAssistor.GetCell(sheet, x, CatalogSheetLinkColY, false);
                 cell.SetCellValue("→");
-
                 IHyperlink link = OfficeAssistor.CreateHyperlink(linkSheet);
                 cell.Hyperlink = link;
-
+                
             }
 
             //写入序号
@@ -215,7 +214,7 @@ namespace Handiness2.Schema.Exporter
         {
             return sheet.GetRow(3).GetCell(11);
         }
-        public void ExportSchema(ISchemaProvider provider, OfficeExportCommand command, Action<Int32, String> callback)
+        public void ExportSchema(ISchemaProvider provider, OfficeExportCommand command, Action<Int32, TableSchema> callback)
         {
             //使用指定的模板打开 Excel
             switch (command.Type)
@@ -245,14 +244,14 @@ namespace Handiness2.Schema.Exporter
                             this.WriteTableSchameInfo((tableSchema, colSchemas), sheet);
 
                             //设置回到目录的超链接
-                            Int32 x = CatalogSheetStartOffSetX + (row+1) * CatalogSheetRowSpanSize;
+                            Int32 x = CatalogSheetStartOffSetX + (row + 1) * CatalogSheetRowSpanSize;
                             Int32 y = 5;
                             var link = OfficeAssistor.CreateHyperlink(catalogSheet, $"!R{x}C{y}");
                             var cell = this.GetBackCatalogCell(sheet);
                             String str = cell.StringCellValue;
                             cell.Hyperlink = link;
 
-                            callback.Invoke((Int32)((row*1.0/total)*100),"writing "+ tableSchema.Name+" table info...");
+                            callback.Invoke((Int32)((row * 1.0 / total) * 100), tableSchema);
                         }
                         workbook.RemoveSheetAt(1);
                         workbook.SetActiveSheet(0);
