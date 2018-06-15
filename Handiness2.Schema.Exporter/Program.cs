@@ -40,7 +40,7 @@ namespace Handiness2.Schema.Exporter
                     catch (Exception exc)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Operation abnormal:" + exc.Message);
+                        Console.WriteLine("Operation abnormal:" + exc.ToString());
                     }
                     finally
                     {

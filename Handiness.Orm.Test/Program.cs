@@ -19,71 +19,86 @@ namespace Handiness.Orm.Test
         public String StudentNo { get; set; }
     }
 
+    public class DictCommon
+    {
+
+        public String TypeCode { get; set; }
+        public String ItemCode { get; set; }
+    }
     class Program
     {
         static void Main(string[] args)
         {
 
             //  DbProvider dbProvider = new SQLiteDbProvider("SQLiteDbProvider", @"Data Source=.\test.db;UTF8Encoding=True;");
-            DbProvider dbProvider = new DbProvider("test","your connection string");
-            Table<Student> table = new Table<Student>(dbProvider);
-            CodeTimer.Initialize();
+            DbProvider dbProvider = new DbProvider("test", "Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj+;Initial Catalog=biobank;");
 
-            //Insert
-            CodeTimer.Time("Insert Test:", 10, () =>
-                  {
-                      table.Insert(new Student
-                      {
-                          Id = Guid.NewGuid().ToString("N"),
-                          Age = 21,
-                          Name = "WLJ",
-                          StudentNo = "0202140216",
-                      }).ExecuteNonQuery();
-                  });
-            CodeTimer.Time("Insert Test:", 10, () =>
-            {
-                table.Insert(new Student
-                {
-                    Id = Guid.NewGuid().ToString("N"),
-                    Age = 20,
-                    Name = "WLJ",
-                    StudentNo = "0202140216",
-                }).ExecuteNonQuery();
-            });
+            Table<DictCommon> table = new Table<DictCommon>(dbProvider);
+            var result = table.Select().ExecuteReader().ToList();
 
-            //Update
-            CodeTimer.Time("Update Test:", 1, () =>
-            {
-                table.
-                Update
-                (
-                    () =>
-                   new Student { Name = "WLJ1" }
-                ).
-            Where(t => t.Age == 21).
-            ExecuteNonQuery();
-            });
+            result.ForEach(t => Console.WriteLine($"Type:{t.TypeCode} ,Item :{t.ItemCode}"));
 
-            //Delete
-            CodeTimer.Time("Delete Test:", 1, () =>
-              {
-                  table.Delete().Where(t => t.Name == "WLJ").ExecuteNonQuery();
+            var test = result.First();
 
-              });
-            //Select
-            CodeTimer.Time("Select Test:", 1, () =>
-            {
-                List<Student> studentList = table.Select().ExecuteReader().ToList();
-                //studentList.ForEach(
-                //    (t) =>
-                //    {
-                //        Console.WriteLine();
-                //        Console.WriteLine($"name:{t.Name}");
-                //        Console.WriteLine($"id:{t.Id}");
-                //        Console.WriteLine();
-                //    }
-                //    );
-            });
+
+
+            table.Insert(test).ExecuteNonQuery();
+
+            ////Insert
+            //CodeTimer.Time("Insert Test:", 10, () =>
+            //      {
+            //          table.Insert(new Student
+            //          {
+            //              Id = Guid.NewGuid().ToString("N"),
+            //              Age = 21,
+            //              Name = "WLJ",
+            //              StudentNo = "0202140216",
+            //          }).ExecuteNonQuery();
+            //      });
+            //CodeTimer.Time("Insert Test:", 10, () =>
+            //{
+            //    table.Insert(new Student
+            //    {
+            //        Id = Guid.NewGuid().ToString("N"),
+            //        Age = 20,
+            //        Name = "WLJ",
+            //        StudentNo = "0202140216",
+            //    }).ExecuteNonQuery();
+            //});
+
+            ////Update
+            //CodeTimer.Time("Update Test:", 1, () =>
+            //{
+            //    table.
+            //    Update
+            //    (
+            //        () =>
+            //       new Student { Name = "WLJ1" }
+            //    ).
+            //Where(t => t.Age == 21).
+            //ExecuteNonQuery();
+            //});
+
+            ////Delete
+            //CodeTimer.Time("Delete Test:", 1, () =>
+            //  {
+            //      table.Delete().Where(t => t.Name == "WLJ").ExecuteNonQuery();
+
+            //  });
+            ////Select
+            //CodeTimer.Time("Select Test:", 1, () =>
+            //{
+            //    List<Student> studentList = table.Select().ExecuteReader().ToList();
+            //    //studentList.ForEach(
+            //    //    (t) =>
+            //    //    {
+            //    //        Console.WriteLine();
+            //    //        Console.WriteLine($"name:{t.Name}");
+            //    //        Console.WriteLine($"id:{t.Id}");
+            //    //        Console.WriteLine();
+            //    //    }
+            //    //    );
+            //});
             Console.Read();
 
 
