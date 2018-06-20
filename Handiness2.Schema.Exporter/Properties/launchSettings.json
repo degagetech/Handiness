@@ -2,7 +2,7 @@
   "profiles": {
     "Handiness2.Schema.Exporter": {
       "commandName": "Project",
-      "commandLineArgs": "\"Data Source=192.168.1.252;Initial Catalog=pes_dev;User ID=sa;Password=sql\" \"d:\\a.xlsx\""
+      "commandLineArgs": "\"Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj+;Initial Catalog=biobank_report;\" \"C:\\Users\\wlj\\Desktop\\a.xlsx\""
     }
   }
 }

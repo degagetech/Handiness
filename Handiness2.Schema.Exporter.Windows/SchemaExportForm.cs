@@ -15,7 +15,12 @@ namespace Handiness2.Schema.Exporter.Windows
     public partial class SchemaExportForm : Form
     {
         public ISchemaProvider CurrentSchemaProvider { get; private set; }
+        public TreeNode TableNodeHead { get; private set; }
+        public TreeNode ViewNodeHead { get; private set; }
 
+        public Dictionary<String, SchemaInfoTupleEx> _schemaInfoTable = new Dictionary<String, SchemaInfoTupleEx>();
+
+        private Boolean _isExporting = false;
 
         public SchemaExportForm()
         {
@@ -53,14 +58,23 @@ namespace Handiness2.Schema.Exporter.Windows
 
         private void SchemaExportForm_HelpButtonClicked(Object sender, CancelEventArgs e)
         {
-
+            System.Diagnostics.Process.Start("https://github.com/WangLangJing/Handiness");
         }
 
         private void SchemaExportForm_Load(Object sender, EventArgs e)
         {
-            this._colName.DataPropertyName = nameof(ColumnSchemaExtend.SourceName);
+            this._dgvColumnSchema.AutoGenerateColumns = false;
+            this._colName.DataPropertyName = nameof(ColumnSchemaExtend.Name);
             this._colPrimary.DataPropertyName = nameof(ColumnSchemaExtend.IsPrimaryKey);
+            this._colType.DataPropertyName = nameof(ColumnSchemaExtend.DbTypeString);
+            this._colLength.DataPropertyName = nameof(ColumnSchemaExtend.Length);
+            this._colNullable.DataPropertyName = nameof(ColumnSchemaExtend.IsNullable);
+            this._colExplain.DataPropertyName = nameof(ColumnSchemaExtend.Explain);
+
             this._cbSchemaProvider.DisplayMember = nameof(ISchemaProvider.Name);
+            _iListSchemaTree.Images.Add("tree_view", Resources.view);
+            _iListSchemaTree.Images.Add("tree_table", Resources.table);
+
         }
 
         private async void SchemaExportForm_Shown(Object sender, EventArgs e)
@@ -105,7 +119,10 @@ namespace Handiness2.Schema.Exporter.Windows
         private void ClearSchemaInfo()
         {
             this._tvSchema.Nodes.Clear();
-            this._dgvColumnSchema.Rows.Clear();
+            this.TableNodeHead = null;
+            this.ViewNodeHead = null;
+            this._dgvColumnSchema.DataSource = null;
+            this._schemaInfoTable.Clear();
         }
 
         private Boolean GetConnectionStirng(out String connectionString)
@@ -115,16 +132,69 @@ namespace Handiness2.Schema.Exporter.Windows
         }
 
         private Boolean _isLoadingSchemaInfo = false;
-        private void LoadSchemaInfo(ISchemaProvider provider)
+        private async Task LoadSchemaInfo(ISchemaProvider provider)
         {
-            //加载表
-            var tableList = provider.LoadTableSchemaList();
-            //生成表头节点
-            TreeNode node = new TreeNode();
-            //加载视图
+            if (this._isLoadingSchemaInfo) return;
+
+            _isLoadingSchemaInfo = true;
+            try
+            {
+                this.ClearSchemaInfo();
+
+                var tableSchemaList = await TaskEx.Run(() => provider.LoadTableSchemaList());
+                if (tableSchemaList.Count > 0)
+                {
+
+                    TreeNode tableNodeHead = new TreeNode(Resources.SchemaExportForm_TableNodeHead);
+                    tableNodeHead.ImageIndex = 0;
+                    this._tvSchema.Nodes.Add(tableNodeHead);
+                    this.TableNodeHead = tableNodeHead;
+                    foreach (var tableSchema in tableSchemaList)
+                    {
+                        var node = this.CreateTreeNode(tableSchema);
+                        node.ImageIndex = 0;
+                        tableNodeHead.Nodes.Add(node);
+                        this._schemaInfoTable.Add(tableSchema.Name, new SchemaInfoTupleEx
+                        {
+                            TableSchema = tableSchema
+                        });
+                    }
+                }
+
+
+                var viewSchemaList = await TaskEx.Run(() => provider.LoadViewSchemaList());
+                if (viewSchemaList.Count > 0)
+                {
+                    TreeNode viewNodeHead = new TreeNode(Resources.SchemaExportForm_ViewNodeHead);
+                    viewNodeHead.ImageIndex = 1;
+                    this._tvSchema.Nodes.Add(viewNodeHead);
+                    this.ViewNodeHead = viewNodeHead;
+                    foreach (var viewSchema in viewSchemaList)
+                    {
+                        var node = this.CreateTreeNode(viewSchema);
+                        node.ImageIndex = 1;
+                        viewNodeHead.Nodes.Add(node);
+                        this._schemaInfoTable.Add(viewSchema.Name, new SchemaInfoTupleEx
+                        {
+                            TableSchema = viewSchema
+                        });
+                    }
+                }
+            }
+            finally
+            {
+                _isLoadingSchemaInfo = false;
+            }
         }
         private Boolean _isConnectOperating = false;
 
+        private TreeNode CreateTreeNode(TableSchemaExtend tableSchema)
+        {
+            TreeNode node = new TreeNode(tableSchema.Name);
+            node.ToolTipText = tableSchema.Explain;
+            node.Tag = tableSchema;
+            return node;
+        }
         private async void _btnOpen_Click(object sender, EventArgs e)
         {
             if (this.CurrentSchemaProvider != null)
@@ -137,6 +207,7 @@ namespace Handiness2.Schema.Exporter.Windows
                     {
                         this.CurrentSchemaProvider.Close();
                         this._btnOpen.Image = Resources.connnect_closed;
+                        this.ClearSchemaInfo();
                     }
                     else
                     {
@@ -144,13 +215,20 @@ namespace Handiness2.Schema.Exporter.Windows
                         {
                             try
                             {
+                                this._waitConnect.Visible = true;
+                                this._waitConnect.IsRolled = true;
                                 await TaskEx.Run(() => this.CurrentSchemaProvider.Open(connectionString));
-                                this.ClearSchemaInfo();
+                                await this.LoadSchemaInfo(this.CurrentSchemaProvider);
                                 this._btnOpen.Image = Resources.connect_opened;
                             }
                             catch (ProviderConnectException exc)
                             {
-                                MessageBox.Show($"连接打开失败！{exc.Message}", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show(String.Format(Resources.SchemaExportForm_ConnectException, exc.Message), Resources.HintText, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            finally
+                            {
+                                this._waitConnect.Visible = false;
+                                this._waitConnect.IsRolled = false;
                             }
                         }
                     }
@@ -161,9 +239,90 @@ namespace Handiness2.Schema.Exporter.Windows
                 }
             }
         }
+
+        private void _tvSchema_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+
+            this._tvSchema.AfterCheck -= _tvSchema_AfterCheck;
+            var node = e.Node;
+            if (node.Parent != null)
+            {
+                if (node.Checked)
+                {
+                    node.Parent.Checked = true;
+                }
+            }
+            else
+            {
+                if (node.Nodes != null)
+                {
+                    foreach (TreeNode cn in node.Nodes)
+                    {
+                        if (cn.Checked != node.Checked)
+                        {
+                            cn.Checked = node.Checked;
+                        }
+
+                    }
+                }
+            }
+       
+
+            this._tvSchema.AfterCheck += _tvSchema_AfterCheck;
+        }
+
+        private Boolean _isLoadColumnSchema = false;
+        private async void _tvSchema_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (_isLoadColumnSchema) return;
+            _isLoadColumnSchema = true;
+            try
+            {
+                var node = e.Node;
+                if (node.Parent != null)
+                {
+                    var schema = e.Node.Tag as TableSchemaExtend;
+                    var schemaInfo = this._schemaInfoTable[schema.Name];
+                    Boolean needLoad = schemaInfo.ColumnSchems == null;
+
+                    //加载表结构信息
+                    if (needLoad)
+                    {
+                        _waitColumnSchemaLoad.IsRolled = true;
+                        _waitColumnSchemaLoad.Visible = true;
+
+                        try
+                        {
+                            if (node.Parent == this.TableNodeHead)
+                            {
+                                schemaInfo.ColumnSchems = await TaskEx.Run(() => this.CurrentSchemaProvider.LoadColumnSchemaList(schema.Name));
+                            }
+                            else
+                            {
+                                schemaInfo.ColumnSchems = await TaskEx.Run(() => this.CurrentSchemaProvider.LoadViewColumnSchemaList(schema.Name));
+                            }
+                        }
+                        finally
+                        {
+                            _waitColumnSchemaLoad.IsRolled = false;
+                            _waitColumnSchemaLoad.Visible = false;
+                        }
+
+
+                    }
+                    this._dgvColumnSchema.DataSource = schemaInfo.ColumnSchems;
+                }
+            }
+            finally
+            {
+                _isLoadColumnSchema = false;
+            }
+
+        }
+    }
+    public class SchemaInfoTupleEx : SchemaInfoTuple
+    {
+        public Boolean Selected { get; set; }
     }
 }
-
-
-
 

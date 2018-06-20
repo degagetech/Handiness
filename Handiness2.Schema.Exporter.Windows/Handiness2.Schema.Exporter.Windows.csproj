@@ -70,6 +70,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseExportConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseExportConfigControl.Designer.cs">
+      <DependentUpon>BaseExportConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelExportConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExcelExportConfigControl.Designer.cs">
+      <DependentUpon>ExcelExportConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelExportGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExcelExportGroupForm.Designer.cs">
+      <DependentUpon>ExcelExportGroupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExportConfig.cs" />
+    <Compile Include="ISchemaExporter.cs" />
     <Compile Include="SchemaExportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +98,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchemaInfoTuple.cs" />
+    <EmbeddedResource Include="BaseExportConfigControl.resx">
+      <DependentUpon>BaseExportConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExcelExportConfigControl.resx">
+      <DependentUpon>ExcelExportConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExcelExportGroupForm.resx">
+      <DependentUpon>ExcelExportGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SchemaExportForm.resx">
       <DependentUpon>SchemaExportForm.cs</DependentUpon>
     </EmbeddedResource>

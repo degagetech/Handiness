@@ -187,6 +187,10 @@ namespace Handiness2.Schema.SQLServer
             {
                 schema.IsNullable = true;
             }
+            else
+            {
+                schema.IsNullable = false;
+            }
 
             //IsPrimaryKey
             String priStr = row[ColumnOfKey].ToString();

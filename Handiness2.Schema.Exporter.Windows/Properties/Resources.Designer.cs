@@ -81,6 +81,42 @@ namespace Handiness2.Schema.Exporter.Windows.Properties {
         }
         
         /// <summary>
+        ///   查找类似 提示 的本地化字符串。
+        /// </summary>
+        internal static string HintText {
+            get {
+                return ResourceManager.GetString("HintText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 连接打开失败！{0} 的本地化字符串。
+        /// </summary>
+        internal static string SchemaExportForm_ConnectException {
+            get {
+                return ResourceManager.GetString("SchemaExportForm_ConnectException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 表 的本地化字符串。
+        /// </summary>
+        internal static string SchemaExportForm_TableNodeHead {
+            get {
+                return ResourceManager.GetString("SchemaExportForm_TableNodeHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 视图 的本地化字符串。
+        /// </summary>
+        internal static string SchemaExportForm_ViewNodeHead {
+            get {
+                return ResourceManager.GetString("SchemaExportForm_ViewNodeHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap table {
