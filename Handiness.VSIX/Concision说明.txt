@@ -1,2 +1,0 @@
-﻿Concision是的一个Winform界面库，因为一些原因导致没有发布Nuget包。
-所以请移步：https://github.com/WangLangJing/Concision
