@@ -10,6 +10,7 @@ namespace Handiness2.Schema.Test
             var provider=factory.LoadSchemProviders().First();
             provider.Open("Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj+;Initial Catalog=biobank_report;");
 
+            Console.WriteLine("加载表信息");
             foreach (var tableSchema in provider.LoadTableSchemaList())
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -20,7 +21,17 @@ namespace Handiness2.Schema.Test
                     Console.WriteLine("\t Column:" + columnSchema.Name + " Explain:" + columnSchema.Explain);
                 }
             }
-
+            Console.WriteLine("加载视图信息");
+            foreach (var viewSchema in provider.LoadViewSchemaList())
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("View:" + viewSchema.Name + " Explain:" + viewSchema.Explain);
+                foreach (var columnSchema in provider.LoadViewColumnSchemaList(viewSchema.Name))
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\t Column:" + columnSchema.Name + " Explain:" + columnSchema.Explain);
+                }
+            }
             provider.Close();
         }
     }

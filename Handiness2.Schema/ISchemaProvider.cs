@@ -35,15 +35,10 @@ namespace Handiness2.Schema
         /// 加载于指定表关联的 <see cref="TableSchemaExtend"/> 信息以及所有 <see cref="ColumnSchemaExtend"/> 信息
         /// </summary>
         /// <param name="tableName">表的名称</param>
-        /// <returns>返回一个二元组，第一个组件包含表的结构信息，第二个组件包含一个 列结构信息的链表</returns>
-        (TableSchemaExtend table, IList<ColumnSchemaExtend> column) GetTableSchemaTuple(String tableName);
+        /// <returns>返回一个三元组，第一个组建表示获取成功与否，第二个组件包含表的结构信息，第三个组件包含一个 列结构信息的链表，若获取失败</returns>
+        (Boolean success,TableSchemaExtend table, IList<ColumnSchemaExtend> columns) GetTableSchemaTuple(String tableName);
 
-        /// <summary>
-        ///  <see cref="GetTableSchemaTuple"/>  的异步版本
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-       Task< (TableSchemaExtend table, IList<ColumnSchemaExtend> column)> GetTableSchemaTupleAsync(String tableName);
+
 
         /// <summary>
         /// 加载与当前连接关联的所有 <see cref="TableSchemaExtend"/> 信息
@@ -51,11 +46,7 @@ namespace Handiness2.Schema
         /// <returns></returns>
         IList<TableSchemaExtend> LoadTableSchemaList();
 
-        /// <summary>
-        ///  <see cref="LoadTableSchemaList"/> 的异步版本
-        /// </summary>
-        /// <returns></returns>
-        Task<IList<TableSchemaExtend>> LoadTableSchemaListAsync();
+
 
         /// <summary>
         /// 加载与指定表关联的所有 <see cref="ColumnSchemaExtend"/> 信息
@@ -64,11 +55,9 @@ namespace Handiness2.Schema
         /// <returns></returns>
         IList<ColumnSchemaExtend> LoadColumnSchemaList(String tableName);
 
-        /// <summary>
-        ///  <see cref="LoadColumnSchemaList"/> 的异步版本
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        Task<IList<ColumnSchemaExtend>> LoadColumnSchemaListAsync(String tableName);
+
+        IList<TableSchemaExtend> LoadViewSchemaList();
+        IList<ColumnSchemaExtend> LoadViewColumnSchemaList(String viewName);
+        (Boolean success, TableSchemaExtend view, IList<ColumnSchemaExtend> columns) GetViewSchemaTuple(String viewName);
     }
 }

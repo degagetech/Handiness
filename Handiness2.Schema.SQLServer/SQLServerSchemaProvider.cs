@@ -16,7 +16,7 @@ namespace Handiness2.Schema.SQLServer
 #if NET40
     [Export(typeof(ISchemaProvider))]
 #endif
-    public class SQLServerSchemaProvider : ISchemaProvider
+    public partial class SQLServerSchemaProvider : ISchemaProvider
     {
         public String Name { get; } = "SQL Server";
 
@@ -44,8 +44,9 @@ namespace Handiness2.Schema.SQLServer
         internal const String TableOfDbName = "TABLE_CATALOG";
         internal const String TableOfComment = "TABLE_COMMENT";
 
-        internal static String SQLForTableSachema = $"SELECT a.name as {TableOfName},max(b.[value]) as {TableOfComment} FROM sysobjects a LEFT JOIN sys.extended_properties b ON a.id=b.major_id AND b.minor_id = 0 where a.xtype='U'   GROUP BY a.name";
-        internal static String SQLForTableSachemaWithWhere = $"SELECT a.name as {TableOfName},max(b.[value]) as {TableOfComment} FROM sysobjects a LEFT JOIN sys.extended_properties b ON a.id=b.major_id where a.xtype='U' AND b.minor_id=0  AND a.name=" + "'{0}' GROUP BY a.name";
+
+        internal static String SQLForTableSchema = $"SELECT a.name as {TableOfName},max(b.[value]) as {TableOfComment} FROM sysobjects a LEFT JOIN sys.extended_properties b ON a.id=b.major_id AND b.minor_id = 0 where a.xtype='U'   GROUP BY a.name";
+        internal static String SQLForTableSchemaWithWhere = $"SELECT a.name as {TableOfName},max(b.[value]) as {TableOfComment} FROM sysobjects a LEFT JOIN sys.extended_properties b ON a.id=b.major_id where a.xtype='U' AND b.minor_id=0  AND a.name=" + "'{0}' GROUP BY a.name";
         internal static String SQLForColumnSchemaWithWhere = $@"SELECT
                             {ColumnOfName}=a.name,
                             {ColumnOfDbType}=b.name,
@@ -115,9 +116,25 @@ namespace Handiness2.Schema.SQLServer
             return table;
         }
 
-        public (TableSchemaExtend table, IList<ColumnSchemaExtend> column) GetTableSchemaTuple(String tableName)
+        public (Boolean success,TableSchemaExtend table, IList<ColumnSchemaExtend> columns) GetTableSchemaTuple(String tableName)
         {
-            throw new NotImplementedException();
+            Boolean success = false;
+            TableSchemaExtend tableSchema = null;
+            IList<ColumnSchemaExtend> columnSchemas = null;
+            if (String.IsNullOrEmpty(tableName))
+            {
+                throw new ArgumentException(nameof(tableName));
+            }
+            String tableSchemaSQL = String.Format(SQLForColumnSchemaWithWhere, tableName);
+            DataTable info = this.ExecuteQuery(tableSchemaSQL);
+            if (info.Rows.Count > 0)
+            {
+                var row = info.Rows[0];
+                tableSchema= this.GetTableSchemaFromRow(row);
+                columnSchemas=this.LoadColumnSchemaList(tableName);
+                success = true;
+            }
+            return (success,tableSchema, columnSchemas);
         }
 
         public IList<ColumnSchemaExtend> LoadColumnSchemaList(String tableName)
@@ -139,7 +156,7 @@ namespace Handiness2.Schema.SQLServer
         public IList<TableSchemaExtend> LoadTableSchemaList()
         {
             List<TableSchemaExtend> tableSchemas = new List<TableSchemaExtend>();
-            DataTable info = this.ExecuteQuery(SQLForTableSachema);
+            DataTable info = this.ExecuteQuery(SQLForTableSchema);
             if (info.Rows.Count > 0)
             {
                 foreach (DataRow row in info.Rows)
@@ -193,20 +210,6 @@ namespace Handiness2.Schema.SQLServer
             return schema;
         }
 
-
-        Task<(TableSchemaExtend table, IList<ColumnSchemaExtend> column)> ISchemaProvider.GetTableSchemaTupleAsync(String tableName)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IList<TableSchemaExtend>> ISchemaProvider.LoadTableSchemaListAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IList<ColumnSchemaExtend>> ISchemaProvider.LoadColumnSchemaListAsync(String tableName)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

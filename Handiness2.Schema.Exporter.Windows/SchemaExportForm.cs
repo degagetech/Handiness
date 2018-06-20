@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace Handiness2.Schema.Exporter.Windows
 {
-    public partial class Form1 : Form
+    public partial class SchemaExportForm : Form
     {
-        public Form1()
+        public SchemaExportForm()
         {
             InitializeComponent();
         }
