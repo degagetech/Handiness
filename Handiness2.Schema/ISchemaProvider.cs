@@ -27,6 +27,10 @@ namespace Handiness2.Schema
         /// <param name="connectionString">连接字符串</param>
         void Open(String connectionString);
         /// <summary>
+        /// 表示是否已打开与指定数据服务实例的连接
+        /// </summary>
+        Boolean Opened { get; }
+        /// <summary>
         /// 关闭与数据服务实例的连接，并释放相应资源
         /// </summary>
         void Close();

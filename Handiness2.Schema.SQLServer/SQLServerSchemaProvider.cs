@@ -24,6 +24,8 @@ namespace Handiness2.Schema.SQLServer
 
         public String ConnectionString { get; private set; }
 
+        public Boolean Opened { get; private set; }
+
 
         // 辅助字段用于一些条件的判断
         internal const String KeyTypeOfPrimary = "PRI";
@@ -76,6 +78,7 @@ namespace Handiness2.Schema.SQLServer
             try
             {
                 this._connection.Open();
+                this.Opened = true;
             }
             catch (Exception exc)
             {
@@ -83,6 +86,7 @@ namespace Handiness2.Schema.SQLServer
                 ProviderConnectException exception = new ProviderConnectException(exc);
                 exception.ConnectionString = connectionString;
                 exception.ErrorExplain = exc.Message;
+                this.Opened = false;
                 throw exception;
             }
         }
@@ -93,6 +97,7 @@ namespace Handiness2.Schema.SQLServer
             {
                 this._connection.Close();
             }
+            this.Opened = false;
             this._connection = null;
         }
 

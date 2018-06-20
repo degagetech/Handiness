@@ -7,21 +7,21 @@ namespace Handiness2.Schema.Test
         static void Main(String[] args)
         {
             ProviderFactory factory = new ProviderFactory();
-            var provider=factory.LoadSchemProviders().First();
+            var provider = factory.LoadSchemProviders().First();
             provider.Open("Data Source=117.48.197.78;Uid=sa;Pwd=932444208wlj+;Initial Catalog=biobank_report;");
 
-            Console.WriteLine("加载表信息");
+            Console.WriteLine("Table Schema Info:");
             foreach (var tableSchema in provider.LoadTableSchemaList())
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Table:"+tableSchema.Name+" Explain:"+tableSchema.Explain);
+                Console.WriteLine("Table:" + tableSchema.Name + " Explain:" + tableSchema.Explain);
                 foreach (var columnSchema in provider.LoadColumnSchemaList(tableSchema.Name))
                 {
-                    Console.ForegroundColor =ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("\t Column:" + columnSchema.Name + " Explain:" + columnSchema.Explain);
                 }
             }
-            Console.WriteLine("加载视图信息");
+            Console.WriteLine("View Schema Info:");
             foreach (var viewSchema in provider.LoadViewSchemaList())
             {
                 Console.ForegroundColor = ConsoleColor.Green;

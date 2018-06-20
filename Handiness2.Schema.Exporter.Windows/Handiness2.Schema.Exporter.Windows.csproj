@@ -30,12 +30,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AgilityConfig">
       <HintPath>..\ref\AgilityConfig.dll</HintPath>
     </Reference>
     <Reference Include="AgilityConfig.DbConnection">
       <HintPath>..\ref\AgilityConfig.DbConnection.dll</HintPath>
+    </Reference>
+    <Reference Include="AsyncBridge, Version=0.3.1.0, Culture=neutral, PublicKeyToken=b3b1c0202c0d6a87, processorArchitecture=MSIL">
+      <HintPath>..\packages\AsyncBridge.0.3.1\lib\net40-client\AsyncBridge.dll</HintPath>
     </Reference>
     <Reference Include="Concision">
       <HintPath>..\ref\Concision.dll</HintPath>
@@ -83,7 +89,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -94,6 +102,27 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="_Readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Handiness2.Schema.SQLServer\Handiness2.Schema.SQLServer.csproj">
+      <Project>{c7777e73-b40c-47c3-a71b-3f68824a8c97}</Project>
+      <Name>Handiness2.Schema.SQLServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Handiness2.Schema\Handiness2.Schema.csproj">
+      <Project>{8b3d70dc-8666-4b7e-8eeb-e3747f3b1173}</Project>
+      <Name>Handiness2.Schema</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Handiness2\Handiness2.csproj">
+      <Project>{2c0ee31a-1372-42c8-8f78-be63648e85e7}</Project>
+      <Name>Handiness2</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="logo.ico" />
+    <None Include="Resources\view.png" />
+    <None Include="Resources\table.png" />
+    <None Include="Resources\connnect_closed.png" />
+    <None Include="Resources\connect_opened.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
