@@ -70,24 +70,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Excel\ExcelSchemaExporter.cs" />
+    <Compile Include="Excel\ExcelExportConfig.cs" />
+    <Compile Include="Excel\AddGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Excel\AddGroupForm.Designer.cs">
+      <DependentUpon>AddGroupForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseExportConfigControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BaseExportConfigControl.Designer.cs">
       <DependentUpon>BaseExportConfigControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExcelExportConfigControl.cs">
+    <Compile Include="Excel\ExcelExportConfigControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ExcelExportConfigControl.Designer.cs">
+    <Compile Include="Excel\ExcelExportConfigControl.Designer.cs">
       <DependentUpon>ExcelExportConfigControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExcelExportGroupForm.cs">
+    <Compile Include="Excel\ExcelExportGroupForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExcelExportGroupForm.Designer.cs">
+    <Compile Include="Excel\ExcelExportGroupForm.Designer.cs">
       <DependentUpon>ExcelExportGroupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Excel\GroupInfoCollection.cs" />
     <Compile Include="ExportConfig.cs" />
     <Compile Include="ISchemaExporter.cs" />
     <Compile Include="SchemaExportForm.cs">
@@ -99,13 +108,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchemaInfoTuple.cs" />
+    <EmbeddedResource Include="Excel\AddGroupForm.resx">
+      <DependentUpon>AddGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseExportConfigControl.resx">
       <DependentUpon>BaseExportConfigControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExcelExportConfigControl.resx">
+    <EmbeddedResource Include="Excel\ExcelExportConfigControl.resx">
       <DependentUpon>ExcelExportConfigControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExcelExportGroupForm.resx">
+    <EmbeddedResource Include="Excel\ExcelExportGroupForm.resx">
       <DependentUpon>ExcelExportGroupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SchemaExportForm.resx">

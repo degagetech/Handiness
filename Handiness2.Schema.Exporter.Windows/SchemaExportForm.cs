@@ -14,13 +14,18 @@ namespace Handiness2.Schema.Exporter.Windows
 {
     public partial class SchemaExportForm : Form
     {
+        public event Action<Object, IList<TableSchemaExtend>> CheckedTableSchemaChanged;
+
         public ISchemaProvider CurrentSchemaProvider { get; private set; }
         public TreeNode TableNodeHead { get; private set; }
         public TreeNode ViewNodeHead { get; private set; }
 
-        public Dictionary<String, SchemaInfoTupleEx> _schemaInfoTable = new Dictionary<String, SchemaInfoTupleEx>();
+        public Dictionary<String, SchemaInfoTuple> _schemaInfoTable = new Dictionary<String, SchemaInfoTuple>();
 
-        private Boolean _isExporting = false;
+        public IList<TableSchemaExtend> CheckedTableSchemas { get; private set; }
+
+
+        // private Boolean _isExporting = false;
 
         public SchemaExportForm()
         {
@@ -72,15 +77,24 @@ namespace Handiness2.Schema.Exporter.Windows
             this._colExplain.DataPropertyName = nameof(ColumnSchemaExtend.Explain);
 
             this._cbSchemaProvider.DisplayMember = nameof(ISchemaProvider.Name);
-            _iListSchemaTree.Images.Add("tree_view", Resources.view);
             _iListSchemaTree.Images.Add("tree_table", Resources.table);
+            _iListSchemaTree.Images.Add("tree_view", Resources.view);
+
 
         }
 
         private async void SchemaExportForm_Shown(Object sender, EventArgs e)
         {
             await this.LoadSchemaProvider();
+            this._ctlExcelConfig.Initialize(this);
+            this._ctlExcelConfig.SchemaExporter.ExportProgressChanged += SchemaExporter_ExportProgressChanged;
         }
+
+        private void SchemaExporter_ExportProgressChanged(Object sender, SchemaExportEventArgs e)
+        {
+
+        }
+
         private async Task LoadSchemaProvider()
         {
             this._waitSchemProvider.Visible = true;
@@ -266,11 +280,43 @@ namespace Handiness2.Schema.Exporter.Windows
                     }
                 }
             }
-       
-
+            this.RaiseCheckedTableSchemaChanged();
             this._tvSchema.AfterCheck += _tvSchema_AfterCheck;
         }
+        public IList<TableSchemaExtend> GetCheckedNodesData()
+        {
+            IList<TableSchemaExtend> schemas = new List<TableSchemaExtend>();
+            if (this.TableNodeHead != null)
+            {
+                foreach (TreeNode node in this.TableNodeHead.Nodes)
+                {
+                    if (node.Checked)
+                    {
+                        var schema = node.Tag as TableSchemaExtend;
+                        schemas.Add(schema);
+                    }
 
+                }
+            }
+            if (this.ViewNodeHead != null)
+            {
+                foreach (TreeNode node in this.ViewNodeHead.Nodes)
+                {
+                    if (node.Checked)
+                    {
+                        var schema = node.Tag as TableSchemaExtend;
+                        schemas.Add(schema);
+                    }
+                }
+            }
+
+            return schemas;
+        }
+        private void RaiseCheckedTableSchemaChanged()
+        {
+            var schemas = this.GetCheckedNodesData();
+            this.CheckedTableSchemaChanged?.Invoke(this, schemas);
+        }
         private Boolean _isLoadColumnSchema = false;
         private async void _tvSchema_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {

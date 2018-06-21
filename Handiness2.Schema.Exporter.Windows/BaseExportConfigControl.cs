@@ -11,12 +11,24 @@ namespace Handiness2.Schema.Exporter.Windows
 {
     public partial class BaseExportConfigControl : UserControl
     {
-        public ISchemaExporter SchemaExporter { get; private set; }
-        public ExportConfig ExportConfig { get; private set; }
+        public virtual ISchemaExporter SchemaExporter { get; protected set; }
+        public virtual ExportConfig ExportConfig { get; protected set; }
+
+        public SchemaExportForm SchemaExportForm { get; private set; }
 
         public BaseExportConfigControl()
         {
             InitializeComponent();
+        }
+
+
+        public virtual void ResetConfigInfo()
+        {
+
+        }
+        public virtual void Initialize(SchemaExportForm form)
+        {
+            this.SchemaExportForm = form;
         }
     }
 }

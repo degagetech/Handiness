@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Handiness2.Schema.Exporter.Windows
 {
-    public  class ExportConfig
+    public class ExportConfig
     {
-
+        public String OutputDirecotry { get; set; }
     }
 }

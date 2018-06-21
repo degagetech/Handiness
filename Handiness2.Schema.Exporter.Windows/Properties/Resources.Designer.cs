@@ -61,6 +61,15 @@ namespace Handiness2.Schema.Exporter.Windows.Properties {
         }
         
         /// <summary>
+        ///   查找类似 组名不能为空！ 的本地化字符串。
+        /// </summary>
+        internal static string AddGroupForm_GroupNameCannotNull {
+            get {
+                return ResourceManager.GetString("AddGroupForm_GroupNameCannotNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap connect_opened {
