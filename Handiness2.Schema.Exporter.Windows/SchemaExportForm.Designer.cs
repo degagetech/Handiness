@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SchemaExportForm));
             this._cbSchemaProvider = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -58,15 +58,18 @@
             this.label4 = new System.Windows.Forms.Label();
             this._pbarExportProcess = new System.Windows.Forms.ProgressBar();
             this._btnExport = new System.Windows.Forms.Button();
-            this._tabExportConfig = new System.Windows.Forms.TabControl();
-            this._pageExcel = new System.Windows.Forms.TabPage();
-            this._ctlExcelConfig = new Handiness2.Schema.Exporter.Windows.ExcelExportConfigControl();
-            this._pageCode = new System.Windows.Forms.TabPage();
             this._labelExprtProcess = new System.Windows.Forms.Label();
             this._labelTipInfo = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this._tbExportDirectory = new System.Windows.Forms.TextBox();
+            this._btnSelectdExportDirectory = new System.Windows.Forms.Button();
+            this._dialogExportDirectory = new System.Windows.Forms.FolderBrowserDialog();
+            this._pageExcel = new System.Windows.Forms.TabPage();
+            this._ctlExcelConfig = new Handiness2.Schema.Exporter.Windows.ExcelExportConfigControl();
+            this._tabExportConfig = new System.Windows.Forms.TabControl();
             ((System.ComponentModel.ISupportInitialize)(this._dgvColumnSchema)).BeginInit();
-            this._tabExportConfig.SuspendLayout();
             this._pageExcel.SuspendLayout();
+            this._tabExportConfig.SuspendLayout();
             this.SuspendLayout();
             // 
             // _cbSchemaProvider
@@ -133,7 +136,7 @@
             this._tvSchema.Name = "_tvSchema";
             this._tvSchema.SelectedImageIndex = 0;
             this._tvSchema.ShowNodeToolTips = true;
-            this._tvSchema.Size = new System.Drawing.Size(274, 352);
+            this._tvSchema.Size = new System.Drawing.Size(274, 261);
             this._tvSchema.TabIndex = 5;
             this._tvSchema.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this._tvSchema_AfterCheck);
             this._tvSchema.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this._tvSchema_NodeMouseClick);
@@ -156,8 +159,8 @@
             // _dgvColumnSchema
             // 
             this._dgvColumnSchema.AllowUserToAddRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this._dgvColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvColumnSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -170,19 +173,19 @@
             this._colLength,
             this._colNullable,
             this._colExplain});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle2;
             this._dgvColumnSchema.Location = new System.Drawing.Point(313, 139);
             this._dgvColumnSchema.Name = "_dgvColumnSchema";
             this._dgvColumnSchema.RowHeadersVisible = false;
             this._dgvColumnSchema.RowTemplate.Height = 23;
-            this._dgvColumnSchema.Size = new System.Drawing.Size(625, 352);
+            this._dgvColumnSchema.Size = new System.Drawing.Size(625, 261);
             this._dgvColumnSchema.TabIndex = 7;
             // 
             // _colName
@@ -294,7 +297,7 @@
             this.line2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this.line2.LineLength = 980;
             this.line2.LineWidth = 1;
-            this.line2.Location = new System.Drawing.Point(-8, 511);
+            this.line2.Location = new System.Drawing.Point(-8, 417);
             this.line2.Margin = new System.Windows.Forms.Padding(0);
             this.line2.Name = "line2";
             this.line2.Size = new System.Drawing.Size(980, 1);
@@ -356,7 +359,7 @@
             this.line3.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this.line3.LineLength = 980;
             this.line3.LineWidth = 1;
-            this.line3.Location = new System.Drawing.Point(-8, 702);
+            this.line3.Location = new System.Drawing.Point(-8, 606);
             this.line3.Margin = new System.Windows.Forms.Padding(0);
             this.line3.Name = "line3";
             this.line3.Size = new System.Drawing.Size(980, 1);
@@ -368,7 +371,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 717);
+            this.label4.Location = new System.Drawing.Point(24, 643);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 17);
             this.label4.TabIndex = 17;
@@ -377,7 +380,7 @@
             // _pbarExportProcess
             // 
             this._pbarExportProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._pbarExportProcess.Location = new System.Drawing.Point(87, 717);
+            this._pbarExportProcess.Location = new System.Drawing.Point(87, 643);
             this._pbarExportProcess.Name = "_pbarExportProcess";
             this._pbarExportProcess.Size = new System.Drawing.Size(409, 17);
             this._pbarExportProcess.TabIndex = 18;
@@ -386,32 +389,77 @@
             // _btnExport
             // 
             this._btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnExport.Location = new System.Drawing.Point(875, 714);
+            this._btnExport.Location = new System.Drawing.Point(871, 650);
             this._btnExport.Name = "_btnExport";
             this._btnExport.Size = new System.Drawing.Size(63, 26);
             this._btnExport.TabIndex = 19;
             this._btnExport.Text = "导出";
             this._btnExport.UseVisualStyleBackColor = true;
+            this._btnExport.Click += new System.EventHandler(this._btnExport_Click);
             // 
-            // _tabExportConfig
+            // _labelExprtProcess
             // 
-            this._tabExportConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this._labelExprtProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._labelExprtProcess.AutoSize = true;
+            this._labelExprtProcess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this._labelExprtProcess.Location = new System.Drawing.Point(504, 643);
+            this._labelExprtProcess.Name = "_labelExprtProcess";
+            this._labelExprtProcess.Size = new System.Drawing.Size(56, 17);
+            this._labelExprtProcess.TabIndex = 21;
+            this._labelExprtProcess.Text = "(18/100)";
+            // 
+            // _labelTipInfo
+            // 
+            this._labelTipInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._tabExportConfig.Controls.Add(this._pageExcel);
-            this._tabExportConfig.Controls.Add(this._pageCode);
-            this._tabExportConfig.Location = new System.Drawing.Point(30, 521);
-            this._tabExportConfig.Name = "_tabExportConfig";
-            this._tabExportConfig.SelectedIndex = 0;
-            this._tabExportConfig.Size = new System.Drawing.Size(908, 173);
-            this._tabExportConfig.TabIndex = 20;
+            this._labelTipInfo.AutoEllipsis = true;
+            this._labelTipInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this._labelTipInfo.Location = new System.Drawing.Point(24, 667);
+            this._labelTipInfo.Name = "_labelTipInfo";
+            this._labelTipInfo.Size = new System.Drawing.Size(807, 17);
+            this._labelTipInfo.TabIndex = 22;
+            this._labelTipInfo.Text = "提示信息";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(24, 617);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 17);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "导出目录";
+            // 
+            // _tbExportDirectory
+            // 
+            this._tbExportDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._tbExportDirectory.BackColor = System.Drawing.Color.White;
+            this._tbExportDirectory.Location = new System.Drawing.Point(87, 614);
+            this._tbExportDirectory.Name = "_tbExportDirectory";
+            this._tbExportDirectory.Size = new System.Drawing.Size(409, 23);
+            this._tbExportDirectory.TabIndex = 24;
+            // 
+            // _btnSelectdExportDirectory
+            // 
+            this._btnSelectdExportDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._btnSelectdExportDirectory.Location = new System.Drawing.Point(502, 612);
+            this._btnSelectdExportDirectory.Name = "_btnSelectdExportDirectory";
+            this._btnSelectdExportDirectory.Size = new System.Drawing.Size(63, 26);
+            this._btnSelectdExportDirectory.TabIndex = 25;
+            this._btnSelectdExportDirectory.Text = "选择...";
+            this._btnSelectdExportDirectory.UseVisualStyleBackColor = true;
+            this._btnSelectdExportDirectory.Click += new System.EventHandler(this._tbSelectdExportDirecotry_Click);
+            // 
+            // _dialogExportDirectory
+            // 
+            this._dialogExportDirectory.Description = "选择导出路径";
             // 
             // _pageExcel
             // 
             this._pageExcel.Controls.Add(this._ctlExcelConfig);
             this._pageExcel.Location = new System.Drawing.Point(4, 26);
             this._pageExcel.Name = "_pageExcel";
-            this._pageExcel.Size = new System.Drawing.Size(900, 143);
+            this._pageExcel.Size = new System.Drawing.Size(900, 140);
             this._pageExcel.TabIndex = 0;
             this._pageExcel.Text = "Excel(.xlsx)";
             this._pageExcel.UseVisualStyleBackColor = true;
@@ -423,46 +471,30 @@
             this._ctlExcelConfig.Location = new System.Drawing.Point(0, 0);
             this._ctlExcelConfig.Margin = new System.Windows.Forms.Padding(0);
             this._ctlExcelConfig.Name = "_ctlExcelConfig";
-            this._ctlExcelConfig.Size = new System.Drawing.Size(900, 143);
+            this._ctlExcelConfig.Size = new System.Drawing.Size(900, 140);
             this._ctlExcelConfig.TabIndex = 0;
             // 
-            // _pageCode
+            // _tabExportConfig
             // 
-            this._pageCode.Location = new System.Drawing.Point(4, 26);
-            this._pageCode.Name = "_pageCode";
-            this._pageCode.Size = new System.Drawing.Size(900, 143);
-            this._pageCode.TabIndex = 1;
-            this._pageCode.Text = "代码";
-            this._pageCode.UseVisualStyleBackColor = true;
-            // 
-            // _labelExprtProcess
-            // 
-            this._labelExprtProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._labelExprtProcess.AutoSize = true;
-            this._labelExprtProcess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this._labelExprtProcess.Location = new System.Drawing.Point(504, 717);
-            this._labelExprtProcess.Name = "_labelExprtProcess";
-            this._labelExprtProcess.Size = new System.Drawing.Size(56, 17);
-            this._labelExprtProcess.TabIndex = 21;
-            this._labelExprtProcess.Text = "(18/100)";
-            // 
-            // _labelTipInfo
-            // 
-            this._labelTipInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._labelTipInfo.AutoSize = true;
-            this._labelTipInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this._labelTipInfo.Location = new System.Drawing.Point(24, 740);
-            this._labelTipInfo.Name = "_labelTipInfo";
-            this._labelTipInfo.Size = new System.Drawing.Size(56, 17);
-            this._labelTipInfo.TabIndex = 22;
-            this._labelTipInfo.Text = "提示信息";
+            this._tabExportConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._tabExportConfig.Controls.Add(this._pageExcel);
+            this._tabExportConfig.Location = new System.Drawing.Point(30, 426);
+            this._tabExportConfig.Name = "_tabExportConfig";
+            this._tabExportConfig.SelectedIndex = 0;
+            this._tabExportConfig.Size = new System.Drawing.Size(908, 170);
+            this._tabExportConfig.TabIndex = 20;
             // 
             // SchemaExportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(964, 761);
+            this.ClientSize = new System.Drawing.Size(964, 691);
+            this.Controls.Add(this._btnSelectdExportDirectory);
+            this.Controls.Add(this._tbExportDirectory);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this._labelTipInfo);
             this.Controls.Add(this._labelExprtProcess);
             this.Controls.Add(this._tabExportConfig);
@@ -489,15 +521,15 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(980, 760);
+            this.MinimumSize = new System.Drawing.Size(980, 730);
             this.Name = "SchemaExportForm";
             this.Text = "[HANDINESS] 结构导出工具";
             this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.SchemaExportForm_HelpButtonClicked);
             this.Load += new System.EventHandler(this.SchemaExportForm_Load);
             this.Shown += new System.EventHandler(this.SchemaExportForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this._dgvColumnSchema)).EndInit();
-            this._tabExportConfig.ResumeLayout(false);
             this._pageExcel.ResumeLayout(false);
+            this._tabExportConfig.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -531,12 +563,15 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ProgressBar _pbarExportProcess;
         private System.Windows.Forms.Button _btnExport;
-        private System.Windows.Forms.TabControl _tabExportConfig;
-        private System.Windows.Forms.TabPage _pageExcel;
-        private System.Windows.Forms.TabPage _pageCode;
         private System.Windows.Forms.Label _labelExprtProcess;
         private System.Windows.Forms.Label _labelTipInfo;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox _tbExportDirectory;
+        private System.Windows.Forms.Button _btnSelectdExportDirectory;
+        private System.Windows.Forms.FolderBrowserDialog _dialogExportDirectory;
+        private System.Windows.Forms.TabPage _pageExcel;
         private ExcelExportConfigControl _ctlExcelConfig;
+        private System.Windows.Forms.TabControl _tabExportConfig;
     }
 }
 

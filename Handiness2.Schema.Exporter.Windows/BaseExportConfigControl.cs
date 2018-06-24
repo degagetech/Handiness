@@ -21,7 +21,11 @@ namespace Handiness2.Schema.Exporter.Windows
             InitializeComponent();
         }
 
-
+        public virtual Boolean  IsValidExportConfig(out String errorMessage)
+        {
+            errorMessage = null;
+            return false;
+        }
         public virtual void ResetConfigInfo()
         {
 

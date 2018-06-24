@@ -28,6 +28,22 @@ namespace Handiness2.Schema.Exporter.Windows
                 return _groupTable.Count;
             }
         }
+        public IList<String> GetGroupItems(String groupName)
+        {
+            IList<String> groupInfo = null;
+            if (this.Contain(groupName))
+            {
+                groupInfo = this._groupTable[groupName];
+            }
+            return groupInfo;
+        }
+        public void RemoveItem(String item)
+        {
+            foreach (var pair in this._groupTable)
+            {
+                pair.Value.Remove(item);
+            }
+        }
         public Boolean Contain(String groupName)
         {
             return _groupTable.ContainsKey(groupName);

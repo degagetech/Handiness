@@ -36,9 +36,9 @@
             this._checkMerge = new System.Windows.Forms.CheckBox();
             this._btnEditGroup = new System.Windows.Forms.Button();
             this._lvGroup = new System.Windows.Forms.ListView();
+            this._iListItem = new System.Windows.Forms.ImageList(this.components);
             this._checkCustomGroup = new System.Windows.Forms.CheckBox();
             this._pannelGroup = new System.Windows.Forms.Panel();
-            this._iListItem = new System.Windows.Forms.ImageList(this.components);
             this._pannelGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,7 +61,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 17);
             this.label1.TabIndex = 3;
-            this.label1.Text = "导出模板";
+            this.label1.Text = "样式模板";
             // 
             // _btnEditorConnectionString
             // 
@@ -72,22 +72,24 @@
             this._btnEditorConnectionString.TabIndex = 5;
             this._btnEditorConnectionString.Text = "编辑...";
             this._btnEditorConnectionString.UseVisualStyleBackColor = true;
+            this._btnEditorConnectionString.Click += new System.EventHandler(this._btnEditorConnectionString_Click);
             // 
             // _checkMerge
             // 
-            this._checkMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._checkMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._checkMerge.AutoSize = true;
-            this._checkMerge.Location = new System.Drawing.Point(581, 7);
+            this._checkMerge.Location = new System.Drawing.Point(563, 111);
             this._checkMerge.Name = "_checkMerge";
             this._checkMerge.Size = new System.Drawing.Size(207, 21);
             this._checkMerge.TabIndex = 7;
             this._checkMerge.Text = "导出相同分组的信息至同一工作表";
             this._checkMerge.UseVisualStyleBackColor = true;
+            this._checkMerge.CheckedChanged += new System.EventHandler(this._checkMerge_CheckedChanged);
             // 
             // _btnEditGroup
             // 
             this._btnEditGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnEditGroup.Location = new System.Drawing.Point(498, 3);
+            this._btnEditGroup.Location = new System.Drawing.Point(715, 3);
             this._btnEditGroup.Name = "_btnEditGroup";
             this._btnEditGroup.Size = new System.Drawing.Size(63, 26);
             this._btnEditGroup.TabIndex = 9;
@@ -104,9 +106,15 @@
             this._lvGroup.LargeImageList = this._iListItem;
             this._lvGroup.Location = new System.Drawing.Point(3, 3);
             this._lvGroup.Name = "_lvGroup";
-            this._lvGroup.Size = new System.Drawing.Size(489, 87);
+            this._lvGroup.Size = new System.Drawing.Size(706, 87);
             this._lvGroup.TabIndex = 12;
             this._lvGroup.UseCompatibleStateImageBehavior = false;
+            // 
+            // _iListItem
+            // 
+            this._iListItem.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_iListItem.ImageStream")));
+            this._iListItem.TransparentColor = System.Drawing.Color.Transparent;
+            this._iListItem.Images.SetKeyName(0, "table.png");
             // 
             // _checkCustomGroup
             // 
@@ -126,18 +134,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this._pannelGroup.Controls.Add(this._lvGroup);
             this._pannelGroup.Controls.Add(this._btnEditGroup);
-            this._pannelGroup.Controls.Add(this._checkMerge);
             this._pannelGroup.Enabled = false;
             this._pannelGroup.Location = new System.Drawing.Point(102, 10);
             this._pannelGroup.Name = "_pannelGroup";
             this._pannelGroup.Size = new System.Drawing.Size(791, 93);
             this._pannelGroup.TabIndex = 14;
-            // 
-            // _iListItem
-            // 
-            this._iListItem.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_iListItem.ImageStream")));
-            this._iListItem.TransparentColor = System.Drawing.Color.Transparent;
-            this._iListItem.Images.SetKeyName(0, "table.png");
             // 
             // ExcelExportConfigControl
             // 
@@ -145,13 +146,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this._pannelGroup);
             this.Controls.Add(this._checkCustomGroup);
+            this.Controls.Add(this._checkMerge);
             this.Controls.Add(this._btnEditorConnectionString);
             this.Controls.Add(this._cbExcelExportTemplate);
             this.Controls.Add(this.label1);
             this.Name = "ExcelExportConfigControl";
             this.Size = new System.Drawing.Size(900, 143);
             this._pannelGroup.ResumeLayout(false);
-            this._pannelGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -51,6 +51,7 @@
             this._cbGroup.Name = "_cbGroup";
             this._cbGroup.Size = new System.Drawing.Size(318, 25);
             this._cbGroup.TabIndex = 10;
+            this._cbGroup.SelectedIndexChanged += new System.EventHandler(this._cbGroup_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -85,6 +86,7 @@
             this._checkItemContainer.Name = "_checkItemContainer";
             this._checkItemContainer.Size = new System.Drawing.Size(535, 277);
             this._checkItemContainer.TabIndex = 11;
+            this._checkItemContainer.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this._checkItemContainer_ItemCheck);
             // 
             // line1
             // 

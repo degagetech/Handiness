@@ -11,6 +11,7 @@ namespace Handiness2.Schema.Exporter.Windows
 {
     public partial class ExcelExportConfigControl : BaseExportConfigControl
     {
+        public ExcelExportTemplateConfig ExcelExportTemplateConfig { get; private set; }
         public override ExportConfig ExportConfig { get => this._exportConfig; }
         public override ISchemaExporter SchemaExporter { get => this._schemaExporter; }
 
@@ -22,7 +23,7 @@ namespace Handiness2.Schema.Exporter.Windows
             InitializeComponent();
 
             _exportConfig = new ExcelExportConfig();
-            _exportConfig.GroupInfo = new GroupInfoCollection();
+            _exportConfig.GroupInfos = new GroupInfoCollection();
             _schemaExporter = new ExcelSchemaExporter();
         }
 
@@ -32,7 +33,7 @@ namespace Handiness2.Schema.Exporter.Windows
             if (!this._checkCustomGroup.Checked)
             {
                 this._lvGroup.Items.Clear();
-                _exportConfig.GroupInfo.Clear();
+                _exportConfig.GroupInfos.Clear();
             }
             else
             {
@@ -43,13 +44,31 @@ namespace Handiness2.Schema.Exporter.Windows
 
         private void _btnEditGroup_Click(Object sender, EventArgs e)
         {
+            if (this._checkedTableSchemas == null || this._checkedTableSchemas.Count <= 0) return;
             ExcelExportGroupForm form = new ExcelExportGroupForm();
+            form.SetGroupInfo(this._exportConfig.GroupInfos, this._checkedTableSchemas);
             form.ShowDialog(this);
+            this.RenderingGroupInfo();
+        }
+        public override Boolean IsValidExportConfig(out String errorMessage)
+        {
+            if (this._cbExcelExportTemplate.SelectedValue == null)
+            {
+                errorMessage = "样式模板";
+                return false;
+            }
+            errorMessage = null;
+            return true;
         }
         public override void Initialize(SchemaExportForm form)
         {
             base.Initialize(form);
+            this._cbExcelExportTemplate.DisplayMember = nameof(ExcelExportTemplateItem.Name);
+            this._cbExcelExportTemplate.ValueMember = nameof(ExcelExportTemplateItem.Path);
             form.CheckedTableSchemaChanged += Form_CheckedTableSchemaChanged;
+            this.ExcelExportTemplateConfig = new ExcelExportTemplateConfig();
+            this.ExcelExportTemplateConfig.Load("ExcelExportTemplate.config.json");
+            this._cbExcelExportTemplate.DataSource = this.ExcelExportTemplateConfig.TemplateItems;
         }
         private void Reanalyse(IList<TableSchemaExtend> schemas)
         {
@@ -61,6 +80,7 @@ namespace Handiness2.Schema.Exporter.Windows
                     if (!newItem.Contains(schema.Name))
                     {
                         this._lvGroup.Items.RemoveByKey(schema.Name);
+                        this._exportConfig.GroupInfos.RemoveItem(schema.Name);
                     }
                 }
             }
@@ -74,11 +94,11 @@ namespace Handiness2.Schema.Exporter.Windows
         {
             this._lvGroup.Items.Clear();
             this._lvGroup.Groups.Clear();
-            if (this._exportConfig.GroupInfo.Count > 0)
+            if (this._exportConfig.GroupInfos.Count > 0)
             {
                 this._lvGroup.BeginUpdate();
                 this._lvGroup.SuspendLayout();
-                foreach (var pair in this._exportConfig.GroupInfo)
+                foreach (var pair in this._exportConfig.GroupInfos)
                 {
                     ListViewGroup group = new ListViewGroup(pair.Key);
                     this._lvGroup.Groups.Add(group);
@@ -100,6 +120,20 @@ namespace Handiness2.Schema.Exporter.Windows
                 this._lvGroup.ResumeLayout();
             }
 
+        }
+
+        private void _btnEditorConnectionString_Click(object sender, EventArgs e)
+        {
+            ExcelTemplateItemEditorForm form = new ExcelTemplateItemEditorForm(this.ExcelExportTemplateConfig);
+            form.ShowDialog();
+            this._cbExcelExportTemplate.DataSource = this.ExcelExportTemplateConfig.TemplateItems;
+            this.ExcelExportTemplateConfig.Save("ExcelExportTemplate.config.json");
+
+        }
+
+        private void _checkMerge_CheckedChanged(object sender, EventArgs e)
+        {
+            this._exportConfig.IsMergeGroupToSheet = this._checkMerge.Checked;
         }
     }
 

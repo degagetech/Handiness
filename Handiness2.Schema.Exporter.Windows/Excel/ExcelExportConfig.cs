@@ -17,7 +17,7 @@ namespace Handiness2.Schema.Exporter.Windows
         /// 分组信息
         /// </summary>
 
-        public GroupInfoCollection GroupInfo { get; set; }
+        public GroupInfoCollection GroupInfos { get; set; }
 
         /// <summary>
         /// 是否将相同组的 Schema 信息导出到 同一 Sheet

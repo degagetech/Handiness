@@ -58,6 +58,10 @@
     <Reference Include="Microsoft.SqlServerCe.Client">
       <HintPath>..\ref\Microsoft.SqlServerCe.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ref\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -70,6 +74,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Excel\ExcelTemplateItemEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Excel\ExcelTemplateItemEditorForm.Designer.cs">
+      <DependentUpon>ExcelTemplateItemEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Excel\ExcelExportTemplateConfig.cs" />
     <Compile Include="Excel\ExcelSchemaExporter.cs" />
     <Compile Include="Excel\ExcelExportConfig.cs" />
     <Compile Include="Excel\AddGroupForm.cs">
@@ -120,6 +131,12 @@
     <EmbeddedResource Include="Excel\ExcelExportGroupForm.resx">
       <DependentUpon>ExcelExportGroupForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Excel\ExcelTemplateItemEditorForm.ksh.resx">
+      <DependentUpon>ExcelTemplateItemEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Excel\ExcelTemplateItemEditorForm.resx">
+      <DependentUpon>ExcelTemplateItemEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SchemaExportForm.resx">
       <DependentUpon>SchemaExportForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -143,6 +160,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="default template.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="_Readme.md" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +181,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
+    <None Include="ExcelExportTemplate.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\view.png" />
     <None Include="Resources\table.png" />
     <None Include="Resources\connnect_closed.png" />

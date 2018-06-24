@@ -117,30 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="_iListItem.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="_iListItem.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACI
-        AwAAAk1TRnQBSQFMAwEBAAE4AQABOAEAARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
-        ARADAAEBAQABIAYAARD/AP8A/wAdAAGrAX8BTAH+AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/AbgBggFG
-        Af8BuAGCAUYB/wG4AYIBRgH/AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/AbgBggFGAf8BsAGBAUcB/dAA
-        AZ0BcAFMAfsnAAEBAbABgQFHAf3QAAGdAXABTAH7BAABuAGCAUYB/wG4AYIBRgH/AaIBeQFNAfoIAAGr
-        AX8BTAH+AbgBggFGAf8BuAGCAUYB/wMAAQEBsAGBAUcB/dAAAZ0BcAFMAfsoAAGrAX8BTAH+0AABnQFw
-        AUwB+wQAAbgBggFGAf8BuAGCAUYB/wGiAXkBTQH6CAABqwF/AUwB/gG4AYIBRgH/AbgBggFGAf8DAAEB
-        AasBfwFMAf7QAAGdAXABTAH7KAABqwF/AUwB/tAAAZ0BcAFMAfsEAAG4AYIBRgH/AbgBggFGAf8BogF5
-        AU0B+ggAAasBfwFMAf4BuAGCAUYB/wG4AYIBRgH/AwABAQGrAX8BTAH+0AABnQFwAUwB+ygAAasBfwFM
-        Af7QAAGrAX8BTAH+AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/
-        AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/AbgBggFGAf8BuAGCAUYB/9AAAasBfwFMAf4BuAGCAUYB/wG4
-        AYIBRgH/AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/AbgBggFG
-        Af8BuAGCAUYB/wG4AYIBRgH/0AABqwF/AUwB/gG4AYIBRgH/AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/
-        AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/AbgBggFGAf8BuAGCAUYB/wG4AYIBRgH/AbgBggFGAf//AP8A
-        ygABQgFNAT4HAAE+AwABKAMAAUADAAEQAwABAQEAAQEFAAGAFwAD/wEAAv8GAAL/BgAC/wYAAcABAwYA
-        Ad8B8wYAAdEBgwYAAd8B+wYAAdEBgwYAAd8B+wYAAdEBgwYAAd8B+wYAAcABAwYAAcABAwYAAcABAwYA
-        Av8GAAL/BgAL
-</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>编辑模板项</value>
   </data>
 </root>
