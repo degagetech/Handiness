@@ -10,15 +10,15 @@ using NPOI.SS.Util;
 
 namespace Handiness2.Schema.Exporter.Windows
 {
-    public struct EPoint
+    public class EPoint
     {
         public EPoint(Int32 x, Int32 y)
         {
             this.X = x;
             this.Y = y;
         }
-        public Int32 X;
-        public Int32 Y;
+        public Int32 X { get; set; }
+        public Int32 Y { get; set; }
     }
     /// <summary>
     /// 提供基于 NOPI 的各种与 Office 文档操作相关的功能函数
@@ -65,7 +65,7 @@ namespace Handiness2.Schema.Exporter.Windows
         public static ICell GetCell(this ISheet sheet, Int32 x, Int32 y, Boolean isEvaluate = true)
         {
             ICell cell = null;
-            if (sheet.LastRowNum > x)
+            if (sheet.LastRowNum >= x)
             {
                 var row = sheet.GetRow(x);
                 if (row.LastCellNum > y)
@@ -105,6 +105,21 @@ namespace Handiness2.Schema.Exporter.Windows
             link.Address = $"'{ sheet.SheetName}'" + address;
             return link;
         }
+        public static IHyperlink CreateHyperlink(this ISheet sheet,Int32 x,Int32 y)
+        {
+            IHyperlink link = null;
+            if (sheet is XSSFSheet)
+            {
+                link = new XSSFHyperlink(HyperlinkType.Document);
+            }
+            else
+            {
+                link = new HSSFHyperlink(HyperlinkType.Document);
+            }
+            String address = $"!R{x.ToString()}C{y.ToString()}";
+            link.Address = $"'{ sheet.SheetName}'" + address;
+            return link;
+        }
         public static String GetCellData(this ISheet sheet, Int32 x, Int32 y)
         {
             String value = null;
@@ -113,8 +128,31 @@ namespace Handiness2.Schema.Exporter.Windows
                 value = cell.ToString();
             return value;
         }
-
-        public static void CopyRow(ISheet source, Int32 sourceRowNum, ISheet dest, Int32 destinationRowNum,Int32 offset=0)
+        public static void SetCellValue(this ISheet sheet, Int32 x, Int32 y, Boolean val)
+        {
+            var cell = sheet.GetCell(x, y);
+            if (cell != null)
+                cell.SetCellValue(val);
+        }
+        public static void SetCellValue(this ISheet sheet,Int32 x,Int32 y,String val)
+        {
+            var cell = sheet.GetCell( x, y);
+            if (cell != null)
+                cell.SetCellValue(val);
+        }
+        public static void SetCellValue(this ISheet sheet, Int32 x, Int32 y, Double val)
+        {
+            var cell = sheet.GetCell(x, y);
+            if (cell != null)
+                cell.SetCellValue(val);
+        }
+        public static void SetCellValue(this ISheet sheet, Int32 x, Int32 y, DateTime val)
+        {
+            var cell = sheet.GetCell(x, y);
+            if (cell != null)
+                cell.SetCellValue(val);
+        }
+        public static void CopyRow(this ISheet source, Int32 sourceRowNum, ISheet dest, Int32 destinationRowNum,Int32 offset=0)
         {
             // Get the source / new row
             IRow newRow = dest.GetRow(destinationRowNum);
@@ -224,6 +262,11 @@ namespace Handiness2.Schema.Exporter.Windows
             sheet = workBook.GetSheetAt(sheetIndex);
 
             return sheet;
+        }
+        public static void RemoveSheetByName(this IWorkbook book, String sheetName)
+        {
+            Int32 index= book.GetSheetIndex(sheetName);
+            book.RemoveSheetAt(index);
         }
         public static ISheet GetSheet(IWorkbook book, String sheetName)
         {

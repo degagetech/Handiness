@@ -11,6 +11,7 @@ using Handiness2.Schema;
 using System.Threading.Tasks;
 using Handiness2.Schema.Exporter.Windows.Properties;
 using System.IO;
+using System.Diagnostics;
 
 namespace Handiness2.Schema.Exporter.Windows
 {
@@ -95,7 +96,7 @@ namespace Handiness2.Schema.Exporter.Windows
             await this.LoadSchemaProvider();
             this._ctlExcelConfig.Initialize(this);
             this._ctlExcelConfig.SchemaExporter.ExportProgressChanged += SchemaExporter_ExportProgressChanged;
-            this._ctlExcelConfig.SchemaExporter.ExportCompleted += SchemaExporter_ExportCompleted;
+            //this._ctlExcelConfig.SchemaExporter.ExportCompleted += SchemaExporter_ExportCompleted;
         }
 
         private void SchemaExporter_ExportCompleted(Object sender, SchemaExportCompletedEventArgs e)
@@ -105,7 +106,16 @@ namespace Handiness2.Schema.Exporter.Windows
 
         private void SchemaExporter_ExportProgressChanged(Object sender, SchemaExportEventArgs e)
         {
-             //TODO:导出进度变化时
+            //TODO:导出进度变化时
+            Action action = () =>
+              {
+                  this._pbarExportProcess.Maximum = e.Total;
+                  this._pbarExportProcess.Value = e.Current;
+                  this._labelExprtProcess.Text = $"{e.Current.ToString()}/{e.Total.ToString()}";
+                  this.ShowTipInformation($"正在导出 [{e.SchemaInfo.TableSchema.Name}] 的结构信息...");
+              };
+            this.Invoke(action);
+          
         }
 
         private async Task LoadSchemaProvider()
@@ -424,8 +434,8 @@ namespace Handiness2.Schema.Exporter.Windows
                 this.ShowDialogTipInformation("尚未提供导出器！");
                 return valid;
             }
-            var exportPath = this._btnSelectdExportDirectory.Text.Trim();
-            if (!String.IsNullOrEmpty(exportPath) && Directory.Exists(exportPath))
+            var exportPath = this._tbExportDirectory.Text.Trim();
+            if (String.IsNullOrEmpty(exportPath) || !Directory.Exists(exportPath))
             {
                 this.ShowDialogTipInformation("导出目录无效！");
                 return valid;
@@ -451,6 +461,10 @@ namespace Handiness2.Schema.Exporter.Windows
         {
             this._labelTipInfo.Text = text;
             this._labelTipInfo.ForeColor = Color.Red;
+        }
+        private void FillExportConfig()
+        {
+
         }
         private async void Export()
         {
@@ -478,6 +492,7 @@ namespace Handiness2.Schema.Exporter.Windows
             catch (Exception exc)
             {
                 this.ShowErrorInformation("导出时发生异常！" + exc.Message);
+                MessageBox.Show(exc.ToString(),"异常",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             finally
             {

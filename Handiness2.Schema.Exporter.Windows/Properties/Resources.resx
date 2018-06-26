@@ -145,4 +145,7 @@
   <data name="AddGroupForm_GroupNameCannotNull" xml:space="preserve">
     <value>组名不能为空！</value>
   </data>
+  <data name="ExcelExportGroupForm_GroupNotNnique" xml:space="preserve">
+    <value>组名不唯一！</value>
+  </data>
 </root>

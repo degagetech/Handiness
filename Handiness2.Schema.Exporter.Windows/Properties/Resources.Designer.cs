@@ -90,6 +90,15 @@ namespace Handiness2.Schema.Exporter.Windows.Properties {
         }
         
         /// <summary>
+        ///   查找类似 组名不唯一！ 的本地化字符串。
+        /// </summary>
+        internal static string ExcelExportGroupForm_GroupNotNnique {
+            get {
+                return ResourceManager.GetString("ExcelExportGroupForm_GroupNotNnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 提示 的本地化字符串。
         /// </summary>
         internal static string HintText {

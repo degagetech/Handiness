@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using Handiness2.Schema.Exporter.Windows.Properties;
 namespace Handiness2.Schema.Exporter.Windows
 {
     public partial class ExcelExportGroupForm : Form
@@ -48,12 +48,20 @@ namespace Handiness2.Schema.Exporter.Windows
             var result = form.ShowDialog(this);
             if (result == DialogResult.OK)
             {
+                if (!this.IsUnique(form.GroupName))
+                {
+                    MessageBox.Show(Resources.ExcelExportGroupForm_GroupNotNnique, Resources.HintText, MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    return;
+                }
                 this.GroupInfoCollection.AddGroup(form.GroupName);
                 this._cbGroup.Items.Add(form.GroupName);
                 this._cbGroup.SelectedItem = form.GroupName;
             }
         }
-
+        private Boolean IsUnique(String groupName)
+        {
+           return  !this.GroupInfoCollection.Contain(groupName);
+        }
         private void _btnDeleteGroup_Click(object sender, EventArgs e)
         {
             var current = this._cbGroup.SelectedItem;

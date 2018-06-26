@@ -8,12 +8,15 @@ namespace Handiness2.Schema.Exporter.Windows
 
     internal static class ExcelTemplateFormat
     {
+        internal const Int32 RowSpan = 2;
         internal const String ExcelFileExt = ".xlsx";
         internal const String CatalogSheetName = "目录";
         /// <summary>
         /// Excel 模板中目录模板 Sheet 的名称
         /// </summary>
         internal const String CatalogSheetTemplateName = "_catalog";
+
+
         internal const Int32 CSTHeadRowNum = 0;
         internal const Int32 CSTColumnHeaderRowNum = 2;
         internal const Int32 CSTRowTemlateNum = 4;
@@ -23,8 +26,29 @@ namespace Handiness2.Schema.Exporter.Windows
         /// </summary>
         internal const String TableSheetTemplateName = "_table";
 
+      
+
+        internal const Int32 CatalogNumColLength = 2;
+        internal const Int32 CatalogTableNameColLength = 6;
+        internal const Int32 CatalogExplainColLength = 8;
+        internal const Int32 CatalogRemarkColLength = 7;
 
 
+
+
+
+
+        internal const Int32 TSTHeadRowNum = 0;
+        internal const Int32 TSTColumnHeaderRowNum = 2;
+        internal const Int32 TSTRowTemlateNum = 4;
+
+        internal const Int32 TableNumColLength = 2;
+        internal const Int32 TableFieldNameColLength = 4;
+        internal const Int32 TableExplainColLength = 8;
+        internal const Int32 TableTypeColLength = 4;
+        internal const Int32 TableIsPrimaryColLength = 2;
+        internal const Int32 TableIsNullableColLength = 2;
+        internal const Int32 TableRemarkColLength = 2;
 
         /// <summary>
         /// 目录表起始信息行的X坐标

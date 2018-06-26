@@ -69,6 +69,7 @@ namespace Handiness2.Schema.Exporter.Windows
             this.ExcelExportTemplateConfig = new ExcelExportTemplateConfig();
             this.ExcelExportTemplateConfig.Load("ExcelExportTemplate.config.json");
             this._cbExcelExportTemplate.DataSource = this.ExcelExportTemplateConfig.TemplateItems;
+            this._exportConfig.ExcelTemplatePath = this._cbExcelExportTemplate.SelectedValue.ToString();
         }
         private void Reanalyse(IList<TableSchemaExtend> schemas)
         {

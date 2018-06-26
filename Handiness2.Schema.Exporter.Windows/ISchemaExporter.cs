@@ -14,7 +14,7 @@ namespace Handiness2.Schema.Exporter.Windows
         /// <summary>
         /// 导出完成时，第二个参数为导出的所有的文件路径集合
         /// </summary>
-        event Action<Object, SchemaExportCompletedEventArgs> ExportCompleted;
+  //      event Action<Object, SchemaExportCompletedEventArgs> ExportCompleted;
 
         void Export(String exportDirectory, IList<SchemaInfoTuple> schemas, ExportConfig config);
     }

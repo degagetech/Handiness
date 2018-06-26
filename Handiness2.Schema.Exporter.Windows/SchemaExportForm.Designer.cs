@@ -110,8 +110,8 @@
             this._tbConnectionString.Name = "_tbConnectionString";
             this._tbConnectionString.Size = new System.Drawing.Size(761, 23);
             this._tbConnectionString.TabIndex = 3;
-            this._tbConnectionString.Text = "Data Source=117.48.197.78;Initial Catalog=biobank_report;User ID=sa;Password=9324" +
-    "44208wlj+";
+            this._tbConnectionString.Text = "Data Source=117.48.197.78;Initial Catalog=biobank;User ID=sa;Password=932444208wl" +
+    "j+";
             // 
             // _btnEditorConnectionString
             // 
@@ -404,9 +404,9 @@
             this._labelExprtProcess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             this._labelExprtProcess.Location = new System.Drawing.Point(504, 643);
             this._labelExprtProcess.Name = "_labelExprtProcess";
-            this._labelExprtProcess.Size = new System.Drawing.Size(56, 17);
+            this._labelExprtProcess.Size = new System.Drawing.Size(11, 17);
             this._labelExprtProcess.TabIndex = 21;
-            this._labelExprtProcess.Text = "(18/100)";
+            this._labelExprtProcess.Text = ".";
             // 
             // _labelTipInfo
             // 
