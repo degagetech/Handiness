@@ -96,12 +96,13 @@ namespace Handiness2.Schema.Exporter.Windows
             await this.LoadSchemaProvider();
             this._ctlExcelConfig.Initialize(this);
             this._ctlExcelConfig.SchemaExporter.ExportProgressChanged += SchemaExporter_ExportProgressChanged;
+            this._tbExportDirectory.Text = Environment.GetFolderPath( Environment.SpecialFolder.Desktop);
             //this._ctlExcelConfig.SchemaExporter.ExportCompleted += SchemaExporter_ExportCompleted;
         }
 
         private void SchemaExporter_ExportCompleted(Object sender, SchemaExportCompletedEventArgs e)
         {
-           //TODO:导出完成时
+            //TODO:导出完成时
         }
 
         private void SchemaExporter_ExportProgressChanged(Object sender, SchemaExportEventArgs e)
@@ -115,7 +116,7 @@ namespace Handiness2.Schema.Exporter.Windows
                   this.ShowTipInformation($"正在导出 [{e.SchemaInfo.TableSchema.Name}] 的结构信息...");
               };
             this.Invoke(action);
-          
+
         }
 
         private async Task LoadSchemaProvider()
@@ -483,7 +484,12 @@ namespace Handiness2.Schema.Exporter.Windows
                     }
                     schemaInfos.Add(schemaInfo);
                 }
-                this.CurrentSchemaExporter.Export(this.CurrentExportDirectory,schemaInfos,this.CurrentExportConfig);
+                this.ShowTipInformation("正在写入结构信息到文件中...");
+                await TaskEx.Run(() =>
+                {
+                    this.CurrentSchemaExporter.Export(this.CurrentExportDirectory, schemaInfos, this.CurrentExportConfig);
+                });
+
 
                 String exportCompleted = "导出完成！";
                 this.ShowTipInformation(exportCompleted);
@@ -492,7 +498,7 @@ namespace Handiness2.Schema.Exporter.Windows
             catch (Exception exc)
             {
                 this.ShowErrorInformation("导出时发生异常！" + exc.Message);
-                MessageBox.Show(exc.ToString(),"异常",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show(exc.ToString(), "异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -516,6 +522,11 @@ namespace Handiness2.Schema.Exporter.Windows
             {
                 this.Export();
             }
+        }
+
+        private void SchemaExportForm_FormClosing(Object sender, FormClosingEventArgs e)
+        {
+            this.CurrentSchemaProvider.Close();
         }
     }
     public class SchemaInfoTupleEx : SchemaInfoTuple

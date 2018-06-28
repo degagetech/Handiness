@@ -65,8 +65,8 @@
             this._btnSelectdExportDirectory = new System.Windows.Forms.Button();
             this._dialogExportDirectory = new System.Windows.Forms.FolderBrowserDialog();
             this._pageExcel = new System.Windows.Forms.TabPage();
-            this._ctlExcelConfig = new Handiness2.Schema.Exporter.Windows.ExcelExportConfigControl();
             this._tabExportConfig = new System.Windows.Forms.TabControl();
+            this._ctlExcelConfig = new Handiness2.Schema.Exporter.Windows.ExcelExportConfigControl();
             ((System.ComponentModel.ISupportInitialize)(this._dgvColumnSchema)).BeginInit();
             this._pageExcel.SuspendLayout();
             this._tabExportConfig.SuspendLayout();
@@ -110,8 +110,7 @@
             this._tbConnectionString.Name = "_tbConnectionString";
             this._tbConnectionString.Size = new System.Drawing.Size(761, 23);
             this._tbConnectionString.TabIndex = 3;
-            this._tbConnectionString.Text = "Data Source=117.48.197.78;Initial Catalog=biobank;User ID=sa;Password=932444208wl" +
-    "j+";
+            this._tbConnectionString.Text = "Data Source=192.168.1.252;Initial Catalog=pes_dev;User ID=sa;Password=sql";
             // 
             // _btnEditorConnectionString
             // 
@@ -384,7 +383,7 @@
             this._pbarExportProcess.Name = "_pbarExportProcess";
             this._pbarExportProcess.Size = new System.Drawing.Size(409, 17);
             this._pbarExportProcess.TabIndex = 18;
-            this._pbarExportProcess.Value = 20;
+            this._pbarExportProcess.Value = 1;
             // 
             // _btnExport
             // 
@@ -464,16 +463,6 @@
             this._pageExcel.Text = "Excel(.xlsx)";
             this._pageExcel.UseVisualStyleBackColor = true;
             // 
-            // _ctlExcelConfig
-            // 
-            this._ctlExcelConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._ctlExcelConfig.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._ctlExcelConfig.Location = new System.Drawing.Point(0, 0);
-            this._ctlExcelConfig.Margin = new System.Windows.Forms.Padding(0);
-            this._ctlExcelConfig.Name = "_ctlExcelConfig";
-            this._ctlExcelConfig.Size = new System.Drawing.Size(900, 140);
-            this._ctlExcelConfig.TabIndex = 0;
-            // 
             // _tabExportConfig
             // 
             this._tabExportConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -485,6 +474,16 @@
             this._tabExportConfig.SelectedIndex = 0;
             this._tabExportConfig.Size = new System.Drawing.Size(908, 170);
             this._tabExportConfig.TabIndex = 20;
+            // 
+            // _ctlExcelConfig
+            // 
+            this._ctlExcelConfig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._ctlExcelConfig.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._ctlExcelConfig.Location = new System.Drawing.Point(0, 0);
+            this._ctlExcelConfig.Margin = new System.Windows.Forms.Padding(0);
+            this._ctlExcelConfig.Name = "_ctlExcelConfig";
+            this._ctlExcelConfig.Size = new System.Drawing.Size(900, 140);
+            this._ctlExcelConfig.TabIndex = 0;
             // 
             // SchemaExportForm
             // 
@@ -525,6 +524,7 @@
             this.Name = "SchemaExportForm";
             this.Text = "[HANDINESS] 结构导出工具";
             this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.SchemaExportForm_HelpButtonClicked);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SchemaExportForm_FormClosing);
             this.Load += new System.EventHandler(this.SchemaExportForm_Load);
             this.Shown += new System.EventHandler(this.SchemaExportForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this._dgvColumnSchema)).EndInit();

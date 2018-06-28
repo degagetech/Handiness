@@ -46,6 +46,7 @@ namespace Handiness2.Schema.Exporter.Windows
         internal const Int32 TableFieldNameColLength = 4;
         internal const Int32 TableExplainColLength = 8;
         internal const Int32 TableTypeColLength = 4;
+        internal const Int32 TableLengthColLength = 2;
         internal const Int32 TableIsPrimaryColLength = 2;
         internal const Int32 TableIsNullableColLength = 2;
         internal const Int32 TableRemarkColLength = 2;

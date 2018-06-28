@@ -7,6 +7,9 @@ using NPOI.SS.UserModel;
 using System.IO;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.Util;
+using System.Threading.Tasks;
+using System.Threading;
+
 namespace Handiness2.Schema.Exporter.Windows
 {
     public class ExcelSchemaExporter : ISchemaExporter
@@ -105,6 +108,7 @@ namespace Handiness2.Schema.Exporter.Windows
                     cell.Hyperlink = link;
                  
                     catalogLocation.X += ExcelTemplateFormat.RowSpan;
+                    Thread.Sleep(10);
 
                 }
                 catalogLocation.X += ExcelTemplateFormat.RowSpan;
@@ -135,17 +139,18 @@ namespace Handiness2.Schema.Exporter.Windows
                     this.RaiseExportProgressChanged(total, ++current, schemaInfo);
                     this.WriteCatalogRow(catalogSheet, tableSchema, num++, catalogLocation.X, 0);
 
-                    this.WriteSchemaInfo(tableTemplateSheet, schemaSheet, sheetLocation, schemaInfo);
+                   this.WriteSchemaInfo(tableTemplateSheet, schemaSheet, sheetLocation, schemaInfo);
                
                     //目录表获取表名单元格，并添加链接
                     ICell cell = catalogSheet.GetCell(catalogLocation.X, 0 + ExcelTemplateFormat.CatalogNumColLength);
 
                     //TODO: 连接R1C1样式单元格 ，暂时只连接到 Sheet
-                    IHyperlink link = OfficeAssistor.CreateHyperlink(schemaSheet/*, sheetLocation.X, sheetLocation.Y*/);
+                    IHyperlink link = OfficeAssistor.CreateHyperlink(schemaSheet);
 
                     cell.Hyperlink = link;
 
                     catalogLocation.X += ExcelTemplateFormat.RowSpan;
+                    Thread.Sleep(10);
                 }
 
             }
@@ -161,7 +166,10 @@ namespace Handiness2.Schema.Exporter.Windows
             args.Total = total;
             args.Current = current;
             args.SchemaInfo = schema;
-            this.ExportProgressChanged?.Invoke(this, args);
+            ThreadPool.QueueUserWorkItem((s) =>
+            {
+                this.ExportProgressChanged?.Invoke(this, args);
+            });
         }
         private void SaveExcel(IWorkbook workbook, String exportDirectory)
         {
@@ -191,7 +199,7 @@ namespace Handiness2.Schema.Exporter.Windows
 
             start.X += ExcelTemplateFormat.RowSpan;
             //复制列头
-            formatSheet.CopyRow(ExcelTemplateFormat.TSTColumnHeaderRowNum, sheet, start.X, start.Y);
+           formatSheet.CopyRow(ExcelTemplateFormat.TSTColumnHeaderRowNum, sheet, start.X, start.Y);
             start.X += ExcelTemplateFormat.RowSpan;
 
         
@@ -218,9 +226,12 @@ namespace Handiness2.Schema.Exporter.Windows
                 col += ExcelTemplateFormat.TableExplainColLength;
 
                 //写入类型
-                sheet.SetCellValue(start.X, col, colSchema.Explain);
+                sheet.SetCellValue(start.X, col, colSchema.DbTypeString);
                 col += ExcelTemplateFormat.TableTypeColLength;
 
+                //写入长度
+                sheet.SetCellValue(start.X, col, colSchema.Length);
+                col += ExcelTemplateFormat.TableLengthColLength;
 
                 //写入主键信息
                 if (colSchema.IsPrimaryKey) sheet.SetCellValue(start.X, col, colSchema.IsPrimaryKey);

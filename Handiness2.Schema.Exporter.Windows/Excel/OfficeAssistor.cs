@@ -154,14 +154,14 @@ namespace Handiness2.Schema.Exporter.Windows
         }
         public static void CopyRow(this ISheet source, Int32 sourceRowNum, ISheet dest, Int32 destinationRowNum,Int32 offset=0)
         {
-            // Get the source / new row
+
             IRow newRow = dest.GetRow(destinationRowNum);
             IRow sourceRow = source.GetRow(sourceRowNum);
 
-            // If the row exist in destination, push down all rows by 1 else create a new row
+     
             if (newRow != null)
             {
-                source.ShiftRows(destinationRowNum, source.LastRowNum, 1);
+               // source.ShiftRows(destinationRowNum, source.LastRowNum, 1);
             }
             else
             {
@@ -184,18 +184,19 @@ namespace Handiness2.Schema.Exporter.Windows
 
                 // Copy style from old cell and apply to new cell
 
-                ICellStyle newCellStyle = source.Workbook.CreateCellStyle();
-                newCellStyle.CloneStyleFrom(oldCell.CellStyle); ;
-                newCell.CellStyle = newCellStyle;
-
+                //ICellStyle newCellStyle = source.Workbook.CreateCellStyle();
+                //newCellStyle.CloneStyleFrom(oldCell.CellStyle); ;
+                // newCell.CellStyle = newCellStyle;
+                newCell.CellStyle = oldCell.CellStyle;
                 // If there is a cell comment, copy
                 if (newCell.CellComment != null) newCell.CellComment = oldCell.CellComment;
 
                 // If there is a cell hyperlink, copy
                 if (oldCell.Hyperlink != null) newCell.Hyperlink = oldCell.Hyperlink;
 
-                // Set the cell data type
+             //   Set the cell data type
                 newCell.SetCellType(oldCell.CellType);
+
 
                 // Set the cell data value
                 switch (oldCell.CellType)
@@ -216,7 +217,7 @@ namespace Handiness2.Schema.Exporter.Windows
                         newCell.SetCellValue(oldCell.NumericCellValue);
                         break;
                     case CellType.String:
-                        newCell.SetCellValue(oldCell.RichStringCellValue);
+                        newCell.SetCellValue(oldCell.StringCellValue);
                         break;
                     case CellType.Unknown:
                         newCell.SetCellValue(oldCell.StringCellValue);
@@ -235,8 +236,8 @@ namespace Handiness2.Schema.Exporter.Windows
                     CellRangeAddress newCellRangeAddress = new CellRangeAddress(
                                                                            fisrtRow,
                                                                            lastRow,
-                                                                           cellRangeAddress.FirstColumn+ offset,
-                                                                           cellRangeAddress.LastColumn+ offset);
+                                                                           cellRangeAddress.FirstColumn + offset,
+                                                                           cellRangeAddress.LastColumn + offset);
                     dest.AddMergedRegion(newCellRangeAddress);
                 }
             }
