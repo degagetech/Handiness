@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+
+using Newtonsoft.Json.Serialization;
 
 namespace Handiness2.Schema.Exporter.Windows
 {
+
     public class ExcelExportConfig : ExportConfig
     {
         /// <summary>
@@ -28,5 +32,8 @@ namespace Handiness2.Schema.Exporter.Windows
         /// Excel 模板的路径
         /// </summary>
         public String ExcelTemplatePath { get; set; }
+        public String ExcelTempldateName { get; set; }
     }
+   
+    
 }

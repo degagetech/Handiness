@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SchemaExportForm));
             this._cbSchemaProvider = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -65,11 +65,19 @@
             this._btnSelectdExportDirectory = new System.Windows.Forms.Button();
             this._dialogExportDirectory = new System.Windows.Forms.FolderBrowserDialog();
             this._pageExcel = new System.Windows.Forms.TabPage();
-            this._tabExportConfig = new System.Windows.Forms.TabControl();
             this._ctlExcelConfig = new Handiness2.Schema.Exporter.Windows.ExcelExportConfigControl();
+            this._tabExportConfig = new System.Windows.Forms.TabControl();
+            this._stripMenu = new System.Windows.Forms.MenuStrip();
+            this._stripItemFile = new System.Windows.Forms.ToolStripMenuItem();
+            this._stripReadConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this._stripItemSaveCurrentConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this._stripItemAsConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this._dialogAsConfig = new System.Windows.Forms.SaveFileDialog();
+            this._dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this._dgvColumnSchema)).BeginInit();
             this._pageExcel.SuspendLayout();
             this._tabExportConfig.SuspendLayout();
+            this._stripMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // _cbSchemaProvider
@@ -77,7 +85,7 @@
             this._cbSchemaProvider.BackColor = System.Drawing.Color.White;
             this._cbSchemaProvider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbSchemaProvider.FormattingEnabled = true;
-            this._cbSchemaProvider.Location = new System.Drawing.Point(98, 59);
+            this._cbSchemaProvider.Location = new System.Drawing.Point(98, 74);
             this._cbSchemaProvider.Name = "_cbSchemaProvider";
             this._cbSchemaProvider.Size = new System.Drawing.Size(349, 25);
             this._cbSchemaProvider.TabIndex = 0;
@@ -86,7 +94,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 63);
+            this.label1.Location = new System.Drawing.Point(24, 78);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 17);
             this.label1.TabIndex = 1;
@@ -95,7 +103,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 25);
+            this.label2.Location = new System.Drawing.Point(24, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 17);
             this.label2.TabIndex = 2;
@@ -106,16 +114,15 @@
             this._tbConnectionString.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbConnectionString.BackColor = System.Drawing.Color.White;
-            this._tbConnectionString.Location = new System.Drawing.Point(98, 22);
+            this._tbConnectionString.Location = new System.Drawing.Point(98, 37);
             this._tbConnectionString.Name = "_tbConnectionString";
             this._tbConnectionString.Size = new System.Drawing.Size(761, 23);
             this._tbConnectionString.TabIndex = 3;
-            this._tbConnectionString.Text = "Data Source=192.168.1.252;Initial Catalog=pes_dev;User ID=sa;Password=sql";
             // 
             // _btnEditorConnectionString
             // 
             this._btnEditorConnectionString.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnEditorConnectionString.Location = new System.Drawing.Point(875, 20);
+            this._btnEditorConnectionString.Location = new System.Drawing.Point(875, 35);
             this._btnEditorConnectionString.Name = "_btnEditorConnectionString";
             this._btnEditorConnectionString.Size = new System.Drawing.Size(63, 26);
             this._btnEditorConnectionString.TabIndex = 4;
@@ -131,7 +138,7 @@
             this._tvSchema.ImageIndex = 0;
             this._tvSchema.ImageList = this._iListSchemaTree;
             this._tvSchema.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this._tvSchema.Location = new System.Drawing.Point(30, 139);
+            this._tvSchema.Location = new System.Drawing.Point(30, 148);
             this._tvSchema.Name = "_tvSchema";
             this._tvSchema.SelectedImageIndex = 0;
             this._tvSchema.ShowNodeToolTips = true;
@@ -149,7 +156,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 113);
+            this.label3.Location = new System.Drawing.Point(24, 122);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 17);
             this.label3.TabIndex = 6;
@@ -158,8 +165,8 @@
             // _dgvColumnSchema
             // 
             this._dgvColumnSchema.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this._dgvColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvColumnSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -172,15 +179,15 @@
             this._colLength,
             this._colNullable,
             this._colExplain});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle2;
-            this._dgvColumnSchema.Location = new System.Drawing.Point(313, 139);
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle4;
+            this._dgvColumnSchema.Location = new System.Drawing.Point(313, 148);
             this._dgvColumnSchema.Name = "_dgvColumnSchema";
             this._dgvColumnSchema.RowHeadersVisible = false;
             this._dgvColumnSchema.RowTemplate.Height = 23;
@@ -227,7 +234,7 @@
             this._btnOpen.FlatAppearance.BorderSize = 0;
             this._btnOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("_btnOpen.Image")));
-            this._btnOpen.Location = new System.Drawing.Point(275, 111);
+            this._btnOpen.Location = new System.Drawing.Point(275, 120);
             this._btnOpen.Name = "_btnOpen";
             this._btnOpen.Size = new System.Drawing.Size(29, 26);
             this._btnOpen.TabIndex = 8;
@@ -242,7 +249,7 @@
             this._waitSchemProvider.HatchBrushStyle = System.Drawing.Drawing2D.HatchStyle.DarkHorizontal;
             this._waitSchemProvider.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this._waitSchemProvider.IsFollowParentBackColor = true;
-            this._waitSchemProvider.Location = new System.Drawing.Point(457, 62);
+            this._waitSchemProvider.Location = new System.Drawing.Point(457, 77);
             this._waitSchemProvider.Margin = new System.Windows.Forms.Padding(0);
             this._waitSchemProvider.Name = "_waitSchemProvider";
             this._waitSchemProvider.RollingSpeed = 60D;
@@ -262,7 +269,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this._labelProviderExplain.AutoEllipsis = true;
             this._labelProviderExplain.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this._labelProviderExplain.Location = new System.Drawing.Point(488, 64);
+            this._labelProviderExplain.Location = new System.Drawing.Point(488, 79);
             this._labelProviderExplain.Name = "_labelProviderExplain";
             this._labelProviderExplain.Size = new System.Drawing.Size(450, 17);
             this._labelProviderExplain.TabIndex = 11;
@@ -278,7 +285,7 @@
             this.line1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
             this.line1.LineLength = 980;
             this.line1.LineWidth = 1;
-            this.line1.Location = new System.Drawing.Point(0, 96);
+            this.line1.Location = new System.Drawing.Point(0, 110);
             this.line1.Margin = new System.Windows.Forms.Padding(0);
             this.line1.Name = "line1";
             this.line1.Size = new System.Drawing.Size(980, 1);
@@ -312,7 +319,7 @@
             this._waitConnect.HatchBrushStyle = System.Drawing.Drawing2D.HatchStyle.DarkHorizontal;
             this._waitConnect.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this._waitConnect.IsFollowParentBackColor = true;
-            this._waitConnect.Location = new System.Drawing.Point(251, 116);
+            this._waitConnect.Location = new System.Drawing.Point(251, 125);
             this._waitConnect.Margin = new System.Windows.Forms.Padding(0);
             this._waitConnect.Name = "_waitConnect";
             this._waitConnect.RollingSpeed = 60D;
@@ -334,7 +341,7 @@
             this._waitColumnSchemaLoad.HatchBrushStyle = System.Drawing.Drawing2D.HatchStyle.DarkHorizontal;
             this._waitColumnSchemaLoad.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this._waitColumnSchemaLoad.IsFollowParentBackColor = true;
-            this._waitColumnSchemaLoad.Location = new System.Drawing.Point(313, 116);
+            this._waitColumnSchemaLoad.Location = new System.Drawing.Point(313, 125);
             this._waitColumnSchemaLoad.Margin = new System.Windows.Forms.Padding(0);
             this._waitColumnSchemaLoad.Name = "_waitColumnSchemaLoad";
             this._waitColumnSchemaLoad.RollingSpeed = 60D;
@@ -388,7 +395,7 @@
             // _btnExport
             // 
             this._btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnExport.Location = new System.Drawing.Point(871, 650);
+            this._btnExport.Location = new System.Drawing.Point(871, 643);
             this._btnExport.Name = "_btnExport";
             this._btnExport.Size = new System.Drawing.Size(63, 26);
             this._btnExport.TabIndex = 19;
@@ -463,6 +470,16 @@
             this._pageExcel.Text = "Excel(.xlsx)";
             this._pageExcel.UseVisualStyleBackColor = true;
             // 
+            // _ctlExcelConfig
+            // 
+            this._ctlExcelConfig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._ctlExcelConfig.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._ctlExcelConfig.Location = new System.Drawing.Point(0, 0);
+            this._ctlExcelConfig.Margin = new System.Windows.Forms.Padding(0);
+            this._ctlExcelConfig.Name = "_ctlExcelConfig";
+            this._ctlExcelConfig.Size = new System.Drawing.Size(900, 140);
+            this._ctlExcelConfig.TabIndex = 0;
+            // 
             // _tabExportConfig
             // 
             this._tabExportConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -474,16 +491,64 @@
             this._tabExportConfig.SelectedIndex = 0;
             this._tabExportConfig.Size = new System.Drawing.Size(908, 170);
             this._tabExportConfig.TabIndex = 20;
+            this._tabExportConfig.SelectedIndexChanged += new System.EventHandler(this._tabExportConfig_SelectedIndexChanged);
             // 
-            // _ctlExcelConfig
+            // _stripMenu
             // 
-            this._ctlExcelConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._ctlExcelConfig.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this._ctlExcelConfig.Location = new System.Drawing.Point(0, 0);
-            this._ctlExcelConfig.Margin = new System.Windows.Forms.Padding(0);
-            this._ctlExcelConfig.Name = "_ctlExcelConfig";
-            this._ctlExcelConfig.Size = new System.Drawing.Size(900, 140);
-            this._ctlExcelConfig.TabIndex = 0;
+            this._stripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._stripItemFile});
+            this._stripMenu.Location = new System.Drawing.Point(0, 0);
+            this._stripMenu.Name = "_stripMenu";
+            this._stripMenu.Size = new System.Drawing.Size(964, 25);
+            this._stripMenu.TabIndex = 26;
+            this._stripMenu.Text = "menuStrip1";
+            // 
+            // _stripItemFile
+            // 
+            this._stripItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._stripReadConfig,
+            this._stripItemSaveCurrentConfig,
+            this._stripItemAsConfig});
+            this._stripItemFile.Name = "_stripItemFile";
+            this._stripItemFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
+            this._stripItemFile.Size = new System.Drawing.Size(58, 21);
+            this._stripItemFile.Text = "文件(&F)";
+            // 
+            // _stripReadConfig
+            // 
+            this._stripReadConfig.BackColor = System.Drawing.Color.WhiteSmoke;
+            this._stripReadConfig.Name = "_stripReadConfig";
+            this._stripReadConfig.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this._stripReadConfig.Size = new System.Drawing.Size(197, 22);
+            this._stripReadConfig.Text = "读取配置(&L)";
+            this._stripReadConfig.Click += new System.EventHandler(this._stripReadConfig_Click);
+            // 
+            // _stripItemSaveCurrentConfig
+            // 
+            this._stripItemSaveCurrentConfig.BackColor = System.Drawing.Color.WhiteSmoke;
+            this._stripItemSaveCurrentConfig.Name = "_stripItemSaveCurrentConfig";
+            this._stripItemSaveCurrentConfig.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this._stripItemSaveCurrentConfig.Size = new System.Drawing.Size(197, 22);
+            this._stripItemSaveCurrentConfig.Text = "保存配置(&S)";
+            this._stripItemSaveCurrentConfig.Click += new System.EventHandler(this._stripItemSaveCurrentConfig_Click);
+            // 
+            // _stripItemAsConfig
+            // 
+            this._stripItemAsConfig.BackColor = System.Drawing.Color.WhiteSmoke;
+            this._stripItemAsConfig.Name = "_stripItemAsConfig";
+            this._stripItemAsConfig.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this._stripItemAsConfig.Size = new System.Drawing.Size(197, 22);
+            this._stripItemAsConfig.Text = "配置另存为(&A)";
+            this._stripItemAsConfig.Click += new System.EventHandler(this._stripAsConfig_Click);
+            // 
+            // _dialogAsConfig
+            // 
+            this._dialogAsConfig.DefaultExt = "config";
+            this._dialogAsConfig.Filter = "Config 配置文件|*.config";
+            // 
+            // _dialogOpenFile
+            // 
+            this._dialogOpenFile.Filter = "Config 文件|*.config|所有文件|*.*";
             // 
             // SchemaExportForm
             // 
@@ -516,8 +581,10 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this._cbSchemaProvider);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this._stripMenu);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this._stripMenu;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(980, 730);
@@ -530,6 +597,8 @@
             ((System.ComponentModel.ISupportInitialize)(this._dgvColumnSchema)).EndInit();
             this._pageExcel.ResumeLayout(false);
             this._tabExportConfig.ResumeLayout(false);
+            this._stripMenu.ResumeLayout(false);
+            this._stripMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -572,6 +641,13 @@
         private System.Windows.Forms.TabPage _pageExcel;
         private ExcelExportConfigControl _ctlExcelConfig;
         private System.Windows.Forms.TabControl _tabExportConfig;
+        private System.Windows.Forms.MenuStrip _stripMenu;
+        private System.Windows.Forms.ToolStripMenuItem _stripItemFile;
+        private System.Windows.Forms.ToolStripMenuItem _stripReadConfig;
+        private System.Windows.Forms.ToolStripMenuItem _stripItemSaveCurrentConfig;
+        private System.Windows.Forms.ToolStripMenuItem _stripItemAsConfig;
+        private System.Windows.Forms.SaveFileDialog _dialogAsConfig;
+        private System.Windows.Forms.OpenFileDialog _dialogOpenFile;
     }
 }
 

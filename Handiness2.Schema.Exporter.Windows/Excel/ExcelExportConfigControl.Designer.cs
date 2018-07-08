@@ -52,6 +52,7 @@
             this._cbExcelExportTemplate.Name = "_cbExcelExportTemplate";
             this._cbExcelExportTemplate.Size = new System.Drawing.Size(349, 25);
             this._cbExcelExportTemplate.TabIndex = 2;
+            this._cbExcelExportTemplate.SelectedIndexChanged += new System.EventHandler(this._cbExcelExportTemplate_SelectedIndexChanged);
             // 
             // label1
             // 

@@ -20,7 +20,14 @@ namespace Handiness2.Schema.Exporter.Windows
         {
             InitializeComponent();
         }
+        public virtual void ImportConfigInfo(String configString)
+        {
 
+        }
+        public virtual String ExportConfigInfo()
+        {
+            return null;
+        }
         public virtual Boolean  IsValidExportConfig(out String errorMessage)
         {
             errorMessage = null;

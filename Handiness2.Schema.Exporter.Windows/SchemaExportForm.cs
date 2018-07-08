@@ -11,6 +11,7 @@ using Handiness2.Schema;
 using System.Threading.Tasks;
 using Handiness2.Schema.Exporter.Windows.Properties;
 using System.IO;
+using AgilityConfig;
 using System.Diagnostics;
 
 namespace Handiness2.Schema.Exporter.Windows
@@ -27,10 +28,13 @@ namespace Handiness2.Schema.Exporter.Windows
         public TreeNode TableNodeHead { get; private set; }
         public TreeNode ViewNodeHead { get; private set; }
 
+        public GlobalConfig CurrentGlobalConfig { get; set; }
+        public String CurrentGlobalPath { get; set; }
+        public ExportType CurrentExportType { get;private set; }
+
         public Dictionary<String, SchemaInfoTuple> _schemaInfoTable = new Dictionary<String, SchemaInfoTuple>();
 
         public IList<TableSchemaExtend> CheckedTableSchemas { get; private set; }
-
 
 
         // private Boolean _isExporting = false;
@@ -88,7 +92,7 @@ namespace Handiness2.Schema.Exporter.Windows
             _iListSchemaTree.Images.Add("tree_table", Resources.table);
             _iListSchemaTree.Images.Add("tree_view", Resources.view);
 
-
+        
         }
 
         private async void SchemaExportForm_Shown(Object sender, EventArgs e)
@@ -96,7 +100,7 @@ namespace Handiness2.Schema.Exporter.Windows
             await this.LoadSchemaProvider();
             this._ctlExcelConfig.Initialize(this);
             this._ctlExcelConfig.SchemaExporter.ExportProgressChanged += SchemaExporter_ExportProgressChanged;
-            this._tbExportDirectory.Text = Environment.GetFolderPath( Environment.SpecialFolder.Desktop);
+            this._tbExportDirectory.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             //this._ctlExcelConfig.SchemaExporter.ExportCompleted += SchemaExporter_ExportCompleted;
         }
 
@@ -236,7 +240,36 @@ namespace Handiness2.Schema.Exporter.Windows
             node.Tag = tableSchema;
             return node;
         }
-        private async void _btnOpen_Click(object sender, EventArgs e)
+
+        private async Task OpenConnection(String connectionString)
+        {
+            try
+            {
+                this._waitConnect.Visible = true;
+                this._waitConnect.IsRolled = true;
+                await TaskEx.Run(() => this.CurrentSchemaProvider.Open(connectionString));
+                await this.LoadSchemaInfo(this.CurrentSchemaProvider);
+                this._btnOpen.Image = Resources.connect_opened;
+            }
+            catch (ProviderConnectException exc)
+            {
+                MessageBox.Show(String.Format(Resources.SchemaExportForm_ConnectException, exc.Message), Resources.HintText, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                this._waitConnect.Visible = false;
+                this._waitConnect.IsRolled = false;
+            }
+        }
+        private void CloseConnection()
+        {
+
+            this.CurrentSchemaProvider.Close();
+            this._btnOpen.Image = Resources.connnect_closed;
+            this.ClearSchemaInfo();
+
+        }
+        private async Task ConvertConnectState()
         {
             if (this.CurrentSchemaProvider != null)
             {
@@ -246,31 +279,13 @@ namespace Handiness2.Schema.Exporter.Windows
                 {
                     if (this.CurrentSchemaProvider.Opened)
                     {
-                        this.CurrentSchemaProvider.Close();
-                        this._btnOpen.Image = Resources.connnect_closed;
-                        this.ClearSchemaInfo();
+                        this.CloseConnection();
                     }
                     else
                     {
                         if (this.GetConnectionStirng(out String connectionString))
                         {
-                            try
-                            {
-                                this._waitConnect.Visible = true;
-                                this._waitConnect.IsRolled = true;
-                                await TaskEx.Run(() => this.CurrentSchemaProvider.Open(connectionString));
-                                await this.LoadSchemaInfo(this.CurrentSchemaProvider);
-                                this._btnOpen.Image = Resources.connect_opened;
-                            }
-                            catch (ProviderConnectException exc)
-                            {
-                                MessageBox.Show(String.Format(Resources.SchemaExportForm_ConnectException, exc.Message), Resources.HintText, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            finally
-                            {
-                                this._waitConnect.Visible = false;
-                                this._waitConnect.IsRolled = false;
-                            }
+                            await this.OpenConnection(connectionString);
                         }
                     }
                 }
@@ -279,6 +294,10 @@ namespace Handiness2.Schema.Exporter.Windows
                     _isConnectOperating = false;
                 }
             }
+        }
+        private async void _btnOpen_Click(object sender, EventArgs e)
+        {
+            await this.ConvertConnectState();
         }
 
         private void _tvSchema_AfterCheck(object sender, TreeViewEventArgs e)
@@ -508,6 +527,10 @@ namespace Handiness2.Schema.Exporter.Windows
         private void EnableContol(Boolean enabled)
         {
             this._btnExport.Enabled = enabled;
+            this._stripItemSaveCurrentConfig.Enabled = enabled;
+            this._stripReadConfig.Enabled = enabled;
+            this._stripItemAsConfig.Enabled = enabled;
+
             this._btnOpen.Enabled = enabled;
             this._tabExportConfig.Enabled = enabled;
             this._tvSchema.Enabled = enabled;
@@ -527,6 +550,120 @@ namespace Handiness2.Schema.Exporter.Windows
         private void SchemaExportForm_FormClosing(Object sender, FormClosingEventArgs e)
         {
             this.CurrentSchemaProvider.Close();
+        }
+
+        private async void _stripReadConfig_Click(Object sender, EventArgs e)
+        {
+            if (this._dialogOpenFile.ShowDialog() == DialogResult.OK)
+            {
+                String fileName = this._dialogOpenFile.FileName;
+                try
+                {
+                    var config = AgilityConfig.AgilityConfig.LoadConfig<GlobalConfig>(fileName);
+
+                    this._ctlExcelConfig.ImportConfigInfo(config.ExcelExportConfigString);
+                    await this.RenderingGlobalConfig(config);
+
+                    //都完成后保存存储信息
+                    this.CurrentGlobalPath = fileName;
+                    this.CurrentGlobalConfig = config;
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("无效的配置文件！" + exc.Message);
+                }
+
+            }
+        }
+
+        private async Task RenderingGlobalConfig(GlobalConfig config)
+        {
+            this._tbConnectionString.Text = config.ConnectionString;
+            this._tbExportDirectory.Text = config.OutputDirecotry;
+            if (!String.IsNullOrEmpty(config.ConnectionString))
+            {
+                if (this.CurrentSchemaProvider.Opened)
+                {
+                    this.CloseConnection();
+                }
+                await this.OpenConnection(config.ConnectionString);
+                HashSet<String> nameTable = new HashSet<String>(config.SelectedSchemaInfo);
+                //循环遍历并选中结构信息
+                if (this.TableNodeHead != null)
+                {
+                    foreach (TreeNode node in this.TableNodeHead.Nodes)
+                    {
+                        var schema = node.Tag as TableSchemaExtend;
+                        if (nameTable.Contains(schema.Name))
+                        {
+                            node.Checked = true;
+                        }
+                    }
+                }
+                if (this.ViewNodeHead != null)
+                {
+                    foreach (TreeNode node in this.ViewNodeHead.Nodes)
+                    {
+                        var schema = node.Tag as TableSchemaExtend;
+                        if (nameTable.Contains(schema.Name))
+                        {
+                            node.Checked = true;
+                        }
+                    }
+                }
+
+                switch (config.SelectExportType)
+                {
+                    case ExportType.Excel:
+                        {
+                            this._tabExportConfig.SelectedTab = this._pageExcel;
+                        }break;
+                }
+            }
+        }
+        private void _stripItemSaveCurrentConfig_Click(Object sender, EventArgs e)
+        {
+            String filePath = null;
+            if (this.CurrentGlobalPath == null)
+            {
+                this._dialogAsConfig.Title = "保存当前配置";
+                if (this._dialogAsConfig.ShowDialog() == DialogResult.OK)
+                {
+                    filePath = this._dialogAsConfig.FileName;
+                }
+            }
+
+            if (filePath != null)
+            {
+                this.SaveGlobalConfig(filePath);
+            }
+        }
+        private  void SaveGlobalConfig(String filePath)
+        {
+            GlobalConfig config = new GlobalConfig();
+            config.ConnectionString = this._tbConnectionString.Text;
+            config.OutputDirecotry = this._tbExportDirectory.Text;
+            config.ExcelExportConfigString = this._ctlExcelConfig.ExportConfigInfo();
+            config.SelectExportType = this.CurrentExportType;
+            config.SelectedSchemaInfo = this.CheckedTableSchemas.Select(t => t.Name).ToList() ;
+            config.Save(filePath);
+        }
+        private void _stripAsConfig_Click(Object sender, EventArgs e)
+        {
+            this._dialogAsConfig.Title = "另存当前配置";
+            if (this._dialogAsConfig.ShowDialog() == DialogResult.OK)
+            {
+               String filePath = this._dialogAsConfig.FileName;
+                this.SaveGlobalConfig(filePath);
+            }
+        }
+
+        private void _tabExportConfig_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this._tabExportConfig.SelectedTab == this._pageExcel)
+            {
+                this.CurrentExportType = ExportType.Excel;
+            }
         }
     }
     public class SchemaInfoTupleEx : SchemaInfoTuple

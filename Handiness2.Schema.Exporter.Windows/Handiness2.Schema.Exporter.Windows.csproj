@@ -126,6 +126,8 @@
     <Compile Include="Excel\GroupInfoCollection.cs" />
     <Compile Include="Excel\OfficeAssistor.cs" />
     <Compile Include="ExportConfig.cs" />
+    <Compile Include="ExportType.cs" />
+    <Compile Include="GlobalConfig.cs" />
     <Compile Include="ISchemaExporter.cs" />
     <Compile Include="SchemaExportForm.cs">
       <SubType>Form</SubType>

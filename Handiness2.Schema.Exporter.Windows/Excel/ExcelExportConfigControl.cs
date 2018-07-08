@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using Newtonsoft.Json;
 namespace Handiness2.Schema.Exporter.Windows
 {
     public partial class ExcelExportConfigControl : BaseExportConfigControl
@@ -30,6 +30,7 @@ namespace Handiness2.Schema.Exporter.Windows
         private void _checkCustomGroup_CheckedChanged(Object sender, EventArgs e)
         {
             this._pannelGroup.Enabled = this._checkCustomGroup.Checked;
+            _exportConfig.IsCustomGroup = this._checkCustomGroup.Checked;
             if (!this._checkCustomGroup.Checked)
             {
                 this._lvGroup.Items.Clear();
@@ -60,6 +61,24 @@ namespace Handiness2.Schema.Exporter.Windows
             errorMessage = null;
             return true;
         }
+        public override void ImportConfigInfo(String configString)
+        {
+             this._exportConfig=JsonConvert.DeserializeObject<ExcelExportConfig>(configString);
+            this._exportConfig.GroupInfos.ReIndex();
+            this.RenderingConfigInfo();
+        
+        }
+        private void RenderingConfigInfo()
+        {
+            this._checkMerge.Checked = this._exportConfig.IsMergeGroupToSheet;
+            this._checkCustomGroup.Checked = this._exportConfig.IsCustomGroup;
+            this._cbExcelExportTemplate.SelectedText = this._exportConfig.ExcelTempldateName;
+            this.RenderingGroupInfo();
+        }
+        public override String ExportConfigInfo()
+        {
+           return  JsonConvert.SerializeObject(this._exportConfig);
+        }
         public override void Initialize(SchemaExportForm form)
         {
             base.Initialize(form);
@@ -69,7 +88,7 @@ namespace Handiness2.Schema.Exporter.Windows
             this.ExcelExportTemplateConfig = new ExcelExportTemplateConfig();
             this.ExcelExportTemplateConfig.Load("ExcelExportTemplate.config.json");
             this._cbExcelExportTemplate.DataSource = this.ExcelExportTemplateConfig.TemplateItems;
-            this._exportConfig.ExcelTemplatePath = this._cbExcelExportTemplate.SelectedValue.ToString();
+
         }
         private void Reanalyse(IList<TableSchemaExtend> schemas)
         {
@@ -135,6 +154,12 @@ namespace Handiness2.Schema.Exporter.Windows
         private void _checkMerge_CheckedChanged(object sender, EventArgs e)
         {
             this._exportConfig.IsMergeGroupToSheet = this._checkMerge.Checked;
+        }
+
+        private void _cbExcelExportTemplate_SelectedIndexChanged(Object sender, EventArgs e)
+        {
+            this._exportConfig.ExcelTemplatePath = this._cbExcelExportTemplate.SelectedValue.ToString();
+            this._exportConfig.ExcelTempldateName = this._cbExcelExportTemplate.Text ;
         }
     }
 

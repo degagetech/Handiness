@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Handiness2.Schema.Exporter.Windows.Properties;
+using Newtonsoft.Json;
 namespace Handiness2.Schema.Exporter.Windows
 {
     public partial class ExcelExportGroupForm : Form
@@ -97,7 +98,7 @@ namespace Handiness2.Schema.Exporter.Windows
                 _groupSwitching = false;
             }
         }
-
+     
         private void _checkItemContainer_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (_groupSwitching) return;
