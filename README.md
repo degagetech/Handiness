@@ -1,7 +1,7 @@
 
 ## 结构信息的导出
 ![image](https://github.com/WangLangJing/Handiness/export.gif) 
-![image](https://github.com/WangLangJing/Handiness/export%20config.gif) 
+![image](https://github.com/WangLangJing/Handiness/export-config.gif) 
 
 ## Handine 1.0 版本的使用
 #### 实体类的定义
