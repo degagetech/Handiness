@@ -1,6 +1,9 @@
 
+## 结构信息的导出
+![image](https://github.com/WangLangJing/Handiness/export.gif) 
+![image](https://github.com/WangLangJing/Handiness/export config.gif) 
 
-
+## Handine 1.0 版本的使用
 #### 实体类的定义
 ```
     //正常情况下附加特性以说明数据库结构信息
