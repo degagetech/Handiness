@@ -93,3 +93,13 @@
             //where like
             effect = groupTable.Delete().Where(t => t.Id.Like("*xxx*")).ExecuteNonQuery();
 ```
+## 引用项目
+### ConnectionDialog
+https://github.com/kjbartel/ConnectionDialog
+
+
+### Concision
+https://github.com/WangLangJing/Concision
+
+### AgilityConfig
+https://github.com/WangLangJing/AgilityConfig
