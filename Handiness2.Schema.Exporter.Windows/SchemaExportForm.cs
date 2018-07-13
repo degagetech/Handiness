@@ -117,7 +117,10 @@ namespace Handiness2.Schema.Exporter.Windows
                   this._pbarExportProcess.Maximum = e.Total;
                   this._pbarExportProcess.Value = e.Current;
                   this._labelExprtProcess.Text = $"{e.Current.ToString()}/{e.Total.ToString()}";
-                  this.ShowTipInformation($"正在导出 [{e.SchemaInfo.TableSchema.Name}] 的结构信息...");
+                  if (e.SchemaInfo != null)
+                  {
+                      this.ShowTipInformation($"正在导出 [{e.SchemaInfo.TableSchema.Name}] 的结构信息...");
+                  }
               };
             this.Invoke(action);
 
@@ -632,6 +635,10 @@ namespace Handiness2.Schema.Exporter.Windows
                     filePath = this._dialogAsConfig.FileName;
                 }
             }
+            else
+            {
+                filePath = this.CurrentGlobalPath;
+            }
 
             if (filePath != null)
             {
@@ -640,6 +647,7 @@ namespace Handiness2.Schema.Exporter.Windows
         }
         private  void SaveGlobalConfig(String filePath)
         {
+            this.Cursor = Cursors.WaitCursor;
             GlobalConfig config = new GlobalConfig();
             config.ConnectionString = this._tbConnectionString.Text;
             config.OutputDirecotry = this._tbExportDirectory.Text;
@@ -647,6 +655,7 @@ namespace Handiness2.Schema.Exporter.Windows
             config.SelectExportType = this.CurrentExportType;
             config.SelectedSchemaInfo = this.CheckedTableSchemas.Select(t => t.Name).ToList() ;
             config.Save(filePath);
+            this.Cursor = Cursors.Default;
         }
         private void _stripAsConfig_Click(Object sender, EventArgs e)
         {

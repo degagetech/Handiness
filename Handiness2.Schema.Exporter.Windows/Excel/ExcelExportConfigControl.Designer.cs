@@ -39,6 +39,8 @@
             this._iListItem = new System.Windows.Forms.ImageList(this.components);
             this._checkCustomGroup = new System.Windows.Forms.CheckBox();
             this._pannelGroup = new System.Windows.Forms.Panel();
+            this._checkExclude = new System.Windows.Forms.CheckBox();
+            this._toolTip = new System.Windows.Forms.ToolTip(this.components);
             this._pannelGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,6 +135,7 @@
             this._pannelGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this._pannelGroup.Controls.Add(this._checkExclude);
             this._pannelGroup.Controls.Add(this._lvGroup);
             this._pannelGroup.Controls.Add(this._btnEditGroup);
             this._pannelGroup.Enabled = false;
@@ -140,6 +143,25 @@
             this._pannelGroup.Name = "_pannelGroup";
             this._pannelGroup.Size = new System.Drawing.Size(791, 93);
             this._pannelGroup.TabIndex = 14;
+            // 
+            // _checkExclude
+            // 
+            this._checkExclude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._checkExclude.AutoSize = true;
+            this._checkExclude.Enabled = false;
+            this._checkExclude.Location = new System.Drawing.Point(718, 37);
+            this._checkExclude.Name = "_checkExclude";
+            this._checkExclude.Size = new System.Drawing.Size(63, 21);
+            this._checkExclude.TabIndex = 15;
+            this._checkExclude.Text = "只包含";
+            this._toolTip.SetToolTip(this._checkExclude, "当使用自定义分组时，导出的元信息中是否只包含分组内的");
+            this._checkExclude.UseVisualStyleBackColor = true;
+            this._checkExclude.CheckedChanged += new System.EventHandler(this._checkExclude_CheckedChanged);
+            // 
+            // _toolTip
+            // 
+            this._toolTip.BackColor = System.Drawing.Color.White;
+            this._toolTip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
             // 
             // ExcelExportConfigControl
             // 
@@ -154,6 +176,7 @@
             this.Name = "ExcelExportConfigControl";
             this.Size = new System.Drawing.Size(900, 143);
             this._pannelGroup.ResumeLayout(false);
+            this._pannelGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,5 +193,7 @@
         private System.Windows.Forms.CheckBox _checkCustomGroup;
         private System.Windows.Forms.Panel _pannelGroup;
         private System.Windows.Forms.ImageList _iListItem;
+        private System.Windows.Forms.CheckBox _checkExclude;
+        private System.Windows.Forms.ToolTip _toolTip;
     }
 }

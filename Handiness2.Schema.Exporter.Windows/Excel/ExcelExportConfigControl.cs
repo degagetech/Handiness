@@ -63,21 +63,22 @@ namespace Handiness2.Schema.Exporter.Windows
         }
         public override void ImportConfigInfo(String configString)
         {
-             this._exportConfig=JsonConvert.DeserializeObject<ExcelExportConfig>(configString);
+            this._exportConfig = JsonConvert.DeserializeObject<ExcelExportConfig>(configString);
             this._exportConfig.GroupInfos.ReIndex();
             this.RenderingConfigInfo();
-        
+
         }
         private void RenderingConfigInfo()
         {
             this._checkMerge.Checked = this._exportConfig.IsMergeGroupToSheet;
             this._checkCustomGroup.Checked = this._exportConfig.IsCustomGroup;
             this._cbExcelExportTemplate.SelectedText = this._exportConfig.ExcelTempldateName;
+            this._checkExclude.Checked = this._exportConfig.EnableExclude;
             this.RenderingGroupInfo();
         }
         public override String ExportConfigInfo()
         {
-           return  JsonConvert.SerializeObject(this._exportConfig);
+            return JsonConvert.SerializeObject(this._exportConfig);
         }
         public override void Initialize(SchemaExportForm form)
         {
@@ -116,6 +117,7 @@ namespace Handiness2.Schema.Exporter.Windows
             this._lvGroup.Groups.Clear();
             if (this._exportConfig.GroupInfos.Count > 0)
             {
+
                 this._lvGroup.BeginUpdate();
                 this._lvGroup.SuspendLayout();
                 foreach (var pair in this._exportConfig.GroupInfos)
@@ -125,6 +127,7 @@ namespace Handiness2.Schema.Exporter.Windows
                     IList<String> schemaNames = pair.Value;
                     if (schemaNames != null && schemaNames.Count > 0)
                     {
+                        this._checkExclude.Enabled = true;
                         foreach (String name in schemaNames)
                         {
                             ListViewItem item = new ListViewItem(name);
@@ -138,6 +141,11 @@ namespace Handiness2.Schema.Exporter.Windows
                 }
                 this._lvGroup.EndUpdate();
                 this._lvGroup.ResumeLayout();
+            }
+            else
+            {
+                this._checkExclude.Checked = false;
+                this._checkExclude.Enabled = false;
             }
 
         }
@@ -159,7 +167,12 @@ namespace Handiness2.Schema.Exporter.Windows
         private void _cbExcelExportTemplate_SelectedIndexChanged(Object sender, EventArgs e)
         {
             this._exportConfig.ExcelTemplatePath = this._cbExcelExportTemplate.SelectedValue.ToString();
-            this._exportConfig.ExcelTempldateName = this._cbExcelExportTemplate.Text ;
+            this._exportConfig.ExcelTempldateName = this._cbExcelExportTemplate.Text;
+        }
+
+        private void _checkExclude_CheckedChanged(object sender, EventArgs e)
+        {
+            this._exportConfig.EnableExclude = this._checkMerge.Checked;
         }
     }
 

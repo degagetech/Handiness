@@ -29,6 +29,10 @@ namespace Handiness2.Schema.Exporter.Windows
         public Boolean IsMergeGroupToSheet { get; set; }
 
         /// <summary>
+        /// 是否启用对分组外的元数据信息的排除
+        /// </summary>
+        public Boolean EnableExclude { get; set; }
+        /// <summary>
         /// Excel 模板的路径
         /// </summary>
         public String ExcelTemplatePath { get; set; }
