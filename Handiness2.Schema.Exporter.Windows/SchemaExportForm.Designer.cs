@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SchemaExportForm));
             this._cbSchemaProvider = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,7 +63,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this._tbExportDirectory = new System.Windows.Forms.TextBox();
             this._btnSelectdExportDirectory = new System.Windows.Forms.Button();
-            this._dialogExportDirectory = new System.Windows.Forms.FolderBrowserDialog();
+            this._fbdExportDirectory = new System.Windows.Forms.FolderBrowserDialog();
             this._pageExcel = new System.Windows.Forms.TabPage();
             this._ctlExcelConfig = new Handiness2.Schema.Exporter.Windows.ExcelExportConfigControl();
             this._tabExportConfig = new System.Windows.Forms.TabControl();
@@ -72,8 +72,19 @@
             this._stripReadConfig = new System.Windows.Forms.ToolStripMenuItem();
             this._stripItemSaveCurrentConfig = new System.Windows.Forms.ToolStripMenuItem();
             this._stripItemAsConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this._dialogAsConfig = new System.Windows.Forms.SaveFileDialog();
+            this._tsmiSaveSchemaToFile = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsmiLoadSchemaFromFile = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsmiCompare = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsmiCompareFromFile = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsmiCompareFromConnection = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsmiAboutTool = new System.Windows.Forms.ToolStripMenuItem();
+            this._sfdAsConfig = new System.Windows.Forms.SaveFileDialog();
             this._dialogOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this._lblLoadTypeSymbol = new System.Windows.Forms.Label();
+            this._toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this._sfdSaveSchema = new System.Windows.Forms.SaveFileDialog();
+            this._ofdLoadSchema = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this._dgvColumnSchema)).BeginInit();
             this._pageExcel.SuspendLayout();
             this._tabExportConfig.SuspendLayout();
@@ -118,6 +129,8 @@
             this._tbConnectionString.Name = "_tbConnectionString";
             this._tbConnectionString.Size = new System.Drawing.Size(761, 23);
             this._tbConnectionString.TabIndex = 3;
+            this._tbConnectionString.Text = "Data Source=192.168.1.120;Initial Catalog=biobank;User ID=sa;Password=932444208wl" +
+    "j+";
             // 
             // _btnEditorConnectionString
             // 
@@ -165,8 +178,8 @@
             // _dgvColumnSchema
             // 
             this._dgvColumnSchema.AllowUserToAddRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
             this._dgvColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvColumnSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -179,14 +192,14 @@
             this._colLength,
             this._colNullable,
             this._colExplain});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle10;
             this._dgvColumnSchema.Location = new System.Drawing.Point(313, 148);
             this._dgvColumnSchema.Name = "_dgvColumnSchema";
             this._dgvColumnSchema.RowHeadersVisible = false;
@@ -238,6 +251,7 @@
             this._btnOpen.Name = "_btnOpen";
             this._btnOpen.Size = new System.Drawing.Size(29, 26);
             this._btnOpen.TabIndex = 8;
+            this._toolTip.SetToolTip(this._btnOpen, "打开连接");
             this._btnOpen.UseVisualStyleBackColor = true;
             this._btnOpen.Click += new System.EventHandler(this._btnOpen_Click);
             // 
@@ -456,9 +470,9 @@
             this._btnSelectdExportDirectory.UseVisualStyleBackColor = true;
             this._btnSelectdExportDirectory.Click += new System.EventHandler(this._tbSelectdExportDirecotry_Click);
             // 
-            // _dialogExportDirectory
+            // _fbdExportDirectory
             // 
-            this._dialogExportDirectory.Description = "选择导出路径";
+            this._fbdExportDirectory.Description = "选择导出路径";
             // 
             // _pageExcel
             // 
@@ -467,7 +481,7 @@
             this._pageExcel.Name = "_pageExcel";
             this._pageExcel.Size = new System.Drawing.Size(900, 140);
             this._pageExcel.TabIndex = 0;
-            this._pageExcel.Text = "Excel(.xlsx)";
+            this._pageExcel.Text = "EXCEL(.xlsx)";
             this._pageExcel.UseVisualStyleBackColor = true;
             // 
             // _ctlExcelConfig
@@ -496,10 +510,12 @@
             // _stripMenu
             // 
             this._stripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._stripItemFile});
+            this._stripItemFile,
+            this._tsmiCompare,
+            this._tsmiHelp});
             this._stripMenu.Location = new System.Drawing.Point(0, 0);
             this._stripMenu.Name = "_stripMenu";
-            this._stripMenu.Size = new System.Drawing.Size(964, 25);
+            this._stripMenu.Size = new System.Drawing.Size(964, 24);
             this._stripMenu.TabIndex = 26;
             this._stripMenu.Text = "menuStrip1";
             // 
@@ -508,10 +524,12 @@
             this._stripItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._stripReadConfig,
             this._stripItemSaveCurrentConfig,
-            this._stripItemAsConfig});
+            this._stripItemAsConfig,
+            this._tsmiSaveSchemaToFile,
+            this._tsmiLoadSchemaFromFile});
             this._stripItemFile.Name = "_stripItemFile";
             this._stripItemFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this._stripItemFile.Size = new System.Drawing.Size(58, 21);
+            this._stripItemFile.Size = new System.Drawing.Size(59, 20);
             this._stripItemFile.Text = "文件(&F)";
             // 
             // _stripReadConfig
@@ -520,7 +538,7 @@
             this._stripReadConfig.Name = "_stripReadConfig";
             this._stripReadConfig.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
             this._stripReadConfig.Size = new System.Drawing.Size(197, 22);
-            this._stripReadConfig.Text = "读取配置(&L)";
+            this._stripReadConfig.Text = "读取配置(&R)";
             this._stripReadConfig.Click += new System.EventHandler(this._stripReadConfig_Click);
             // 
             // _stripItemSaveCurrentConfig
@@ -541,14 +559,90 @@
             this._stripItemAsConfig.Text = "配置另存为(&A)";
             this._stripItemAsConfig.Click += new System.EventHandler(this._stripAsConfig_Click);
             // 
-            // _dialogAsConfig
+            // _tsmiSaveSchemaToFile
             // 
-            this._dialogAsConfig.DefaultExt = "config";
-            this._dialogAsConfig.Filter = "Config 配置文件|*.config";
+            this._tsmiSaveSchemaToFile.Name = "_tsmiSaveSchemaToFile";
+            this._tsmiSaveSchemaToFile.Size = new System.Drawing.Size(197, 22);
+            this._tsmiSaveSchemaToFile.Text = "保存结构到文件";
+            this._tsmiSaveSchemaToFile.ToolTipText = "保存当前的结构信息到指定文件中";
+            this._tsmiSaveSchemaToFile.Click += new System.EventHandler(this._tsmiSaveSchemaToFile_Click);
+            // 
+            // _tsmiLoadSchemaFromFile
+            // 
+            this._tsmiLoadSchemaFromFile.Name = "_tsmiLoadSchemaFromFile";
+            this._tsmiLoadSchemaFromFile.Size = new System.Drawing.Size(197, 22);
+            this._tsmiLoadSchemaFromFile.Text = "加载结构从文件";
+            this._tsmiLoadSchemaFromFile.ToolTipText = "加载结构信息从目标文件中";
+            this._tsmiLoadSchemaFromFile.Click += new System.EventHandler(this._tsmiLoadSchemaFromFile_Click);
+            // 
+            // _tsmiCompare
+            // 
+            this._tsmiCompare.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._tsmiCompareFromFile,
+            this._tsmiCompareFromConnection});
+            this._tsmiCompare.Name = "_tsmiCompare";
+            this._tsmiCompare.Size = new System.Drawing.Size(61, 20);
+            this._tsmiCompare.Text = "比较(&C)";
+            // 
+            // _tsmiCompareFromFile
+            // 
+            this._tsmiCompareFromFile.Name = "_tsmiCompareFromFile";
+            this._tsmiCompareFromFile.Size = new System.Drawing.Size(218, 22);
+            this._tsmiCompareFromFile.Text = "从文件中获取比较目标(&F)";
+            this._tsmiCompareFromFile.ToolTipText = "从文件中获取比较目标的结构信息";
+            // 
+            // _tsmiCompareFromConnection
+            // 
+            this._tsmiCompareFromConnection.Name = "_tsmiCompareFromConnection";
+            this._tsmiCompareFromConnection.Size = new System.Drawing.Size(218, 22);
+            this._tsmiCompareFromConnection.Text = "使用数据连接(&C)";
+            this._tsmiCompareFromConnection.ToolTipText = "使用新的数据连接获取比较目标的结构信息";
+            // 
+            // _tsmiHelp
+            // 
+            this._tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._tsmiAboutTool});
+            this._tsmiHelp.Name = "_tsmiHelp";
+            this._tsmiHelp.Size = new System.Drawing.Size(62, 20);
+            this._tsmiHelp.Text = "帮助(&H)";
+            // 
+            // _tsmiAboutTool
+            // 
+            this._tsmiAboutTool.Name = "_tsmiAboutTool";
+            this._tsmiAboutTool.Size = new System.Drawing.Size(126, 22);
+            this._tsmiAboutTool.Text = "关于工具";
+            this._tsmiAboutTool.Click += new System.EventHandler(this._tsmiAboutTool_Click);
+            // 
+            // _sfdAsConfig
+            // 
+            this._sfdAsConfig.DefaultExt = "config";
+            this._sfdAsConfig.Filter = "Config 配置文件|*.config";
             // 
             // _dialogOpenFile
             // 
             this._dialogOpenFile.Filter = "Config 文件|*.config|所有文件|*.*";
+            // 
+            // _lblLoadTypeSymbol
+            // 
+            this._lblLoadTypeSymbol.AutoSize = true;
+            this._lblLoadTypeSymbol.Image = global::Handiness2.Schema.Exporter.Windows.Properties.Resources.schema_load_database;
+            this._lblLoadTypeSymbol.Location = new System.Drawing.Point(79, 122);
+            this._lblLoadTypeSymbol.Name = "_lblLoadTypeSymbol";
+            this._lblLoadTypeSymbol.Size = new System.Drawing.Size(20, 17);
+            this._lblLoadTypeSymbol.TabIndex = 27;
+            this._lblLoadTypeSymbol.Text = "   ";
+            this._lblLoadTypeSymbol.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // _sfdSaveSchema
+            // 
+            this._sfdSaveSchema.DefaultExt = "schema";
+            this._sfdSaveSchema.Filter = "Schema 文件|*.schema";
+            this._sfdSaveSchema.Title = "选择存储路径";
+            // 
+            // _ofdLoadSchema
+            // 
+            this._ofdLoadSchema.Filter = "Schema 文件|*.schema";
+            this._ofdLoadSchema.Title = "选择结构文件";
             // 
             // SchemaExportForm
             // 
@@ -556,6 +650,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(964, 691);
+            this.Controls.Add(this._lblLoadTypeSymbol);
             this.Controls.Add(this._btnSelectdExportDirectory);
             this.Controls.Add(this._tbExportDirectory);
             this.Controls.Add(this.label5);
@@ -582,14 +677,13 @@
             this.Controls.Add(this._cbSchemaProvider);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._stripMenu);
-            this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this._stripMenu;
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(980, 730);
             this.Name = "SchemaExportForm";
-            this.Text = "[HANDINESS] 结构导出工具";
+            this.ShowIcon = true;
+            this.Text = "结构导出工具";
             this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.SchemaExportForm_HelpButtonClicked);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SchemaExportForm_FormClosing);
             this.Load += new System.EventHandler(this.SchemaExportForm_Load);
@@ -637,7 +731,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox _tbExportDirectory;
         private System.Windows.Forms.Button _btnSelectdExportDirectory;
-        private System.Windows.Forms.FolderBrowserDialog _dialogExportDirectory;
+        private System.Windows.Forms.FolderBrowserDialog _fbdExportDirectory;
         private System.Windows.Forms.TabPage _pageExcel;
         private ExcelExportConfigControl _ctlExcelConfig;
         private System.Windows.Forms.TabControl _tabExportConfig;
@@ -646,8 +740,19 @@
         private System.Windows.Forms.ToolStripMenuItem _stripReadConfig;
         private System.Windows.Forms.ToolStripMenuItem _stripItemSaveCurrentConfig;
         private System.Windows.Forms.ToolStripMenuItem _stripItemAsConfig;
-        private System.Windows.Forms.SaveFileDialog _dialogAsConfig;
+        private System.Windows.Forms.SaveFileDialog _sfdAsConfig;
         private System.Windows.Forms.OpenFileDialog _dialogOpenFile;
+        private System.Windows.Forms.ToolStripMenuItem _tsmiSaveSchemaToFile;
+        private System.Windows.Forms.ToolStripMenuItem _tsmiLoadSchemaFromFile;
+        private System.Windows.Forms.ToolStripMenuItem _tsmiCompare;
+        private System.Windows.Forms.ToolStripMenuItem _tsmiCompareFromFile;
+        private System.Windows.Forms.ToolStripMenuItem _tsmiCompareFromConnection;
+        private System.Windows.Forms.ToolStripMenuItem _tsmiHelp;
+        private System.Windows.Forms.ToolStripMenuItem _tsmiAboutTool;
+        private System.Windows.Forms.Label _lblLoadTypeSymbol;
+        private System.Windows.Forms.ToolTip _toolTip;
+        private System.Windows.Forms.SaveFileDialog _sfdSaveSchema;
+        private System.Windows.Forms.OpenFileDialog _ofdLoadSchema;
     }
 }
 

@@ -16,7 +16,7 @@ using System.Diagnostics;
 
 namespace Handiness2.Schema.Exporter.Windows
 {
-    public partial class SchemaExportForm : Form
+    public partial class SchemaExportForm : BaseForm
     {
         public event Action<Object, IList<TableSchemaExtend>> CheckedTableSchemaChanged;
 
@@ -28,9 +28,12 @@ namespace Handiness2.Schema.Exporter.Windows
         public TreeNode TableNodeHead { get; private set; }
         public TreeNode ViewNodeHead { get; private set; }
 
+
+        public SchemaLoadType CurrentSchemaLoadType { get; set; } = SchemaLoadType.Connection;
+
         public GlobalConfig CurrentGlobalConfig { get; set; }
         public String CurrentGlobalPath { get; set; }
-        public ExportType CurrentExportType { get;private set; }
+        public ExportType CurrentExportType { get; private set; }
 
         public Dictionary<String, SchemaInfoTuple> _schemaInfoTable = new Dictionary<String, SchemaInfoTuple>();
 
@@ -89,19 +92,31 @@ namespace Handiness2.Schema.Exporter.Windows
             this._colExplain.DataPropertyName = nameof(ColumnSchemaExtend.Explain);
 
             this._cbSchemaProvider.DisplayMember = nameof(ISchemaProvider.Name);
+
+            //树状图的类型图像
             _iListSchemaTree.Images.Add("tree_table", Resources.table);
             _iListSchemaTree.Images.Add("tree_view", Resources.view);
-
-        
+            _iListSchemaTree.Images.Add("tree_procedure", Resources.procedure);
+            _iListSchemaTree.Images.Add("tree_function", Resources.function);
         }
 
         private async void SchemaExportForm_Shown(Object sender, EventArgs e)
         {
             await this.LoadSchemaProvider();
+
             this._ctlExcelConfig.Initialize(this);
             this._ctlExcelConfig.SchemaExporter.ExportProgressChanged += SchemaExporter_ExportProgressChanged;
-            this._tbExportDirectory.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            //this._ctlExcelConfig.SchemaExporter.ExportCompleted += SchemaExporter_ExportCompleted;
+            String desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            this._tbExportDirectory.Text = desktopPath;
+
+            this._sfdSaveSchema.InitialDirectory = desktopPath;
+            this._ofdLoadSchema.InitialDirectory = desktopPath;
+            this._sfdAsConfig.InitialDirectory = desktopPath;
+
+            this.RenderSchemaLoadType(this.CurrentSchemaLoadType);
+
+
         }
 
         private void SchemaExporter_ExportCompleted(Object sender, SchemaExportCompletedEventArgs e)
@@ -188,6 +203,8 @@ namespace Handiness2.Schema.Exporter.Windows
             {
                 this.ClearSchemaInfo();
 
+                //加载表结构信息
+                #region Load Table 
                 var tableSchemaList = await TaskEx.Run(() => provider.LoadTableSchemaList());
                 if (tableSchemaList.Count > 0)
                 {
@@ -199,21 +216,24 @@ namespace Handiness2.Schema.Exporter.Windows
                     foreach (var tableSchema in tableSchemaList)
                     {
                         var node = this.CreateTreeNode(tableSchema);
-                        node.ImageIndex = 0;
+                        node.ImageIndex = (Int32)SchemaType.Table;
                         tableNodeHead.Nodes.Add(node);
-                        this._schemaInfoTable.Add(tableSchema.Name, new SchemaInfoTupleEx
+                        this._schemaInfoTable.Add(tableSchema.Name, new SchemaInfoTuple
                         {
-                            TableSchema = tableSchema
+                            TableSchema = tableSchema,
+                            SchemaType = SchemaType.Table
                         });
                     }
                 }
+                #endregion
 
-
+                //加载视图信息
+                #region Load View
                 var viewSchemaList = await TaskEx.Run(() => provider.LoadViewSchemaList());
                 if (viewSchemaList.Count > 0)
                 {
                     TreeNode viewNodeHead = new TreeNode(Resources.SchemaExportForm_ViewNodeHead);
-                    viewNodeHead.ImageIndex = 1;
+                    viewNodeHead.ImageIndex = (Int32)SchemaType.View;
                     this._tvSchema.Nodes.Add(viewNodeHead);
                     this.ViewNodeHead = viewNodeHead;
                     foreach (var viewSchema in viewSchemaList)
@@ -221,19 +241,68 @@ namespace Handiness2.Schema.Exporter.Windows
                         var node = this.CreateTreeNode(viewSchema);
                         node.ImageIndex = 1;
                         viewNodeHead.Nodes.Add(node);
-                        this._schemaInfoTable.Add(viewSchema.Name, new SchemaInfoTupleEx
+                        this._schemaInfoTable.Add(viewSchema.Name, new SchemaInfoTuple
                         {
                             TableSchema = viewSchema,
-                            IsView = true
+                            SchemaType = SchemaType.View
                         });
                     }
                 }
+                #endregion
+
+                //加载存储过程
+
+                //加载函数
             }
             finally
             {
                 _isLoadingSchemaInfo = false;
             }
         }
+
+        public void ShowSchemaInfoTuples(List<SchemaInfoTuple> schemaInfos)
+        {
+            var schemaGroups = schemaInfos.GroupBy(t => t.SchemaType);
+            foreach (var group in schemaGroups)
+            {
+                var schemaInfoList = group.ToList();
+                Int32 imageIndex = (Int32)group.Key;
+                switch (group.Key)
+                {
+                    case SchemaType.Table:
+                        {
+                            TreeNode tableNodeHead = new TreeNode(Resources.SchemaExportForm_TableNodeHead);
+                            tableNodeHead.ImageIndex = imageIndex;
+                            this._tvSchema.Nodes.Add(tableNodeHead);
+                            this.TableNodeHead = tableNodeHead;
+                            foreach (var schemaInfo in schemaInfoList)
+                            {
+                                var node = this.CreateTreeNode(schemaInfo.TableSchema);
+                                node.ImageIndex = imageIndex;
+                                tableNodeHead.Nodes.Add(node);
+                                this._schemaInfoTable.Add(schemaInfo.TableSchema.Name, schemaInfo);
+                            }
+                        }
+                        break;
+                    case SchemaType.View:
+                        {
+                            TreeNode viewNodeHead = new TreeNode(Resources.SchemaExportForm_ViewNodeHead);
+                            viewNodeHead.ImageIndex = imageIndex;
+                            this._tvSchema.Nodes.Add(viewNodeHead);
+                            this.ViewNodeHead = viewNodeHead;
+                            foreach (var schemaInfo in schemaInfoList)
+                            {
+                                var node = this.CreateTreeNode(schemaInfo.TableSchema);
+                                node.ImageIndex = imageIndex;
+                                viewNodeHead.Nodes.Add(node);
+                                this._schemaInfoTable.Add(schemaInfo.TableSchema.Name, schemaInfo);
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+
         private Boolean _isConnectOperating = false;
 
         private TreeNode CreateTreeNode(TableSchemaExtend tableSchema)
@@ -272,7 +341,7 @@ namespace Handiness2.Schema.Exporter.Windows
             this.ClearSchemaInfo();
 
         }
-        private async Task ConvertConnectState()
+        private async Task SwitchConnectState()
         {
             if (this.CurrentSchemaProvider != null)
             {
@@ -282,12 +351,14 @@ namespace Handiness2.Schema.Exporter.Windows
                 {
                     if (this.CurrentSchemaProvider.Opened)
                     {
+                        this._toolTip.SetToolTip(this._btnOpen, "打开连接");
                         this.CloseConnection();
                     }
                     else
                     {
                         if (this.GetConnectionStirng(out String connectionString))
                         {
+                            this._toolTip.SetToolTip(this._btnOpen, "关闭连接");
                             await this.OpenConnection(connectionString);
                         }
                     }
@@ -300,7 +371,7 @@ namespace Handiness2.Schema.Exporter.Windows
         }
         private async void _btnOpen_Click(object sender, EventArgs e)
         {
-            await this.ConvertConnectState();
+            await this.SwitchConnectState();
         }
 
         private void _tvSchema_AfterCheck(object sender, TreeViewEventArgs e)
@@ -367,19 +438,20 @@ namespace Handiness2.Schema.Exporter.Windows
             this.CheckedTableSchemas = schemas;
             this.CheckedTableSchemaChanged?.Invoke(this, schemas);
         }
-        private Boolean _isLoadColumnSchema = false;
+        private Boolean _isLoadingColumnSchema = false;
         private async void _tvSchema_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (_isLoadColumnSchema) return;
-            _isLoadColumnSchema = true;
+            if (_isLoadingColumnSchema) return;
+            this._isLoadingColumnSchema = true;
+            this._tvSchema.Enabled = false;
             try
             {
                 var node = e.Node;
                 if (node.Parent != null)
                 {
                     var schema = e.Node.Tag as TableSchemaExtend;
-                    var schemaInfo = this._schemaInfoTable[schema.Name] as SchemaInfoTupleEx;
-                    Boolean needLoad = schemaInfo.ColumnSchems == null;
+                    var schemaInfo = this._schemaInfoTable[schema.Name] as SchemaInfoTuple;
+                    Boolean needLoad = schemaInfo.ColumnSchemas == null;
 
                     //加载表结构信息
                     if (needLoad)
@@ -389,43 +461,59 @@ namespace Handiness2.Schema.Exporter.Windows
 
                         try
                         {
-                            schemaInfo.ColumnSchems = await this.GetColumnSchemasAsync(schemaInfo);
-
+                            schemaInfo.ColumnSchemas = await this.GetColumnSchemasAsync(schemaInfo);
                         }
                         finally
                         {
                             _waitColumnSchemaLoad.IsRolled = false;
                             _waitColumnSchemaLoad.Visible = false;
                         }
-
-
                     }
-                    this._dgvColumnSchema.DataSource = schemaInfo.ColumnSchems;
+
+                    //显示列结构信息
+                    this._dgvColumnSchema.DataSource = schemaInfo.ColumnSchemas;
                 }
             }
             finally
             {
-                _isLoadColumnSchema = false;
+                _isLoadingColumnSchema = false;
+                this._tvSchema.Enabled = true;
             }
 
         }
-        private Task<IList<ColumnSchemaExtend>> GetColumnSchemasAsync(SchemaInfoTupleEx schemaInfo)
+        private Task<List<ColumnSchemaExtend>> GetColumnSchemasAsync(SchemaInfoTuple schemaInfo)
         {
-            if (!schemaInfo.IsView)
-            {
-                return TaskEx.Run(() => this.CurrentSchemaProvider.LoadColumnSchemaList(schemaInfo.TableSchema.Name));
-            }
-            else
-            {
-                return TaskEx.Run(() => this.CurrentSchemaProvider.LoadViewColumnSchemaList(schemaInfo.TableSchema.Name));
-            }
+            return TaskEx.Run(() =>
+              {
+                  List<ColumnSchemaExtend> result = null;
+                  IList<ColumnSchemaExtend> getData = null;
+                  switch (schemaInfo.SchemaType)
+                  {
+                      case SchemaType.Table:
+                          {
+                              getData = this.CurrentSchemaProvider.LoadColumnSchemaList(schemaInfo.TableSchema.Name);
+                          }
+                          break;
+                      case SchemaType.View:
+                          {
+                              getData = this.CurrentSchemaProvider.LoadViewColumnSchemaList(schemaInfo.TableSchema.Name);
+                          }
+                          break;
+                      default: break;
+                  }
+                  if (getData != null)
+                  {
+                      result = new List<ColumnSchemaExtend>(getData);
+                  }
+                  return result;
+              });
         }
         private void _tbSelectdExportDirecotry_Click(Object sender, EventArgs e)
         {
-            var result = _dialogExportDirectory.ShowDialog();
+            var result = _fbdExportDirectory.ShowDialog();
             if (result == DialogResult.OK)
             {
-                this._tbExportDirectory.Text = this._dialogExportDirectory.SelectedPath;
+                this._tbExportDirectory.Text = this._fbdExportDirectory.SelectedPath;
             }
         }
         private BaseExportConfigControl GetCurrentExportConfigControl()
@@ -472,10 +560,10 @@ namespace Handiness2.Schema.Exporter.Windows
         }
         private void ShowDialogTipInformation(String text)
         {
-            String caption = "提示";
+            String caption = Resources.HintText;
             MessageBox.Show(text, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        private void ShowTipInformation(String text)
+        private void ShowTipInformation(String text = null)
         {
             this._labelTipInfo.Text = text;
             this._labelTipInfo.ForeColor = this.ForeColor;
@@ -494,18 +582,36 @@ namespace Handiness2.Schema.Exporter.Windows
             this.EnableContol(false);
             try
             {
-                //补全所有尚未获取的元数据信息
-                IList<SchemaInfoTuple> schemaInfos = new List<SchemaInfoTuple>();
-                foreach (var tableSchema in this.CheckedTableSchemas)
+                IList<SchemaInfoTuple> schemaInfos = null;
+                switch (this.CurrentSchemaLoadType)
                 {
-                    var schemaInfo = this._schemaInfoTable[tableSchema.Name] as SchemaInfoTupleEx;
-                    if (schemaInfo.ColumnSchems == null)
-                    {
-                        this.ShowTipInformation(String.Format("正在补全 [{0}] 的结构信息...", schemaInfo.TableSchema.Name));
-                        schemaInfo.ColumnSchems = await this.GetColumnSchemasAsync(schemaInfo);
-                    }
-                    schemaInfos.Add(schemaInfo);
+                    case SchemaLoadType.Connection:
+                        {
+                            //补全所有尚未获取的元数据信息
+                            schemaInfos = new List<SchemaInfoTuple>();
+                            foreach (var tableSchema in this.CheckedTableSchemas)
+                            {
+                                var schemaInfo = this._schemaInfoTable[tableSchema.Name];
+                                if (schemaInfo.ColumnSchemas == null)
+                                {
+                                    this.ShowTipInformation(String.Format("正在补全 [{0}] 的结构信息...", schemaInfo.TableSchema.Name));
+                                    schemaInfo.ColumnSchemas = await this.GetColumnSchemasAsync(schemaInfo);
+                                }
+                                schemaInfos.Add(schemaInfo);
+                            }
+                        }
+                        break;
+                    case SchemaLoadType.SchemaFile:
+                        {
+                            foreach (var tableSchema in this.CheckedTableSchemas)
+                            {
+                                var schemaInfo = this._schemaInfoTable[tableSchema.Name];
+                                schemaInfos.Add(schemaInfo);
+                            }
+                        }
+                        break;
                 }
+
                 this.ShowTipInformation("正在写入结构信息到文件中...");
                 await TaskEx.Run(() =>
                 {
@@ -520,11 +626,29 @@ namespace Handiness2.Schema.Exporter.Windows
             catch (Exception exc)
             {
                 this.ShowErrorInformation("导出时发生异常！" + exc.Message);
-                MessageBox.Show(exc.ToString(), "异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(exc.ToString(), Resources.Exception_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 this.EnableContol(true);
+            }
+        }
+        private void RenderSchemaLoadType(SchemaLoadType loadType)
+        {
+            switch (loadType)
+            {
+                case SchemaLoadType.Connection:
+                    {
+                        this._btnOpen.Visible = true;
+                        this._lblLoadTypeSymbol.Image = Resources.schema_load_database;
+                    }
+                    break;
+                case SchemaLoadType.SchemaFile:
+                    {
+                        this._btnOpen.Visible = false;
+                        this._lblLoadTypeSymbol.Image = Resources.schema_load_database;
+                    }
+                    break;
             }
         }
         private void EnableContol(Boolean enabled)
@@ -557,6 +681,7 @@ namespace Handiness2.Schema.Exporter.Windows
 
         private async void _stripReadConfig_Click(Object sender, EventArgs e)
         {
+            this._dialogOpenFile.Title = Resources.SchemaExportForm_ReadConfig;
             if (this._dialogOpenFile.ShowDialog() == DialogResult.OK)
             {
                 String fileName = this._dialogOpenFile.FileName;
@@ -569,6 +694,11 @@ namespace Handiness2.Schema.Exporter.Windows
 
                     //都完成后保存存储信息
                     this.CurrentGlobalPath = fileName;
+                    fileName = Path.GetFileName(this.CurrentGlobalPath);
+
+                    this._stripItemSaveCurrentConfig.Text = $"保存配置 {fileName} (&S)";
+                    this._stripItemAsConfig.Text = $"配置 {fileName} 另存为(&A)";
+
                     this.CurrentGlobalConfig = config;
                 }
                 catch (Exception exc)
@@ -620,7 +750,8 @@ namespace Handiness2.Schema.Exporter.Windows
                     case ExportType.Excel:
                         {
                             this._tabExportConfig.SelectedTab = this._pageExcel;
-                        }break;
+                        }
+                        break;
                 }
             }
         }
@@ -629,10 +760,10 @@ namespace Handiness2.Schema.Exporter.Windows
             String filePath = null;
             if (this.CurrentGlobalPath == null)
             {
-                this._dialogAsConfig.Title = "保存当前配置";
-                if (this._dialogAsConfig.ShowDialog() == DialogResult.OK)
+                this._sfdAsConfig.Title = Resources.SchemaExportForm_SaveCurrentConfig;
+                if (this._sfdAsConfig.ShowDialog() == DialogResult.OK)
                 {
-                    filePath = this._dialogAsConfig.FileName;
+                    filePath = this._sfdAsConfig.FileName;
                 }
             }
             else
@@ -645,7 +776,7 @@ namespace Handiness2.Schema.Exporter.Windows
                 this.SaveGlobalConfig(filePath);
             }
         }
-        private  void SaveGlobalConfig(String filePath)
+        private void SaveGlobalConfig(String filePath)
         {
             this.Cursor = Cursors.WaitCursor;
             GlobalConfig config = new GlobalConfig();
@@ -653,16 +784,16 @@ namespace Handiness2.Schema.Exporter.Windows
             config.OutputDirecotry = this._tbExportDirectory.Text;
             config.ExcelExportConfigString = this._ctlExcelConfig.ExportConfigInfo();
             config.SelectExportType = this.CurrentExportType;
-            config.SelectedSchemaInfo = this.CheckedTableSchemas.Select(t => t.Name).ToList() ;
+            config.SelectedSchemaInfo = this.CheckedTableSchemas.Select(t => t.Name).ToList();
             config.Save(filePath);
             this.Cursor = Cursors.Default;
         }
         private void _stripAsConfig_Click(Object sender, EventArgs e)
         {
-            this._dialogAsConfig.Title = "另存当前配置";
-            if (this._dialogAsConfig.ShowDialog() == DialogResult.OK)
+            this._sfdAsConfig.Title = Resources.SchemaExportForm_AsCurrentConfig;
+            if (this._sfdAsConfig.ShowDialog() == DialogResult.OK)
             {
-               String filePath = this._dialogAsConfig.FileName;
+                String filePath = this._sfdAsConfig.FileName;
                 this.SaveGlobalConfig(filePath);
             }
         }
@@ -674,10 +805,123 @@ namespace Handiness2.Schema.Exporter.Windows
                 this.CurrentExportType = ExportType.Excel;
             }
         }
+
+        private void _tsmiAboutTool_Click(object sender, EventArgs e)
+        {
+            AboutForm form = new AboutForm();
+            form.ShowDialog();
+        }
+
+        private async void _tsmiSaveSchemaToFile_Click(object sender, EventArgs e)
+        {
+            var dialogResult = this._sfdSaveSchema.ShowDialog();
+            if (dialogResult != DialogResult.OK)
+            {
+                return;
+            }
+            var savePath = this._sfdSaveSchema.FileName;
+            //选择存储路径
+            //补全结构信息
+            //序列化到文件中
+            this.EnableContol(false);
+            try
+            {
+                List<SchemaInfoTuple> schemaInfos = this._schemaInfoTable.Values.ToList();
+                switch (this.CurrentSchemaLoadType)
+                {
+                    case SchemaLoadType.Connection:
+                        {
+                            //补全所有尚未获取的元数据信息
+                            foreach (var schemaInfo in schemaInfos)
+                            {
+                                if (schemaInfo.ColumnSchemas == null)
+                                {
+                                    this.ShowTipInformation(String.Format("正在补全 [{0}] 的结构信息...", schemaInfo.TableSchema.Name));
+                                    schemaInfo.ColumnSchemas = await this.GetColumnSchemasAsync(schemaInfo);
+                                }
+                            }
+                        }
+                        break;
+                    case SchemaLoadType.SchemaFile:
+                        {
+
+                        }
+                        break;
+                }
+                this.ShowTipInformation("正在保存结构信息到文件中...");
+                try
+                {
+                    await TaskEx.Run(() =>
+                    {
+                        XmlSerializer.Serialize(schemaInfos, savePath);
+                    });
+                    String message = "已保存当前的所有结构信息！";
+                    MessageBox.Show(message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.ShowTipInformation(message);
+                }
+                catch (Exception exc)
+                {
+                    this.ShowTipInformation();
+                    MessageBox.Show("保存失败！" + exc.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            finally
+            {
+                this.EnableContol(true);
+            }
+
+
+
+        }
+
+        private async void _tsmiLoadSchemaFromFile_Click(Object sender, EventArgs e)
+        {
+            String selectFilePath = null;
+            var dialogResult = this._ofdLoadSchema.ShowDialog();
+            if (dialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            selectFilePath = this._ofdLoadSchema.FileName;
+            this.EnableContol(false);
+            this.ShowDialogTipInformation("稍后，正在从文件中加载结构信息...");
+            List<SchemaInfoTuple> schemaInfo = null;
+            try
+            {
+                try
+                {
+                    schemaInfo = await TaskEx.Run(() =>
+                    {
+                        return XmlSerializer.DeSerialize<List<SchemaInfoTuple>>(selectFilePath);
+                    });
+                    if (schemaInfo == null || schemaInfo.Count == 0)
+                    {
+                        String invalidMessage = "未能从结构文件中加载到有效信息！";
+                        this.ShowTipInformation(invalidMessage);
+                        MessageBox.Show(invalidMessage, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    this.CurrentSchemaLoadType = SchemaLoadType.SchemaFile;
+                    this.RenderSchemaLoadType(this.CurrentSchemaLoadType);
+
+                    this.ClearSchemaInfo();
+                }
+                catch (Exception exc)
+                {
+                    this.ShowTipInformation();
+                    MessageBox.Show("结构信息加载失败！" + exc.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+            finally
+            {
+                this.EnableContol(true);
+            }
+
+        }
     }
-    public class SchemaInfoTupleEx : SchemaInfoTuple
-    {
-        public Boolean IsView { get; set; }
-    }
+
 }
 

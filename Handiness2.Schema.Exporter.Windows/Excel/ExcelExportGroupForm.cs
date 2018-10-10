@@ -10,7 +10,7 @@ using Handiness2.Schema.Exporter.Windows.Properties;
 using Newtonsoft.Json;
 namespace Handiness2.Schema.Exporter.Windows
 {
-    public partial class ExcelExportGroupForm : Form
+    public partial class ExcelExportGroupForm : BaseForm
     {
 
         public GroupInfoCollection GroupInfoCollection { get; private set; }

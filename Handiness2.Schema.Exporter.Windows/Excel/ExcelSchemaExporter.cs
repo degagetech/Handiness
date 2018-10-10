@@ -78,6 +78,7 @@ namespace Handiness2.Schema.Exporter.Windows
 
                 //写入目录行
                 Int32 internalnum = 1;
+
                 foreach (String schemaName in schemaNames)
                 {
                     TableSchemaExtend tableSchema = schemaTable[schemaName].TableSchema;
@@ -157,9 +158,9 @@ namespace Handiness2.Schema.Exporter.Windows
                 }
                 else
                 {
-                    this.RaiseExportProgressChanged(total- schemaTable.Count, current, null);
+                    this.RaiseExportProgressChanged(total - schemaTable.Count, current, null);
                 }
-              
+
             }
 
             //删除模板 Sheet 
@@ -213,7 +214,11 @@ namespace Handiness2.Schema.Exporter.Windows
 
             //开始写入列信息
             Int32 num = 1;
-            foreach (var colSchema in schemaInfo.ColumnSchems)
+            if (schemaInfo.ColumnSchemas == null || schemaInfo.ColumnSchemas.Count == 0)
+            {
+                return;
+            }
+            foreach (var colSchema in schemaInfo.ColumnSchemas)
             {
 
                 //复制行

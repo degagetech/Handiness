@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Handiness2.Schema.Exporter.Windows.Properties;
 namespace Handiness2.Schema.Exporter.Windows
 {
-    public partial class AddGroupForm : Form
+    public partial class AddGroupForm : BaseForm
     {
         /// <summary>
         /// 表示添加的组名

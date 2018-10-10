@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Handiness2.Schema.Exporter.Windows
 {
-    public partial class ExcelTemplateItemEditorForm : Form
+    public partial class ExcelTemplateItemEditorForm : BaseForm
     {
         public ExcelExportTemplateConfig ExportTemplateConfig { get; private set; }
         public ExcelTemplateItemEditorForm()

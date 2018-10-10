@@ -8,6 +8,9 @@ namespace Handiness2.Schema.Exporter.Windows
     public class SchemaInfoTuple
     {
         public TableSchemaExtend TableSchema { get; set; }
-        public IList<ColumnSchemaExtend> ColumnSchems { get; set; }
+        public List<ColumnSchemaExtend> ColumnSchemas { get; set; }
+        public List<ColumnSchemaExtend> IndexColumnSchemas { get; set; }
+
+        public SchemaType SchemaType { get; set; }
     }
 }

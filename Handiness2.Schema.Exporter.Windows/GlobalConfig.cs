@@ -5,9 +5,9 @@ using System.Text;
 using AgilityConfig;
 namespace Handiness2.Schema.Exporter.Windows
 {
-    public class GlobalConfig:ConfigBase
+    public class GlobalConfig : ConfigBase
     {
-        [ConfigTag(IsEncrypted =true)]
+        [ConfigTag(IsEncrypted = true)]
         public String ConnectionString { get; set; }
         [ConfigTag]
         public List<String> SelectedSchemaInfo { get; set; }
@@ -18,5 +18,7 @@ namespace Handiness2.Schema.Exporter.Windows
 
         [ConfigTag]
         public ExportType SelectExportType { get; set; }
+
+ 
     }
 }
