@@ -453,7 +453,7 @@ namespace Handiness2.Schema.Exporter.Windows
 
                         try
                         {
-                            schemaInfo.ColumnSchemas = await this.GetColumnSchemasAsync(schemaInfo);
+                            await this.CompleteSchemaDetails(schemaInfo);
                         }
                         finally
                         {
@@ -477,7 +477,7 @@ namespace Handiness2.Schema.Exporter.Windows
         {
             return TaskEx.Run(() =>
               {
-                  List<ColumnSchemaExtend> result = null;
+                  List<ColumnSchemaExtend> result = new List<ColumnSchemaExtend>();
                   IList<ColumnSchemaExtend> getData = null;
                   switch (schemaInfo.SchemaType)
                   {
@@ -803,7 +803,7 @@ namespace Handiness2.Schema.Exporter.Windows
             }
             else if (this._tabExportConfig.SelectedTab == this._pageCode)
             {
-                MessageBox.Show("此导出类型尚未支持！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(this, "此导出类型尚未支持！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this._tabExportConfig.SelectedTab = this._pageExcel;
             }
 
@@ -812,7 +812,7 @@ namespace Handiness2.Schema.Exporter.Windows
         private void _tsmiAboutTool_Click(object sender, EventArgs e)
         {
             AboutForm form = new AboutForm();
-            form.ShowDialog();
+            form.ShowDialog(this);
         }
 
         private async void _tsmiSaveSchemaToFile_Click(object sender, EventArgs e)
@@ -839,8 +839,7 @@ namespace Handiness2.Schema.Exporter.Windows
                             {
                                 if (schemaInfo.ColumnSchemas == null)
                                 {
-                                    this.ShowTipInformation(String.Format("正在补全 [{0}] 的结构信息...", schemaInfo.TableSchema.Name));
-                                    schemaInfo.ColumnSchemas = await this.GetColumnSchemasAsync(schemaInfo);
+                                    await this.CompleteSchemaDetails(schemaInfo);
                                 }
                             }
                         }
@@ -859,13 +858,13 @@ namespace Handiness2.Schema.Exporter.Windows
                         XmlSerializer.Serialize(schemaInfos, savePath);
                     });
                     String message = "已保存当前的所有结构信息！";
-                    MessageBox.Show(message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(this, message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.ShowTipInformation(message);
                 }
                 catch (Exception exc)
                 {
                     this.ShowTipInformation();
-                    MessageBox.Show("保存失败！" + exc.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, "保存失败！" + exc.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             finally
@@ -875,6 +874,14 @@ namespace Handiness2.Schema.Exporter.Windows
 
 
 
+        }
+
+        private async Task CompleteSchemaDetails(SchemaInfoTuple schemaInfo)
+        {
+            this.ShowTipInformation($"正在补全 [{schemaInfo.TableSchema.Name}] 的结构信息...");
+            var detailSchemas = await this.GetColumnSchemasAsync(schemaInfo);
+            schemaInfo.ColumnSchemas = detailSchemas;
+            this.ShowTipInformation();
         }
 
         private async void _tsmiLoadSchemaFromFile_Click(Object sender, EventArgs e)
@@ -898,15 +905,12 @@ namespace Handiness2.Schema.Exporter.Windows
                 }
                 try
                 {
-                    schemaInfos = await TaskEx.Run(() =>
-                    {
-                        return XmlSerializer.DeSerialize<List<SchemaInfoTuple>>(selectFilePath);
-                    });
+                    schemaInfos = await this.LoadSchemaFromFile(selectFilePath);
                     if (schemaInfos == null || schemaInfos.Count == 0)
                     {
                         String invalidMessage = "未能从结构文件中加载到有效信息！";
                         this.ShowTipInformation(invalidMessage);
-                        MessageBox.Show(invalidMessage, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(this, invalidMessage, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
 
@@ -919,7 +923,7 @@ namespace Handiness2.Schema.Exporter.Windows
                 catch (Exception exc)
                 {
                     this.ShowTipInformation();
-                    MessageBox.Show("结构信息加载失败！" + exc.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, "结构信息加载失败！" + exc.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
             }
@@ -928,6 +932,118 @@ namespace Handiness2.Schema.Exporter.Windows
                 this.EnableContol(true);
             }
 
+        }
+
+        private Task<List<SchemaInfoTuple>> LoadSchemaFromFile(String path)
+        {
+            return TaskEx.Run(() =>
+            {
+                return XmlSerializer.DeSerialize<List<SchemaInfoTuple>>(path);
+            });
+        }
+        /// <summary>
+        /// 判断指定的结构集合是否需要补全细节信息
+        /// </summary>
+        /// <param name="schemaInfos"></param>
+        /// <returns>返回一个二元组，如果需要则第二组件中包含需要补全明细的结构集合</returns>
+        public (Boolean requried, List<SchemaInfoTuple> requiredSchemas) RequiredCompleteSchemaDetails(List<SchemaInfoTuple> schemaInfos)
+        {
+            Boolean required = false;
+            var requiredSchemas = schemaInfos.Where(t => (t.SchemaType == SchemaType.Table || t.SchemaType == SchemaType.View) && t.ColumnSchemas == null).ToList();
+            if (requiredSchemas.Count > 0)
+            {
+                required = true;
+            }
+            return (required, requiredSchemas);
+        }
+
+        private async void _tsmiCompareFromFile_Click(object sender, EventArgs e)
+        {
+            if (this.IsBusyingState(true))
+            {
+                return;
+            }
+            this.EnableContol(false);
+            this.EnterBusyingState();
+            try
+            {
+                //准备源结构信息
+                #region 准备源结构信息
+                //如果当前结构的加载方式是连接，则需要补全结构明细信息
+                List<SchemaInfoTuple> sourceSchemaInfos = this._schemaInfoTable.Values.ToList();
+                switch (this.CurrentSchemaLoadType)
+                {
+                    case SchemaLoadType.Connection:
+                        {
+                            var requriedResult = this.RequiredCompleteSchemaDetails(sourceSchemaInfos);
+                            if (requriedResult.requried)
+                            {
+                                var dialogResult = MessageBox.Show(this, "系统需要补全源结构信息以用于比较，是否继续？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                if (dialogResult != DialogResult.Yes)
+                                {
+                                    return;
+                                }
+                                foreach (var schema in requriedResult.requiredSchemas)
+                                {
+                                    await this.CompleteSchemaDetails(schema);
+                                }
+                            }
+                        }
+                        break;
+                    case SchemaLoadType.SchemaFile:
+                        {
+
+                        }
+                        break;
+                }
+
+                #endregion
+
+                //准备目标结构信息
+                #region 准备目标结构信息
+                List<SchemaInfoTuple> targetSchemaInfos = null;
+                String targetSchemaFilePath = null;
+                var selectResult = this._ofdLoadSchema.ShowDialog();
+                if (selectResult != DialogResult.OK)
+                {
+                    return;
+                }
+                targetSchemaFilePath = this._ofdLoadSchema.FileName;
+                try
+                {
+                    this.ShowTipInformation("正在从文件中获取目标结构的信息...");
+                    targetSchemaInfos = await this.LoadSchemaFromFile(targetSchemaFilePath);
+
+                    if (targetSchemaInfos == null || targetSchemaInfos.Count == 0)
+                    {
+                        String message = "操作已停止，目标结构无有效信息！";
+                        this.ShowTipInformation();
+                        MessageBox.Show(this, message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                }
+                catch (Exception exc)
+                {
+                    String message = "操作已终止，目标结构加载失败！";
+                    this.ShowErrorInformation(message);
+                    MessageBox.Show(this, message + exc.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                #endregion
+
+                //开始比较
+                SchemaCompareForm compareForm = new SchemaCompareForm(sourceSchemaInfos, targetSchemaInfos);
+                //  String fileName = Path.GetFileName(targetSchemaFilePath);
+                compareForm.Text = $"与 {targetSchemaFilePath} 中的结构信息比较";
+                compareForm.Show();
+
+                this.ShowTipInformation();
+            }
+            finally
+            {
+                this.EnableContol(false);
+                this.LeaveBusyingState();
+            }
         }
     }
 

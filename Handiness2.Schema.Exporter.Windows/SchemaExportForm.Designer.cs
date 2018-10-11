@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SchemaExportForm));
             this._cbSchemaProvider = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -131,7 +131,8 @@
             this._tbConnectionString.Name = "_tbConnectionString";
             this._tbConnectionString.Size = new System.Drawing.Size(761, 23);
             this._tbConnectionString.TabIndex = 3;
-            this._tbConnectionString.Text = "Data Source=degage.me;Initial Catalog=biobank;User ID=sa;Password=932444208wlj+";
+            this._tbConnectionString.Text = "Data Source=192.168.1.120;Initial Catalog=biobank;User ID=sa;Password=932444208wl" +
+    "j+";
             // 
             // _btnEditorConnectionString
             // 
@@ -149,8 +150,10 @@
             this._tvSchema.BackColor = System.Drawing.Color.White;
             this._tvSchema.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._tvSchema.CheckBoxes = true;
+            this._tvSchema.Font = new System.Drawing.Font("微软雅黑", 9.5F);
             this._tvSchema.ImageIndex = 0;
             this._tvSchema.ImageList = this._iListSchemaTree;
+            this._tvSchema.ItemHeight = 23;
             this._tvSchema.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this._tvSchema.Location = new System.Drawing.Point(30, 148);
             this._tvSchema.Name = "_tvSchema";
@@ -179,8 +182,8 @@
             // _dgvColumnSchema
             // 
             this._dgvColumnSchema.AllowUserToAddRows = false;
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
             this._dgvColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvColumnSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -193,14 +196,14 @@
             this._colLength,
             this._colNullable,
             this._colExplain});
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle10;
             this._dgvColumnSchema.Location = new System.Drawing.Point(313, 148);
             this._dgvColumnSchema.Name = "_dgvColumnSchema";
             this._dgvColumnSchema.RowHeadersVisible = false;
@@ -491,7 +494,7 @@
             // _ctlExcelConfig
             // 
             this._ctlExcelConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._ctlExcelConfig.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._ctlExcelConfig.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this._ctlExcelConfig.Location = new System.Drawing.Point(0, 0);
             this._ctlExcelConfig.Margin = new System.Windows.Forms.Padding(0);
             this._ctlExcelConfig.Name = "_ctlExcelConfig";
@@ -540,7 +543,7 @@
             this._tsmiHelp});
             this._stripMenu.Location = new System.Drawing.Point(0, 0);
             this._stripMenu.Name = "_stripMenu";
-            this._stripMenu.Size = new System.Drawing.Size(964, 25);
+            this._stripMenu.Size = new System.Drawing.Size(964, 24);
             this._stripMenu.TabIndex = 26;
             this._stripMenu.Text = "menuStrip1";
             // 
@@ -554,7 +557,7 @@
             this._tsmiLoadSchemaFromFile});
             this._stripItemFile.Name = "_stripItemFile";
             this._stripItemFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this._stripItemFile.Size = new System.Drawing.Size(58, 21);
+            this._stripItemFile.Size = new System.Drawing.Size(59, 20);
             this._stripItemFile.Text = "文件(&F)";
             // 
             // _stripReadConfig
@@ -606,20 +609,21 @@
             this._tsmiCompareFromFile,
             this._tsmiCompareFromConnection});
             this._tsmiCompare.Name = "_tsmiCompare";
-            this._tsmiCompare.Size = new System.Drawing.Size(60, 21);
+            this._tsmiCompare.Size = new System.Drawing.Size(61, 20);
             this._tsmiCompare.Text = "比较(&C)";
             // 
             // _tsmiCompareFromFile
             // 
             this._tsmiCompareFromFile.Name = "_tsmiCompareFromFile";
-            this._tsmiCompareFromFile.Size = new System.Drawing.Size(210, 22);
+            this._tsmiCompareFromFile.Size = new System.Drawing.Size(218, 22);
             this._tsmiCompareFromFile.Text = "从文件中获取比较目标(&F)";
             this._tsmiCompareFromFile.ToolTipText = "从文件中获取比较目标的结构信息";
+            this._tsmiCompareFromFile.Click += new System.EventHandler(this._tsmiCompareFromFile_Click);
             // 
             // _tsmiCompareFromConnection
             // 
             this._tsmiCompareFromConnection.Name = "_tsmiCompareFromConnection";
-            this._tsmiCompareFromConnection.Size = new System.Drawing.Size(210, 22);
+            this._tsmiCompareFromConnection.Size = new System.Drawing.Size(218, 22);
             this._tsmiCompareFromConnection.Text = "使用数据连接(&C)";
             this._tsmiCompareFromConnection.ToolTipText = "使用新的数据连接获取比较目标的结构信息";
             // 
@@ -628,13 +632,13 @@
             this._tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._tsmiAboutTool});
             this._tsmiHelp.Name = "_tsmiHelp";
-            this._tsmiHelp.Size = new System.Drawing.Size(61, 21);
+            this._tsmiHelp.Size = new System.Drawing.Size(62, 20);
             this._tsmiHelp.Text = "帮助(&H)";
             // 
             // _tsmiAboutTool
             // 
             this._tsmiAboutTool.Name = "_tsmiAboutTool";
-            this._tsmiAboutTool.Size = new System.Drawing.Size(124, 22);
+            this._tsmiAboutTool.Size = new System.Drawing.Size(180, 22);
             this._tsmiAboutTool.Text = "关于工具";
             this._tsmiAboutTool.Click += new System.EventHandler(this._tsmiAboutTool_Click);
             // 
