@@ -233,5 +233,8 @@
     <None Include="Resources\connnect_closed.png" />
     <None Include="Resources\connect_opened.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Code\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
