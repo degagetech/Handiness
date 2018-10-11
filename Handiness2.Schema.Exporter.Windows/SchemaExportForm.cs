@@ -241,7 +241,7 @@ namespace Handiness2.Schema.Exporter.Windows
                 //加载存储过程
 
                 //加载函数
-
+                this.ShowSchemaLoadType(SchemaLoadType.Connection);
                 this.ShowSchemaInfoTuples(schemaInfos);
                 this.ShowTipInformation("结构信息加载完毕！");
             }
@@ -312,6 +312,7 @@ namespace Handiness2.Schema.Exporter.Windows
             {
                 this._waitConnect.Visible = true;
                 this._waitConnect.IsRolled = true;
+                this._toolTip.SetToolTip(this._btnOpen, "关闭连接");
                 await TaskEx.Run(() => this.CurrentSchemaProvider.Open(connectionString));
                 await this.LoadSchemaInfo(this.CurrentSchemaProvider);
                 this._btnOpen.Image = Resources.connect_opened;
@@ -329,6 +330,7 @@ namespace Handiness2.Schema.Exporter.Windows
         private void CloseConnection()
         {
             this.CurrentSchemaProvider.Close();
+            this._toolTip.SetToolTip(this._btnOpen, "打开连接");
             this._btnOpen.Image = Resources.connnect_closed;
 
         }
@@ -342,7 +344,6 @@ namespace Handiness2.Schema.Exporter.Windows
                 {
                     if (this.CurrentSchemaProvider.Opened)
                     {
-                        this._toolTip.SetToolTip(this._btnOpen, "打开连接");
                         this.CloseConnection();
                         this.ClearSchemaInfo();
                     }
@@ -350,7 +351,6 @@ namespace Handiness2.Schema.Exporter.Windows
                     {
                         if (this.GetConnectionStirng(out String connectionString))
                         {
-                            this._toolTip.SetToolTip(this._btnOpen, "关闭连接");
                             await this.OpenConnection(connectionString);
                         }
                     }
@@ -558,7 +558,7 @@ namespace Handiness2.Schema.Exporter.Windows
         private void ShowTipInformation(String text = null)
         {
             this._labelTipInfo.Text = text;
-            this._labelTipInfo.ForeColor = this.ForeColor;
+            this._labelTipInfo.ForeColor = Color.White;
         }
         private void ShowErrorInformation(String text)
         {
@@ -637,7 +637,7 @@ namespace Handiness2.Schema.Exporter.Windows
                 case SchemaLoadType.Connection:
                     {
                         this._lblLoadTypeSymbol.Image = Resources.schema_load_database;
-                        this._toolTip.SetToolTip(this._lblLoadTypeSymbol,"以数据库为结构源");
+                        this._toolTip.SetToolTip(this._lblLoadTypeSymbol, "以数据库为结构源");
                     }
                     break;
                 case SchemaLoadType.SchemaFile:
