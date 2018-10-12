@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SchemaExportForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this._cbSchemaProvider = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -93,7 +93,12 @@
             this._colIndexColumnNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._colIndexDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._splitContainerTopBottom = new System.Windows.Forms.SplitContainer();
-            this.line2 = new Concision.Controls.Line();
+            this._tabSchemaShow = new System.Windows.Forms.TabControl();
+            this._pageColumnSchema = new System.Windows.Forms.TabPage();
+            this._pnlColumnSchema = new System.Windows.Forms.Panel();
+            this._pageDefine = new System.Windows.Forms.TabPage();
+            this._pnlSchemaDefine = new System.Windows.Forms.Panel();
+            this._richTbSchemaDefine = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this._dgvColumnSchema)).BeginInit();
             this._pageExcel.SuspendLayout();
             this._tabExportConfig.SuspendLayout();
@@ -103,6 +108,11 @@
             this._splitContainerTopBottom.Panel1.SuspendLayout();
             this._splitContainerTopBottom.Panel2.SuspendLayout();
             this._splitContainerTopBottom.SuspendLayout();
+            this._tabSchemaShow.SuspendLayout();
+            this._pageColumnSchema.SuspendLayout();
+            this._pnlColumnSchema.SuspendLayout();
+            this._pageDefine.SuspendLayout();
+            this._pnlSchemaDefine.SuspendLayout();
             this.SuspendLayout();
             // 
             // _cbSchemaProvider
@@ -196,8 +206,8 @@
             // _dgvColumnSchema
             // 
             this._dgvColumnSchema.AllowUserToAddRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this._dgvColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -211,19 +221,19 @@
             this._colLength,
             this._colNullable,
             this._colExplain});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle6;
-            this._dgvColumnSchema.Location = new System.Drawing.Point(300, 37);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle2;
+            this._dgvColumnSchema.Location = new System.Drawing.Point(3, 4);
             this._dgvColumnSchema.Name = "_dgvColumnSchema";
             this._dgvColumnSchema.RowHeadersVisible = false;
             this._dgvColumnSchema.RowTemplate.Height = 23;
-            this._dgvColumnSchema.Size = new System.Drawing.Size(633, 164);
+            this._dgvColumnSchema.Size = new System.Drawing.Size(623, 139);
             this._dgvColumnSchema.TabIndex = 7;
             // 
             // _colName
@@ -358,7 +368,7 @@
             this._waitColumnSchemaLoad.HatchBrushStyle = System.Drawing.Drawing2D.HatchStyle.DarkHorizontal;
             this._waitColumnSchemaLoad.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this._waitColumnSchemaLoad.IsFollowParentBackColor = true;
-            this._waitColumnSchemaLoad.Location = new System.Drawing.Point(300, 14);
+            this._waitColumnSchemaLoad.Location = new System.Drawing.Point(100, 14);
             this._waitColumnSchemaLoad.Margin = new System.Windows.Forms.Padding(0);
             this._waitColumnSchemaLoad.Name = "_waitColumnSchemaLoad";
             this._waitColumnSchemaLoad.RollingSpeed = 60D;
@@ -543,7 +553,7 @@
             this._tsmiHelp});
             this._stripMenu.Location = new System.Drawing.Point(0, 0);
             this._stripMenu.Name = "_stripMenu";
-            this._stripMenu.Size = new System.Drawing.Size(964, 24);
+            this._stripMenu.Size = new System.Drawing.Size(964, 25);
             this._stripMenu.TabIndex = 26;
             this._stripMenu.Text = "menuStrip1";
             // 
@@ -557,7 +567,7 @@
             this._tsmiLoadSchemaFromFile});
             this._stripItemFile.Name = "_stripItemFile";
             this._stripItemFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this._stripItemFile.Size = new System.Drawing.Size(59, 20);
+            this._stripItemFile.Size = new System.Drawing.Size(58, 21);
             this._stripItemFile.Text = "文件(&F)";
             // 
             // _stripReadConfig
@@ -609,13 +619,13 @@
             this._tsmiCompareFromFile,
             this._tsmiCompareFromConnection});
             this._tsmiCompare.Name = "_tsmiCompare";
-            this._tsmiCompare.Size = new System.Drawing.Size(61, 20);
+            this._tsmiCompare.Size = new System.Drawing.Size(60, 21);
             this._tsmiCompare.Text = "比较(&C)";
             // 
             // _tsmiCompareFromFile
             // 
             this._tsmiCompareFromFile.Name = "_tsmiCompareFromFile";
-            this._tsmiCompareFromFile.Size = new System.Drawing.Size(218, 22);
+            this._tsmiCompareFromFile.Size = new System.Drawing.Size(210, 22);
             this._tsmiCompareFromFile.Text = "从文件中获取比较目标(&F)";
             this._tsmiCompareFromFile.ToolTipText = "从文件中获取比较目标的结构信息";
             this._tsmiCompareFromFile.Click += new System.EventHandler(this._tsmiCompareFromFile_Click);
@@ -623,7 +633,7 @@
             // _tsmiCompareFromConnection
             // 
             this._tsmiCompareFromConnection.Name = "_tsmiCompareFromConnection";
-            this._tsmiCompareFromConnection.Size = new System.Drawing.Size(218, 22);
+            this._tsmiCompareFromConnection.Size = new System.Drawing.Size(210, 22);
             this._tsmiCompareFromConnection.Text = "使用数据连接(&C)";
             this._tsmiCompareFromConnection.ToolTipText = "使用新的数据连接获取比较目标的结构信息";
             // 
@@ -632,13 +642,13 @@
             this._tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._tsmiAboutTool});
             this._tsmiHelp.Name = "_tsmiHelp";
-            this._tsmiHelp.Size = new System.Drawing.Size(62, 20);
+            this._tsmiHelp.Size = new System.Drawing.Size(61, 21);
             this._tsmiHelp.Text = "帮助(&H)";
             // 
             // _tsmiAboutTool
             // 
             this._tsmiAboutTool.Name = "_tsmiAboutTool";
-            this._tsmiAboutTool.Size = new System.Drawing.Size(126, 22);
+            this._tsmiAboutTool.Size = new System.Drawing.Size(124, 22);
             this._tsmiAboutTool.Text = "关于工具";
             this._tsmiAboutTool.Click += new System.EventHandler(this._tsmiAboutTool_Click);
             // 
@@ -676,8 +686,8 @@
             // _dgvIndexColumnSchema
             // 
             this._dgvIndexColumnSchema.AllowUserToAddRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvIndexColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvIndexColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this._dgvIndexColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvIndexColumnSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -687,19 +697,19 @@
             this._colIndexName,
             this._colIndexColumnNames,
             this._colIndexDesc});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvIndexColumnSchema.DefaultCellStyle = dataGridViewCellStyle8;
-            this._dgvIndexColumnSchema.Location = new System.Drawing.Point(300, 216);
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvIndexColumnSchema.DefaultCellStyle = dataGridViewCellStyle4;
+            this._dgvIndexColumnSchema.Location = new System.Drawing.Point(3, 153);
             this._dgvIndexColumnSchema.Name = "_dgvIndexColumnSchema";
             this._dgvIndexColumnSchema.RowHeadersVisible = false;
             this._dgvIndexColumnSchema.RowTemplate.Height = 23;
-            this._dgvIndexColumnSchema.Size = new System.Drawing.Size(633, 82);
+            this._dgvIndexColumnSchema.Size = new System.Drawing.Size(623, 110);
             this._dgvIndexColumnSchema.TabIndex = 28;
             // 
             // _colIndexName
@@ -731,9 +741,7 @@
             // _splitContainerTopBottom.Panel1
             // 
             this._splitContainerTopBottom.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this._splitContainerTopBottom.Panel1.Controls.Add(this.line2);
-            this._splitContainerTopBottom.Panel1.Controls.Add(this._dgvColumnSchema);
-            this._splitContainerTopBottom.Panel1.Controls.Add(this._dgvIndexColumnSchema);
+            this._splitContainerTopBottom.Panel1.Controls.Add(this._tabSchemaShow);
             this._splitContainerTopBottom.Panel1.Controls.Add(this._tvSchema);
             this._splitContainerTopBottom.Panel1.Controls.Add(this._lblLoadTypeSymbol);
             this._splitContainerTopBottom.Panel1.Controls.Add(this.label3);
@@ -749,23 +757,73 @@
             this._splitContainerTopBottom.SplitterDistance = 308;
             this._splitContainerTopBottom.TabIndex = 29;
             // 
-            // line2
+            // _tabSchemaShow
             // 
-            this.line2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this._tabSchemaShow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.line2.CustomBursh = null;
-            this.line2.EnabledMousePierce = false;
-            this.line2.IsVertical = false;
-            this.line2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.line2.LineLength = 620;
-            this.line2.LineWidth = 1;
-            this.line2.Location = new System.Drawing.Point(305, 208);
-            this.line2.Margin = new System.Windows.Forms.Padding(0);
-            this.line2.Name = "line2";
-            this.line2.Size = new System.Drawing.Size(620, 1);
-            this.line2.TabIndex = 29;
-            this.line2.Text = "line2";
-            this.line2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._tabSchemaShow.Controls.Add(this._pageColumnSchema);
+            this._tabSchemaShow.Controls.Add(this._pageDefine);
+            this._tabSchemaShow.Location = new System.Drawing.Point(297, 9);
+            this._tabSchemaShow.Name = "_tabSchemaShow";
+            this._tabSchemaShow.SelectedIndex = 0;
+            this._tabSchemaShow.Size = new System.Drawing.Size(637, 296);
+            this._tabSchemaShow.TabIndex = 30;
+            // 
+            // _pageColumnSchema
+            // 
+            this._pageColumnSchema.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this._pageColumnSchema.Controls.Add(this._pnlColumnSchema);
+            this._pageColumnSchema.Location = new System.Drawing.Point(4, 26);
+            this._pageColumnSchema.Name = "_pageColumnSchema";
+            this._pageColumnSchema.Size = new System.Drawing.Size(629, 266);
+            this._pageColumnSchema.TabIndex = 0;
+            this._pageColumnSchema.Text = "列信息";
+            // 
+            // _pnlColumnSchema
+            // 
+            this._pnlColumnSchema.Controls.Add(this._dgvColumnSchema);
+            this._pnlColumnSchema.Controls.Add(this._dgvIndexColumnSchema);
+            this._pnlColumnSchema.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pnlColumnSchema.Location = new System.Drawing.Point(0, 0);
+            this._pnlColumnSchema.Margin = new System.Windows.Forms.Padding(0);
+            this._pnlColumnSchema.Name = "_pnlColumnSchema";
+            this._pnlColumnSchema.Size = new System.Drawing.Size(629, 266);
+            this._pnlColumnSchema.TabIndex = 2;
+            // 
+            // _pageDefine
+            // 
+            this._pageDefine.Controls.Add(this._pnlSchemaDefine);
+            this._pageDefine.Location = new System.Drawing.Point(4, 26);
+            this._pageDefine.Name = "_pageDefine";
+            this._pageDefine.Padding = new System.Windows.Forms.Padding(3);
+            this._pageDefine.Size = new System.Drawing.Size(629, 266);
+            this._pageDefine.TabIndex = 1;
+            this._pageDefine.Text = "定义";
+            this._pageDefine.UseVisualStyleBackColor = true;
+            // 
+            // _pnlSchemaDefine
+            // 
+            this._pnlSchemaDefine.Controls.Add(this._richTbSchemaDefine);
+            this._pnlSchemaDefine.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pnlSchemaDefine.Location = new System.Drawing.Point(3, 3);
+            this._pnlSchemaDefine.Margin = new System.Windows.Forms.Padding(0);
+            this._pnlSchemaDefine.Name = "_pnlSchemaDefine";
+            this._pnlSchemaDefine.Size = new System.Drawing.Size(623, 260);
+            this._pnlSchemaDefine.TabIndex = 1;
+            // 
+            // _richTbSchemaDefine
+            // 
+            this._richTbSchemaDefine.BackColor = System.Drawing.Color.White;
+            this._richTbSchemaDefine.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._richTbSchemaDefine.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._richTbSchemaDefine.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._richTbSchemaDefine.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this._richTbSchemaDefine.Location = new System.Drawing.Point(0, 0);
+            this._richTbSchemaDefine.Name = "_richTbSchemaDefine";
+            this._richTbSchemaDefine.Size = new System.Drawing.Size(623, 260);
+            this._richTbSchemaDefine.TabIndex = 0;
+            this._richTbSchemaDefine.Text = "";
             // 
             // SchemaExportForm
             // 
@@ -813,6 +871,11 @@
             this._splitContainerTopBottom.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._splitContainerTopBottom)).EndInit();
             this._splitContainerTopBottom.ResumeLayout(false);
+            this._tabSchemaShow.ResumeLayout(false);
+            this._pageColumnSchema.ResumeLayout(false);
+            this._pnlColumnSchema.ResumeLayout(false);
+            this._pageDefine.ResumeLayout(false);
+            this._pnlSchemaDefine.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -879,7 +942,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _colIndexColumnNames;
         private System.Windows.Forms.DataGridViewTextBoxColumn _colIndexDesc;
         private System.Windows.Forms.SplitContainer _splitContainerTopBottom;
-        private Concision.Controls.Line line2;
+        private System.Windows.Forms.TabControl _tabSchemaShow;
+        private System.Windows.Forms.TabPage _pageColumnSchema;
+        private System.Windows.Forms.TabPage _pageDefine;
+        private System.Windows.Forms.RichTextBox _richTbSchemaDefine;
+        private System.Windows.Forms.Panel _pnlColumnSchema;
+        private System.Windows.Forms.Panel _pnlSchemaDefine;
     }
 }
 

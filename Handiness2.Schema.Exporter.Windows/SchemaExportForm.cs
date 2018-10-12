@@ -538,23 +538,36 @@ namespace Handiness2.Schema.Exporter.Windows
                     {
                         case SchemaType.Table:
                             {
+                                this._tabSchemaShow.SelectedTab = this._pageColumnSchema;
+                                this._pnlSchemaDefine.Visible = false;
+                                this._pnlColumnSchema.Visible = true;
                                 this._dgvColumnSchema.DataSource = schemaInfo.ColumnSchemas;
                                 this._dgvIndexColumnSchema.DataSource = schemaInfo.IndexColumnSchemas;
                             }
                             break;
                         case SchemaType.View:
                             {
+                                this._pnlColumnSchema.Visible = true;
+                                this._pnlSchemaDefine.Visible = false;
+                                this._tabSchemaShow.SelectedTab = this._pageColumnSchema;
                                 this._dgvColumnSchema.DataSource = schemaInfo.ColumnSchemas;
                                 this._dgvIndexColumnSchema.DataSource = null;
                             }
                             break;
                         case SchemaType.Procedure:
                             {
-
+                                this._pnlColumnSchema.Visible = false;
+                                this._pnlSchemaDefine.Visible = true;
+                                this._tabSchemaShow.SelectedTab = this._pageDefine;
+                                this._richTbSchemaDefine.Text = ((ProcedureSchema)schemaData).Definition;
                             }
                             break;
                         case SchemaType.Function:
                             {
+                                this._pnlColumnSchema.Visible = false;
+                                this._pnlSchemaDefine.Visible = true;
+                                this._tabSchemaShow.SelectedTab = this._pageDefine;
+                                this._richTbSchemaDefine.Text = ((FunctionSchema)schemaData).Definition;
                             }
                             break;
                     }
