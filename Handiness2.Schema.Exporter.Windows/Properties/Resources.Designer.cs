@@ -90,6 +90,46 @@ namespace Handiness2.Schema.Exporter.Windows.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap difference_add {
+            get {
+                object obj = ResourceManager.GetObject("difference_add", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap difference_delete {
+            get {
+                object obj = ResourceManager.GetObject("difference_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap difference_modify {
+            get {
+                object obj = ResourceManager.GetObject("difference_modify", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap difference_none {
+            get {
+                object obj = ResourceManager.GetObject("difference_none", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 组名不唯一！ 的本地化字符串。
         /// </summary>
         internal static string ExcelExportGroupForm_GroupNotNnique {
@@ -175,6 +215,24 @@ namespace Handiness2.Schema.Exporter.Windows.Properties {
         }
         
         /// <summary>
+        ///   查找类似 函数 的本地化字符串。
+        /// </summary>
+        internal static string SchemaExportForm_FunctionNodeHead {
+            get {
+                return ResourceManager.GetString("SchemaExportForm_FunctionNodeHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 存储过程 的本地化字符串。
+        /// </summary>
+        internal static string SchemaExportForm_ProcedureNodeHead {
+            get {
+                return ResourceManager.GetString("SchemaExportForm_ProcedureNodeHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 读取配置文件 的本地化字符串。
         /// </summary>
         internal static string SchemaExportForm_ReadConfig {
@@ -207,6 +265,16 @@ namespace Handiness2.Schema.Exporter.Windows.Properties {
         internal static string SchemaExportForm_ViewNodeHead {
             get {
                 return ResourceManager.GetString("SchemaExportForm_ViewNodeHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap selected {
+            get {
+                object obj = ResourceManager.GetObject("selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

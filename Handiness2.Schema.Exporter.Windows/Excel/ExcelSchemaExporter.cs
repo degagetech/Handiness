@@ -24,7 +24,7 @@ namespace Handiness2.Schema.Exporter.Windows
             Dictionary<String, SchemaInfoTuple> schemaTable = new Dictionary<string, SchemaInfoTuple>();
             schemaInfos.ForEach(t =>
             {
-                schemaTable.Add(t.TableSchema.Name, t);
+                schemaTable.Add(t.ObjectSchema.Name, t);
             });
             Int32 total = schemaTable.Count;
             Int32 current = 0;
@@ -81,17 +81,17 @@ namespace Handiness2.Schema.Exporter.Windows
 
                 foreach (String schemaName in schemaNames)
                 {
-                    TableSchemaExtend tableSchema = schemaTable[schemaName].TableSchema;
+                    IObjectSchema objectSchema = schemaTable[schemaName].ObjectSchema;
                     catalogTemplateSheet.CopyRow(ExcelTemplateFormat.CSTRowTemlateNum, catalogSheet, catalogLocation.X, catalogLocation.Y);
 
                     var schemaInfo = schemaTable[schemaName];
                     this.RaiseExportProgressChanged(total, ++current, schemaInfo);
-                    this.WriteCatalogRow(catalogSheet, tableSchema, internalnum++, catalogLocation.X, 0);
+                    this.WriteCatalogRow(catalogSheet, objectSchema, internalnum++, catalogLocation.X, 0);
                     //写入对应表的列信息
 
                     if (!exportConfig.IsMergeGroupToSheet)
                     {
-                        schemaSheet = workbook.CreateSheet(schemaInfo.TableSchema.Name);
+                        schemaSheet = workbook.CreateSheet(schemaInfo.ObjectSchema.Name);
                     }
                     this.WriteSchemaInfo(tableTemplateSheet, schemaSheet, sheetLocation, schemaInfo);
                     schemaTable.Remove(schemaName);
@@ -137,10 +137,10 @@ namespace Handiness2.Schema.Exporter.Windows
                         EPoint sheetLocation = new EPoint(2, 2);
                         schemaSheet = workbook.CreateSheet(schemaName);
 
-                        TableSchemaExtend tableSchema = schemaTable[schemaName].TableSchema;
+                        IObjectSchema objectSchema = schemaTable[schemaName].ObjectSchema;
                         catalogTemplateSheet.CopyRow(ExcelTemplateFormat.CSTRowTemlateNum, catalogSheet, catalogLocation.X, catalogLocation.Y);
                         this.RaiseExportProgressChanged(total, ++current, schemaInfo);
-                        this.WriteCatalogRow(catalogSheet, tableSchema, num++, catalogLocation.X, 0);
+                        this.WriteCatalogRow(catalogSheet, objectSchema, num++, catalogLocation.X, 0);
 
                         this.WriteSchemaInfo(tableTemplateSheet, schemaSheet, sheetLocation, schemaInfo);
 
@@ -185,7 +185,7 @@ namespace Handiness2.Schema.Exporter.Windows
             String path = Path.Combine(exportDirectory, name);
             workbook.SaveExcel(path);
         }
-        private void WriteCatalogRow(ISheet sheet, TableSchemaExtend schema, Int32 num, Int32 row, Int32 startCol)
+        private void WriteCatalogRow(ISheet sheet, IObjectSchema schema, Int32 num, Int32 row, Int32 startCol)
         {
             sheet.SetCellValue(row, startCol, num);
             startCol += ExcelTemplateFormat.CatalogNumColLength;
@@ -198,10 +198,10 @@ namespace Handiness2.Schema.Exporter.Windows
             //复制表头
             formatSheet.CopyRow(ExcelTemplateFormat.TSTHeadRowNum, sheet, start.X, start.Y);
             //写入 表名（说明） 信息
-            String name = schemaInfo.TableSchema.Name;
-            if (!String.IsNullOrEmpty(schemaInfo.TableSchema.Explain))
+            String name = schemaInfo.ObjectSchema.Name;
+            if (!String.IsNullOrEmpty(schemaInfo.ObjectSchema.Explain))
             {
-                name += $"({schemaInfo.TableSchema.Explain})";
+                name += $"({schemaInfo.ObjectSchema.Explain})";
             }
             sheet.SetCellValue(start.X, 0, name);
 

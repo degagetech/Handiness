@@ -7,6 +7,7 @@ namespace Handiness2.Schema
     /// <summary>
     /// 映射目标对象的结构信息的基类
     /// </summary>
+    [Serializable]
     public abstract class SchemaBase
     {
         /// <summary>

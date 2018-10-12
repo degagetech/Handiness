@@ -37,11 +37,14 @@ namespace Handiness2.Schema.Exporter.Windows
 
         private async void SchemaCompareForm_Shown(Object sender, EventArgs e)
         {
+            _imageListSrouceSchemaTree.Images.Add("tree_selected", Resources.selected);
             _imageListSrouceSchemaTree.Images.Add("tree_table", Resources.table);
             _imageListSrouceSchemaTree.Images.Add("tree_view", Resources.view);
             _imageListSrouceSchemaTree.Images.Add("tree_procedure", Resources.procedure);
             _imageListSrouceSchemaTree.Images.Add("tree_function", Resources.function);
 
+
+            _imageListTargetSchemaTree.Images.Add("tree_selected", Resources.selected);
             _imageListTargetSchemaTree.Images.Add("tree_table", Resources.table);
             _imageListTargetSchemaTree.Images.Add("tree_view", Resources.view);
             _imageListTargetSchemaTree.Images.Add("tree_procedure", Resources.procedure);
@@ -56,6 +59,11 @@ namespace Handiness2.Schema.Exporter.Windows
         private void RenderingSchemaTree(List<SchemaInfoTuple> schemaInfos, TreeView treeView)
         {
 
+        }
+
+        private void _tvTargetSchema_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+             
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Handiness2.Schema
     /// <summary>
     /// 映射目标对象的列结构信息
     /// </summary>
+    [Serializable]
     public class ColumnSchema : SchemaBase
     {
         /// <summary>

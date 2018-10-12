@@ -34,7 +34,7 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-  <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\portable-net40+sl4+win8+wp8\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="AgilityConfig">
@@ -104,6 +104,7 @@
     <Compile Include="BaseForm.Designer.cs">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BinarySerializer.cs" />
     <Compile Include="Excel\ExcelTemplateFormat.cs" />
     <Compile Include="Excel\ExcelTemplateItemEditorForm.cs">
       <SubType>Form</SubType>
@@ -144,6 +145,8 @@
     <Compile Include="ExportType.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="ISchemaExporter.cs" />
+    <Compile Include="SchemaAssistor.cs" />
+    <Compile Include="SchemaDifferenceType.cs" />
     <Compile Include="SchemaCompareForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,6 +236,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
+    <None Include="Resources\difference_modify.png" />
+    <None Include="Resources\difference_delete.png" />
+    <None Include="Resources\difference_add.png" />
+    <None Include="Resources\difference_none.png" />
+    <None Include="Resources\selected.png" />
     <None Include="Resources\schema_load_database.png" />
     <None Include="Resources\schema_load_file.png" />
     <None Include="Resources\function.png" />

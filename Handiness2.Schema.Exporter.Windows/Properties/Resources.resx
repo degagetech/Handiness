@@ -172,4 +172,25 @@
   <data name="schema_load_file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\schema_load_file.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SchemaExportForm_FunctionNodeHead" xml:space="preserve">
+    <value>函数</value>
+  </data>
+  <data name="SchemaExportForm_ProcedureNodeHead" xml:space="preserve">
+    <value>存储过程</value>
+  </data>
+  <data name="selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\selected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="difference_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\difference_add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="difference_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\difference_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="difference_modify" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\difference_modify.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="difference_none" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\difference_none.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

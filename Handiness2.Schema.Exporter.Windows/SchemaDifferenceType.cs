@@ -5,13 +5,11 @@ using System.Text;
 
 namespace Handiness2.Schema.Exporter.Windows
 {
-
-    public enum SchemaType
+    public enum SchemaDifferenceType
     {
-        Table = 1,
-        View = 2,
-        Procedure = 3,
-        Function = 4
-
+        None = 0,
+        Add = 1,
+        Modify = 2,
+        Delete = 3
     }
 }

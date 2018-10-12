@@ -29,9 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SchemaExportForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this._cbSchemaProvider = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -51,7 +53,6 @@
             this._waitSchemProvider = new Concision.Controls.WaitIndicator();
             this._labelProviderExplain = new System.Windows.Forms.Label();
             this.line1 = new Concision.Controls.Line();
-            this.line2 = new Concision.Controls.Line();
             this._waitConnect = new Concision.Controls.WaitIndicator();
             this._waitColumnSchemaLoad = new Concision.Controls.WaitIndicator();
             this.line3 = new Concision.Controls.Line();
@@ -87,10 +88,21 @@
             this._toolTip = new System.Windows.Forms.ToolTip(this.components);
             this._sfdSaveSchema = new System.Windows.Forms.SaveFileDialog();
             this._ofdLoadSchema = new System.Windows.Forms.OpenFileDialog();
+            this._dgvIndexColumnSchema = new System.Windows.Forms.DataGridView();
+            this._colIndexName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colIndexColumnNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colIndexDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._splitContainerTopBottom = new System.Windows.Forms.SplitContainer();
+            this.line2 = new Concision.Controls.Line();
             ((System.ComponentModel.ISupportInitialize)(this._dgvColumnSchema)).BeginInit();
             this._pageExcel.SuspendLayout();
             this._tabExportConfig.SuspendLayout();
             this._stripMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._dgvIndexColumnSchema)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._splitContainerTopBottom)).BeginInit();
+            this._splitContainerTopBottom.Panel1.SuspendLayout();
+            this._splitContainerTopBottom.Panel2.SuspendLayout();
+            this._splitContainerTopBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // _cbSchemaProvider
@@ -131,7 +143,8 @@
             this._tbConnectionString.Name = "_tbConnectionString";
             this._tbConnectionString.Size = new System.Drawing.Size(761, 23);
             this._tbConnectionString.TabIndex = 3;
-            this._tbConnectionString.Text = "Data Source=degage.me;Initial Catalog=biobank;User ID=sa;Password=932444208wlj+";
+            this._tbConnectionString.Text = "Data Source=192.168.1.120;Initial Catalog=biobank;User ID=sa;Password=932444208wl" +
+    "j+";
             // 
             // _btnEditorConnectionString
             // 
@@ -146,6 +159,8 @@
             // 
             // _tvSchema
             // 
+            this._tvSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this._tvSchema.BackColor = System.Drawing.Color.White;
             this._tvSchema.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._tvSchema.CheckBoxes = true;
@@ -154,7 +169,7 @@
             this._tvSchema.ImageList = this._iListSchemaTree;
             this._tvSchema.ItemHeight = 23;
             this._tvSchema.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this._tvSchema.Location = new System.Drawing.Point(30, 148);
+            this._tvSchema.Location = new System.Drawing.Point(17, 37);
             this._tvSchema.Name = "_tvSchema";
             this._tvSchema.SelectedImageIndex = 0;
             this._tvSchema.ShowNodeToolTips = true;
@@ -172,7 +187,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 122);
+            this.label3.Location = new System.Drawing.Point(11, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 17);
             this.label3.TabIndex = 6;
@@ -181,9 +196,10 @@
             // _dgvColumnSchema
             // 
             this._dgvColumnSchema.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this._dgvColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            this._dgvColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._dgvColumnSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this._dgvColumnSchema.BackgroundColor = System.Drawing.Color.White;
@@ -195,19 +211,19 @@
             this._colLength,
             this._colNullable,
             this._colExplain});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle2;
-            this._dgvColumnSchema.Location = new System.Drawing.Point(313, 148);
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvColumnSchema.DefaultCellStyle = dataGridViewCellStyle6;
+            this._dgvColumnSchema.Location = new System.Drawing.Point(300, 37);
             this._dgvColumnSchema.Name = "_dgvColumnSchema";
             this._dgvColumnSchema.RowHeadersVisible = false;
             this._dgvColumnSchema.RowTemplate.Height = 23;
-            this._dgvColumnSchema.Size = new System.Drawing.Size(625, 261);
+            this._dgvColumnSchema.Size = new System.Drawing.Size(633, 164);
             this._dgvColumnSchema.TabIndex = 7;
             // 
             // _colName
@@ -250,7 +266,7 @@
             this._btnOpen.FlatAppearance.BorderSize = 0;
             this._btnOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("_btnOpen.Image")));
-            this._btnOpen.Location = new System.Drawing.Point(275, 120);
+            this._btnOpen.Location = new System.Drawing.Point(262, 9);
             this._btnOpen.Name = "_btnOpen";
             this._btnOpen.Size = new System.Drawing.Size(29, 26);
             this._btnOpen.TabIndex = 8;
@@ -310,33 +326,16 @@
             this.line1.Text = "line1";
             this.line1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // line2
-            // 
-            this.line2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.line2.CustomBursh = null;
-            this.line2.EnabledMousePierce = false;
-            this.line2.IsVertical = false;
-            this.line2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
-            this.line2.LineLength = 980;
-            this.line2.LineWidth = 1;
-            this.line2.Location = new System.Drawing.Point(-8, 417);
-            this.line2.Margin = new System.Windows.Forms.Padding(0);
-            this.line2.Name = "line2";
-            this.line2.Size = new System.Drawing.Size(980, 1);
-            this.line2.TabIndex = 13;
-            this.line2.Text = "line2";
-            this.line2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // _waitConnect
             // 
+            this._waitConnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this._waitConnect.CurrentAngle = 180F;
             this._waitConnect.EachRollingAngle = 15F;
             this._waitConnect.EnabledMousePierce = false;
             this._waitConnect.HatchBrushStyle = System.Drawing.Drawing2D.HatchStyle.DarkHorizontal;
             this._waitConnect.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this._waitConnect.IsFollowParentBackColor = true;
-            this._waitConnect.Location = new System.Drawing.Point(251, 125);
+            this._waitConnect.Location = new System.Drawing.Point(238, 14);
             this._waitConnect.Margin = new System.Windows.Forms.Padding(0);
             this._waitConnect.Name = "_waitConnect";
             this._waitConnect.RollingSpeed = 60D;
@@ -352,13 +351,14 @@
             // 
             // _waitColumnSchemaLoad
             // 
+            this._waitColumnSchemaLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this._waitColumnSchemaLoad.CurrentAngle = 180F;
             this._waitColumnSchemaLoad.EachRollingAngle = 15F;
             this._waitColumnSchemaLoad.EnabledMousePierce = false;
             this._waitColumnSchemaLoad.HatchBrushStyle = System.Drawing.Drawing2D.HatchStyle.DarkHorizontal;
             this._waitColumnSchemaLoad.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this._waitColumnSchemaLoad.IsFollowParentBackColor = true;
-            this._waitColumnSchemaLoad.Location = new System.Drawing.Point(313, 125);
+            this._waitColumnSchemaLoad.Location = new System.Drawing.Point(300, 14);
             this._waitColumnSchemaLoad.Margin = new System.Windows.Forms.Padding(0);
             this._waitColumnSchemaLoad.Name = "_waitColumnSchemaLoad";
             this._waitColumnSchemaLoad.RollingSpeed = 60D;
@@ -484,7 +484,7 @@
             this._pageExcel.ImageIndex = 0;
             this._pageExcel.Location = new System.Drawing.Point(4, 26);
             this._pageExcel.Name = "_pageExcel";
-            this._pageExcel.Size = new System.Drawing.Size(900, 140);
+            this._pageExcel.Size = new System.Drawing.Size(926, 143);
             this._pageExcel.TabIndex = 0;
             this._pageExcel.Text = "EXCEL(.xlsx)";
             this._pageExcel.ToolTipText = "导出为Excel文件";
@@ -497,7 +497,7 @@
             this._ctlExcelConfig.Location = new System.Drawing.Point(0, 0);
             this._ctlExcelConfig.Margin = new System.Windows.Forms.Padding(0);
             this._ctlExcelConfig.Name = "_ctlExcelConfig";
-            this._ctlExcelConfig.Size = new System.Drawing.Size(900, 140);
+            this._ctlExcelConfig.Size = new System.Drawing.Size(926, 143);
             this._ctlExcelConfig.TabIndex = 0;
             // 
             // _tabExportConfig
@@ -508,10 +508,11 @@
             this._tabExportConfig.Controls.Add(this._pageExcel);
             this._tabExportConfig.Controls.Add(this._pageCode);
             this._tabExportConfig.ImageList = this._imageListExportPage;
-            this._tabExportConfig.Location = new System.Drawing.Point(30, 426);
+            this._tabExportConfig.ItemSize = new System.Drawing.Size(102, 22);
+            this._tabExportConfig.Location = new System.Drawing.Point(3, 4);
             this._tabExportConfig.Name = "_tabExportConfig";
             this._tabExportConfig.SelectedIndex = 0;
-            this._tabExportConfig.Size = new System.Drawing.Size(908, 170);
+            this._tabExportConfig.Size = new System.Drawing.Size(934, 173);
             this._tabExportConfig.TabIndex = 20;
             this._tabExportConfig.SelectedIndexChanged += new System.EventHandler(this._tabExportConfig_SelectedIndexChanged);
             // 
@@ -521,7 +522,7 @@
             this._pageCode.Location = new System.Drawing.Point(4, 26);
             this._pageCode.Name = "_pageCode";
             this._pageCode.Padding = new System.Windows.Forms.Padding(3);
-            this._pageCode.Size = new System.Drawing.Size(900, 140);
+            this._pageCode.Size = new System.Drawing.Size(926, 143);
             this._pageCode.TabIndex = 1;
             this._pageCode.Text = "CODE(.cs)";
             this._pageCode.ToolTipText = "导出为C#代码";
@@ -542,7 +543,7 @@
             this._tsmiHelp});
             this._stripMenu.Location = new System.Drawing.Point(0, 0);
             this._stripMenu.Name = "_stripMenu";
-            this._stripMenu.Size = new System.Drawing.Size(964, 25);
+            this._stripMenu.Size = new System.Drawing.Size(964, 24);
             this._stripMenu.TabIndex = 26;
             this._stripMenu.Text = "menuStrip1";
             // 
@@ -556,7 +557,7 @@
             this._tsmiLoadSchemaFromFile});
             this._stripItemFile.Name = "_stripItemFile";
             this._stripItemFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this._stripItemFile.Size = new System.Drawing.Size(58, 21);
+            this._stripItemFile.Size = new System.Drawing.Size(59, 20);
             this._stripItemFile.Text = "文件(&F)";
             // 
             // _stripReadConfig
@@ -608,13 +609,13 @@
             this._tsmiCompareFromFile,
             this._tsmiCompareFromConnection});
             this._tsmiCompare.Name = "_tsmiCompare";
-            this._tsmiCompare.Size = new System.Drawing.Size(60, 21);
+            this._tsmiCompare.Size = new System.Drawing.Size(61, 20);
             this._tsmiCompare.Text = "比较(&C)";
             // 
             // _tsmiCompareFromFile
             // 
             this._tsmiCompareFromFile.Name = "_tsmiCompareFromFile";
-            this._tsmiCompareFromFile.Size = new System.Drawing.Size(210, 22);
+            this._tsmiCompareFromFile.Size = new System.Drawing.Size(218, 22);
             this._tsmiCompareFromFile.Text = "从文件中获取比较目标(&F)";
             this._tsmiCompareFromFile.ToolTipText = "从文件中获取比较目标的结构信息";
             this._tsmiCompareFromFile.Click += new System.EventHandler(this._tsmiCompareFromFile_Click);
@@ -622,7 +623,7 @@
             // _tsmiCompareFromConnection
             // 
             this._tsmiCompareFromConnection.Name = "_tsmiCompareFromConnection";
-            this._tsmiCompareFromConnection.Size = new System.Drawing.Size(210, 22);
+            this._tsmiCompareFromConnection.Size = new System.Drawing.Size(218, 22);
             this._tsmiCompareFromConnection.Text = "使用数据连接(&C)";
             this._tsmiCompareFromConnection.ToolTipText = "使用新的数据连接获取比较目标的结构信息";
             // 
@@ -631,13 +632,13 @@
             this._tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._tsmiAboutTool});
             this._tsmiHelp.Name = "_tsmiHelp";
-            this._tsmiHelp.Size = new System.Drawing.Size(61, 21);
+            this._tsmiHelp.Size = new System.Drawing.Size(62, 20);
             this._tsmiHelp.Text = "帮助(&H)";
             // 
             // _tsmiAboutTool
             // 
             this._tsmiAboutTool.Name = "_tsmiAboutTool";
-            this._tsmiAboutTool.Size = new System.Drawing.Size(124, 22);
+            this._tsmiAboutTool.Size = new System.Drawing.Size(126, 22);
             this._tsmiAboutTool.Text = "关于工具";
             this._tsmiAboutTool.Click += new System.EventHandler(this._tsmiAboutTool_Click);
             // 
@@ -654,7 +655,7 @@
             // 
             this._lblLoadTypeSymbol.AutoSize = true;
             this._lblLoadTypeSymbol.Image = global::Handiness2.Schema.Exporter.Windows.Properties.Resources.schema_load_database;
-            this._lblLoadTypeSymbol.Location = new System.Drawing.Point(79, 122);
+            this._lblLoadTypeSymbol.Location = new System.Drawing.Point(66, 11);
             this._lblLoadTypeSymbol.Name = "_lblLoadTypeSymbol";
             this._lblLoadTypeSymbol.Size = new System.Drawing.Size(20, 17);
             this._lblLoadTypeSymbol.TabIndex = 27;
@@ -672,33 +673,119 @@
             this._ofdLoadSchema.Filter = "Schema 文件|*.schema";
             this._ofdLoadSchema.Title = "选择结构文件";
             // 
+            // _dgvIndexColumnSchema
+            // 
+            this._dgvIndexColumnSchema.AllowUserToAddRows = false;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._dgvIndexColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            this._dgvIndexColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._dgvIndexColumnSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this._dgvIndexColumnSchema.BackgroundColor = System.Drawing.Color.White;
+            this._dgvIndexColumnSchema.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._dgvIndexColumnSchema.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._colIndexName,
+            this._colIndexColumnNames,
+            this._colIndexDesc});
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this._dgvIndexColumnSchema.DefaultCellStyle = dataGridViewCellStyle8;
+            this._dgvIndexColumnSchema.Location = new System.Drawing.Point(300, 216);
+            this._dgvIndexColumnSchema.Name = "_dgvIndexColumnSchema";
+            this._dgvIndexColumnSchema.RowHeadersVisible = false;
+            this._dgvIndexColumnSchema.RowTemplate.Height = 23;
+            this._dgvIndexColumnSchema.Size = new System.Drawing.Size(633, 82);
+            this._dgvIndexColumnSchema.TabIndex = 28;
+            // 
+            // _colIndexName
+            // 
+            this._colIndexName.HeaderText = "名称";
+            this._colIndexName.Name = "_colIndexName";
+            // 
+            // _colIndexColumnNames
+            // 
+            this._colIndexColumnNames.HeaderText = "关联列";
+            this._colIndexColumnNames.Name = "_colIndexColumnNames";
+            this._colIndexColumnNames.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // _colIndexDesc
+            // 
+            this._colIndexDesc.HeaderText = "说明";
+            this._colIndexDesc.Name = "_colIndexDesc";
+            // 
+            // _splitContainerTopBottom
+            // 
+            this._splitContainerTopBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._splitContainerTopBottom.BackColor = System.Drawing.Color.Gainsboro;
+            this._splitContainerTopBottom.Location = new System.Drawing.Point(15, 114);
+            this._splitContainerTopBottom.Name = "_splitContainerTopBottom";
+            this._splitContainerTopBottom.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // _splitContainerTopBottom.Panel1
+            // 
+            this._splitContainerTopBottom.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this._splitContainerTopBottom.Panel1.Controls.Add(this.line2);
+            this._splitContainerTopBottom.Panel1.Controls.Add(this._dgvColumnSchema);
+            this._splitContainerTopBottom.Panel1.Controls.Add(this._dgvIndexColumnSchema);
+            this._splitContainerTopBottom.Panel1.Controls.Add(this._tvSchema);
+            this._splitContainerTopBottom.Panel1.Controls.Add(this._lblLoadTypeSymbol);
+            this._splitContainerTopBottom.Panel1.Controls.Add(this.label3);
+            this._splitContainerTopBottom.Panel1.Controls.Add(this._btnOpen);
+            this._splitContainerTopBottom.Panel1.Controls.Add(this._waitConnect);
+            this._splitContainerTopBottom.Panel1.Controls.Add(this._waitColumnSchemaLoad);
+            // 
+            // _splitContainerTopBottom.Panel2
+            // 
+            this._splitContainerTopBottom.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this._splitContainerTopBottom.Panel2.Controls.Add(this._tabExportConfig);
+            this._splitContainerTopBottom.Size = new System.Drawing.Size(937, 489);
+            this._splitContainerTopBottom.SplitterDistance = 308;
+            this._splitContainerTopBottom.TabIndex = 29;
+            // 
+            // line2
+            // 
+            this.line2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.line2.CustomBursh = null;
+            this.line2.EnabledMousePierce = false;
+            this.line2.IsVertical = false;
+            this.line2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(175)))), ((int)(((byte)(175)))));
+            this.line2.LineLength = 620;
+            this.line2.LineWidth = 1;
+            this.line2.Location = new System.Drawing.Point(305, 208);
+            this.line2.Margin = new System.Windows.Forms.Padding(0);
+            this.line2.Name = "line2";
+            this.line2.Size = new System.Drawing.Size(620, 1);
+            this.line2.TabIndex = 29;
+            this.line2.Text = "line2";
+            this.line2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // SchemaExportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(964, 691);
-            this.Controls.Add(this._lblLoadTypeSymbol);
+            this.Controls.Add(this._splitContainerTopBottom);
             this.Controls.Add(this._btnSelectdExportDirectory);
             this.Controls.Add(this._tbExportDirectory);
             this.Controls.Add(this.label5);
             this.Controls.Add(this._labelTipInfo);
             this.Controls.Add(this._labelExprtProcess);
-            this.Controls.Add(this._tabExportConfig);
             this.Controls.Add(this._btnExport);
             this.Controls.Add(this._pbarExportProcess);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.line3);
-            this.Controls.Add(this._waitColumnSchemaLoad);
-            this.Controls.Add(this._waitConnect);
-            this.Controls.Add(this.line2);
             this.Controls.Add(this.line1);
             this.Controls.Add(this._labelProviderExplain);
             this.Controls.Add(this._waitSchemProvider);
-            this.Controls.Add(this._btnOpen);
-            this.Controls.Add(this._dgvColumnSchema);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this._tvSchema);
             this.Controls.Add(this._btnEditorConnectionString);
             this.Controls.Add(this._tbConnectionString);
             this.Controls.Add(this.label2);
@@ -720,6 +807,12 @@
             this._tabExportConfig.ResumeLayout(false);
             this._stripMenu.ResumeLayout(false);
             this._stripMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._dgvIndexColumnSchema)).EndInit();
+            this._splitContainerTopBottom.Panel1.ResumeLayout(false);
+            this._splitContainerTopBottom.Panel1.PerformLayout();
+            this._splitContainerTopBottom.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._splitContainerTopBottom)).EndInit();
+            this._splitContainerTopBottom.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -745,7 +838,6 @@
         private Concision.Controls.WaitIndicator _waitSchemProvider;
         private System.Windows.Forms.Label _labelProviderExplain;
         private Concision.Controls.Line line1;
-        private Concision.Controls.Line line2;
         private Concision.Controls.WaitIndicator _waitConnect;
         private System.Windows.Forms.ImageList _iListSchemaTree;
         private Concision.Controls.WaitIndicator _waitColumnSchemaLoad;
@@ -782,6 +874,12 @@
         private System.Windows.Forms.OpenFileDialog _ofdLoadSchema;
         private System.Windows.Forms.TabPage _pageCode;
         private System.Windows.Forms.ImageList _imageListExportPage;
+        private System.Windows.Forms.DataGridView _dgvIndexColumnSchema;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colIndexName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colIndexColumnNames;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colIndexDesc;
+        private System.Windows.Forms.SplitContainer _splitContainerTopBottom;
+        private Concision.Controls.Line line2;
     }
 }
 

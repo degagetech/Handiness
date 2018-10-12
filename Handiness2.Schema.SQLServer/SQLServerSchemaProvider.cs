@@ -31,7 +31,8 @@ namespace Handiness2.Schema.SQLServer
         internal const String KeyTypeOfPrimary = "PRI";
         internal const String NullableOfYes = "Y";
         internal const String NullableOfNo = "N";
-        //元数据信息-列架构字段名称
+
+        //元数据信息-列结构字段名称
         internal const String ColumnOfName = "COLUMN_NAME";
         internal const String ColumnOfTableName = "TABLE_NAME";
         internal const String ColumnOfDbType = "DATA_TYPE";
@@ -41,12 +42,17 @@ namespace Handiness2.Schema.SQLServer
         internal const String ColumnOfComment = "COLUMN_COMMENT";
         internal const String ColumnOfDefaultType = "DEFAULT_VALUE";
 
-        //元数据信息-表架构字段名称
+        //元数据信息-索引结构字段名称
+        internal const String IndexOfName = "index_name";
+        internal const String IndexOfDescription = "index_description";
+        internal const String IndexOfColumnNames = "index_keys";
+
+        //元数据信息-表结构字段名称
         internal const String TableOfName = "TABLE_NAME";
         internal const String TableOfDbName = "TABLE_CATALOG";
         internal const String TableOfComment = "TABLE_COMMENT";
 
-
+        internal static String SQLForIndexSchema = "EXEC sys.sp_helpindex @objname = '{0}'";
         internal static String SQLForTableSchema = $"SELECT a.name as {TableOfName},max(b.[value]) as {TableOfComment} FROM sysobjects a LEFT JOIN sys.extended_properties b ON a.id=b.major_id AND b.minor_id = 0 where a.xtype='U'   GROUP BY a.name";
         internal static String SQLForTableSchemaWithWhere = $"SELECT a.name as {TableOfName},max(b.[value]) as {TableOfComment} FROM sysobjects a LEFT JOIN sys.extended_properties b ON a.id=b.major_id where a.xtype='U' AND b.minor_id=0  AND a.name=" + "'{0}' GROUP BY a.name";
         internal static String SQLForColumnSchemaWithWhere = $@"SELECT
@@ -216,13 +222,35 @@ namespace Handiness2.Schema.SQLServer
                 Explain = row[TableOfComment] as String,
                 Name = row[TableOfName] as String,
             };
+
+
             return schema;
         }
 
-
+        protected IndexSchema GetIndexSchemaFromRow(DataRow row)
+        {
+            IndexSchema schema = new IndexSchema
+            {
+                Name = row[IndexOfName].ToString(),
+                ColumnNames = row[IndexOfColumnNames].ToString(),
+                Explain = row[IndexOfDescription].ToString()
+            };
+            return schema;
+        }
         public IList<IndexSchema> LoadIndexSchemaList(String tableName)
         {
-            throw new NotImplementedException();
+            List<IndexSchema> indexSchemas = new List<IndexSchema>();
+            String indexSchemaSQL = String.Format(SQLForIndexSchema, tableName);
+            DataTable info = this.ExecuteQuery(indexSchemaSQL);
+            if (info.Rows.Count > 0)
+            {
+                foreach (DataRow row in info.Rows)
+                {
+                    IndexSchema schema = this.GetIndexSchemaFromRow(row);
+                    indexSchemas.Add(schema);
+                }
+            }
+            return indexSchemas;
         }
     }
 }
