@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Handiness2.Schema
 {
+    /// <summary>
+    /// <see cref="ISchemaProvider"/> 对象在执行连接操作时的异常信息
+    /// </summary>
     public class ProviderConnectException : System.Exception
     {
         /// <summary>

@@ -37,7 +37,7 @@ namespace Handiness2.Schema
         /// <summary>
         /// 重新引导框架加载 shcema 信息，暂未支持此方法
 		/// 此方法成功运行后
-		/// 1.会重置框架内存中所有的 schema 信息
+		/// 1.会重置框架内存中所有的 Schema 信息
 		/// 2.现有的 <see cref="SQLElement"/> 缓存会全部失效
         /// </summary>
         public static void Reboot()

@@ -22,9 +22,10 @@ namespace Handiness2.Schema
         /// </summary>
         String ConnectionString { get; }
         /// <summary>
-        /// 使用指定的连接字符串，打开与数据服务实例的连接，若连接失败则抛出 <see cref="ProviderConnectException"/> 异常信息
+        /// 使用指定的连接字符串，打开与数据服务实例的连接，若连接失败则抛出抛出异常信息
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
+        ///<exception cref="ProviderConnectException">连接失败时</exception>
         void Open(String connectionString);
         /// <summary>
         /// 表示是否已打开与指定数据服务实例的连接
@@ -36,16 +37,20 @@ namespace Handiness2.Schema
         void Close();
 
         /// <summary>
-        /// 加载于指定表关联的 <see cref="TableSchemaExtend"/> 信息以及所有 <see cref="ColumnSchemaExtend"/> 信息
+        /// 加载指定表的结构信息以及所有与其关联的列的结构信息
         /// </summary>
         /// <param name="tableName">表的名称</param>
-        /// <returns>返回一个三元组，第一个组建表示获取成功与否，第二个组件包含表的结构信息，第三个组件包含一个 列结构信息的链表，若获取失败</returns>
-        (Boolean success,TableSchemaExtend table, IList<ColumnSchemaExtend> columns) GetTableSchemaTuple(String tableName);
+        /// <returns>
+        /// 返回一个三元组，
+        /// 第一个组建表示获取成功与否
+        /// 第二个组件包含表的结构信息
+        /// 第三个组件包含一个 列结构信息的链表</returns>
+        (Boolean success, TableSchemaExtend table, IList<ColumnSchemaExtend> columns) GetTableSchemaTuple(String tableName);
 
 
 
         /// <summary>
-        /// 加载与当前连接关联的所有 <see cref="TableSchemaExtend"/> 信息
+        /// 加载与当前连接关联的所有表的结构信息
         /// </summary>
         /// <returns></returns>
         IList<TableSchemaExtend> LoadTableSchemaList();
@@ -53,15 +58,54 @@ namespace Handiness2.Schema
 
 
         /// <summary>
-        /// 加载与指定表关联的所有 <see cref="ColumnSchemaExtend"/> 信息
+        /// 加载与指定表关联的所有的列的结构信息
         /// </summary>
         /// <param name="tableName">表的名称</param>
         /// <returns></returns>
         IList<ColumnSchemaExtend> LoadColumnSchemaList(String tableName);
 
+        /// <summary>
+        /// 加载与指定表关联的所有索引的结构信息
+        /// </summary>
+        /// <param name="tableName">表的名称</param>
+        /// <returns></returns>
+        IList<IndexSchema> LoadIndexSchemaList(String tableName);
 
+        /// <summary>
+        /// 加载所有与此连接关联的视图的结构信息
+        /// </summary>
+        /// <returns></returns>
         IList<TableSchemaExtend> LoadViewSchemaList();
+
+        /// <summary>
+        /// 通过指定视图名称加载与此视图关联的所有列结构的信息
+        /// </summary>
+        /// <param name="viewName">视图的名称</param>
+        /// <returns></returns>
         IList<ColumnSchemaExtend> LoadViewColumnSchemaList(String viewName);
+
+        /// <summary>
+        /// 通过视图名称加载视图本身的结构信息以及与其关联的列结构的信息
+        /// </summary>
+        /// <param name="viewName">视图的名称</param>
+        /// <returns>
+        /// 返回一个三元组，
+        /// 第一组件表示是否获取成功，
+        /// 第二组件表示视图的结构信息，
+        /// 第三组件表示关联的列的结构信息
+        /// </returns>
         (Boolean success, TableSchemaExtend view, IList<ColumnSchemaExtend> columns) GetViewSchemaTuple(String viewName);
+
+        /// <summary>
+        /// 加载所有与此连接关联的函数的结构信息
+        /// </summary>
+        /// <returns></returns>
+        IList<FunctionSchema> LoadFunctionSchemaList();
+
+        /// <summary>
+        /// 加载所有与此连接关联的存储过程的结构信息
+        /// </summary>
+        /// <returns></returns>
+        IList<ProcedureSchema> LoadProcedureSchemaList();
     }
 }

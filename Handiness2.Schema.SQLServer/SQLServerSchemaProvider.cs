@@ -121,7 +121,7 @@ namespace Handiness2.Schema.SQLServer
             return table;
         }
 
-        public (Boolean success,TableSchemaExtend table, IList<ColumnSchemaExtend> columns) GetTableSchemaTuple(String tableName)
+        public (Boolean success, TableSchemaExtend table, IList<ColumnSchemaExtend> columns) GetTableSchemaTuple(String tableName)
         {
             Boolean success = false;
             TableSchemaExtend tableSchema = null;
@@ -135,11 +135,11 @@ namespace Handiness2.Schema.SQLServer
             if (info.Rows.Count > 0)
             {
                 var row = info.Rows[0];
-                tableSchema= this.GetTableSchemaFromRow(row);
-                columnSchemas=this.LoadColumnSchemaList(tableName);
+                tableSchema = this.GetTableSchemaFromRow(row);
+                columnSchemas = this.LoadColumnSchemaList(tableName);
                 success = true;
             }
-            return (success,tableSchema, columnSchemas);
+            return (success, tableSchema, columnSchemas);
         }
 
         public IList<ColumnSchemaExtend> LoadColumnSchemaList(String tableName)
@@ -219,6 +219,10 @@ namespace Handiness2.Schema.SQLServer
             return schema;
         }
 
-      
+
+        public IList<IndexSchema> LoadIndexSchemaList(String tableName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
