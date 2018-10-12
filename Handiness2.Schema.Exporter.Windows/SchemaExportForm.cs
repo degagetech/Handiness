@@ -1035,7 +1035,7 @@ namespace Handiness2.Schema.Exporter.Windows
                 SchemaCompareForm compareForm = new SchemaCompareForm(sourceSchemaInfos, targetSchemaInfos);
                 //  String fileName = Path.GetFileName(targetSchemaFilePath);
                 compareForm.Text = $"与文件 [{targetSchemaFilePath}] 中的结构信息比较";
-                compareForm.Show();
+                compareForm.Show(this);
 
                 this.ShowTipInformation();
             }

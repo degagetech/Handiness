@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Handiness2.Schema.Exporter.Windows.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,11 +33,29 @@ namespace Handiness2.Schema.Exporter.Windows
             this.TargetSchemaInfos = target;
         }
 
-       
+
 
         private async void SchemaCompareForm_Shown(Object sender, EventArgs e)
         {
-             
+            _imageListSrouceSchemaTree.Images.Add("tree_table", Resources.table);
+            _imageListSrouceSchemaTree.Images.Add("tree_view", Resources.view);
+            _imageListSrouceSchemaTree.Images.Add("tree_procedure", Resources.procedure);
+            _imageListSrouceSchemaTree.Images.Add("tree_function", Resources.function);
+
+            _imageListTargetSchemaTree.Images.Add("tree_table", Resources.table);
+            _imageListTargetSchemaTree.Images.Add("tree_view", Resources.view);
+            _imageListTargetSchemaTree.Images.Add("tree_procedure", Resources.procedure);
+            _imageListTargetSchemaTree.Images.Add("tree_function", Resources.function);
+
+
+
+        }
+
+        
+
+        private void RenderingSchemaTree(List<SchemaInfoTuple> schemaInfos, TreeView treeView)
+        {
+
         }
     }
 }
