@@ -154,17 +154,13 @@ namespace Handiness2.Schema.Exporter.Windows
                 this.ShowTipInformation("正在准备差异数据...");
 
                 this.ObjectSchemaDifferenceTable = differenceInfos.ToDictionary(t => t.Schema, t => t.DifferenceType);
-
+                //从源中获取目标结构中没有的信息
+                var targetSchemaTable = this.TargetSchemaInfos.ToDictionary(t => t.ObjectSchema.Name);
                 foreach (var schema in this.SourceSchemaInfos)
                 {
-                    var diffenenceType = this.GetSchemaDifferenceType(schema.ObjectSchema);
-                    switch (diffenenceType)
+                    if (!targetSchemaTable.ContainsKey(schema.ObjectSchema.Name))
                     {
-                        case SchemaDifferenceType.Delete:
-                            {
-                                this.TargetSchemaInfos.Add(schema);
-                            }
-                            break;
+                        this.TargetSchemaInfos.Add(schema);
                     }
                 }
 
