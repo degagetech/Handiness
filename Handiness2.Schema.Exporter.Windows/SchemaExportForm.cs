@@ -197,6 +197,8 @@ namespace Handiness2.Schema.Exporter.Windows
             this.TableNodeHead = null;
             this.ViewNodeHead = null;
             this._dgvColumnSchema.DataSource = null;
+            this._dgvIndexColumnSchema.DataSource = null;
+            this._richTbSchemaDefine.Text = null;
             this._schemaInfoTable.Clear();
         }
 
@@ -1117,16 +1119,16 @@ namespace Handiness2.Schema.Exporter.Windows
                     case SchemaCompareTargetType.Connection:
                         {
                             ConnectionSchemaForm schemaForm = new ConnectionSchemaForm();
-                            schemaForm.ShowDialog();
+                            schemaForm.ShowDialog(this);
                             if (!schemaForm.CanContinue)
                             {
                                 this.ShowTipInformation("比较操作已取消！");
                                 return;
                             }
                             targetSchemaInfos = schemaForm.SchemaInfoTuples;
-                             SchemaCompareForm compareForm = new SchemaCompareForm(sourceSchemaInfos, targetSchemaInfos);
+                            SchemaCompareForm compareForm = new SchemaCompareForm(sourceSchemaInfos, targetSchemaInfos);
                             //  String fileName = Path.GetFileName(targetSchemaFilePath);
-                            compareForm.Text = $"与从数据连接 [{ schemaForm.CurrentSchemaProvider.ConnectionString}] 获取的结构信息比较";
+                            compareForm.Text = $"与从数据连接 [{ schemaForm.ConnectionString}] 获取的结构信息比较";
                             compareForm.Show(this);
                         }
                         break;
@@ -1140,7 +1142,7 @@ namespace Handiness2.Schema.Exporter.Windows
             }
             finally
             {
-                this.EnableContol(false);
+                this.EnableContol(true);
                 this.LeaveBusyingState();
             }
         }

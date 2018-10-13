@@ -81,7 +81,7 @@ namespace Handiness2.Schema.Exporter.Windows
 
             //比较层1
             var sourceTopSchemas = sourceSchemas.Select(t => t.ObjectSchema).ToList();
-            var targetTopSchemas = targetSchemas.Select(t => t.ObjectSchema).ToList(); ;
+            var targetTopSchemas = targetSchemas.Select(t => t.ObjectSchema).ToList(); 
 
             var topSchemaDifferenceInfos = CompareObjectSchemas(sourceTopSchemas, targetTopSchemas, out var topChangeFlag);
             var topSchemaDifferenceTypeTable = topSchemaDifferenceInfos.ToDictionary(t => t.Schema, t => t.DifferenceType);

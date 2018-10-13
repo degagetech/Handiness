@@ -14,6 +14,13 @@ namespace Handiness2.Schema.Exporter.Windows
 {
     public partial class ConnectionSchemaForm : BaseForm
     {
+        public String ConnectionString
+        {
+            get
+            {
+                return this._tbConnectionString.Text;
+            }
+        }
         /// <summary>
         /// 是否可以继续比较操作
         /// </summary>

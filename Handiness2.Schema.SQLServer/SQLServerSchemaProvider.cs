@@ -22,7 +22,13 @@ namespace Handiness2.Schema.SQLServer
 
         public String Explain { get; } = "适用于 SQL Server 数据库";
 
-        public String ConnectionString { get; private set; }
+        public String ConnectionString
+        {
+            get
+            {
+                return this._connection?.ConnectionString;
+            }
+        }
 
         public Boolean Opened { get; private set; }
 

@@ -139,7 +139,17 @@ namespace Handiness2.Schema.Exporter.Windows
             this.ShowTipInformation("正在比较结构的差异...");
             try
             {
-                var differenceInfos = await TaskEx.Run(() => SchemaAssistor.CompareSchemaInfo(this.SourceSchemaInfos, this.TargetSchemaInfos));
+                List<SchemaDifferenceInfo> differenceInfos = null;
+                try
+                {
+                    differenceInfos = await TaskEx.Run(() => SchemaAssistor.CompareSchemaInfo(this.SourceSchemaInfos, this.TargetSchemaInfos));
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(this, "获取信息差异时发生错误！" + exc.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
 
                 this.ShowTipInformation("正在准备差异数据...");
 
@@ -159,14 +169,22 @@ namespace Handiness2.Schema.Exporter.Windows
                 }
 
 
-                this.RenderingSchemaTree(this.SourceSchemaInfos, this._tvSourceSchema, false);
-                this.RenderingSchemaTree(this.TargetSchemaInfos, this._tvTargetSchema, true);
+                try
+                {
+                    this.RenderingSchemaTree(this.SourceSchemaInfos, this._tvSourceSchema, false);
+                    this.RenderingSchemaTree(this.TargetSchemaInfos, this._tvTargetSchema, true);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(this, "绘制差异时发生错误！" + exc.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
 
             }
             catch (Exception exc)
             {
-                MessageBox.Show(this, "比较信息差异时发生错误！" + exc.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, "比较差异信息时发生错误！" + exc.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             finally
             {
