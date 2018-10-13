@@ -3,6 +3,9 @@
 ![image](https://github.com/WangLangJing/Handiness/blob/master/export.gif) 
 ![image](https://github.com/WangLangJing/Handiness/blob/master/export-config.gif) 
 
+## 结构信息的比较
+![image](https://github.com/WangLangJing/Handiness/blob/master/compare-example.gif) 
+
 ## Handine 1.0 版本的使用
 #### 实体类的定义
 ```
