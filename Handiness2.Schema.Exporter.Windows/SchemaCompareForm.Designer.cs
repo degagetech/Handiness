@@ -38,13 +38,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this._splitContainerSchemaInfo = new System.Windows.Forms.SplitContainer();
-            this.label1 = new System.Windows.Forms.Label();
-            this._tvSourceSchema = new System.Windows.Forms.TreeView();
-            this._imageListSrouceSchemaTree = new System.Windows.Forms.ImageList(this.components);
-            this._tvTargetSchema = new System.Windows.Forms.TreeView();
-            this._imageListTargetSchemaTree = new System.Windows.Forms.ImageList(this.components);
-            this.label2 = new System.Windows.Forms.Label();
-            this._labelTipInfo = new System.Windows.Forms.Label();
             this._tabSchemaShow = new System.Windows.Forms.TabControl();
             this._pageColumnSchema = new System.Windows.Forms.TabPage();
             this._pnlColumnSchema = new System.Windows.Forms.Panel();
@@ -62,23 +55,36 @@
             this._pageDefine = new System.Windows.Forms.TabPage();
             this._pnlSchemaDefine = new System.Windows.Forms.Panel();
             this._richTbSchemaDefine = new System.Windows.Forms.RichTextBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewCheckBoxColumn2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this._tvSourceSchema = new System.Windows.Forms.TreeView();
+            this._imageListSourceSchemaTree = new System.Windows.Forms.ImageList(this.components);
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this._tabTargetSchemaShow = new System.Windows.Forms.TabControl();
+            this._pageTargetColumnSchema = new System.Windows.Forms.TabPage();
+            this._pnlTargetColumnSchema = new System.Windows.Forms.Panel();
+            this._dgvTargetColumnSchema = new System.Windows.Forms.DataGridView();
+            this._colDifferenceType = new System.Windows.Forms.DataGridViewImageColumn();
+            this._colTargetName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colTargetPrimary = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this._colTargetType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colTargetLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colTargetNullable = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this._colTargetExplain = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._dgvTargetIndexColumnSchema = new System.Windows.Forms.DataGridView();
+            this._colIndexDifferenceType = new System.Windows.Forms.DataGridViewImageColumn();
+            this._colTargetIndexName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colTargetIndexColumnNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colTargetIndexDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._pageTargetDefine = new System.Windows.Forms.TabPage();
+            this._pnlTargetSchemaDefine = new System.Windows.Forms.Panel();
+            this._richTbTargetSchemaDefine = new System.Windows.Forms.RichTextBox();
+            this._tvTargetSchema = new System.Windows.Forms.TreeView();
+            this._imageListTargetSchemaTree = new System.Windows.Forms.ImageList(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this._labelTipInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainerSchemaInfo)).BeginInit();
             this._splitContainerSchemaInfo.Panel1.SuspendLayout();
             this._splitContainerSchemaInfo.Panel2.SuspendLayout();
@@ -90,13 +96,13 @@
             ((System.ComponentModel.ISupportInitialize)(this._dgvIndexColumnSchema)).BeginInit();
             this._pageDefine.SuspendLayout();
             this._pnlSchemaDefine.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            this.tabPage2.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this._tabTargetSchemaShow.SuspendLayout();
+            this._pageTargetColumnSchema.SuspendLayout();
+            this._pnlTargetColumnSchema.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._dgvTargetColumnSchema)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dgvTargetIndexColumnSchema)).BeginInit();
+            this._pageTargetDefine.SuspendLayout();
+            this._pnlTargetSchemaDefine.SuspendLayout();
             this.SuspendLayout();
             // 
             // _splitContainerSchemaInfo
@@ -118,90 +124,16 @@
             // _splitContainerSchemaInfo.Panel2
             // 
             this._splitContainerSchemaInfo.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this._splitContainerSchemaInfo.Panel2.Controls.Add(this.tabControl1);
+            this._splitContainerSchemaInfo.Panel2.Controls.Add(this.label6);
+            this._splitContainerSchemaInfo.Panel2.Controls.Add(this.label5);
+            this._splitContainerSchemaInfo.Panel2.Controls.Add(this.label4);
+            this._splitContainerSchemaInfo.Panel2.Controls.Add(this.label3);
+            this._splitContainerSchemaInfo.Panel2.Controls.Add(this._tabTargetSchemaShow);
             this._splitContainerSchemaInfo.Panel2.Controls.Add(this._tvTargetSchema);
             this._splitContainerSchemaInfo.Panel2.Controls.Add(this.label2);
             this._splitContainerSchemaInfo.Size = new System.Drawing.Size(984, 641);
             this._splitContainerSchemaInfo.SplitterDistance = 478;
             this._splitContainerSchemaInfo.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.label1.Location = new System.Drawing.Point(11, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 20);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "源结构信息";
-            // 
-            // _tvSourceSchema
-            // 
-            this._tvSourceSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._tvSourceSchema.BackColor = System.Drawing.Color.White;
-            this._tvSourceSchema.ImageIndex = 0;
-            this._tvSourceSchema.ImageList = this._imageListSrouceSchemaTree;
-            this._tvSourceSchema.ItemHeight = 23;
-            this._tvSourceSchema.Location = new System.Drawing.Point(10, 45);
-            this._tvSourceSchema.Name = "_tvSourceSchema";
-            this._tvSourceSchema.SelectedImageIndex = 0;
-            this._tvSourceSchema.ShowNodeToolTips = true;
-            this._tvSourceSchema.Size = new System.Drawing.Size(457, 234);
-            this._tvSourceSchema.TabIndex = 0;
-            // 
-            // _imageListSrouceSchemaTree
-            // 
-            this._imageListSrouceSchemaTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this._imageListSrouceSchemaTree.ImageSize = new System.Drawing.Size(16, 16);
-            this._imageListSrouceSchemaTree.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // _tvTargetSchema
-            // 
-            this._tvTargetSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._tvTargetSchema.BackColor = System.Drawing.Color.White;
-            this._tvTargetSchema.ImageIndex = 0;
-            this._tvTargetSchema.ImageList = this._imageListTargetSchemaTree;
-            this._tvTargetSchema.ItemHeight = 23;
-            this._tvTargetSchema.Location = new System.Drawing.Point(11, 45);
-            this._tvTargetSchema.Name = "_tvTargetSchema";
-            this._tvTargetSchema.SelectedImageIndex = 0;
-            this._tvTargetSchema.Size = new System.Drawing.Size(480, 234);
-            this._tvTargetSchema.TabIndex = 6;
-            this._tvTargetSchema.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this._tvTargetSchema_DrawNode);
-            // 
-            // _imageListTargetSchemaTree
-            // 
-            this._imageListTargetSchemaTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this._imageListTargetSchemaTree.ImageSize = new System.Drawing.Size(16, 16);
-            this._imageListTargetSchemaTree.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 10.5F);
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.label2.Location = new System.Drawing.Point(12, 17);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 20);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "目标结构信息";
-            // 
-            // _labelTipInfo
-            // 
-            this._labelTipInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._labelTipInfo.AutoEllipsis = true;
-            this._labelTipInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this._labelTipInfo.ForeColor = System.Drawing.Color.White;
-            this._labelTipInfo.Location = new System.Drawing.Point(0, 644);
-            this._labelTipInfo.Name = "_labelTipInfo";
-            this._labelTipInfo.Padding = new System.Windows.Forms.Padding(25, 0, 0, 0);
-            this._labelTipInfo.Size = new System.Drawing.Size(984, 17);
-            this._labelTipInfo.TabIndex = 23;
-            this._labelTipInfo.Text = "..";
             // 
             // _tabSchemaShow
             // 
@@ -355,7 +287,7 @@
             this._pageDefine.Location = new System.Drawing.Point(4, 26);
             this._pageDefine.Name = "_pageDefine";
             this._pageDefine.Padding = new System.Windows.Forms.Padding(3);
-            this._pageDefine.Size = new System.Drawing.Size(447, 323);
+            this._pageDefine.Size = new System.Drawing.Size(447, 319);
             this._pageDefine.TabIndex = 1;
             this._pageDefine.Text = "定义";
             this._pageDefine.UseVisualStyleBackColor = true;
@@ -367,7 +299,7 @@
             this._pnlSchemaDefine.Location = new System.Drawing.Point(3, 3);
             this._pnlSchemaDefine.Margin = new System.Windows.Forms.Padding(0);
             this._pnlSchemaDefine.Name = "_pnlSchemaDefine";
-            this._pnlSchemaDefine.Size = new System.Drawing.Size(441, 317);
+            this._pnlSchemaDefine.Size = new System.Drawing.Size(441, 313);
             this._pnlSchemaDefine.TabIndex = 1;
             // 
             // _richTbSchemaDefine
@@ -379,62 +311,146 @@
             this._richTbSchemaDefine.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this._richTbSchemaDefine.Location = new System.Drawing.Point(0, 0);
             this._richTbSchemaDefine.Name = "_richTbSchemaDefine";
-            this._richTbSchemaDefine.Size = new System.Drawing.Size(441, 317);
+            this._richTbSchemaDefine.Size = new System.Drawing.Size(441, 313);
             this._richTbSchemaDefine.TabIndex = 0;
             this._richTbSchemaDefine.Text = "";
             // 
-            // tabControl1
+            // label1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.label1.Location = new System.Drawing.Point(11, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 20);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "源结构信息";
+            // 
+            // _tvSourceSchema
+            // 
+            this._tvSourceSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._tvSourceSchema.BackColor = System.Drawing.Color.White;
+            this._tvSourceSchema.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._tvSourceSchema.ImageIndex = 0;
+            this._tvSourceSchema.ImageList = this._imageListSourceSchemaTree;
+            this._tvSourceSchema.ItemHeight = 23;
+            this._tvSourceSchema.Location = new System.Drawing.Point(10, 45);
+            this._tvSourceSchema.Name = "_tvSourceSchema";
+            this._tvSourceSchema.SelectedImageIndex = 0;
+            this._tvSourceSchema.ShowNodeToolTips = true;
+            this._tvSourceSchema.Size = new System.Drawing.Size(457, 234);
+            this._tvSourceSchema.TabIndex = 0;
+            this._tvSourceSchema.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this._tvSourceSchema_NodeMouseClick);
+            // 
+            // _imageListSourceSchemaTree
+            // 
+            this._imageListSourceSchemaTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this._imageListSourceSchemaTree.ImageSize = new System.Drawing.Size(16, 16);
+            this._imageListSourceSchemaTree.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // label6
+            // 
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(180)))), ((int)(((byte)(0)))));
+            this.label6.Image = global::Handiness2.Schema.Exporter.Windows.Properties.Resources.difference_none;
+            this.label6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label6.Location = new System.Drawing.Point(321, 17);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 22);
+            this.label6.TabIndex = 36;
+            this.label6.Text = "无";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.label5.Image = global::Handiness2.Schema.Exporter.Windows.Properties.Resources.difference_delete;
+            this.label5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label5.Location = new System.Drawing.Point(254, 17);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 22);
+            this.label5.TabIndex = 35;
+            this.label5.Text = "删除";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label4
+            // 
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(26)))), ((int)(((byte)(0)))));
+            this.label4.Image = global::Handiness2.Schema.Exporter.Windows.Properties.Resources.difference_modify;
+            this.label4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label4.Location = new System.Drawing.Point(187, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(54, 22);
+            this.label4.TabIndex = 34;
+            this.label4.Text = "修改";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label3
+            // 
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(22)))), ((int)(((byte)(220)))));
+            this.label3.Image = global::Handiness2.Schema.Exporter.Windows.Properties.Resources.difference_add;
+            this.label3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label3.Location = new System.Drawing.Point(120, 17);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(54, 22);
+            this.label3.TabIndex = 33;
+            this.label3.Text = "新增";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // _tabTargetSchemaShow
+            // 
+            this._tabTargetSchemaShow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(11, 285);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(479, 349);
-            this.tabControl1.TabIndex = 32;
+            this._tabTargetSchemaShow.Controls.Add(this._pageTargetColumnSchema);
+            this._tabTargetSchemaShow.Controls.Add(this._pageTargetDefine);
+            this._tabTargetSchemaShow.Location = new System.Drawing.Point(11, 285);
+            this._tabTargetSchemaShow.Name = "_tabTargetSchemaShow";
+            this._tabTargetSchemaShow.SelectedIndex = 0;
+            this._tabTargetSchemaShow.Size = new System.Drawing.Size(479, 349);
+            this._tabTargetSchemaShow.TabIndex = 32;
             // 
-            // tabPage1
+            // _pageTargetColumnSchema
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.tabPage1.Controls.Add(this.panel1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 26);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(471, 319);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "列信息";
+            this._pageTargetColumnSchema.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this._pageTargetColumnSchema.Controls.Add(this._pnlTargetColumnSchema);
+            this._pageTargetColumnSchema.Location = new System.Drawing.Point(4, 26);
+            this._pageTargetColumnSchema.Name = "_pageTargetColumnSchema";
+            this._pageTargetColumnSchema.Size = new System.Drawing.Size(471, 319);
+            this._pageTargetColumnSchema.TabIndex = 0;
+            this._pageTargetColumnSchema.Text = "列信息";
             // 
-            // panel1
+            // _pnlTargetColumnSchema
             // 
-            this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Controls.Add(this.dataGridView2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(471, 319);
-            this.panel1.TabIndex = 2;
+            this._pnlTargetColumnSchema.Controls.Add(this._dgvTargetColumnSchema);
+            this._pnlTargetColumnSchema.Controls.Add(this._dgvTargetIndexColumnSchema);
+            this._pnlTargetColumnSchema.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pnlTargetColumnSchema.Location = new System.Drawing.Point(0, 0);
+            this._pnlTargetColumnSchema.Margin = new System.Windows.Forms.Padding(0);
+            this._pnlTargetColumnSchema.Name = "_pnlTargetColumnSchema";
+            this._pnlTargetColumnSchema.Size = new System.Drawing.Size(471, 319);
+            this._pnlTargetColumnSchema.TabIndex = 2;
             // 
-            // dataGridView1
+            // _dgvTargetColumnSchema
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
+            this._dgvTargetColumnSchema.AllowUserToAddRows = false;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this._dgvTargetColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            this._dgvTargetColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewCheckBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewCheckBoxColumn2,
-            this.dataGridViewTextBoxColumn4});
+            this._dgvTargetColumnSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this._dgvTargetColumnSchema.BackgroundColor = System.Drawing.Color.White;
+            this._dgvTargetColumnSchema.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._dgvTargetColumnSchema.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._colDifferenceType,
+            this._colTargetName,
+            this._colTargetPrimary,
+            this._colTargetType,
+            this._colTargetLength,
+            this._colTargetNullable,
+            this._colTargetExplain});
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -442,62 +458,71 @@
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 4);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(465, 192);
-            this.dataGridView1.TabIndex = 7;
+            this._dgvTargetColumnSchema.DefaultCellStyle = dataGridViewCellStyle6;
+            this._dgvTargetColumnSchema.Location = new System.Drawing.Point(3, 4);
+            this._dgvTargetColumnSchema.Name = "_dgvTargetColumnSchema";
+            this._dgvTargetColumnSchema.RowHeadersVisible = false;
+            this._dgvTargetColumnSchema.RowTemplate.Height = 23;
+            this._dgvTargetColumnSchema.Size = new System.Drawing.Size(465, 192);
+            this._dgvTargetColumnSchema.TabIndex = 7;
+            this._dgvTargetColumnSchema.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this._dgvTargetColumnSchema_CellFormatting);
             // 
-            // dataGridViewTextBoxColumn1
+            // _colDifferenceType
             // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "列名";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this._colDifferenceType.HeaderText = "状态";
+            this._colDifferenceType.Name = "_colDifferenceType";
+            this._colDifferenceType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._colDifferenceType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // dataGridViewCheckBoxColumn1
+            // _colTargetName
             // 
-            this.dataGridViewCheckBoxColumn1.HeaderText = "主键";
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this._colTargetName.HeaderText = "列名";
+            this._colTargetName.Name = "_colTargetName";
             // 
-            // dataGridViewTextBoxColumn2
+            // _colTargetPrimary
             // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "类型";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this._colTargetPrimary.HeaderText = "主键";
+            this._colTargetPrimary.Name = "_colTargetPrimary";
+            this._colTargetPrimary.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._colTargetPrimary.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // dataGridViewTextBoxColumn3
+            // _colTargetType
             // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "长度";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this._colTargetType.HeaderText = "类型";
+            this._colTargetType.Name = "_colTargetType";
             // 
-            // dataGridViewCheckBoxColumn2
+            // _colTargetLength
             // 
-            this.dataGridViewCheckBoxColumn2.HeaderText = "可空";
-            this.dataGridViewCheckBoxColumn2.Name = "dataGridViewCheckBoxColumn2";
-            this.dataGridViewCheckBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewCheckBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this._colTargetLength.HeaderText = "长度";
+            this._colTargetLength.Name = "_colTargetLength";
             // 
-            // dataGridViewTextBoxColumn4
+            // _colTargetNullable
             // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "说明";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this._colTargetNullable.HeaderText = "可空";
+            this._colTargetNullable.Name = "_colTargetNullable";
+            this._colTargetNullable.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._colTargetNullable.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // dataGridView2
+            // _colTargetExplain
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
+            this._colTargetExplain.HeaderText = "说明";
+            this._colTargetExplain.Name = "_colTargetExplain";
+            // 
+            // _dgvTargetIndexColumnSchema
+            // 
+            this._dgvTargetIndexColumnSchema.AllowUserToAddRows = false;
             dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
-            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this._dgvTargetIndexColumnSchema.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            this._dgvTargetIndexColumnSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn7});
+            this._dgvTargetIndexColumnSchema.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this._dgvTargetIndexColumnSchema.BackgroundColor = System.Drawing.Color.White;
+            this._dgvTargetIndexColumnSchema.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._dgvTargetIndexColumnSchema.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._colIndexDifferenceType,
+            this._colTargetIndexName,
+            this._colTargetIndexColumnNames,
+            this._colTargetIndexDesc});
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -505,63 +530,119 @@
             dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(166)))), ((int)(((byte)(228)))));
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 206);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowTemplate.Height = 23;
-            this.dataGridView2.Size = new System.Drawing.Size(465, 110);
-            this.dataGridView2.TabIndex = 28;
+            this._dgvTargetIndexColumnSchema.DefaultCellStyle = dataGridViewCellStyle8;
+            this._dgvTargetIndexColumnSchema.Location = new System.Drawing.Point(3, 206);
+            this._dgvTargetIndexColumnSchema.Name = "_dgvTargetIndexColumnSchema";
+            this._dgvTargetIndexColumnSchema.RowHeadersVisible = false;
+            this._dgvTargetIndexColumnSchema.RowTemplate.Height = 23;
+            this._dgvTargetIndexColumnSchema.Size = new System.Drawing.Size(465, 110);
+            this._dgvTargetIndexColumnSchema.TabIndex = 28;
+            this._dgvTargetIndexColumnSchema.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this._dgvTargetIndexColumnSchema_CellFormatting);
+     
             // 
-            // dataGridViewTextBoxColumn5
+            // _colIndexDifferenceType
             // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "名称";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this._colIndexDifferenceType.HeaderText = "状态";
+            this._colIndexDifferenceType.Name = "_colIndexDifferenceType";
             // 
-            // dataGridViewTextBoxColumn6
+            // _colTargetIndexName
             // 
-            this.dataGridViewTextBoxColumn6.HeaderText = "关联列";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._colTargetIndexName.HeaderText = "名称";
+            this._colTargetIndexName.Name = "_colTargetIndexName";
             // 
-            // dataGridViewTextBoxColumn7
+            // _colTargetIndexColumnNames
             // 
-            this.dataGridViewTextBoxColumn7.HeaderText = "说明";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this._colTargetIndexColumnNames.HeaderText = "关联列";
+            this._colTargetIndexColumnNames.Name = "_colTargetIndexColumnNames";
+            this._colTargetIndexColumnNames.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
-            // tabPage2
+            // _colTargetIndexDesc
             // 
-            this.tabPage2.Controls.Add(this.panel2);
-            this.tabPage2.Location = new System.Drawing.Point(4, 26);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(471, 315);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "定义";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this._colTargetIndexDesc.HeaderText = "说明";
+            this._colTargetIndexDesc.Name = "_colTargetIndexDesc";
             // 
-            // panel2
+            // _pageTargetDefine
             // 
-            this.panel2.Controls.Add(this.richTextBox1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 3);
-            this.panel2.Margin = new System.Windows.Forms.Padding(0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(465, 309);
-            this.panel2.TabIndex = 1;
+            this._pageTargetDefine.Controls.Add(this._pnlTargetSchemaDefine);
+            this._pageTargetDefine.Location = new System.Drawing.Point(4, 26);
+            this._pageTargetDefine.Name = "_pageTargetDefine";
+            this._pageTargetDefine.Padding = new System.Windows.Forms.Padding(3);
+            this._pageTargetDefine.Size = new System.Drawing.Size(471, 319);
+            this._pageTargetDefine.TabIndex = 1;
+            this._pageTargetDefine.Text = "定义";
+            this._pageTargetDefine.UseVisualStyleBackColor = true;
             // 
-            // richTextBox1
+            // _pnlTargetSchemaDefine
             // 
-            this.richTextBox1.BackColor = System.Drawing.Color.White;
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.richTextBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(465, 309);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this._pnlTargetSchemaDefine.Controls.Add(this._richTbTargetSchemaDefine);
+            this._pnlTargetSchemaDefine.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pnlTargetSchemaDefine.Location = new System.Drawing.Point(3, 3);
+            this._pnlTargetSchemaDefine.Margin = new System.Windows.Forms.Padding(0);
+            this._pnlTargetSchemaDefine.Name = "_pnlTargetSchemaDefine";
+            this._pnlTargetSchemaDefine.Size = new System.Drawing.Size(465, 313);
+            this._pnlTargetSchemaDefine.TabIndex = 1;
+            // 
+            // _richTbTargetSchemaDefine
+            // 
+            this._richTbTargetSchemaDefine.BackColor = System.Drawing.Color.White;
+            this._richTbTargetSchemaDefine.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this._richTbTargetSchemaDefine.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._richTbTargetSchemaDefine.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this._richTbTargetSchemaDefine.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this._richTbTargetSchemaDefine.Location = new System.Drawing.Point(0, 0);
+            this._richTbTargetSchemaDefine.Name = "_richTbTargetSchemaDefine";
+            this._richTbTargetSchemaDefine.Size = new System.Drawing.Size(465, 313);
+            this._richTbTargetSchemaDefine.TabIndex = 0;
+            this._richTbTargetSchemaDefine.Text = "";
+            // 
+            // _tvTargetSchema
+            // 
+            this._tvTargetSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._tvTargetSchema.BackColor = System.Drawing.Color.White;
+            this._tvTargetSchema.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this._tvTargetSchema.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._tvTargetSchema.ImageIndex = 0;
+            this._tvTargetSchema.ImageList = this._imageListTargetSchemaTree;
+            this._tvTargetSchema.ItemHeight = 23;
+            this._tvTargetSchema.Location = new System.Drawing.Point(11, 45);
+            this._tvTargetSchema.Name = "_tvTargetSchema";
+            this._tvTargetSchema.SelectedImageIndex = 0;
+            this._tvTargetSchema.Size = new System.Drawing.Size(480, 234);
+            this._tvTargetSchema.TabIndex = 6;
+            this._tvTargetSchema.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this._tvTargetSchema_DrawNode);
+            this._tvTargetSchema.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this._tvTargetSchema_NodeMouseClick);
+            // 
+            // _imageListTargetSchemaTree
+            // 
+            this._imageListTargetSchemaTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this._imageListTargetSchemaTree.ImageSize = new System.Drawing.Size(16, 16);
+            this._imageListTargetSchemaTree.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.label2.Location = new System.Drawing.Point(12, 17);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(93, 20);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "目标结构信息";
+            // 
+            // _labelTipInfo
+            // 
+            this._labelTipInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._labelTipInfo.AutoEllipsis = true;
+            this._labelTipInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this._labelTipInfo.ForeColor = System.Drawing.Color.White;
+            this._labelTipInfo.Location = new System.Drawing.Point(0, 644);
+            this._labelTipInfo.Name = "_labelTipInfo";
+            this._labelTipInfo.Padding = new System.Windows.Forms.Padding(25, 0, 0, 0);
+            this._labelTipInfo.Size = new System.Drawing.Size(984, 17);
+            this._labelTipInfo.TabIndex = 23;
+            this._labelTipInfo.Text = "..";
             // 
             // SchemaCompareForm
             // 
@@ -586,13 +667,13 @@
             ((System.ComponentModel.ISupportInitialize)(this._dgvIndexColumnSchema)).EndInit();
             this._pageDefine.ResumeLayout(false);
             this._pnlSchemaDefine.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
+            this._tabTargetSchemaShow.ResumeLayout(false);
+            this._pageTargetColumnSchema.ResumeLayout(false);
+            this._pnlTargetColumnSchema.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._dgvTargetColumnSchema)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._dgvTargetIndexColumnSchema)).EndInit();
+            this._pageTargetDefine.ResumeLayout(false);
+            this._pnlTargetSchemaDefine.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -604,7 +685,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TreeView _tvTargetSchema;
         private System.Windows.Forms.Label _labelTipInfo;
-        private System.Windows.Forms.ImageList _imageListSrouceSchemaTree;
+        private System.Windows.Forms.ImageList _imageListSourceSchemaTree;
         private System.Windows.Forms.ImageList _imageListTargetSchemaTree;
         private System.Windows.Forms.TabControl _tabSchemaShow;
         private System.Windows.Forms.TabPage _pageColumnSchema;
@@ -623,22 +704,28 @@
         private System.Windows.Forms.TabPage _pageDefine;
         private System.Windows.Forms.Panel _pnlSchemaDefine;
         private System.Windows.Forms.RichTextBox _richTbSchemaDefine;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.TabControl _tabTargetSchemaShow;
+        private System.Windows.Forms.TabPage _pageTargetColumnSchema;
+        private System.Windows.Forms.Panel _pnlTargetColumnSchema;
+        private System.Windows.Forms.DataGridView _dgvTargetColumnSchema;
+        private System.Windows.Forms.DataGridView _dgvTargetIndexColumnSchema;
+        private System.Windows.Forms.TabPage _pageTargetDefine;
+        private System.Windows.Forms.Panel _pnlTargetSchemaDefine;
+        private System.Windows.Forms.RichTextBox _richTbTargetSchemaDefine;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridViewImageColumn _colDifferenceType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colTargetName;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn _colTargetPrimary;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colTargetType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colTargetLength;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn _colTargetNullable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colTargetExplain;
+        private System.Windows.Forms.DataGridViewImageColumn _colIndexDifferenceType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colTargetIndexName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colTargetIndexColumnNames;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colTargetIndexDesc;
     }
 }

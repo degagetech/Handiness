@@ -105,6 +105,13 @@
       <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="BinarySerializer.cs" />
+    <Compile Include="ConnectionSchemaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConnectionSchemaForm.Designer.cs">
+      <DependentUpon>ConnectionSchemaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SchemaDifferenceInfo.cs" />
     <Compile Include="Excel\ExcelTemplateFormat.cs" />
     <Compile Include="Excel\ExcelTemplateItemEditorForm.cs">
       <SubType>Form</SubType>
@@ -170,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnectionSchemaForm.resx">
+      <DependentUpon>ConnectionSchemaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Excel\AddGroupForm.resx">
       <DependentUpon>AddGroupForm.cs</DependentUpon>

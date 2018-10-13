@@ -38,10 +38,11 @@ namespace Handiness2.Schema.Exporter.Windows
         public String CurrentGlobalPath { get; set; }
         public ExportType CurrentExportType { get; private set; }
 
-        public Dictionary<String, SchemaInfoTuple> _schemaInfoTable = new Dictionary<String, SchemaInfoTuple>();
+        public Dictionary<Object, SchemaInfoTuple> _schemaInfoTable = new Dictionary<Object, SchemaInfoTuple>();
 
         public IList<TableSchemaExtend> CheckedTableSchemas { get; private set; }
 
+        private Boolean _isConnectOperating = false;
 
         // private Boolean _isExporting = false;
 
@@ -316,7 +317,7 @@ namespace Handiness2.Schema.Exporter.Windows
                                 var node = this.CreateTreeNode(schemaInfo.ObjectSchema);
                                 node.ImageIndex = imageIndex;
                                 tableNodeHead.Nodes.Add(node);
-                                this._schemaInfoTable.Add(schemaInfo.ObjectSchema.Name, schemaInfo);
+                                this._schemaInfoTable.Add(schemaInfo.ObjectSchema, schemaInfo);
                             }
                         }
                         break;
@@ -331,7 +332,7 @@ namespace Handiness2.Schema.Exporter.Windows
                                 var node = this.CreateTreeNode(schemaInfo.ObjectSchema);
                                 node.ImageIndex = imageIndex;
                                 viewNodeHead.Nodes.Add(node);
-                                this._schemaInfoTable.Add(schemaInfo.ObjectSchema.Name, schemaInfo);
+                                this._schemaInfoTable.Add(schemaInfo.ObjectSchema, schemaInfo);
                             }
                         }
                         break;
@@ -346,7 +347,7 @@ namespace Handiness2.Schema.Exporter.Windows
                                 var node = this.CreateTreeNode(schemaInfo.ObjectSchema);
                                 node.ImageIndex = imageIndex;
                                 procedureNodeHead.Nodes.Add(node);
-                                this._schemaInfoTable.Add(schemaInfo.ObjectSchema.Name, schemaInfo);
+                                this._schemaInfoTable.Add(schemaInfo.ObjectSchema, schemaInfo);
                             }
                         }
                         break;
@@ -361,7 +362,7 @@ namespace Handiness2.Schema.Exporter.Windows
                                 var node = this.CreateTreeNode(schemaInfo.ObjectSchema);
                                 node.ImageIndex = imageIndex;
                                 functionNodeHead.Nodes.Add(node);
-                                this._schemaInfoTable.Add(schemaInfo.ObjectSchema.Name, schemaInfo);
+                                this._schemaInfoTable.Add(schemaInfo.ObjectSchema, schemaInfo);
                             }
                         }
                         break;
@@ -369,7 +370,7 @@ namespace Handiness2.Schema.Exporter.Windows
             }
         }
 
-        private Boolean _isConnectOperating = false;
+
 
         private TreeNode CreateTreeNode(IObjectSchema objectSchema)
         {
@@ -516,7 +517,7 @@ namespace Handiness2.Schema.Exporter.Windows
                 {
 
                     var schemaData = e.Node.Tag as IObjectSchema;
-                    var schemaInfo = this._schemaInfoTable[schemaData.Name] as SchemaInfoTuple;
+                    var schemaInfo = this._schemaInfoTable[schemaData];
                     if (SchemaAssistor.IsRequiredCompleteSchema(schemaInfo))
                     {
                         _waitColumnSchemaLoad.IsRolled = true;
@@ -664,7 +665,7 @@ namespace Handiness2.Schema.Exporter.Windows
                             schemaInfos = new List<SchemaInfoTuple>();
                             foreach (var tableSchema in this.CheckedTableSchemas)
                             {
-                                var schemaInfo = this._schemaInfoTable[tableSchema.Name];
+                                var schemaInfo = this._schemaInfoTable[tableSchema];
                                 if (SchemaAssistor.IsRequiredCompleteSchema(schemaInfo))
                                 {
                                     this.ShowTipInformation(String.Format("正在补全 [{0}] 的结构信息...", schemaInfo.ObjectSchema.Name));
@@ -678,7 +679,7 @@ namespace Handiness2.Schema.Exporter.Windows
                         {
                             foreach (var tableSchema in this.CheckedTableSchemas)
                             {
-                                var schemaInfo = this._schemaInfoTable[tableSchema.Name];
+                                var schemaInfo = this._schemaInfoTable[tableSchema];
                                 schemaInfos.Add(schemaInfo);
                             }
                         }
@@ -1026,7 +1027,12 @@ namespace Handiness2.Schema.Exporter.Windows
         }
 
 
-        private async void _tsmiCompareFromFile_Click(object sender, EventArgs e)
+        private void _tsmiCompareFromFile_Click(object sender, EventArgs e)
+        {
+            this.CompareSchema(SchemaCompareTargetType.SchemaFile);
+        }
+
+        private async void CompareSchema(SchemaCompareTargetType targetType)
         {
             if (this.IsBusyingState(true))
             {
@@ -1071,40 +1077,64 @@ namespace Handiness2.Schema.Exporter.Windows
                 //准备目标结构信息
                 #region 准备目标结构信息
                 List<SchemaInfoTuple> targetSchemaInfos = null;
-                String targetSchemaFilePath = null;
-                var selectResult = this._ofdLoadSchema.ShowDialog();
-                if (selectResult != DialogResult.OK)
+                switch (targetType)
                 {
-                    return;
-                }
-                targetSchemaFilePath = this._ofdLoadSchema.FileName;
-                try
-                {
-                    this.ShowTipInformation("正在从文件中获取目标结构的信息...");
-                    targetSchemaInfos = await this.LoadSchemaFromFile(targetSchemaFilePath);
+                    case SchemaCompareTargetType.SchemaFile:
+                        {
+                            String targetSchemaFilePath = null;
+                            var selectResult = this._ofdLoadSchema.ShowDialog();
+                            if (selectResult != DialogResult.OK)
+                            {
+                                return;
+                            }
+                            targetSchemaFilePath = this._ofdLoadSchema.FileName;
+                            try
+                            {
+                                this.ShowTipInformation("正在从文件中获取目标结构的信息...");
+                                targetSchemaInfos = await this.LoadSchemaFromFile(targetSchemaFilePath);
 
-                    if (targetSchemaInfos == null || targetSchemaInfos.Count == 0)
-                    {
-                        String message = "操作已停止，目标结构无有效信息！";
-                        this.ShowTipInformation();
-                        MessageBox.Show(this, message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
+                                if (targetSchemaInfos == null || targetSchemaInfos.Count == 0)
+                                {
+                                    String message = "操作已停止，目标结构无有效信息！";
+                                    this.ShowTipInformation();
+                                    MessageBox.Show(this, message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    return;
+                                }
+                                //开始比较
+                                SchemaCompareForm compareForm = new SchemaCompareForm(sourceSchemaInfos, targetSchemaInfos);
+                                //  String fileName = Path.GetFileName(targetSchemaFilePath);
+                                compareForm.Text = $"与文件 [{targetSchemaFilePath}] 中的结构信息比较";
+                                compareForm.Show(this);
+                            }
+                            catch (Exception exc)
+                            {
+                                String message = "操作已终止，目标结构加载失败！";
+                                this.ShowErrorInformation(message);
+                                MessageBox.Show(this, message + exc.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                        break;
+                    case SchemaCompareTargetType.Connection:
+                        {
+                            ConnectionSchemaForm schemaForm = new ConnectionSchemaForm();
+                            schemaForm.ShowDialog();
+                            if (!schemaForm.CanContinue)
+                            {
+                                this.ShowTipInformation("比较操作已取消！");
+                                return;
+                            }
+                            targetSchemaInfos = schemaForm.SchemaInfoTuples;
+                             SchemaCompareForm compareForm = new SchemaCompareForm(sourceSchemaInfos, targetSchemaInfos);
+                            //  String fileName = Path.GetFileName(targetSchemaFilePath);
+                            compareForm.Text = $"与从数据连接 [{ schemaForm.CurrentSchemaProvider.ConnectionString}] 获取的结构信息比较";
+                            compareForm.Show(this);
+                        }
+                        break;
+                }
 
-                }
-                catch (Exception exc)
-                {
-                    String message = "操作已终止，目标结构加载失败！";
-                    this.ShowErrorInformation(message);
-                    MessageBox.Show(this, message + exc.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
                 #endregion
 
-                //开始比较
-                SchemaCompareForm compareForm = new SchemaCompareForm(sourceSchemaInfos, targetSchemaInfos);
-                //  String fileName = Path.GetFileName(targetSchemaFilePath);
-                compareForm.Text = $"与文件 [{targetSchemaFilePath}] 中的结构信息比较";
-                compareForm.Show(this);
+
 
                 this.ShowTipInformation();
             }
@@ -1114,7 +1144,16 @@ namespace Handiness2.Schema.Exporter.Windows
                 this.LeaveBusyingState();
             }
         }
-    }
 
+        private void _tsmiCompareFromConnection_Click(object sender, EventArgs e)
+        {
+            this.CompareSchema(SchemaCompareTargetType.Connection);
+        }
+    }
+    public enum SchemaCompareTargetType
+    {
+        SchemaFile,
+        Connection
+    }
 }
 
