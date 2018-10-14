@@ -109,6 +109,11 @@ namespace Handiness2.Schema.Exporter.Windows
             _iListSchemaTree.Images.Add("tree_view", Resources.view);
             _iListSchemaTree.Images.Add("tree_procedure", Resources.procedure);
             _iListSchemaTree.Images.Add("tree_function", Resources.function);
+#if DEBUG
+            //测试使用
+            this._tbConnectionString.Text = "Data Source=192.168.1.120;Initial Catalog=blog;User ID=sa;Password=932444208wlj+";
+#endif
+
         }
 
         private async void SchemaExportForm_Shown(Object sender, EventArgs e)
@@ -218,7 +223,7 @@ namespace Handiness2.Schema.Exporter.Windows
             {
                 List<SchemaInfoTuple> schemaInfos = new List<SchemaInfoTuple>();
                 //加载表结构信息
-                #region Load Table 
+#region Load Table 
                 this.ShowTipInformation("正在加载表信息...");
                 var tableSchemaList = await TaskEx.Run(() => provider.LoadTableSchemaList());
                 if (tableSchemaList.Count > 0)
@@ -232,10 +237,10 @@ namespace Handiness2.Schema.Exporter.Windows
                         });
                     }
                 }
-                #endregion
+#endregion
 
                 //加载视图信息
-                #region Load View
+#region Load View
                 this.ShowTipInformation("正在加载视图信息...");
                 var viewSchemaList = await TaskEx.Run(() => provider.LoadViewSchemaList());
                 if (viewSchemaList.Count > 0)
@@ -249,10 +254,10 @@ namespace Handiness2.Schema.Exporter.Windows
                         });
                     }
                 }
-                #endregion
+#endregion
 
                 //加载存储过程
-                #region Load Procedure
+#region Load Procedure
                 this.ShowTipInformation("正在加载视图信息...");
                 var procedureSchemaList = await TaskEx.Run(() => provider.LoadProcedureSchemaList());
                 if (procedureSchemaList.Count > 0)
@@ -266,10 +271,10 @@ namespace Handiness2.Schema.Exporter.Windows
                         });
                     }
                 }
-                #endregion
+#endregion
 
                 //加载函数
-                #region Load Function
+#region Load Function
                 this.ShowTipInformation("正在加载视图信息...");
                 var functionSchemaList = await TaskEx.Run(() => provider.LoadFunctionSchemaList());
                 if (functionSchemaList.Count > 0)
@@ -284,7 +289,7 @@ namespace Handiness2.Schema.Exporter.Windows
                         });
                     }
                 }
-                #endregion
+#endregion
 
 
                 this.ShowSchemaLoadType(SchemaLoadType.Connection);
@@ -1045,7 +1050,7 @@ namespace Handiness2.Schema.Exporter.Windows
             try
             {
                 //准备源结构信息
-                #region 准备源结构信息
+#region 准备源结构信息
                 //如果当前结构的加载方式是连接，则需要补全结构明细信息
                 List<SchemaInfoTuple> sourceSchemaInfos = this._schemaInfoTable.Values.ToList();
                 switch (this.CurrentSchemaLoadType)
@@ -1074,10 +1079,10 @@ namespace Handiness2.Schema.Exporter.Windows
                         break;
                 }
 
-                #endregion
+#endregion
 
                 //准备目标结构信息
-                #region 准备目标结构信息
+#region 准备目标结构信息
                 List<SchemaInfoTuple> targetSchemaInfos = null;
                 switch (targetType)
                 {
@@ -1134,7 +1139,7 @@ namespace Handiness2.Schema.Exporter.Windows
                         break;
                 }
 
-                #endregion
+#endregion
 
 
 

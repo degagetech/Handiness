@@ -342,6 +342,12 @@ namespace Handiness2.Schema.Exporter.Windows
             _iListSchemaTree.Images.Add("tree_view", Resources.view);
             _iListSchemaTree.Images.Add("tree_procedure", Resources.procedure);
             _iListSchemaTree.Images.Add("tree_function", Resources.function);
+
+
+#if DEBUG
+            //测试使用
+            this._tbConnectionString.Text = "Data Source=192.168.1.120;Initial Catalog=biobank;User ID=sa;Password=932444208wlj+";
+#endif
         }
 
         private async void ConnectionSchemaForm_Shown(object sender, EventArgs e)
@@ -528,6 +534,12 @@ namespace Handiness2.Schema.Exporter.Windows
                 this._labelProviderExplain.Text = provider.Explain;
                 this.CurrentSchemaProvider = provider;
             }
+        }
+
+        private void _btnCannel_Click(Object sender, EventArgs e)
+        {
+            this.CanContinue = false;
+            this.Close();
         }
     }
 }
